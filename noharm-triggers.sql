@@ -37,24 +37,35 @@ CREATE TRIGGER trg_complete_presmed
 
 --------
 
-CREATE FUNCTION demo.complete_prescricao()
+CREATE OR REPLACE  FUNCTION hmdpoa.complete_prescricao()
     RETURNS trigger
     LANGUAGE 'plpgsql'
     COST 100
     VOLATILE NOT LEAKPROOF
 AS $BODY$BEGIN
     IF NEW.status = 'S' THEN
-        UPDATE demo.presmed pm
+        UPDATE hmdpoa.presmed pm
         SET pm.escorefinal = (SELECT COALESCE(escoremanual, escore) 
-                                FROM demo.outlier o
+                                FROM hmdpoa.outlier o
                                 WHERE o.idoutlier = pm.idoutlier);
     END IF;
-    NEW.idsegmento = (
-        SELECT s.idsegmento FROM demo.segmentosetor s
-        WHERE s.fksetor = NEW.fksetor
-        AND s.fkhospital = NEW.fkhospital
-    );
-    RETURN NEW;
+   IF pg_trigger_depth() = 1 then
+		NEW.idsegmento = (
+		    SELECT s.idsegmento FROM hmdpoa.segmentosetor s
+		    WHERE s.fksetor = NEW.fksetor
+		    AND s.fkhospital = NEW.fkhospital
+		);
+      INSERT INTO hmdpoa.prescricao (fkprescricao, fkpessoa, fksetor, dtprescricao, idsegmento) 
+			VALUES (NEW.fkprescricao, NEW.fkpessoa, NEW.fksetor, NEW.dtprescricao, NEW.idsegmento)
+         ON CONFLICT (fkprescricao)
+         DO UPDATE SET fkpessoa = NEW.fkpessoa,
+					fksetor = NEW.fksetor,
+					dtprescricao = NEW.dtprescricao,
+					idsegmento = NEW.idsegmento;
+      RETURN NULL;
+   ELSE
+      RETURN NEW;
+   END IF;   
 END;$BODY$;
 
 ALTER FUNCTION demo.complete_prescricao()
