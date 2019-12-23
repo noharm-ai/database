@@ -8,12 +8,10 @@ CREATE FUNCTION demo.complete_presmed()
     COST 100
     VOLATILE NOT LEAKPROOF
 AS $BODY$BEGIN
-    IF NEW.fkfrequencia IS NOT NULL THEN
-      NEW.frequenciadia := (
-	  SELECT f.frequenciadia FROM demo.frequencia f
-	  WHERE f.fkfrequencia = NEW.fkfrequencia
-      );
-    END IF;
+    NEW.frequenciadia := (
+	SELECT f.frequenciadia FROM demo.frequencia f
+	WHERE f.fkfrequencia = NEW.fkfrequencia
+    );
     NEW.idoutlier := (
         SELECT MAX(o.idoutlier) FROM demo.outlier o 
         WHERE o.fkmedicamento = NEW.fkmedicamento
