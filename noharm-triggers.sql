@@ -8,10 +8,12 @@ CREATE FUNCTION demo.complete_presmed()
     COST 100
     VOLATILE NOT LEAKPROOF
 AS $BODY$BEGIN
-    NEW.frequenciadia := (
-        SELECT f.frequenciadia FROM demo.frequencia f
-        WHERE f.fkfrequencia = NEW.fkfrequencia
-    );
+    IF NEW.fkfrequencia IS NOT NULL THEN
+      NEW.frequenciadia := (
+	  SELECT f.frequenciadia FROM demo.frequencia f
+	  WHERE f.fkfrequencia = NEW.fkfrequencia
+      );
+    END IF;
     NEW.idoutlier := (
         SELECT MAX(o.idoutlier) FROM demo.outlier o 
         WHERE o.fkmedicamento = NEW.fkmedicamento
@@ -37,25 +39,25 @@ CREATE TRIGGER trg_complete_presmed
 
 --------
 
-CREATE OR REPLACE  FUNCTION hmdpoa.complete_prescricao()
+CREATE OR REPLACE  FUNCTION demo.complete_prescricao()
     RETURNS trigger
     LANGUAGE 'plpgsql'
     COST 100
     VOLATILE NOT LEAKPROOF
 AS $BODY$BEGIN
     IF NEW.status = 'S' THEN
-        UPDATE hmdpoa.presmed pm
+        UPDATE demo.presmed pm
         SET pm.escorefinal = (SELECT COALESCE(escoremanual, escore) 
-                                FROM hmdpoa.outlier o
+                                FROM demo.outlier o
                                 WHERE o.idoutlier = pm.idoutlier);
     END IF;
    IF pg_trigger_depth() = 1 then
 		NEW.idsegmento = (
-		    SELECT s.idsegmento FROM hmdpoa.segmentosetor s
+		    SELECT s.idsegmento FROM demo.segmentosetor s
 		    WHERE s.fksetor = NEW.fksetor
 		    AND s.fkhospital = NEW.fkhospital
 		);
-      INSERT INTO hmdpoa.prescricao (fkprescricao, fkpessoa, fksetor, dtprescricao, idsegmento) 
+      INSERT INTO demo.prescricao (fkprescricao, fkpessoa, fksetor, dtprescricao, idsegmento) 
 			VALUES (NEW.fkprescricao, NEW.fkpessoa, NEW.fksetor, NEW.dtprescricao, NEW.idsegmento)
          ON CONFLICT (fkprescricao)
          DO UPDATE SET fkpessoa = NEW.fkpessoa,
