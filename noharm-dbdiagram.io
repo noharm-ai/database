@@ -1,14 +1,16 @@
-// source at: https://dbdiagram.io/d/5df2c8b4edf08a25543f089e
+// source at: https://dbdiagram.io/d/5dfff11aedf08a25543f55d5
 
 // ######## prescription's Tables ######## //
 
-Table "exame"  [headercolor: #16a085] {
+Table "exame"  [headercolor: #d35400] {
+  "fkhospital" smallint [default: 1]
   "fkexame" bigint [not null]
   "fkpessoa" bigint [not null]
-  "nratendimento" bigint [not null]
+  "nratendimento" bigint [default: null]
+  "fkprescricao" bigint [default: null]
   "dtexame" timestamp [not null]
   "tpexame" varchar(100) [not null]
-  "valor" float [not null]
+  "resultado" float [default: null]
   "unidade" varchar(250) [default: NULL]
   
   indexes {
@@ -19,7 +21,7 @@ Table "exame"  [headercolor: #16a085] {
 
 Table "intervencao"  [headercolor: #16a085] {
   "idintervencao" integer [pk, not null, increment]
-  "idpresmed" bigint [not null, ref: > presmed.idpresmed]
+  "fkpresmed" bigint [not null, ref: > presmed.fkpresmed]
   "idusuario" smallint [not null]
   "idmotivointervencao" smallint [not null, ref: > motivointervencao.idmotivointervencao]
   "dtintervencao" timestamp [not null, default: 'now()']
@@ -44,7 +46,7 @@ Table "outlier"  [headercolor: #16a085] {
   
 }
 
-Table "pessoa"  [headercolor: #16a085] {
+Table "pessoa"  [headercolor: #d35400] {
   "fkhospital" smallint [default: 1]
   "fkpessoa" bigint [pk, not null]
   "nratendimento" bigint [not null, unique]
@@ -53,17 +55,21 @@ Table "pessoa"  [headercolor: #16a085] {
   "cor" varchar(100) [default: NULL]
   "sexo" char(1) [default: NULL]
   "peso" float [default: NULL]
+  
+  indexes {
+    (fkpessoa, nratendimento) [pk]
+  }
 }
 
 
 // dummy Table to simulate person name
-Table "nome"  [headercolor: #16a085] {
+Table "nome"  [headercolor: #8e44ad] {
   "fkpessoa" bigint [pk, not null]
   "nome" varchar(255) [not null]
 }
 
 
-Table "prescricao"  [headercolor: #16a085] {
+Table "prescricao"  [headercolor: #d35400] {
   "fkhospital" smallint [default: 1]
   "fksetor" smallint [not null]
   "fkprescricao" bigint [pk, not null]
@@ -77,49 +83,47 @@ Table "prescricao"  [headercolor: #16a085] {
   }
 }
 
-Table "prescricaoagg"  [headercolor: #16a085] {
+Table "prescricaoagg"  [headercolor: #d35400] {
   "fkhospital" smallint [default: 1]
   "fksetor" smallint [not null]
-  "idsegmento" smallint [not null]
+  "idsegmento" smallint [default: null]
   "fkmedicamento" bigint [not null]
-  "fkunidademedida" varchar(10) [default: NULL]
+  "fkunidademedida" varchar(16) [default: NULL]
   "fkfrequencia" integer [default: NULL]
-  "dose" float [default: NULL]
-  "frequenciadia" smallint [default: NULL]
+  "dose" float4 [default: NULL]
+  "frequenciadia" float4 [default: NULL]
+  "idade" smallint [default: NULL]
+  "peso" float4 [default: NULL]
   "contagem" integer [default: NULL]
   
   indexes {
-    (fksetor, fkmedicamento, dose, fkfrequencia) [unique]
+    (fksetor, fkmedicamento, dose, fkfrequencia, frequenciadia, idade, peso) [unique]
   }
   
 }
 
-Table "presmed"  [headercolor: #16a085] {
-  "idpresmed" bigint [pk, not null, increment]
+Table "presmed"  [headercolor: #d35400] {
+  "fkpresmed" bigint [pk, not null]
   "fkprescricao" bigint [not null]
   "fkmedicamento" integer [not null]
-  "fkunidademedida" varchar(10) [default: NULL]
-  "fkfrequencia" integer [default: NULL]
+  "fkunidademedida" varchar(16) [default: NULL]
+  "fkfrequencia" varchar(16) [default: NULL]
   "idsegmento" smallint [default: NULL]
   "idoutlier" integer [default: NULL]
   "dose" float [default: NULL]
-  "frequenciadia" smallint [default: NULL]
+  "frequenciadia" float4 [default: NULL]
   "via" varchar(50) [default: NULL]
   "complemento" text
   "quantidade" integer [default: NULL]
   "escorefinal" smallint [default: NULL]
-  
-  indexes {
-    (fkprescricao, fkmedicamento, dose, fkfrequencia) [unique]
-  }
 }
 
 // ######## support's Tables ######## //
 
-Table "medicamento"  [headercolor: #3498db] {
+Table "medicamento"  [headercolor: #d35400] {
   "fkhospital" smallint [default: 1]
   "fkmedicamento" bigint [pk, not null]
-  "fkunidademedida" varchar(10) [default: NULL]
+  "fkunidademedida" varchar(16) [default: NULL]
   "nome" varchar(250) [not null]
   
   indexes {
@@ -135,12 +139,12 @@ Table "motivointervencao"  [headercolor: #3498db] {
   "tipo" varchar(50) [not null]
 }
 
-Table "frequencia"  [headercolor: #3498db] {
+Table "frequencia"  [headercolor: #d35400] {
   "fkhospital" smallint [default: 1]
-  "fkfrequencia" integer [pk, not null]
+  "fkfrequencia" varchar(16) [pk, not null]
   "nome" varchar(250) [not null]
-  "frequenciadia" smallint [default: NULL]
-  "frequenciahora" smallint [default: NULL]
+  "frequenciadia" float4 [default: NULL]
+  "frequenciahora" float4 [default: NULL]
   
   indexes {
     (fkhospital, fkfrequencia) [unique]
@@ -148,9 +152,9 @@ Table "frequencia"  [headercolor: #3498db] {
   
 }
 
-Table "unidademedida"  [headercolor: #3498db] {
+Table "unidademedida"  [headercolor: #d35400] {
   "fkhospital" smallint [default: 1]
-  "fkunidademedida" varchar(10) [pk, not null]
+  "fkunidademedida" varchar(16) [pk, not null]
   "nome" varchar(250) [not null]
   
   indexes {
@@ -187,7 +191,7 @@ Table "hospital"  [headercolor: #3498db] {
   "nome" varchar(255) [not null]
 }
 
-Table "setor"  [headercolor: #3498db] {
+Table "setor"  [headercolor: #d35400] {
   "fkhospital" smallint [default: 1]
   "fksetor" smallint [pk, not null]
   "nome" varchar(255) [not null]
