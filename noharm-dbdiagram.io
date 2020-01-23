@@ -125,6 +125,9 @@ Table "medicamento"  [headercolor: #d35400] {
   "fkmedicamento" bigint [pk, not null]
   "fkunidademedida" varchar(16) [default: NULL]
   "nome" varchar(250) [not null]
+  "antimicro" boolean [default: 0]
+  "mav" boolean [default: 0]
+  "controlados" boolean [default: 0]
   
   indexes {
     (fkhospital, fkmedicamento) [unique]
