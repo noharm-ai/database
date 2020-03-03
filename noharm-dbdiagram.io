@@ -89,7 +89,7 @@ Table "prescricaoagg"  [headercolor: #d35400] {
   "idsegmento" smallint [default: null]
   "fkmedicamento" bigint [not null]
   "fkunidademedida" varchar(16) [default: NULL]
-  "fkfrequencia" integer [default: NULL]
+  "fkfrequencia" varchar(16) [default: NULL]
   "dose" float4 [default: NULL]
   "frequenciadia" float4 [default: NULL]
   "idade" smallint [default: NULL]
@@ -187,6 +187,11 @@ Table "segmentosetor"  [headercolor: #3498db] {
   "idsegmento" smallint [not null]
   "fkhospital" smallint [not null]
   "fksetor" smallint [not null]
+
+  indexes {
+    (fkhospital, fksetor) [unique]
+  }
+  
 }
 
 Table "hospital"  [headercolor: #3498db] {

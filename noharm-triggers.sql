@@ -8,12 +8,19 @@ CREATE FUNCTION demo.complete_presmed()
     COST 100
     VOLATILE NOT LEAKPROOF
 AS $BODY$BEGIN
-IF NEW.frequenciadia IS NULL AND NEW.fkfrequencia IS NOT NULL THEN
-	    NEW.frequenciadia := (
-	        SELECT f.frequenciadia FROM demo.frequencia f
-	        WHERE f.fkfrequencia = NEW.fkfrequencia
-	    );
-END IF;
+
+    IF NEW.frequenciadia IS NULL AND NEW.fkfrequencia IS NOT NULL THEN
+    	    NEW.frequenciadia := (
+    	        SELECT f.frequenciadia FROM demo.frequencia f
+    	        WHERE f.fkfrequencia = NEW.fkfrequencia
+    	    );
+    END IF;
+
+    NEW.idsegmento = (
+        SELECT p.idsegmento FROM demo.prescricao p
+        WHERE p.fkprescricao = NEW.fkprescricao
+    );
+
     NEW.idoutlier := (
         SELECT MAX(o.idoutlier) FROM demo.outlier o 
         WHERE o.fkmedicamento = NEW.fkmedicamento
@@ -21,10 +28,7 @@ END IF;
         AND o.frequenciadia = NEW.frequenciadia
         AND o.idsegmento = NEW.idsegmento
     );
-    NEW.idsegmento = (
-        SELECT p.idsegmento FROM demo.prescricao p
-        WHERE p.fkprescricao = NEW.fkprescricao
-    );
+
     RETURN NEW;
 END;$BODY$;
 
@@ -45,12 +49,6 @@ CREATE OR REPLACE  FUNCTION demo.complete_prescricao()
     COST 100
     VOLATILE NOT LEAKPROOF
 AS $BODY$BEGIN
-    IF NEW.status = 'S' THEN
-        UPDATE demo.presmed pm
-        SET pm.escorefinal = (SELECT COALESCE(escoremanual, escore) 
-                                FROM demo.outlier o
-                                WHERE o.idoutlier = pm.idoutlier);
-    END IF;
    IF pg_trigger_depth() = 1 then
 		NEW.idsegmento = (
 		    SELECT s.idsegmento FROM demo.segmentosetor s
@@ -81,21 +79,52 @@ CREATE TRIGGER trg_complete_prescricao
 
 --------
 
+CREATE OR REPLACE  FUNCTION demo.atualiza_escore_presemed()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$BEGIN
+    IF NEW.status = 'S' THEN
+        UPDATE demo.presmed pm
+        SET escorefinal = (SELECT COALESCE(escoremanual, escore) 
+                                FROM demo.outlier o
+                                WHERE o.idoutlier = pm.idoutlier);
+    END IF;
+    RETURN NULL;
+END;$BODY$;
+
+ALTER FUNCTION demo.atualiza_escore_presemed()
+    OWNER TO postgres;
+
+CREATE TRIGGER trg_atualiza_escore_presemed
+    AFTER UPDATE
+    ON demo.prescricao
+    FOR EACH ROW
+    EXECUTE PROCEDURE demo.atualiza_escore_presemed();
+
+--------
+
 CREATE FUNCTION demo.complete_prescricaoagg()
     RETURNS trigger
     LANGUAGE 'plpgsql'
     COST 100
     VOLATILE NOT LEAKPROOF
 AS $BODY$BEGIN
-    NEW.frequenciadia := (
-        SELECT f.frequenciadia FROM demo.frequencia f
-        WHERE f.fkfrequencia = NEW.fkfrequencia
-    );
+
+    IF NEW.frequenciadia IS NULL AND NEW.fkfrequencia IS NOT NULL THEN
+            NEW.frequenciadia := (
+                SELECT f.frequenciadia FROM demo.frequencia f
+                WHERE f.fkfrequencia = NEW.fkfrequencia
+            );
+    END IF;
+
     NEW.idsegmento = (
         SELECT s.idsegmento FROM demo.segmentosetor s
         WHERE s.fksetor = NEW.fksetor
         AND s.fkhospital = NEW.fkhospital
     );
+
     RETURN NEW;
 END;$BODY$;
 
@@ -116,7 +145,11 @@ CREATE FUNCTION demo.complete_frequencia()
     COST 100
     VOLATILE NOT LEAKPROOF
 AS $BODY$BEGIN
-    NEW.frequenciadia := 24 / NEW.frequenciahora;
+
+    IF NEW.frequenciadia IS NULL AND NEW.frequenciahora IS NOT NULL THEN
+            NEW.frequenciadia := 24 / NEW.frequenciahora;
+    END IF;
+
     RETURN NEW;
 END;$BODY$;
 
@@ -140,14 +173,12 @@ CREATE FUNCTION demo.popula_presmed_by_outlier()
     VOLATILE NOT LEAKPROOF
 AS $BODY$BEGIN
     UPDATE demo.presmed pm
-        SET idoutlier = (
-            SELECT MAX(o.idoutlier) FROM demo.outlier o 
-            WHERE o.fkmedicamento = pm.fkmedicamento
-            AND o.dose = pm.dose
-            AND o.frequenciadia = pm.frequenciadia
-            AND o.idsegmento = pm.idsegmento
-        )
-    WHERE escorefinal IS NULL;
+        SET idoutlier = NEW.idoutlier
+        WHERE pm.fkmedicamento = NEW.fkmedicamento
+            AND pm.dose = NEW.dose
+            AND pm.frequenciadia = NEW.frequenciadia
+            AND pm.idsegmento = NEW.idsegmento
+            AND pm.escorefinal IS NULL;
     RETURN NULL;
 END;$BODY$;
 
@@ -155,7 +186,7 @@ ALTER FUNCTION demo.popula_presmed_by_outlier()
     OWNER TO postgres;
 
 CREATE TRIGGER trg_popula_presmed_by_outlier
-    AFTER INSERT 
+    AFTER INSERT
     ON demo.outlier
     FOR EACH ROW
     EXECUTE PROCEDURE demo.popula_presmed_by_outlier();
@@ -169,11 +200,9 @@ CREATE FUNCTION demo.popula_presmed_by_frequencia()
     VOLATILE NOT LEAKPROOF
 AS $BODY$BEGIN
     UPDATE demo.presmed pm
-        SET pm.frequenciadia = (
-            SELECT f.frequenciadia FROM demo.frequencia f 
-            WHERE o.fkfrequencia = pm.fkfrequencia
-        )
-    WHERE pm.escorefinal IS NULL;
+        SET frequenciadia = NEW.frequenciadia
+    WHERE pm.fkfrequencia = NEW.fkfrequencia
+    AND pm.escorefinal IS NULL;
     RETURN NULL;
 END;$BODY$;
 
@@ -188,40 +217,82 @@ CREATE TRIGGER trg_popula_presmed_by_frequencia
 
 --------
 
-CREATE FUNCTION demo.popula_prescricaoagg_by_segmento()
+CREATE FUNCTION demo.propaga_idsegmento()
     RETURNS trigger
     LANGUAGE 'plpgsql'
     COST 100
     VOLATILE NOT LEAKPROOF
 AS $BODY$BEGIN
+
     UPDATE demo.presmed pm
-        SET pm.idsegmento = (
-            SELECT s.idsegmento FROM demo.segmentosetor s
-            WHERE s.fksetor = pm.fksetor
-            AND s.fkhospital = pm.fkhospital
-        )
-    WHERE pm.escorefinal IS NULL;
+        SET idsegmento = NEW.idsegmento
+        WHERE pm.fkprescricao in (
+            SELECT p.fkprescricao FROM demo.prescricao p
+            WHERE p.fksetor = NEW.fksetor
+            AND p.fkhospital = NEW.fkhospital
+            )   
+        AND pm.escorefinal IS NULL;
+   
     UPDATE demo.prescricao p
-        SET p.idsegmento = (
-            SELECT s.idsegmento FROM demo.segmentosetor s
-            WHERE s.fksetor = p.fksetor
-            AND s.fkhospital = p.fkhospital
-        )
-    WHERE p.status IS NULL;
+        SET idsegmento = NEW.idsegmento
+        WHERE p.fksetor = NEW.fksetor
+        AND p.fkhospital = NEW.fkhospital
+        AND (p.status IS null or p.status = '0');
+       
     UPDATE demo.prescricaoagg pa
-        SET pa.idsegmento = (
-            SELECT s.idsegmento FROM demo.segmentosetor s
-            WHERE s.fksetor = pa.fksetor
-            AND s.fkhospital = pa.fkhospital
-        );
+        SET idsegmento = NEW.idsegmento
+            WHERE pa.fksetor = NEW.fksetor
+            AND pa.fkhospital = NEW.fkhospital;
+
     RETURN NULL;
 END;$BODY$;
 
-ALTER FUNCTION demo.popula_prescricaoagg_by_segmento()
+ALTER FUNCTION demo.propaga_idsegmento()
     OWNER TO postgres;
 
-CREATE TRIGGER trg_popula_prescricaoagg_by_segmento
-    AFTER INSERT OR UPDATE 
+CREATE TRIGGER trg_propaga_idsegmento
+    AFTER INSERT
     ON demo.segmentosetor
     FOR EACH ROW
-    EXECUTE PROCEDURE demo.popula_prescricaoagg_by_segmento();
+    EXECUTE PROCEDURE demo.propaga_idsegmento();
+
+    --------
+
+CREATE FUNCTION demo.deleta_idsegmento()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$BEGIN
+
+    UPDATE demo.presmed pm
+        SET idsegmento = NULL
+        WHERE pm.fkprescricao in (
+            SELECT p.fkprescricao FROM demo.prescricao p
+            WHERE p.fksetor = NEW.fksetor
+            AND p.fkhospital = NEW.fkhospital
+            )   
+        AND pm.escorefinal IS NULL;
+   
+    UPDATE demo.prescricao p
+        SET idsegmento = NULL
+        WHERE p.fksetor = NEW.fksetor
+        AND p.fkhospital = NEW.fkhospital
+        AND (p.status IS null or p.status = '0');
+       
+    UPDATE demo.prescricaoagg pa
+        SET idsegmento = NULL
+            WHERE pa.fksetor = NEW.fksetor
+            AND pa.fkhospital = NEW.fkhospital;
+
+    RETURN OLD;
+END;$BODY$;
+
+ALTER FUNCTION demo.deleta_idsegmento()
+    OWNER TO postgres;
+
+CREATE TRIGGER trg_deleta_idsegmento
+    BEFORE DELETE
+    ON demo.segmentosetor
+    FOR EACH ROW
+    EXECUTE PROCEDURE demo.deleta_idsegmento();
