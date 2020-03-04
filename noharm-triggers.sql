@@ -125,7 +125,19 @@ AS $BODY$BEGIN
         AND s.fkhospital = NEW.fkhospital
     );
 
-    RETURN NEW;
+   IF pg_trigger_depth() = 1 then
+
+        INSERT INTO demo.prescricaoagg
+            (fkhospital, fksetor, fkmedicamento, fkunidademedida, fkfrequencia, dose, frequenciadia, idade, peso, contagem)
+            VALUES(1, NEW.fksetor, NEW.fkmedicamento, NEW.fkunidademedida, NEW.fkfrequencia, NEW.dose, NEW.frequenciadia, NEW.idade, NEW.peso, NEW.contagem)
+        ON CONFLICT (fksetor, fkmedicamento, fkunidademedida, fkfrequencia, dose, frequenciadia, idade, peso)
+         DO UPDATE SET contagem = NEW.contagem;
+
+      RETURN NULL;
+   ELSE
+      RETURN NEW;
+   END IF;   
+
 END;$BODY$;
 
 ALTER FUNCTION demo.complete_prescricaoagg()
@@ -150,7 +162,18 @@ AS $BODY$BEGIN
             NEW.frequenciadia := 24 / NEW.frequenciahora;
     END IF;
 
-    RETURN NEW;
+   IF pg_trigger_depth() = 1 then
+      INSERT INTO hscpoa.frequencia (fkhospital, fkfrequencia, nome, frequenciadia, frequenciahora) 
+            VALUES(1, NEW.fkfrequencia, NEW.nome, NEW.frequenciadia, NEW.frequenciahora)
+         ON CONFLICT (fkfrequencia)
+         DO UPDATE SET nome = NEW.nome,
+            frequenciadia = NEW.frequenciadia, 
+            frequenciahora = NEW.frequenciahora;
+      RETURN NULL;
+   ELSE
+      RETURN NEW;
+   END IF;   
+
 END;$BODY$;
 
 ALTER FUNCTION demo.complete_frequencia()
@@ -296,3 +319,124 @@ CREATE TRIGGER trg_deleta_idsegmento
     ON demo.segmentosetor
     FOR EACH ROW
     EXECUTE PROCEDURE demo.deleta_idsegmento();
+
+-------------------------------------------------------
+-------- HANDLE INSERT ON CONFLICT (from Nifi) --------
+-------------------------------------------------------
+
+CREATE OR REPLACE  FUNCTION demo.insert_update_setor()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$BEGIN
+   IF pg_trigger_depth() = 1 then
+      INSERT INTO demo.setor (fkhospital, fksetor, nome) 
+            VALUES(1, NEW.fksetor, NEW.nome)
+         ON CONFLICT (fksetor)
+         DO UPDATE SET nome = NEW.nome;
+      RETURN NULL;
+   ELSE
+      RETURN NEW;
+   END IF;   
+END;$BODY$;
+
+ALTER FUNCTION demo.insert_update_setor()
+    OWNER TO postgres;
+
+CREATE TRIGGER trg_insert_update_setor
+    BEFORE INSERT 
+    ON demo.setor
+    FOR EACH ROW
+    EXECUTE PROCEDURE demo.insert_update_setor();
+
+-----------------
+
+CREATE OR REPLACE  FUNCTION demo.insert_update_medicamento()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$BEGIN
+   IF pg_trigger_depth() = 1 then
+
+        INSERT INTO demo.medicamento (fkhospital, fkmedicamento, fkunidademedida, nome)
+            VALUES(1, NEW.fkmedicamento, NEW.fkunidademedida, NEW.nome)
+         ON CONFLICT (fkmedicamento)
+         DO UPDATE SET nome = NEW.nome,
+            fkunidademedida = NEW.fkunidademedida;
+
+      RETURN NULL;
+   ELSE
+      RETURN NEW;
+   END IF;   
+END;$BODY$;
+
+ALTER FUNCTION demo.insert_update_medicamento()
+    OWNER TO postgres;
+
+CREATE TRIGGER trg_insert_update_medicamento
+    BEFORE INSERT 
+    ON demo.medicamento
+    FOR EACH ROW
+    EXECUTE PROCEDURE demo.insert_update_medicamento();
+
+-----------------
+
+CREATE OR REPLACE  FUNCTION demo.insert_update_hospital()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$BEGIN
+   IF pg_trigger_depth() = 1 then
+
+        INSERT INTO demo.hospital (fkhospital, nome)
+            VALUES(NEW.fkhospital, NEW.nome)
+         ON CONFLICT (fkhospital)
+         DO UPDATE SET nome = NEW.nome;
+
+      RETURN NULL;
+   ELSE
+      RETURN NEW;
+   END IF;   
+END;$BODY$;
+
+ALTER FUNCTION demo.insert_update_hospital()
+    OWNER TO postgres;
+
+CREATE TRIGGER insert_update_hospital
+    BEFORE INSERT 
+    ON demo.hospital
+    FOR EACH ROW
+    EXECUTE PROCEDURE demo.insert_update_hospital();
+
+-----------------
+
+CREATE OR REPLACE  FUNCTION demo.insert_update_unidademedida()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$BEGIN
+   IF pg_trigger_depth() = 1 then
+
+      INSERT INTO demo.unidademedida (fkhospital, fkunidademedida, nome) 
+            VALUES(1, NEW.fkunidademedida, NEW.nome)
+         ON CONFLICT (fkunidademedida)
+         DO UPDATE SET nome = NEW.nome;
+
+      RETURN NULL;
+   ELSE
+      RETURN NEW;
+   END IF;   
+END;$BODY$;
+
+ALTER FUNCTION demo.insert_update_unidademedida()
+    OWNER TO postgres;
+
+CREATE TRIGGER insert_update_hospital
+    BEFORE INSERT 
+    ON demo.unidademedida
+    FOR EACH ROW
+    EXECUTE PROCEDURE demo.insert_update_unidademedida();

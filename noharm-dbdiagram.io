@@ -97,7 +97,7 @@ Table "prescricaoagg"  [headercolor: #d35400] {
   "contagem" integer [default: NULL]
   
   indexes {
-    (fksetor, fkmedicamento, dose, fkfrequencia, frequenciadia, idade, peso) [unique]
+    (fksetor, fkmedicamento, fkunidademedida, dose, fkfrequencia, frequenciadia, idade, peso) [unique]
   }
   
 }
