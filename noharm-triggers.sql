@@ -90,6 +90,7 @@ AS $BODY$BEGIN
         SET escorefinal = (SELECT COALESCE(escoremanual, escore) 
                                 FROM demo.outlier o
                                 WHERE o.idoutlier = pm.idoutlier);
+        WHERE pm.fkprescricao = NEW.fkprescricao;
     END IF;
     RETURN NULL;
 END;$BODY$;
