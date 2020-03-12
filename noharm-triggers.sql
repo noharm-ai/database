@@ -89,7 +89,7 @@ AS $BODY$BEGIN
         UPDATE demo.presmed pm
         SET escorefinal = (SELECT COALESCE(escoremanual, escore) 
                                 FROM demo.outlier o
-                                WHERE o.idoutlier = pm.idoutlier);
+                                WHERE o.idoutlier = pm.idoutlier)
         WHERE pm.fkprescricao = NEW.fkprescricao;
     END IF;
     RETURN NULL;
