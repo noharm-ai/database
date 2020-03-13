@@ -19,8 +19,8 @@ TRUNCATE TABLE demo.motivointervencao, demo.intervencao, demo.presmed RESTART ID
 -- Insert Support's Tables
 --
 
-INSERT INTO public.usuario (email, senha, schema) VALUES 
-						('demo', 'demo', 'demo');
+INSERT INTO public.usuario (nome, email, senha, schema) VALUES 
+						('demo', 'demo', 'demo', 'demo');
 
 INSERT INTO demo.hospital (fkhospital, nome) VALUES
 						(1, 'Hospital Demonstração');
