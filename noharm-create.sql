@@ -155,7 +155,7 @@ CREATE TABLE demo."setor" (
 
 CREATE TABLE public."usuario" (
   "idusuario" SERIAL PRIMARY KEY NOT NULL,
-  "nome" varchar(255) NOT NULL,
+  "nome" varchar(255) UNIQUE NOT NULL,
   "email" varchar(255) UNIQUE NOT NULL,
   "senha" varchar(255) NOT NULL,
   "schema" varchar(10) NOT NULL,
