@@ -11,7 +11,7 @@ CREATE TABLE demo."exame" (
   "nratendimento" bigint NOT NULL,
   "dtexame" timestamp NOT NULL,
   "tpexame" varchar(100) NOT NULL,
-  "valor" float NOT NULL,
+  "resultado" float NOT NULL,
   "unidade" varchar(250) DEFAULT NULL
 );
 
