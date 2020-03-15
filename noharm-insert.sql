@@ -146,7 +146,7 @@ INSERT INTO demo.nome (fkpessoa, nome) VALUES
 					(12, 'Jordana Barreto'),
 					(13, 'Julia Dias Fernandes');
 
-INSERT INTO demo.exame (fkexame, fkpessoa, nratendimento, dtexame, tpexame, valor, unidade) VALUES
+INSERT INTO demo.exame (fkexame, fkpessoa, nratendimento, dtexame, tpexame, resultado, unidade) VALUES
 						(1, 1, '1234', '2019-10-14 18:32:22', 'CR', 0.40, 'mg/dL'),
 						(4, 3, '4567', '2019-10-14 18:32:22', 'TGO', 25, 'un/L'),
 						(4, 3, '4567', '2019-10-14 18:32:22', 'TGP', 42, 'un/L'),
