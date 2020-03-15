@@ -20,7 +20,7 @@ TRUNCATE TABLE demo.motivointervencao, demo.intervencao, demo.presmed RESTART ID
 --
 
 INSERT INTO public.usuario (nome, email, senha, schema) VALUES 
-						('demo', 'demo', 'demo', 'demo');
+						('demo', 'demo@noharm.ai', 'demo', 'demo');
 
 INSERT INTO demo.hospital (fkhospital, nome) VALUES
 						(1, 'Hospital Demonstração');
@@ -636,7 +636,12 @@ INSERT INTO demo.presmed (fkprescricao, fkmedicamento, dose, fkunidademedida, fr
 						(17, 24, 20, 1, 1, 3, NULL);
 
 UPDATE demo.presmed p
-	SET fkfrequencia = (SELECT f.fkfrequencia from demo.frequencia f WHERE f.frequenciadia = p.frequenciadia );
+	SET fkfrequencia = (SELECT f.fkfrequencia FROM demo.frequencia f 
+				WHERE f.frequenciadia = p.frequenciadia),
+	idoutlier = (SELECT o.idoutlier FROM demo.outlier o
+				WHERE p.fkmedicamento = o.fkmedicamento 
+				AND p.frequenciadia = o.frequenciadia 
+				AND p.dose = o.dose); 
 
 INSERT INTO demo.intervencao (idpresmed, idusuario, idmotivointervencao, boolpropaga, observacao) VALUES
 	(4, 1, 2, 'N', '<p><strong>Existe </strong><em>apresenta&ccedil;&atilde;o adequada</em> de <strong>50mg</strong></p>'),
