@@ -104,7 +104,7 @@ Table "prescricaoagg"  [headercolor: #d35400] {
 }
 
 Table "presmed"  [headercolor: #d35400] {
-  "idpresmed" bigint [pk, not null]
+  "fkpresmed" bigint [pk, not null]
   "fkprescricao" bigint [not null]
   "fkmedicamento" integer [not null]
   "fkunidademedida" varchar(16) [default: NULL]
