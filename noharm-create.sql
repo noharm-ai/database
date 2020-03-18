@@ -184,3 +184,5 @@ CREATE UNIQUE INDEX ON demo."frequencia" ("fkhospital", "fkfrequencia");
 CREATE UNIQUE INDEX ON demo."unidademedida" ("fkhospital", "fkunidademedida");
 
 CREATE UNIQUE INDEX ON demo."setor" ("fkhospital", "fksetor");
+
+CREATE INDEX presmed_fkprescricao_idx ON demo.presmed (fkprescricao);
