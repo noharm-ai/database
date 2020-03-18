@@ -74,6 +74,7 @@ Table "prescricao"  [headercolor: #d35400] {
   "fksetor" smallint [not null]
   "fkprescricao" bigint [pk, not null]
   "fkpessoa" bigint [not null]
+  "nratendimento" bigint [not null]
   "idsegmento" smallint [default: NULL]
   "dtprescricao" timestamp [not null]
   "status" char(1) [default: "0"]
@@ -103,7 +104,7 @@ Table "prescricaoagg"  [headercolor: #d35400] {
 }
 
 Table "presmed"  [headercolor: #d35400] {
-  "fkpresmed" bigint [pk, not null]
+  "idpresmed" bigint [pk, not null]
   "fkprescricao" bigint [not null]
   "fkmedicamento" integer [not null]
   "fkunidademedida" varchar(16) [default: NULL]
@@ -116,6 +117,11 @@ Table "presmed"  [headercolor: #d35400] {
   "complemento" text
   "quantidade" integer [default: NULL]
   "escorefinal" smallint [default: NULL]
+  
+  indexes {
+    (fkprescricao)
+  }
+  
 }
 
 // ######## support's Tables ######## //
