@@ -17,7 +17,7 @@ CREATE TABLE demo."exame" (
 
 CREATE TABLE demo."intervencao" (
   "idintervencao" SERIAL PRIMARY KEY NOT NULL,
-  "idpresmed" bigint NOT NULL,
+  "fkpresmed" bigint NOT NULL,
   "idusuario" smallint NOT NULL,
   "idmotivointervencao" smallint NOT NULL,
   "dtintervencao" timestamp NOT NULL DEFAULT 'now()',
@@ -77,7 +77,7 @@ CREATE TABLE demo."prescricaoagg" (
 );
 
 CREATE TABLE demo."presmed" (
-  "idpresmed" SERIAL PRIMARY KEY NOT NULL,
+  "fkpresmed" SERIAL PRIMARY KEY NOT NULL,
   "fkprescricao" bigint NOT NULL,
   "fkmedicamento" integer NOT NULL,
   "fkunidademedida" varchar(10) DEFAULT NULL,
@@ -164,7 +164,7 @@ CREATE TABLE public."usuario" (
   "logourl" varchar(255) DEFAULT NULL
 );
 
-ALTER TABLE demo."intervencao" ADD FOREIGN KEY ("idpresmed") REFERENCES demo."presmed" ("idpresmed");
+ALTER TABLE demo."intervencao" ADD FOREIGN KEY ("fkpresmed") REFERENCES demo."presmed" ("fkpresmed");
 
 ALTER TABLE demo."intervencao" ADD FOREIGN KEY ("idmotivointervencao") REFERENCES demo."motivointervencao" ("idmotivointervencao");
 
