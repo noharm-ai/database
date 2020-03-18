@@ -58,6 +58,7 @@ CREATE TABLE demo."prescricao" (
   "fksetor" smallint NOT NULL,
   "fkprescricao" bigint PRIMARY KEY NOT NULL,
   "fkpessoa" bigint NOT NULL,
+  "nratendimento" bigint NOT NULL,
   "idsegmento" smallint DEFAULT NULL,
   "dtprescricao" timestamp NOT NULL,
   "status" char(1) DEFAULT '0'
