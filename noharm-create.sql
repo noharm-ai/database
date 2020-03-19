@@ -96,7 +96,11 @@ CREATE TABLE demo."medicamento" (
   "fkhospital" smallint DEFAULT 1,
   "fkmedicamento" bigint PRIMARY KEY NOT NULL,
   "fkunidademedida" varchar(10) DEFAULT NULL,
-  "nome" varchar(250) NOT NULL
+  "nome" varchar(250) NOT NULL,
+  "antimicro" boolean NULL,
+  "mav" boolean NULL,
+  "controlados" boolean NULL
+
 );
 
 CREATE TABLE demo."motivointervencao" (
