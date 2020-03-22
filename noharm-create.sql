@@ -72,6 +72,7 @@ CREATE TABLE demo."prescricaoagg" (
   "fkunidademedida" varchar(10) DEFAULT NULL,
   "fkfrequencia" integer DEFAULT NULL,
   "dose" float DEFAULT NULL,
+  "doseconv" float DEFAULT NULL,
   "frequenciadia" smallint DEFAULT NULL,
   "contagem" integer DEFAULT NULL
 );
@@ -85,6 +86,7 @@ CREATE TABLE demo."presmed" (
   "idsegmento" smallint DEFAULT NULL,
   "idoutlier" integer DEFAULT NULL,
   "dose" float DEFAULT NULL,
+  "doseconv" float DEFAULT NULL,
   "frequenciadia" smallint DEFAULT NULL,
   "via" varchar(50) DEFAULT NULL,
   "complemento" text,
@@ -128,6 +130,7 @@ CREATE TABLE demo."unidadeconverte" (
   "fkhospital" smallint DEFAULT 1,
   "fkunidademedidade" varchar(10) NOT NULL,
   "fkunidademedidapara" varchar(10) NOT NULL,
+  "fkmedicamento" bigint NOT NULL,
   "fator" float NOT NULL
 );
 
@@ -187,6 +190,8 @@ CREATE UNIQUE INDEX ON demo."medicamento" ("fkhospital", "fkmedicamento");
 CREATE UNIQUE INDEX ON demo."frequencia" ("fkhospital", "fkfrequencia");
 
 CREATE UNIQUE INDEX ON demo."unidademedida" ("fkhospital", "fkunidademedida");
+
+CREATE UNIQUE INDEX ON demo."unidadeconverte" ("fkmedicamento", "fkunidademedidade", "fkunidademedidapara");
 
 CREATE UNIQUE INDEX ON demo."setor" ("fkhospital", "fksetor");
 
