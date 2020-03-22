@@ -92,6 +92,7 @@ Table "prescricaoagg"  [headercolor: #d35400] {
   "fkunidademedida" varchar(16) [default: NULL]
   "fkfrequencia" varchar(16) [default: NULL]
   "dose" float4 [default: NULL]
+  "doseconv" float4 [default: NULL]
   "frequenciadia" float4 [default: NULL]
   "idade" smallint [default: NULL]
   "peso" float4 [default: NULL]
@@ -111,7 +112,8 @@ Table "presmed"  [headercolor: #d35400] {
   "fkfrequencia" varchar(16) [default: NULL]
   "idsegmento" smallint [default: NULL]
   "idoutlier" integer [default: NULL]
-  "dose" float [default: NULL]
+  "dose" float4 [default: NULL]
+  "doseconv" float4 [default: NULL]
   "frequenciadia" float4 [default: NULL]
   "via" varchar(50) [default: NULL]
   "complemento" text
@@ -174,9 +176,15 @@ Table "unidademedida"  [headercolor: #d35400] {
 
 Table "unidadeconverte"  [headercolor: #3498db] {
   "fkhospital" smallint [default: 1]
+  "fkmedicamento" bigint [not null]
   "fkunidademedidade" varchar(10) [not null]
   "fkunidademedidapara" varchar(10) [not null]
   "fator" float [not null]
+  
+  indexes {
+    (fkhospital, fkmedicamento, fkunidademedidade, fkunidademedidapara) [unique]
+  }
+  
 }
 
 Table "segmento"  [headercolor: #3498db] {
