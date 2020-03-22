@@ -178,7 +178,6 @@ Table "unidadeconverte"  [headercolor: #3498db] {
   "fkhospital" smallint [default: 1]
   "fkmedicamento" bigint [not null]
   "fkunidademedidade" varchar(10) [not null]
-  "fkunidademedidapara" varchar(10) [not null]
   "fator" float [not null]
   
   indexes {
