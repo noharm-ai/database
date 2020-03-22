@@ -129,7 +129,6 @@ CREATE TABLE demo."unidademedida" (
 CREATE TABLE demo."unidadeconverte" (
   "fkhospital" smallint DEFAULT 1,
   "fkunidademedidade" varchar(10) NOT NULL,
-  "fkunidademedidapara" varchar(10) NOT NULL,
   "fkmedicamento" bigint NOT NULL,
   "fator" float NOT NULL
 );
