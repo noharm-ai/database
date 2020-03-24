@@ -1,0 +1,10 @@
+language: python
+
+services:
+  - postgresql
+  
+script:
+  - psql -U postgres -c 'create database noharm;'
+  - psql -U postgres -d noharm -a -f noharm-create.sql
+  - psql -U postgres -d noharm -a -f noharm-triggers.sql
+  - psql -U postgres -d noharm -a -f noharm-insert.sql
