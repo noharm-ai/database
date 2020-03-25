@@ -78,6 +78,7 @@ Table "prescricao"  [headercolor: #d35400] {
   "idsegmento" smallint [default: NULL]
   "dtprescricao" timestamp [not null]
   "status" char(1) [default: "0"]
+  "update_at" timestamp [default: "NOW()"]
   
   indexes {
     (fksetor, fkprescricao) [unique]
