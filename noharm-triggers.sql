@@ -28,6 +28,14 @@ AS $BODY$BEGIN
         AND o.frequenciadia = NEW.frequenciadia
         AND o.idsegmento = NEW.idsegmento
     );
+    
+    NEW.doseconv = (
+		SELECT (NEW.dose * u.fator) as doseconv
+		FROM demo.unidadeconverte u
+		WHERE u.fkhospital = 1
+		AND u.fkmedicamento = NEW.fkmedicamento
+		AND u.fkunidademedidade = NEW.fkunidademedida
+    );
 
     RETURN NEW;
 END;$BODY$;
