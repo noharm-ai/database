@@ -61,7 +61,8 @@ CREATE TABLE demo."prescricao" (
   "nratendimento" bigint NOT NULL,
   "idsegmento" smallint DEFAULT NULL,
   "dtprescricao" timestamp NOT NULL,
-  "status" char(1) DEFAULT '0'
+  "status" char(1) DEFAULT '0',
+  "update_at" timestamp NULL DEFAULT NOW()
 );
 
 CREATE TABLE demo."prescricaoagg" (
