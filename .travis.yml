@@ -5,6 +5,6 @@ services:
   
 script:
   - psql -U postgres -c 'create database noharm;'
-  - psql -U postgres -d noharm -a -f noharm-create.sql
-  - psql -U postgres -d noharm -a -f noharm-triggers.sql
-  - psql -U postgres -d noharm -a -f noharm-insert.sql
+  - psql -U postgres -d noharm -a -f noharm-create.sql -v ON_ERROR_STOP=1
+  - psql -U postgres -d noharm -a -f noharm-triggers.sql -v ON_ERROR_STOP=1
+  - psql -U postgres -d noharm -a -f noharm-insert.sql -v ON_ERROR_STOP=1
