@@ -127,20 +127,32 @@ AS $BODY$BEGIN
                 WHERE f.fkfrequencia = NEW.fkfrequencia
             );
     END IF;
+   
+   IF NEW.peso IS NULL THEN
+   		NEW.peso = 999;
+   END IF;
 
     NEW.idsegmento = (
         SELECT s.idsegmento FROM demo.segmentosetor s
         WHERE s.fksetor = NEW.fksetor
         AND s.fkhospital = NEW.fkhospital
     );
-
+   
+    NEW.doseconv = (
+		SELECT (NEW.dose * u.fator) as doseconv
+		FROM demo.unidadeconverte u
+		WHERE u.fkhospital = NEW.fkhospital
+		AND u.fkmedicamento = NEW.fkmedicamento
+		AND u.fkunidademedidade = NEW.fkunidademedida
+    );   
+   
    IF pg_trigger_depth() = 1 then
 
         INSERT INTO demo.prescricaoagg
-            (fkhospital, fksetor, fkmedicamento, fkunidademedida, fkfrequencia, dose, frequenciadia, idade, peso, contagem)
-            VALUES(1, NEW.fksetor, NEW.fkmedicamento, NEW.fkunidademedida, NEW.fkfrequencia, NEW.dose, NEW.frequenciadia, NEW.idade, NEW.peso, NEW.contagem)
+            (fkhospital, fksetor, fkmedicamento, fkunidademedida, fkfrequencia, dose, frequenciadia, idade, peso, contagem, doseconv)
+            VALUES(1, NEW.fksetor, NEW.fkmedicamento, NEW.fkunidademedida, NEW.fkfrequencia, NEW.dose, NEW.frequenciadia, NEW.idade, NEW.peso, NEW.contagem, NEW.doseconv)
         ON CONFLICT (fksetor, fkmedicamento, fkunidademedida, fkfrequencia, dose, frequenciadia, idade, peso)
-         DO UPDATE SET contagem = NEW.contagem;
+         DO UPDATE SET contagem = NEW.contagem, doseconv = NEW.doseconv;
 
       RETURN NULL;
    ELSE
