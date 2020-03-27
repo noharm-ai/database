@@ -1,4 +1,6 @@
 # database
+[![Build Status](https://travis-ci.org/noharm-ai/database.svg?branch=master)](https://travis-ci.org/noharm-ai/database)
+
 NoHarm Database Statements
 
 - Create Tables
