@@ -71,7 +71,7 @@ CREATE TABLE demo."prescricaoagg" (
   "fksetor" smallint NOT NULL,
   "idsegmento" smallint NOT NULL,
   "fkmedicamento" bigint NOT NULL,
-  "fkunidademedida" varchar(10) DEFAULT NULL,
+  "fkunidademedida" varchar(16) DEFAULT NULL,
   "fkfrequencia" varchar(16) DEFAULT NULL,
   "dose" float DEFAULT NULL,
   "doseconv" float DEFAULT NULL,
@@ -99,7 +99,7 @@ CREATE TABLE demo."presmed" (
 CREATE TABLE demo."medicamento" (
   "fkhospital" smallint DEFAULT 1,
   "fkmedicamento" bigint PRIMARY KEY NOT NULL,
-  "fkunidademedida" varchar(10) DEFAULT NULL,
+  "fkunidademedida" varchar(16) DEFAULT NULL,
   "nome" varchar(250) NOT NULL,
   "antimicro" boolean NULL,
   "mav" boolean NULL,
@@ -124,13 +124,13 @@ CREATE TABLE demo."frequencia" (
 
 CREATE TABLE demo."unidademedida" (
   "fkhospital" smallint DEFAULT 1,
-  "fkunidademedida" varchar(10) PRIMARY KEY NOT NULL,
+  "fkunidademedida" varchar(16) PRIMARY KEY NOT NULL,
   "nome" varchar(250) NOT NULL
 );
 
 CREATE TABLE demo."unidadeconverte" (
   "fkhospital" smallint DEFAULT 1,
-  "fkunidademedidade" varchar(10) NOT NULL,
+  "fkunidademedida" varchar(16) NOT NULL,
   "fkmedicamento" bigint NOT NULL,
   "fator" float NOT NULL
 );
@@ -167,7 +167,7 @@ CREATE TABLE public."usuario" (
   "nome" varchar(255) UNIQUE NOT NULL,
   "email" varchar(255) UNIQUE NOT NULL,
   "senha" varchar(255) NOT NULL,
-  "schema" varchar(10) NOT NULL,
+  "schema" varchar(16) NOT NULL,
   "getnameurl" varchar(255) DEFAULT NULL,
   "logourl" varchar(255) DEFAULT NULL
 );
@@ -192,7 +192,7 @@ CREATE UNIQUE INDEX ON demo."frequencia" ("fkhospital", "fkfrequencia");
 
 CREATE UNIQUE INDEX ON demo."unidademedida" ("fkhospital", "fkunidademedida");
 
-CREATE UNIQUE INDEX ON demo."unidadeconverte" ("fkmedicamento", "fkunidademedidade", "fkunidademedidapara");
+CREATE UNIQUE INDEX ON demo."unidadeconverte" ("fkmedicamento", "fkunidademedida");
 
 CREATE UNIQUE INDEX ON demo."setor" ("fkhospital", "fksetor");
 
