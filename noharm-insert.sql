@@ -175,7 +175,7 @@ INSERT INTO demo.prescricao (fkprescricao, fkpessoa, nratendimento, fkhospital, 
 						(16, 12, '6347', 1, 1, 1, '2019-10-13 18:32:22', 0),
 						(17, 13, '6348', 1, 1, 1, '2019-10-13 18:32:22', 0);
 
-INSERT INTO demo.outlier (fkmedicamento, contagem, idusuario, dose, frequenciadia, escore, escoremanual, idsegmento) VALUES
+INSERT INTO demo.outlier (fkmedicamento, contagem, idusuario, doseconv, frequenciadia, escore, escoremanual, idsegmento) VALUES
 						(2,2288,NULL,100,1,0,NULL,1),
 						(2,21,NULL,150,1,3,3,1),
 						(2,219,NULL,200,1,1,2,1),
@@ -594,8 +594,8 @@ INSERT INTO demo.outlier (fkmedicamento, contagem, idusuario, dose, frequenciadi
 						(24,250,1,20,1,0,0,1),
 						(25,250,1,88,1,3,NULL,1);
 
-INSERT INTO demo.prescricaoagg (fkhospital, fksetor, idsegmento, fkmedicamento, dose, frequenciadia, contagem, peso) 
-			SELECT 1, 1, 1, fkmedicamento, dose, frequenciadia, contagem, 1 FROM demo.outlier;
+INSERT INTO demo.prescricaoagg (fkhospital, fksetor, idsegmento, fkmedicamento, dose, doseconv, frequenciadia, contagem, peso) 
+			SELECT 1, 1, 1, fkmedicamento, doseconv, doseconv, frequenciadia, contagem, 1 FROM demo.outlier;
 
 INSERT INTO demo.presmed (fkprescricao, fkmedicamento, dose, fkunidademedida, frequenciadia, via, complemento) VALUES
 						(1, 2, 100, 1, 1, NULL, NULL),
@@ -635,13 +635,14 @@ INSERT INTO demo.presmed (fkprescricao, fkmedicamento, dose, fkunidademedida, fr
 						(17, 15, 500, 1, 4, 3, NULL),
 						(17, 24, 20, 1, 1, 3, NULL);
 
+UPDATE demo.presmed p SET p.doseconv = p.dose;
 UPDATE demo.presmed p
 	SET fkfrequencia = (SELECT f.fkfrequencia FROM demo.frequencia f 
 				WHERE f.frequenciadia = p.frequenciadia),
 	idoutlier = (SELECT o.idoutlier FROM demo.outlier o
 				WHERE p.fkmedicamento = o.fkmedicamento 
 				AND p.frequenciadia = o.frequenciadia 
-				AND p.dose = o.dose); 
+				AND p.doseconv = o.doseconv);
 
 INSERT INTO demo.intervencao (fkpresmed, idusuario, idmotivointervencao, boolpropaga, observacao) VALUES
 	(4, 1, 2, 'N', '<p><strong>Existe </strong><em>apresenta&ccedil;&atilde;o adequada</em> de <strong>50mg</strong></p>'),

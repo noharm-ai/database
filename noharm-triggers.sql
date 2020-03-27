@@ -20,14 +20,6 @@ AS $BODY$BEGIN
         SELECT p.idsegmento FROM demo.prescricao p
         WHERE p.fkprescricao = NEW.fkprescricao
     );
-
-    NEW.idoutlier := (
-        SELECT MAX(o.idoutlier) FROM demo.outlier o 
-        WHERE o.fkmedicamento = NEW.fkmedicamento
-        AND o.dose = NEW.dose
-        AND o.frequenciadia = NEW.frequenciadia
-        AND o.idsegmento = NEW.idsegmento
-    );
     
     NEW.doseconv = (
 		SELECT (NEW.dose * u.fator) as doseconv
@@ -35,6 +27,14 @@ AS $BODY$BEGIN
 		WHERE u.fkhospital = 1
 		AND u.fkmedicamento = NEW.fkmedicamento
 		AND u.fkunidademedida = NEW.fkunidademedida
+    );
+
+    NEW.idoutlier := (
+        SELECT MAX(o.idoutlier) FROM demo.outlier o 
+        WHERE o.fkmedicamento = NEW.fkmedicamento
+        AND o.doseconv = NEW.doseconv
+        AND o.frequenciadia = NEW.frequenciadia
+        AND o.idsegmento = NEW.idsegmento
     );
 
     RETURN NEW;
@@ -152,7 +152,7 @@ AS $BODY$BEGIN
             (fkhospital, fksetor, fkmedicamento, fkunidademedida, fkfrequencia, dose, frequenciadia, idade, peso, contagem, doseconv)
             VALUES(1, NEW.fksetor, NEW.fkmedicamento, NEW.fkunidademedida, NEW.fkfrequencia, NEW.dose, NEW.frequenciadia, NEW.idade, NEW.peso, NEW.contagem, NEW.doseconv)
         ON CONFLICT (fksetor, fkmedicamento, fkunidademedida, fkfrequencia, dose, frequenciadia, idade, peso)
-         DO UPDATE SET contagem = NEW.contagem, doseconv = NEW.doseconv;
+         DO UPDATE SET contagem = NEW.contagem, doseconv = NEW.doseconv, idsegmento = NEW.idsegmento, frequenciadia = NEW.frequenciadia;
 
       RETURN NULL;
    ELSE
@@ -219,7 +219,7 @@ AS $BODY$BEGIN
     UPDATE demo.presmed pm
         SET idoutlier = NEW.idoutlier
         WHERE pm.fkmedicamento = NEW.fkmedicamento
-            AND pm.dose = NEW.dose
+            AND pm.doseconv = NEW.doseconv
             AND pm.frequenciadia = NEW.frequenciadia
             AND pm.idsegmento = NEW.idsegmento
             AND pm.escorefinal IS NULL;

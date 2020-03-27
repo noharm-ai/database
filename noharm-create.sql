@@ -31,7 +31,7 @@ CREATE TABLE demo."outlier" (
   "idoutlier" SERIAL PRIMARY KEY NOT NULL,
   "idsegmento" smallint DEFAULT NULL,
   "contagem" integer DEFAULT NULL,
-  "dose" float DEFAULT NULL,
+  "doseconv" float DEFAULT NULL,
   "frequenciadia" float DEFAULT NULL,
   "escore" smallint DEFAULT NULL,
   "escoremanual" smallint DEFAULT NULL,
@@ -180,13 +180,13 @@ ALTER TABLE demo."intervencao" ADD FOREIGN KEY ("idmotivointervencao") REFERENCE
 
 CREATE INDEX ON demo."exame" ("fkpessoa", "nratendimento");
 
-CREATE UNIQUE INDEX ON demo."outlier" ("fkmedicamento", "idsegmento", "dose", "frequenciadia");
+CREATE UNIQUE INDEX ON demo."outlier" ("fkmedicamento", "idsegmento", "doseconv", "frequenciadia");
 
 CREATE UNIQUE INDEX ON demo."prescricao" ("fksetor", "fkprescricao");
 
 CREATE UNIQUE INDEX ON demo."prescricaoagg" (fksetor, fkmedicamento, fkunidademedida, dose, fkfrequencia, frequenciadia, idade, peso);
 
-CREATE UNIQUE INDEX ON demo."presmed" ("fkprescricao", "fkmedicamento", "dose", "fkfrequencia");
+CREATE UNIQUE INDEX ON demo."presmed" ("fkprescricao", "fkmedicamento", "doseconv", "fkfrequencia");
 
 CREATE UNIQUE INDEX ON demo."medicamento" ("fkhospital", "fkmedicamento");
 
