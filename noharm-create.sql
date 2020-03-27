@@ -56,7 +56,7 @@ CREATE TABLE demo."nome" (
 
 CREATE TABLE demo."prescricao" (
   "fkhospital" smallint DEFAULT 1,
-  "fksetor" smallint NOT NULL,
+  "fksetor" integer NOT NULL,
   "fkprescricao" bigint PRIMARY KEY NOT NULL,
   "fkpessoa" bigint NOT NULL,
   "nratendimento" bigint NOT NULL,
@@ -68,7 +68,7 @@ CREATE TABLE demo."prescricao" (
 
 CREATE TABLE demo."prescricaoagg" (
   "fkhospital" smallint DEFAULT 1,
-  "fksetor" smallint NOT NULL,
+  "fksetor" integer NOT NULL,
   "idsegmento" smallint NOT NULL,
   "fkmedicamento" bigint NOT NULL,
   "fkunidademedida" varchar(16) DEFAULT NULL,
@@ -150,7 +150,7 @@ CREATE TABLE demo."segmento" (
 CREATE TABLE demo."segmentosetor" (
   "idsegmento" smallint NOT NULL,
   "fkhospital" smallint NOT NULL,
-  "fksetor" smallint NOT NULL
+  "fksetor" integer NOT NULL
 );
 
 CREATE TABLE demo."hospital" (
