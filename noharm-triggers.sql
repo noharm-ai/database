@@ -63,8 +63,8 @@ AS $BODY$BEGIN
 		    WHERE s.fksetor = NEW.fksetor
 		    AND s.fkhospital = NEW.fkhospital
 		);
-      INSERT INTO demo.prescricao (fkprescricao, fkpessoa, fksetor, dtprescricao, idsegmento) 
-			VALUES (NEW.fkprescricao, NEW.fkpessoa, NEW.fksetor, NEW.dtprescricao, NEW.idsegmento)
+      INSERT INTO demo.prescricao (fkprescricao, fkpessoa, nratendimento, fksetor, dtprescricao, idsegmento) 
+			VALUES (NEW.fkprescricao, NEW.fkpessoa, NEW.nratendimento, NEW.fksetor, NEW.dtprescricao, NEW.idsegmento)
          ON CONFLICT (fkprescricao)
          DO UPDATE SET fkpessoa = NEW.fkpessoa,
 					fksetor = NEW.fksetor,
