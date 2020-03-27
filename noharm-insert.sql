@@ -643,7 +643,7 @@ UPDATE demo.presmed p
 				AND p.frequenciadia = o.frequenciadia 
 				AND p.dose = o.dose); 
 
-INSERT INTO demo.intervencao (idpresmed, idusuario, idmotivointervencao, boolpropaga, observacao) VALUES
+INSERT INTO demo.intervencao (fkpresmed, idusuario, idmotivointervencao, boolpropaga, observacao) VALUES
 	(4, 1, 2, 'N', '<p><strong>Existe </strong><em>apresenta&ccedil;&atilde;o adequada</em> de <strong>50mg</strong></p>'),
 	(18, 1, 3, 'N', 'Possivel erro de via. Trocar para EV'),
 	(14, 1, 2, 'N', 'Frequência potencialmente inadequada para paciente obeso.'),
