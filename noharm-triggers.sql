@@ -24,7 +24,7 @@ AS $BODY$BEGIN
     NEW.doseconv = ( SELECT COALESCE (
 		(SELECT (NEW.dose * u.fator) as doseconv
 		FROM demo.unidadeconverte u
-		WHERE u.fkhospital = NEW.fkhospital 
+		WHERE u.fkhospital = 1 
 		AND u.fkmedicamento = NEW.fkmedicamento 
 		AND u.fkunidademedida = NEW.fkunidademedida )
     , NEW.dose ) );
