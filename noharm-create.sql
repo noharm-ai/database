@@ -1,6 +1,7 @@
-DROP SCHEMA demo CASCADE;
+DROP SCHEMA IF EXISTS demo CASCADE;
 DROP TABLE IF EXISTS public.usuario;
 CREATE SCHEMA demo;
+CREATE USER demo;
 GRANT ALL ON SCHEMA demo TO postgres;
 GRANT ALL ON SCHEMA demo TO demo;
 
@@ -31,7 +32,7 @@ CREATE TABLE demo."outlier" (
   "idsegmento" smallint DEFAULT NULL,
   "contagem" integer DEFAULT NULL,
   "dose" float DEFAULT NULL,
-  "frequenciadia" smallint DEFAULT NULL,
+  "frequenciadia" float DEFAULT NULL,
   "escore" smallint DEFAULT NULL,
   "escoremanual" smallint DEFAULT NULL,
   "idusuario" smallint DEFAULT NULL
@@ -71,10 +72,10 @@ CREATE TABLE demo."prescricaoagg" (
   "idsegmento" smallint NOT NULL,
   "fkmedicamento" bigint NOT NULL,
   "fkunidademedida" varchar(10) DEFAULT NULL,
-  "fkfrequencia" integer DEFAULT NULL,
+  "fkfrequencia" varchar(16) DEFAULT NULL,
   "dose" float DEFAULT NULL,
   "doseconv" float DEFAULT NULL,
-  "frequenciadia" smallint DEFAULT NULL,
+  "frequenciadia" float DEFAULT NULL,
   "contagem" integer DEFAULT NULL
 );
 
@@ -82,13 +83,13 @@ CREATE TABLE demo."presmed" (
   "fkpresmed" SERIAL PRIMARY KEY NOT NULL,
   "fkprescricao" bigint NOT NULL,
   "fkmedicamento" integer NOT NULL,
-  "fkunidademedida" varchar(10) DEFAULT NULL,
-  "fkfrequencia" integer DEFAULT NULL,
+  "fkunidademedida" varchar(16) DEFAULT NULL,
+  "fkfrequencia" varchar(16) DEFAULT NULL,
   "idsegmento" smallint DEFAULT NULL,
   "idoutlier" integer DEFAULT NULL,
   "dose" float DEFAULT NULL,
   "doseconv" float DEFAULT NULL,
-  "frequenciadia" smallint DEFAULT NULL,
+  "frequenciadia" float DEFAULT NULL,
   "via" varchar(50) DEFAULT NULL,
   "complemento" text,
   "quantidade" integer DEFAULT NULL,
@@ -115,10 +116,10 @@ CREATE TABLE demo."motivointervencao" (
 
 CREATE TABLE demo."frequencia" (
   "fkhospital" smallint DEFAULT 1,
-  "fkfrequencia" integer PRIMARY KEY NOT NULL,
+  "fkfrequencia" varchar(16) PRIMARY KEY NOT NULL,
   "nome" varchar(250) NOT NULL,
-  "frequenciadia" smallint DEFAULT NULL,
-  "frequenciahora" smallint DEFAULT NULL
+  "frequenciadia" float DEFAULT NULL,
+  "frequenciahora" float DEFAULT NULL
 );
 
 CREATE TABLE demo."unidademedida" (
