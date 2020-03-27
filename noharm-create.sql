@@ -76,7 +76,7 @@ CREATE TABLE demo."prescricaoagg" (
   "dose" float DEFAULT NULL,
   "doseconv" float DEFAULT NULL,
   "peso" float DEFAULT NULL,
-  "idade" smallint DEFAULT NULL
+  "idade" smallint DEFAULT NULL,
   "frequenciadia" float DEFAULT NULL,
   "contagem" integer DEFAULT NULL
 );
