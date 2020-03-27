@@ -635,7 +635,7 @@ INSERT INTO demo.presmed (fkprescricao, fkmedicamento, dose, fkunidademedida, fr
 						(17, 15, 500, 1, 4, 3, NULL),
 						(17, 24, 20, 1, 1, 3, NULL);
 
-UPDATE demo.presmed p SET p.doseconv = p.dose;
+UPDATE demo.presmed SET doseconv = dose;
 UPDATE demo.presmed p
 	SET fkfrequencia = (SELECT f.fkfrequencia FROM demo.frequencia f 
 				WHERE f.frequenciadia = p.frequenciadia),
