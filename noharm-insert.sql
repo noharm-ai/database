@@ -594,8 +594,8 @@ INSERT INTO demo.outlier (fkmedicamento, contagem, idusuario, dose, frequenciadi
 						(24,250,1,20,1,0,0,1),
 						(25,250,1,88,1,3,NULL,1);
 
-INSERT INTO demo.prescricaoagg (fkhospital, fksetor, idsegmento, fkmedicamento, dose, frequenciadia, contagem) 
-			SELECT 1, 1, 1, fkmedicamento, dose, frequenciadia, contagem FROM demo.outlier;
+INSERT INTO demo.prescricaoagg (fkhospital, fksetor, idsegmento, fkmedicamento, dose, frequenciadia, contagem, peso) 
+			SELECT 1, 1, 1, fkmedicamento, dose, frequenciadia, contagem, 1 FROM demo.outlier;
 
 INSERT INTO demo.presmed (fkprescricao, fkmedicamento, dose, fkunidademedida, frequenciadia, via, complemento) VALUES
 						(1, 2, 100, 1, 1, NULL, NULL),
