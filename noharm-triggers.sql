@@ -20,14 +20,14 @@ AS $BODY$BEGIN
         SELECT p.idsegmento FROM demo.prescricao p
         WHERE p.fkprescricao = NEW.fkprescricao
     );
-    
-    NEW.doseconv = (
-		SELECT (NEW.dose * u.fator) as doseconv
+
+    NEW.doseconv = ( SELECT COALESCE (
+		(SELECT (NEW.dose * u.fator) as doseconv
 		FROM demo.unidadeconverte u
-		WHERE u.fkhospital = 1
-		AND u.fkmedicamento = NEW.fkmedicamento
-		AND u.fkunidademedida = NEW.fkunidademedida
-    );
+		WHERE u.fkhospital = NEW.fkhospital 
+		AND u.fkmedicamento = NEW.fkmedicamento 
+		AND u.fkunidademedida = NEW.fkunidademedida )
+    , p.dose ) );
 
     NEW.idoutlier := (
         SELECT MAX(o.idoutlier) FROM demo.outlier o 
@@ -137,14 +137,14 @@ AS $BODY$BEGIN
         WHERE s.fksetor = NEW.fksetor
         AND s.fkhospital = NEW.fkhospital
     );
-   
-    NEW.doseconv = (
-		SELECT (NEW.dose * u.fator) as doseconv
+
+    NEW.doseconv = ( SELECT COALESCE (
+		(SELECT (NEW.dose * u.fator) as doseconv
 		FROM demo.unidadeconverte u
-		WHERE u.fkhospital = NEW.fkhospital
-		AND u.fkmedicamento = NEW.fkmedicamento
-		AND u.fkunidademedida = NEW.fkunidademedida
-    );   
+		WHERE u.fkhospital = NEW.fkhospital 
+		AND u.fkmedicamento = NEW.fkmedicamento 
+		AND u.fkunidademedida = NEW.fkunidademedida )
+    , p.dose ) );
    
    IF pg_trigger_depth() = 1 then
 
