@@ -184,7 +184,7 @@ AS $BODY$BEGIN
     END IF;
 
    IF pg_trigger_depth() = 1 then
-      INSERT INTO hscpoa.frequencia (fkhospital, fkfrequencia, nome, frequenciadia, frequenciahora) 
+      INSERT INTO demo.frequencia (fkhospital, fkfrequencia, nome, frequenciadia, frequenciahora) 
             VALUES(1, NEW.fkfrequencia, NEW.nome, NEW.frequenciadia, NEW.frequenciahora)
          ON CONFLICT (fkfrequencia)
          DO UPDATE SET nome = NEW.nome,
