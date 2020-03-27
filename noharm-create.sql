@@ -190,6 +190,8 @@ CREATE INDEX prescricaoagg_idsegmento_idx ON demo.prescricaoagg (idsegmento,fkme
 
 CREATE UNIQUE INDEX ON demo."presmed" ("fkprescricao", "fkmedicamento", "doseconv", "fkfrequencia");
 
+CREATE INDEX presmed_fkmedicamento_idx ON demo.presmed (fkmedicamento,idsegmento,frequenciadia,doseconv);
+
 CREATE UNIQUE INDEX ON demo."medicamento" ("fkhospital", "fkmedicamento");
 
 CREATE UNIQUE INDEX ON demo."frequencia" ("fkhospital", "fkfrequencia");
