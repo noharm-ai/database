@@ -75,6 +75,7 @@ CREATE TABLE demo."prescricaoagg" (
   "fkfrequencia" varchar(16) DEFAULT NULL,
   "dose" float DEFAULT NULL,
   "doseconv" float DEFAULT NULL,
+  "peso" float DEFAULT NULL,
   "frequenciadia" float DEFAULT NULL,
   "contagem" integer DEFAULT NULL
 );
