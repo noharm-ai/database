@@ -27,7 +27,7 @@ AS $BODY$BEGIN
 		WHERE u.fkhospital = NEW.fkhospital 
 		AND u.fkmedicamento = NEW.fkmedicamento 
 		AND u.fkunidademedida = NEW.fkunidademedida )
-    , p.dose ) );
+    , NEW.dose ) );
 
     NEW.idoutlier := (
         SELECT MAX(o.idoutlier) FROM demo.outlier o 
@@ -144,7 +144,7 @@ AS $BODY$BEGIN
 		WHERE u.fkhospital = NEW.fkhospital 
 		AND u.fkmedicamento = NEW.fkmedicamento 
 		AND u.fkunidademedida = NEW.fkunidademedida )
-    , p.dose ) );
+    , NEW.dose ) );
    
    IF pg_trigger_depth() = 1 then
 
