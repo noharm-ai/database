@@ -34,7 +34,7 @@ AS $BODY$BEGIN
 		FROM demo.unidadeconverte u
 		WHERE u.fkhospital = 1
 		AND u.fkmedicamento = NEW.fkmedicamento
-		AND u.fkunidademedidade = NEW.fkunidademedida
+		AND u.fkunidademedida = NEW.fkunidademedida
     );
 
     RETURN NEW;
@@ -143,7 +143,7 @@ AS $BODY$BEGIN
 		FROM demo.unidadeconverte u
 		WHERE u.fkhospital = NEW.fkhospital
 		AND u.fkmedicamento = NEW.fkmedicamento
-		AND u.fkunidademedidade = NEW.fkunidademedida
+		AND u.fkunidademedida = NEW.fkunidademedida
     );   
    
    IF pg_trigger_depth() = 1 then
