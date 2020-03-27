@@ -186,6 +186,8 @@ CREATE UNIQUE INDEX ON demo."prescricao" ("fksetor", "fkprescricao");
 
 CREATE UNIQUE INDEX ON demo."prescricaoagg" (fksetor, fkmedicamento, fkunidademedida, dose, fkfrequencia, frequenciadia, idade, peso);
 
+CREATE INDEX prescricaoagg_idsegmento_idx ON demo.prescricaoagg (idsegmento,fkmedicamento,doseconv,frequenciadia);
+
 CREATE UNIQUE INDEX ON demo."presmed" ("fkprescricao", "fkmedicamento", "doseconv", "fkfrequencia");
 
 CREATE UNIQUE INDEX ON demo."medicamento" ("fkhospital", "fkmedicamento");
