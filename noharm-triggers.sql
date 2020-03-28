@@ -461,3 +461,43 @@ CREATE TRIGGER insert_update_hospital
     ON demo.unidademedida
     FOR EACH ROW
     EXECUTE PROCEDURE demo.insert_update_unidademedida();
+
+-----------------
+
+CREATE OR REPLACE  FUNCTION demo.atualiza_doseconv()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$BEGIN
+
+   UPDATE demo.presmed pm
+     SET doseconv = COALESCE (pm.dose * NEW.fator, pm.dose)
+     WHERE 1 = NEW.fkhospital
+     AND pm.fkmedicamento = NEW.fkmedicamento
+     AND pm.fkunidademedida = NEW.fkunidademedida;
+
+   UPDATE demo.prescricaoagg pa
+     SET doseconv = COALESCE (pa.dose * NEW.fator, pa.dose)
+     WHERE pa.fkhospital = NEW.fkhospital
+     AND pa.fkmedicamento = NEW.fkmedicamento
+     AND pa.fkunidademedida = NEW.fkunidademedida;
+
+    RETURN NULL;
+END;$BODY$;
+
+ALTER FUNCTION demo.atualiza_doseconv()
+    OWNER TO postgres;
+
+CREATE TRIGGER trg_atualiza_doseconv_on_insert
+    AFTER INSERT
+    ON demo.unidadeconverte
+    FOR EACH ROW
+    EXECUTE PROCEDURE demo.atualiza_doseconv();
+
+CREATE TRIGGER trg_atualiza_doseconv_on_update
+    AFTER UPDATE
+    ON demo.unidadeconverte
+    FOR EACH ROW
+    WHEN (OLD.fator IS DISTINCT FROM NEW.fator) 
+    EXECUTE PROCEDURE demo.atualiza_doseconv();
