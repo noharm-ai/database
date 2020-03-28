@@ -160,7 +160,7 @@ CREATE TABLE demo."hospital" (
 
 CREATE TABLE demo."setor" (
   "fkhospital" smallint DEFAULT 1,
-  "fksetor" smallint PRIMARY KEY NOT NULL,
+  "fksetor" integer PRIMARY KEY NOT NULL,
   "nome" varchar(255) NOT NULL
 );
 
