@@ -175,7 +175,7 @@ INSERT INTO demo.prescricao (fkprescricao, fkpessoa, nratendimento, fkhospital, 
 						(16, 12, '6347', 1, 1, 1, '2019-10-13 18:32:22', 0),
 						(17, 13, '6348', 1, 1, 1, '2019-10-13 18:32:22', 0);
 
-INSERT INTO demo.outlier (fkmedicamento, contagem, idusuario, doseconv, frequenciadia, escore, escoremanual, idsegmento) VALUES
+INSERT INTO demo.outlier (fkmedicamento, contagem, update_by, doseconv, frequenciadia, escore, escoremanual, idsegmento) VALUES
 						(2,2288,NULL,100,1,0,NULL,1),
 						(2,21,NULL,150,1,3,3,1),
 						(2,219,NULL,200,1,1,2,1),
