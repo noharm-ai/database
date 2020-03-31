@@ -35,7 +35,7 @@ CREATE TABLE demo."outlier" (
   "frequenciadia" float DEFAULT NULL,
   "escore" smallint DEFAULT NULL,
   "escoremanual" smallint DEFAULT NULL,
-  "update_at" timestamp NULL DEFAULT NOW(),
+  "update_at" timestamp NULL,
   "update_by" smallint NULL
 );
 
@@ -64,7 +64,7 @@ CREATE TABLE demo."prescricao" (
   "idsegmento" smallint DEFAULT NULL,
   "dtprescricao" timestamp NOT NULL,
   "status" char(1) DEFAULT '0',
-  "update_at" timestamp NULL DEFAULT NOW(),
+  "update_at" timestamp NULL,
   "update_by" smallint NULL
 );
 
