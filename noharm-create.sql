@@ -99,6 +99,8 @@ CREATE TABLE demo."presmed" (
   "quantidade" integer DEFAULT NULL,
   "escorefinal" smallint DEFAULT NULL,
   "status" char(1) DEFAULT '0',
+  "update_at" timestamp NULL,
+  "update_by" smallint NULL
 );
 
 CREATE TABLE demo."medicamento" (
