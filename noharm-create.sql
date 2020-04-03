@@ -97,7 +97,8 @@ CREATE TABLE demo."presmed" (
   "via" varchar(50) DEFAULT NULL,
   "complemento" text,
   "quantidade" integer DEFAULT NULL,
-  "escorefinal" smallint DEFAULT NULL
+  "escorefinal" smallint DEFAULT NULL,
+  "status" char(1) DEFAULT '0',
 );
 
 CREATE TABLE demo."medicamento" (
