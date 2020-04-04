@@ -1,5 +1,5 @@
 DROP SCHEMA IF EXISTS demo CASCADE;
-DROP TABLE IF EXISTS public.usuario;
+
 CREATE SCHEMA demo;
 CREATE USER demo;
 GRANT ALL ON SCHEMA demo TO postgres;
