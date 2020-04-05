@@ -59,7 +59,7 @@ INSERT INTO demo_2d.presmed
 	SELECT distinct on(fkmedicamento, idsegmento, doseconv, frequenciadia)
 	fkpresmed, fkprescricao, fkmedicamento, fkunidademedida, 
 	fkfrequencia, idsegmento, idoutlier, dose, doseconv, frequenciadia, 
-	via, complemento, quantidade, escorefinal, status, update_at, update_by
+	via, complemento, quantidade, escorefinal, status, aprox, update_at, update_by
 	FROM demo.presmed p
 	WHERE p.fkprescricao IN (
 		SELECT fkprescricao FROM demo_2d.prescricao
