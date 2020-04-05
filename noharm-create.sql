@@ -195,7 +195,7 @@ CREATE UNIQUE INDEX ON demo."prescricaoagg" ("fksetor", "fkmedicamento", "fkunid
 
 CREATE INDEX ON demo."prescricaoagg" ("idsegmento", "fkmedicamento", "doseconv", "frequenciadia");
 
-CREATE UNIQUE INDEX ON demo."presmed" ("fkmedicamento", "idsegmento", "doseconv", "frequenciadia");
+CREATE INDEX ON demo."presmed" ("fkmedicamento", "idsegmento", "doseconv", "frequenciadia");
 
 CREATE INDEX ON demo."presmed" ("fkprescricao");
 
