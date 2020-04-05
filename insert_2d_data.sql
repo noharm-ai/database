@@ -1,5 +1,3 @@
-GRANT ALL ON SCHEMA demo_2d TO demo;
-
 INSERT INTO demo_2d.hospital
 	SELECT fkhospital, nome 
 	FROM demo.hospital;
