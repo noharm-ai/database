@@ -1,4 +1,3 @@
-CREATE SCHEMA demo_2d;
 GRANT ALL ON SCHEMA demo_2d TO demo;
 
 INSERT INTO demo_2d.hospital

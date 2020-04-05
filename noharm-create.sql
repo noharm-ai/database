@@ -1,9 +1,7 @@
 DROP SCHEMA IF EXISTS demo CASCADE;
 
 CREATE SCHEMA demo;
-CREATE USER demo;
 GRANT ALL ON SCHEMA demo TO postgres;
-GRANT ALL ON SCHEMA demo TO demo;
 
 
 CREATE TABLE demo."exame" (
