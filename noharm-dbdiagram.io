@@ -125,7 +125,7 @@ Table "presmed"  [headercolor: #d35400] {
   "update_by" integer
   
   indexes {
-    (fkmedicamento, idsegmento, doseconv, frequenciadia) [unique]
+    (fkmedicamento, idsegmento, doseconv, frequenciadia)
     (fkprescricao)
   }
   
