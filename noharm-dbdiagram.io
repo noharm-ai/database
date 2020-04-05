@@ -30,18 +30,20 @@ Table "intervencao"  [headercolor: #16a085] {
 }
 
 Table "outlier"  [headercolor: #16a085] {
-  "fkmedicamento" integer [not null]
+  "fkmedicamento" bigint [not null]
   "idoutlier" integer [pk, not null, increment]
   "idsegmento" smallint [default: NULL]
   "contagem" integer [default: NULL]
-  "dose" float [default: NULL]
-  "frequenciadia" smallint [default: NULL]
+  "doseconv" float [default: NULL]
+  "frequenciadia" float [default: NULL]
   "escore" smallint [default: NULL]
   "escoremanual" smallint [default: NULL]
   "idusuario" smallint [default: NULL]
+  "update_at" timestamp
+  "update_by" integer
   
   indexes {
-    (fkmedicamento, idsegmento, dose, frequenciadia) [unique]
+    (fkmedicamento, idsegmento, doseconv, frequenciadia) [unique]
   }
   
 }
@@ -49,16 +51,12 @@ Table "outlier"  [headercolor: #16a085] {
 Table "pessoa"  [headercolor: #d35400] {
   "fkhospital" smallint [default: 1]
   "fkpessoa" bigint [pk, not null]
-  "nratendimento" bigint [not null, unique]
+  "nratendimento" bigint [pk, not null, unique]
   "dtnascimento" date [not null]
   "dtinternacao" timestamp [not null]
   "cor" varchar(100) [default: NULL]
   "sexo" char(1) [default: NULL]
   "peso" float [default: NULL]
-  
-  indexes {
-    (fkpessoa, nratendimento) [pk]
-  }
 }
 
 
@@ -71,7 +69,7 @@ Table "nome"  [headercolor: #8e44ad] {
 
 Table "prescricao"  [headercolor: #d35400] {
   "fkhospital" smallint [default: 1]
-  "fksetor" smallint [not null]
+  "fksetor" integer [not null]
   "fkprescricao" bigint [pk, not null]
   "fkpessoa" bigint [not null]
   "nratendimento" bigint [not null]
@@ -79,6 +77,7 @@ Table "prescricao"  [headercolor: #d35400] {
   "dtprescricao" timestamp [not null]
   "status" char(1) [default: "0"]
   "update_at" timestamp [default: "NOW()"]
+  "update_by" integer
   
   indexes {
     (fksetor, fkprescricao) [unique]
@@ -87,7 +86,7 @@ Table "prescricao"  [headercolor: #d35400] {
 
 Table "prescricaoagg"  [headercolor: #d35400] {
   "fkhospital" smallint [default: 1]
-  "fksetor" smallint [not null]
+  "fksetor" integer [not null]
   "idsegmento" smallint [default: null]
   "fkmedicamento" bigint [not null]
   "fkunidademedida" varchar(16) [default: NULL]
@@ -101,14 +100,15 @@ Table "prescricaoagg"  [headercolor: #d35400] {
   
   indexes {
     (fksetor, fkmedicamento, fkunidademedida, dose, fkfrequencia, frequenciadia, idade, peso) [unique]
+    (idsegmento, fkmedicamento, doseconv, frequenciadia)
   }
   
 }
 
 Table "presmed"  [headercolor: #d35400] {
-  "fkpresmed" bigint [pk, not null]
+  "fkpresmed" bigint [pk, not null, increment]
   "fkprescricao" bigint [not null]
-  "fkmedicamento" integer [not null]
+  "fkmedicamento" bigint [not null]
   "fkunidademedida" varchar(16) [default: NULL]
   "fkfrequencia" varchar(16) [default: NULL]
   "idsegmento" smallint [default: NULL]
@@ -120,8 +120,12 @@ Table "presmed"  [headercolor: #d35400] {
   "complemento" text
   "quantidade" integer [default: NULL]
   "escorefinal" smallint [default: NULL]
+  "status" char(1)
+  "update_at" timestamp
+  "update_by" integer
   
   indexes {
+    (fkmedicamento, idsegmento, doseconv, frequenciadia) [unique]
     (fkprescricao)
   }
   
@@ -134,9 +138,9 @@ Table "medicamento"  [headercolor: #d35400] {
   "fkmedicamento" bigint [pk, not null]
   "fkunidademedida" varchar(16) [default: NULL]
   "nome" varchar(250) [not null]
-  "antimicro" boolean [default: 0]
-  "mav" boolean [default: 0]
-  "controlados" boolean [default: 0]
+  "antimicro" boolean 
+  "mav" boolean 
+  "controlados" boolean
   
   indexes {
     (fkhospital, fkmedicamento) [unique]
@@ -178,11 +182,11 @@ Table "unidademedida"  [headercolor: #d35400] {
 Table "unidadeconverte"  [headercolor: #3498db] {
   "fkhospital" smallint [default: 1]
   "fkmedicamento" bigint [not null]
-  "fkunidademedidade" varchar(10) [not null]
+  "fkunidademedida" varchar(10) [not null]
   "fator" float [not null]
   
   indexes {
-    (fkhospital, fkmedicamento, fkunidademedidade, fkunidademedidapara) [unique]
+    (fkmedicamento, fkunidademedida) [unique]
   }
   
 }
@@ -200,7 +204,7 @@ Table "segmento"  [headercolor: #3498db] {
 Table "segmentosetor"  [headercolor: #3498db] {
   "idsegmento" smallint [not null]
   "fkhospital" smallint [not null]
-  "fksetor" smallint [not null]
+  "fksetor" integer [not null]
 
   indexes {
     (fkhospital, fksetor) [unique]
@@ -215,7 +219,7 @@ Table "hospital"  [headercolor: #3498db] {
 
 Table "setor"  [headercolor: #d35400] {
   "fkhospital" smallint [default: 1]
-  "fksetor" smallint [pk, not null]
+  "fksetor" integer [pk, not null]
   "nome" varchar(255) [not null]
   
   indexes {

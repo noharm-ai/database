@@ -37,6 +37,14 @@ AS $BODY$BEGIN
         AND o.idsegmento = NEW.idsegmento
     );
 
+    IF NEW.idoutlier IS NULL THEN
+        NEW.idoutlier := (SELECT demo.similaridade(
+		NEW.idsegmento,
+		NEW.fkmedicamento,
+		NEW.doseconv, 
+		NEW.frequenciadia));
+    END IF;
+
     RETURN NEW;
 END;$BODY$;
 
@@ -229,11 +237,11 @@ END;$BODY$;
 ALTER FUNCTION demo.popula_presmed_by_outlier()
     OWNER TO postgres;
 
-CREATE TRIGGER trg_popula_presmed_by_outlier
-    AFTER INSERT
-    ON demo.outlier
-    FOR EACH ROW
-    EXECUTE PROCEDURE demo.popula_presmed_by_outlier();
+--CREATE TRIGGER trg_popula_presmed_by_outlier
+--    AFTER INSERT
+--    ON demo.outlier
+--    FOR EACH ROW
+--    EXECUTE PROCEDURE demo.popula_presmed_by_outlier();
 
 --------
 
@@ -501,3 +509,32 @@ CREATE TRIGGER trg_atualiza_doseconv_on_update
     FOR EACH ROW
     WHEN (OLD.fator IS DISTINCT FROM NEW.fator) 
     EXECUTE PROCEDURE demo.atualiza_doseconv();
+
+-----------------
+
+CREATE OR REPLACE FUNCTION demo.similaridade (p_idsegmento int2, p_fkmedicamento int8, p_doseconv float4, p_frequenciadia float4)
+    RETURNS int4
+    LANGUAGE 'plpgsql'
+AS $BODY$
+DECLARE r_idoutlier int4 default null;
+BEGIN
+
+	SELECT (idoutlier) INTO r_idoutlier
+	from 
+	(	
+		SELECT o.idoutlier,
+			1 - ( (o.doseconv * p_doseconv + o.frequenciadia * p_frequenciadia) / (sqrt( power(o.doseconv,2) + power(o.frequenciadia,2) ) *
+			sqrt( power(p_doseconv,2) + power(p_frequenciadia,2)) ) ) as cosine,
+			sqrt(power(o.doseconv - p_doseconv,2) + power(o.frequenciadia - p_frequenciadia,2)) as euclidian
+		FROM demo.outlier o
+		WHERE o.idsegmento = p_idsegmento
+		and o.fkmedicamento = p_fkmedicamento
+	) as t
+	ORDER BY cosine asc, euclidian asc
+	LIMIT 1;
+	
+    RETURN r_idoutlier;
+END;$BODY$;
+
+ALTER FUNCTION demo.similaridade(int2, int8, float4, float4)
+    OWNER TO postgres;

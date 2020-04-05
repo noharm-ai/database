@@ -9,10 +9,11 @@ GRANT ALL ON SCHEMA demo TO demo;
 CREATE TABLE demo."exame" (
   "fkexame" bigint NOT NULL,
   "fkpessoa" bigint NOT NULL,
-  "nratendimento" bigint NOT NULL,
+  "nratendimento" bigint DEFAULT null,
+  "fkprescricao" bigint DEFAULT null,
   "dtexame" timestamp NOT NULL,
   "tpexame" varchar(100) NOT NULL,
-  "resultado" float NOT NULL,
+  "resultado" float DEFAULT null,
   "unidade" varchar(250) DEFAULT NULL
 );
 
@@ -27,7 +28,7 @@ CREATE TABLE demo."intervencao" (
 );
 
 CREATE TABLE demo."outlier" (
-  "fkmedicamento" integer NOT NULL,
+  "fkmedicamento" bigint NOT NULL,
   "idoutlier" SERIAL PRIMARY KEY NOT NULL,
   "idsegmento" smallint DEFAULT NULL,
   "contagem" integer DEFAULT NULL,
@@ -35,19 +36,21 @@ CREATE TABLE demo."outlier" (
   "frequenciadia" float DEFAULT NULL,
   "escore" smallint DEFAULT NULL,
   "escoremanual" smallint DEFAULT NULL,
-  "update_at" timestamp NULL,
-  "update_by" smallint NULL
+  "idusuario" smallint DEFAULT NULL,
+  "update_at" timestamp,
+  "update_by" integer
 );
 
 CREATE TABLE demo."pessoa" (
   "fkhospital" smallint DEFAULT 1,
-  "fkpessoa" bigint PRIMARY KEY NOT NULL,
+  "fkpessoa" bigint NOT NULL,
   "nratendimento" bigint UNIQUE NOT NULL,
   "dtnascimento" date NOT NULL,
   "dtinternacao" timestamp NOT NULL,
   "cor" varchar(100) DEFAULT NULL,
   "sexo" char(1) DEFAULT NULL,
-  "peso" float DEFAULT NULL
+  "peso" float DEFAULT NULL,
+  PRIMARY KEY ("fkpessoa", "nratendimento")
 );
 
 CREATE TABLE demo."nome" (
@@ -64,43 +67,43 @@ CREATE TABLE demo."prescricao" (
   "idsegmento" smallint DEFAULT NULL,
   "dtprescricao" timestamp NOT NULL,
   "status" char(1) DEFAULT '0',
-  "update_at" timestamp NULL,
-  "update_by" smallint NULL
+  "update_at" timestamp DEFAULT 'NOW()',
+  "update_by" integer
 );
 
 CREATE TABLE demo."prescricaoagg" (
   "fkhospital" smallint DEFAULT 1,
   "fksetor" integer NOT NULL,
-  "idsegmento" smallint NOT NULL,
+  "idsegmento" smallint DEFAULT null,
   "fkmedicamento" bigint NOT NULL,
   "fkunidademedida" varchar(16) DEFAULT NULL,
   "fkfrequencia" varchar(16) DEFAULT NULL,
-  "dose" float DEFAULT NULL,
-  "doseconv" float DEFAULT NULL,
-  "peso" float DEFAULT NULL,
+  "dose" float4 DEFAULT NULL,
+  "doseconv" float4 DEFAULT NULL,
+  "frequenciadia" float4 DEFAULT NULL,
   "idade" smallint DEFAULT NULL,
-  "frequenciadia" float DEFAULT NULL,
+  "peso" float4 DEFAULT NULL,
   "contagem" integer DEFAULT NULL
 );
 
 CREATE TABLE demo."presmed" (
-  "fkpresmed" SERIAL PRIMARY KEY NOT NULL,
+  "fkpresmed" bigserial PRIMARY KEY NOT NULL,
   "fkprescricao" bigint NOT NULL,
-  "fkmedicamento" integer NOT NULL,
+  "fkmedicamento" bigint NOT NULL,
   "fkunidademedida" varchar(16) DEFAULT NULL,
   "fkfrequencia" varchar(16) DEFAULT NULL,
   "idsegmento" smallint DEFAULT NULL,
   "idoutlier" integer DEFAULT NULL,
-  "dose" float DEFAULT NULL,
-  "doseconv" float DEFAULT NULL,
-  "frequenciadia" float DEFAULT NULL,
+  "dose" float4 DEFAULT NULL,
+  "doseconv" float4 DEFAULT NULL,
+  "frequenciadia" float4 DEFAULT NULL,
   "via" varchar(50) DEFAULT NULL,
   "complemento" text,
   "quantidade" integer DEFAULT NULL,
   "escorefinal" smallint DEFAULT NULL,
-  "status" char(1) DEFAULT '0',
-  "update_at" timestamp NULL,
-  "update_by" smallint NULL
+  "status" char(1),
+  "update_at" timestamp,
+  "update_by" integer
 );
 
 CREATE TABLE demo."medicamento" (
@@ -108,10 +111,9 @@ CREATE TABLE demo."medicamento" (
   "fkmedicamento" bigint PRIMARY KEY NOT NULL,
   "fkunidademedida" varchar(16) DEFAULT NULL,
   "nome" varchar(250) NOT NULL,
-  "antimicro" boolean NULL,
-  "mav" boolean NULL,
-  "controlados" boolean NULL
-
+  "antimicro" boolean,
+  "mav" boolean,
+  "controlados" boolean
 );
 
 CREATE TABLE demo."motivointervencao" (
@@ -125,8 +127,8 @@ CREATE TABLE demo."frequencia" (
   "fkhospital" smallint DEFAULT 1,
   "fkfrequencia" varchar(16) PRIMARY KEY NOT NULL,
   "nome" varchar(250) NOT NULL,
-  "frequenciadia" float DEFAULT NULL,
-  "frequenciahora" float DEFAULT NULL
+  "frequenciadia" float4 DEFAULT NULL,
+  "frequenciahora" float4 DEFAULT NULL
 );
 
 CREATE TABLE demo."unidademedida" (
@@ -137,8 +139,8 @@ CREATE TABLE demo."unidademedida" (
 
 CREATE TABLE demo."unidadeconverte" (
   "fkhospital" smallint DEFAULT 1,
-  "fkunidademedida" varchar(16) NOT NULL,
   "fkmedicamento" bigint NOT NULL,
+  "fkunidademedida" varchar(10) NOT NULL,
   "fator" float NOT NULL
 );
 
@@ -174,7 +176,7 @@ CREATE TABLE public."usuario" (
   "nome" varchar(255) UNIQUE NOT NULL,
   "email" varchar(255) UNIQUE NOT NULL,
   "senha" varchar(255) NOT NULL,
-  "schema" varchar(16) NOT NULL,
+  "schema" varchar(10) NOT NULL,
   "getnameurl" varchar(255) DEFAULT NULL,
   "logourl" varchar(255) DEFAULT NULL
 );
@@ -189,13 +191,13 @@ CREATE UNIQUE INDEX ON demo."outlier" ("fkmedicamento", "idsegmento", "doseconv"
 
 CREATE UNIQUE INDEX ON demo."prescricao" ("fksetor", "fkprescricao");
 
-CREATE UNIQUE INDEX ON demo."prescricaoagg" (fksetor, fkmedicamento, fkunidademedida, dose, fkfrequencia, frequenciadia, idade, peso);
+CREATE UNIQUE INDEX ON demo."prescricaoagg" ("fksetor", "fkmedicamento", "fkunidademedida", "dose", "fkfrequencia", "frequenciadia", "idade", "peso");
 
-CREATE INDEX prescricaoagg_idsegmento_idx ON demo.prescricaoagg (idsegmento,fkmedicamento,doseconv,frequenciadia);
+CREATE INDEX ON demo."prescricaoagg" ("idsegmento", "fkmedicamento", "doseconv", "frequenciadia");
 
-CREATE UNIQUE INDEX ON demo."presmed" ("fkprescricao", "fkmedicamento", "doseconv", "fkfrequencia");
+CREATE UNIQUE INDEX ON demo."presmed" ("fkmedicamento", "idsegmento", "doseconv", "frequenciadia");
 
-CREATE INDEX presmed_fkmedicamento_idx ON demo.presmed (fkmedicamento,idsegmento,frequenciadia,doseconv);
+CREATE INDEX ON demo."presmed" ("fkprescricao");
 
 CREATE UNIQUE INDEX ON demo."medicamento" ("fkhospital", "fkmedicamento");
 
@@ -205,6 +207,6 @@ CREATE UNIQUE INDEX ON demo."unidademedida" ("fkhospital", "fkunidademedida");
 
 CREATE UNIQUE INDEX ON demo."unidadeconverte" ("fkmedicamento", "fkunidademedida");
 
-CREATE UNIQUE INDEX ON demo."setor" ("fkhospital", "fksetor");
+CREATE UNIQUE INDEX ON demo."segmentosetor" ("fkhospital", "fksetor");
 
-CREATE INDEX presmed_fkprescricao_idx ON demo.presmed (fkprescricao);
+CREATE UNIQUE INDEX ON demo."setor" ("fkhospital", "fksetor");
