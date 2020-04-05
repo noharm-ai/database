@@ -39,10 +39,13 @@ AS $BODY$BEGIN
 
     IF NEW.idoutlier IS NULL THEN
         NEW.idoutlier := (SELECT demo.similaridade(
-		NEW.idsegmento,
-		NEW.fkmedicamento,
-		NEW.doseconv, 
-		NEW.frequenciadia));
+    		NEW.idsegmento,
+    		NEW.fkmedicamento,
+    		NEW.doseconv, 
+    		NEW.frequenciadia));
+        IF NEW.idoutlier IS not NULL then
+          NEW.aprox = true;
+        END IF;
     END IF;
 
     RETURN NEW;

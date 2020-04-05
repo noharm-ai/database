@@ -100,6 +100,7 @@ CREATE TABLE demo."presmed" (
   "quantidade" integer DEFAULT NULL,
   "escorefinal" smallint DEFAULT NULL,
   "status" char(1),
+  "aprox" boolean,
   "update_at" timestamp,
   "update_by" integer
 );

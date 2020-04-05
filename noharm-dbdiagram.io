@@ -121,6 +121,7 @@ Table "presmed"  [headercolor: #d35400] {
   "quantidade" integer [default: NULL]
   "escorefinal" smallint [default: NULL]
   "status" char(1)
+  "aprox" boolean 
   "update_at" timestamp
   "update_by" integer
   
