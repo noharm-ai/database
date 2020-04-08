@@ -9,6 +9,8 @@ CREATE FUNCTION demo.complete_presmed()
     VOLATILE NOT LEAKPROOF
 AS $BODY$BEGIN
 
+  IF pg_trigger_depth() = 1 then
+
     IF NEW.frequenciadia IS NULL AND NEW.fkfrequencia IS NOT NULL THEN
     	    NEW.frequenciadia := (
     	        SELECT f.frequenciadia FROM demo.frequencia f
@@ -48,7 +50,15 @@ AS $BODY$BEGIN
         END IF;
     END IF;
 
+    INSERT INTO hscpoa.presmed (fkprescricao, fkpresmed, fkfrequencia, fkmedicamento, fkunidademedida, dose, frequenciadia, via, quantidade)
+      VALUES (NEW.fkprescricao, NEW.fkpresmed, NEW.fkfrequencia, NEW.fkmedicamento, NEW.fkunidademedida, NEW.dose, NEW.frequenciadia, NEW.via, NEW.quantidade)
+       ON CONFLICT (fkpresmed) do nothing;
+      
+    RETURN NULL;
+ ELSE
     RETURN NEW;
+ END IF; 
+
 END;$BODY$;
 
 ALTER FUNCTION demo.complete_presmed()
