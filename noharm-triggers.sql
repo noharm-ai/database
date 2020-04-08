@@ -50,7 +50,7 @@ AS $BODY$BEGIN
         END IF;
     END IF;
 
-    INSERT INTO hscpoa.presmed (fkprescricao, fkpresmed, fkfrequencia, fkmedicamento, fkunidademedida, dose, frequenciadia, via, quantidade)
+    INSERT INTO demo.presmed (fkprescricao, fkpresmed, fkfrequencia, fkmedicamento, fkunidademedida, dose, frequenciadia, via, quantidade)
       VALUES (NEW.fkprescricao, NEW.fkpresmed, NEW.fkfrequencia, NEW.fkmedicamento, NEW.fkunidademedida, NEW.dose, NEW.frequenciadia, NEW.via, NEW.quantidade)
        ON CONFLICT (fkpresmed) do nothing;
       
