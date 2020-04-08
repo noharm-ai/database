@@ -50,8 +50,8 @@ AS $BODY$BEGIN
         END IF;
     END IF;
 
-    INSERT INTO demo.presmed (fkprescricao, fkpresmed, fkfrequencia, fkmedicamento, fkunidademedida, dose, frequenciadia, via, quantidade)
-      VALUES (NEW.fkprescricao, NEW.fkpresmed, NEW.fkfrequencia, NEW.fkmedicamento, NEW.fkunidademedida, NEW.dose, NEW.frequenciadia, NEW.via, NEW.quantidade)
+   INSERT INTO demo.presmed (fkprescricao, fkpresmed, fkfrequencia, fkmedicamento, fkunidademedida, dose, frequenciadia, via, quantidade, idsegmento, doseconv, idoutlier)
+      VALUES (NEW.fkprescricao, NEW.fkpresmed, NEW.fkfrequencia, NEW.fkmedicamento, NEW.fkunidademedida, NEW.dose, NEW.frequenciadia, NEW.via, NEW.quantidade, NEW.idsegmento, NEW.doseconv, NEW.idoutlier)
        ON CONFLICT (fkpresmed) do nothing;
       
     RETURN NULL;
