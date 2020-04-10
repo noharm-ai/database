@@ -492,11 +492,11 @@ CREATE OR REPLACE  FUNCTION demo.atualiza_doseconv()
     VOLATILE NOT LEAKPROOF
 AS $BODY$BEGIN
 
-   UPDATE demo.presmed pm
-     SET doseconv = COALESCE (pm.dose * NEW.fator, pm.dose)
-     WHERE 1 = NEW.fkhospital
-     AND pm.fkmedicamento = NEW.fkmedicamento
-     AND pm.fkunidademedida = NEW.fkunidademedida;
+   --UPDATE demo.presmed pm
+     --SET doseconv = COALESCE (pm.dose * NEW.fator, pm.dose)
+     --WHERE 1 = NEW.fkhospital
+     --AND pm.fkmedicamento = NEW.fkmedicamento
+     --AND pm.fkunidademedida = NEW.fkunidademedida;
 
    UPDATE demo.prescricaoagg pa
      SET doseconv = COALESCE (pa.dose * NEW.fator, pa.dose)
