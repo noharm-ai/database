@@ -33,7 +33,7 @@ INSERT INTO demo_test.medicamento
 INSERT INTO demo_test.prescricao
 	SELECT fkhospital, fksetor, fkprescricao, fkpessoa, nratendimento, idsegmento, dtprescricao + INTERVAL '1 month', status , update_at, update_by
 	FROM demo.prescricao
-	WHERE dtprescricao > current_date - 2;
+	WHERE dtprescricao > current_date - 2 where idsegmento = 1;
 
 INSERT INTO demo_test.pessoa
 	SELECT fkhospital, fkpessoa, nratendimento, dtnascimento, dtinternacao + INTERVAL '1 month', cor, sexo, peso
@@ -56,8 +56,7 @@ INSERT INTO demo_test.exame
 	);
 
 INSERT INTO demo_test.presmed
-	SELECT distinct on(fkmedicamento, idsegmento, doseconv, frequenciadia)
-	fkpresmed, fkprescricao, fkmedicamento, fkunidademedida, 
+	SELECT fkpresmed, fkprescricao, fkmedicamento, fkunidademedida, 
 	fkfrequencia, idsegmento, idoutlier, dose, doseconv, frequenciadia, 
 	via, complemento, quantidade, escorefinal, status, aprox, update_at, update_by
 	FROM demo.presmed p
@@ -68,9 +67,9 @@ INSERT INTO demo_test.presmed
 INSERT INTO demo_test.outlier
 	SELECT fkmedicamento, idoutlier, idsegmento, contagem, doseconv, 
 	frequenciadia, escore, escoremanual, idusuario, update_at, update_by
-	FROM demo.outlier;
+	FROM demo.outlier where idsegmento = 1;
 
 INSERT INTO demo_test.prescricaoagg
 	SELECT fkhospital, fksetor, idsegmento, fkmedicamento, fkunidademedida, 
 	fkfrequencia, dose, doseconv, frequenciadia, idade, peso, contagem
-	FROM demo.prescricaoagg;
+	FROM demo.prescricaoagg where idsegmento = 1;
