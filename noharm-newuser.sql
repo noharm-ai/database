@@ -1,0 +1,18 @@
+CREATE USER readall WITH PASSWORD 'readall';
+GRANT CONNECT ON DATABASE postgres TO readdemo;
+
+GRANT USAGE ON SCHEMA demo TO readdemo;
+GRANT SELECT ON ALL TABLES IN SCHEMA demo TO readdemo;
+
+GRANT USAGE ON SCHEMA public TO readdemo;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO readdemo;
+
+
+CREATE USER onlydemo WITH PASSWORD 'onlydemo';
+GRANT CONNECT ON DATABASE postgres TO onlydemo;
+
+GRANT USAGE ON SCHEMA demo TO onlydemo;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA demo TO onlydemo;
+
+GRANT USAGE ON SCHEMA public TO onlydemo;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO onlydemo;

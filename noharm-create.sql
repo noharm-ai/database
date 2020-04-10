@@ -180,6 +180,13 @@ CREATE TABLE public."usuario" (
   "logourl" varchar(255) DEFAULT NULL
 );
 
+CREATE TABLE demo.prescricaofoto (
+  "fkprescricao" bigint NOT NULL,
+  "foto" json NOT NULL
+);
+
+CREATE UNIQUE INDEX prescricaofoto_fkprescricao_idx ON demo.prescricaofoto (fkprescricao);
+
 ALTER TABLE demo."intervencao" ADD FOREIGN KEY ("fkpresmed") REFERENCES demo."presmed" ("fkpresmed");
 
 ALTER TABLE demo."intervencao" ADD FOREIGN KEY ("idmotivointervencao") REFERENCES demo."motivointervencao" ("idmotivointervencao");
