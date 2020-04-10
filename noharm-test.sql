@@ -31,12 +31,12 @@ INSERT INTO demo_test.medicamento
 	FROM demo.medicamento;
 
 INSERT INTO demo_test.prescricao
-	SELECT fkhospital, fksetor, fkprescricao, fkpessoa, nratendimento, idsegmento, dtprescricao, status , update_at, update_by
+	SELECT fkhospital, fksetor, fkprescricao, fkpessoa, nratendimento, idsegmento, dtprescricao + INTERVAL '1 month', status , update_at, update_by
 	FROM demo.prescricao
 	WHERE dtprescricao > current_date - 2;
 
 INSERT INTO demo_test.pessoa
-	SELECT fkhospital, fkpessoa, nratendimento, dtnascimento, dtinternacao, cor, sexo, peso
+	SELECT fkhospital, fkpessoa, nratendimento, dtnascimento, dtinternacao + INTERVAL '1 month', cor, sexo, peso
 	FROM demo.pessoa p
 	WHERE EXISTS (
 		SELECT * 
@@ -46,7 +46,7 @@ INSERT INTO demo_test.pessoa
 	);
 
 INSERT INTO demo_test.exame
-	SELECT fkexame, fkpessoa, nratendimento, fkprescricao, dtexame, tpexame, resultado, unidade
+	SELECT fkexame, fkpessoa, nratendimento, fkprescricao, dtexame + INTERVAL '1 month', tpexame, resultado, unidade
 	FROM demo.exame e
 	WHERE EXISTS (
 		SELECT *
