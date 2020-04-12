@@ -243,18 +243,22 @@ AS $BODY$BEGIN
             AND pm.doseconv = NEW.doseconv
             AND pm.frequenciadia = NEW.frequenciadia
             AND pm.idsegmento = NEW.idsegmento
-            AND pm.escorefinal IS NULL;
+            AND pm.fkprescricao IN (
+              SELECT fkprescricao
+              FROM demo.prescricao
+              WHERE dtprescricao > current_date - 2 AND idsegmento = NEW.idsegmento
+            );
     RETURN NULL;
 END;$BODY$;
 
 ALTER FUNCTION demo.popula_presmed_by_outlier()
     OWNER TO postgres;
 
---CREATE TRIGGER trg_popula_presmed_by_outlier
---    AFTER INSERT
---    ON demo.outlier
---    FOR EACH ROW
---    EXECUTE PROCEDURE demo.popula_presmed_by_outlier();
+CREATE TRIGGER trg_popula_presmed_by_outlier
+    AFTER INSERT
+    ON demo.outlier
+    FOR EACH ROW
+    EXECUTE PROCEDURE demo.popula_presmed_by_outlier();
 
 --------
 
@@ -492,11 +496,16 @@ CREATE OR REPLACE  FUNCTION demo.atualiza_doseconv()
     VOLATILE NOT LEAKPROOF
 AS $BODY$BEGIN
 
-   --UPDATE demo.presmed pm
-     --SET doseconv = COALESCE (pm.dose * NEW.fator, pm.dose)
-     --WHERE 1 = NEW.fkhospital
-     --AND pm.fkmedicamento = NEW.fkmedicamento
-     --AND pm.fkunidademedida = NEW.fkunidademedida;
+   UPDATE demo.presmed pm
+     SET doseconv = COALESCE (pm.dose * NEW.fator, pm.dose)
+     WHERE 1 = NEW.fkhospital
+     AND pm.fkmedicamento = NEW.fkmedicamento
+     AND pm.fkunidademedida = NEW.fkunidademedida
+     AND pm.fkprescricao IN (
+          SELECT fkprescricao
+          FROM demo.prescricao
+          WHERE dtprescricao > current_date - 2
+          );
 
    UPDATE demo.prescricaoagg pa
      SET doseconv = COALESCE (pa.dose * NEW.fator, pa.dose)
