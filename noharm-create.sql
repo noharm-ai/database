@@ -39,6 +39,17 @@ CREATE TABLE demo."outlier" (
   "update_by" integer
 );
 
+CREATE TABLE demo."outlierobs" (
+  "idoutlier" SERIAL PRIMARY KEY NOT NULL,
+  "idsegmento" smallint DEFAULT NULL,
+  "fkmedicamento" bigint NOT NULL,
+  "doseconv" float DEFAULT NULL,
+  "frequenciadia" float DEFAULT NULL,
+  "text" text DEFAULT NULL,
+  "update_at" timestamp,
+  "update_by" integer
+);
+
 CREATE TABLE demo."pessoa" (
   "fkhospital" smallint DEFAULT 1,
   "fkpessoa" bigint NOT NULL,
@@ -101,6 +112,7 @@ CREATE TABLE demo."presmed" (
   "escorefinal" smallint DEFAULT NULL,
   "status" char(1),
   "aprox" boolean,
+  "suspenso" boolean,
   "update_at" timestamp,
   "update_by" integer
 );
@@ -112,7 +124,8 @@ CREATE TABLE demo."medicamento" (
   "nome" varchar(250) NOT NULL,
   "antimicro" boolean,
   "mav" boolean,
-  "controlados" boolean
+  "controlados" boolean,
+  "naopadronizado" boolean
 );
 
 CREATE TABLE demo."motivointervencao" (
