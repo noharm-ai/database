@@ -229,3 +229,8 @@ CREATE UNIQUE INDEX ON demo."unidadeconverte" ("fkmedicamento", "fkunidademedida
 CREATE UNIQUE INDEX ON demo."segmentosetor" ("fkhospital", "fksetor");
 
 CREATE UNIQUE INDEX ON demo."setor" ("fkhospital", "fksetor");
+
+CREATE INDEX presmed_update_by_idx ON demo.presmed (update_by);
+
+CREATE INDEX prescricao_update_by_idx ON demo.prescricao (update_by);
+
