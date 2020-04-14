@@ -1,33 +1,33 @@
 INSERT INTO demo_test.hospital
-	SELECT fkhospital, nome 
+	SELECT *
 	FROM demo.hospital;
 	
 INSERT INTO demo_test.setor
-	SELECT fkhospital, fksetor, nome 
+	SELECT *
 	FROM demo.setor;
 
 INSERT INTO demo_test.segmento
-	SELECT idsegmento, nome, idade_min, idade_max, peso_min, peso_max, status
+	SELECT *
 	FROM demo.segmento;
 
 INSERT INTO demo_test.segmentosetor
-	SELECT idsegmento, fkhospital, fksetor
+	SELECT *
 	FROM demo.segmentosetor;
 	
 INSERT INTO demo_test.frequencia
-	SELECT fkhospital, fkfrequencia, nome, frequenciadia, frequenciahora
+	SELECT *
 	FROM demo.frequencia;
 
 INSERT INTO demo_test.unidademedida
-	SELECT fkhospital, fkunidademedida, nome
+	SELECT *
 	FROM demo.unidademedida;
 
 INSERT INTO demo_test.unidadeconverte
-	SELECT fkhospital, fkmedicamento, fkunidademedida, fator
+	SELECT *
 	FROM demo.unidadeconverte;
 
 INSERT INTO demo_test.medicamento
-	SELECT fkhospital, fkmedicamento, fkunidademedida, nome, antimicro, mav, controlados
+	SELECT *
 	FROM demo.medicamento;
 
 INSERT INTO demo_test.prescricao
@@ -56,20 +56,16 @@ INSERT INTO demo_test.exame
 	);
 
 INSERT INTO demo_test.presmed
-	SELECT fkpresmed, fkprescricao, fkmedicamento, fkunidademedida, 
-	fkfrequencia, idsegmento, idoutlier, dose, doseconv, frequenciadia, 
-	via, complemento, quantidade, escorefinal, status, aprox, update_at, update_by
+	SELECT *
 	FROM demo.presmed p
 	WHERE p.fkprescricao IN (
 		SELECT fkprescricao FROM demo_test.prescricao
 	);
 
 INSERT INTO demo_test.outlier
-	SELECT fkmedicamento, idoutlier, idsegmento, contagem, doseconv, 
-	frequenciadia, escore, escoremanual, idusuario, update_at, update_by
+	SELECT *
 	FROM demo.outlier where idsegmento = 1;
 
 INSERT INTO demo_test.prescricaoagg
-	SELECT fkhospital, fksetor, idsegmento, fkmedicamento, fkunidademedida, 
-	fkfrequencia, dose, doseconv, frequenciadia, idade, peso, contagem
+	SELECT *
 	FROM demo.prescricaoagg where idsegmento = 1;
