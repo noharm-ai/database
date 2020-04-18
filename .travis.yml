@@ -21,5 +21,6 @@ after_script:
   - python mobile.py &
   - sleep 5
   - curl localhost:5000/patient-name/1234
-  - TOKEN=$(curl -X POST -d '{"email":"demo", "password":"demo"}' -H "Content-Type: application/json" localhost:5000/authenticate | jq -r '.access_token')
+  - RESULT=`curl -X POST -d '{"email":"demo@noharm.ai", "password":"demo"}' -H "Content-Type: application/json" localhost:5000/authenticate`
+  - TOKEN=`jq -r '.access_token' <<< $RESULT`
   - curl -H "Authorization: Bearer ${TOKEN}" localhost:5000/prescriptions/20
