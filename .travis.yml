@@ -20,4 +20,6 @@ after_script:
   - pip install -q -r requirements.txt
   - python mobile.py &
   - sleep 5
-  - curl http://localhost:5000/patient-name/1234
+  - curl localhost:5000/patient-name/1234
+  - TOKEN=$(curl -X POST -d '{"email":"demo", "password":"demo"}' -H "Content-Type: application/json" localhost:5000/authenticate | jq -r '.access_token')
+  - curl -H "Authorization: Bearer ${TOKEN}" localhost:5000/prescriptions/20
