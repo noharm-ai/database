@@ -1,4 +1,6 @@
 language: python
+python:
+  - "3.6"
 
 services:
   - postgresql
@@ -11,3 +13,11 @@ script:
   - pg_dump -U postgres --schema='demo' noharm -s | sed 's/demo/demo_test/g' | psql -U postgres -d noharm -v ON_ERROR_STOP=1
   - psql -U postgres -d noharm -a -f noharm-test.sql -v ON_ERROR_STOP=1
   - psql -U postgres -d noharm -a -f noharm-newuser.sql -v ON_ERROR_STOP=1
+  
+after_script:
+  - git clone https://github.com/noharm-ai/backend/
+  - cd backend
+  - pip install -q -r requirements.txt
+  - python mobile.py &
+  - sleep 5
+  - curl http://localhost:5000/patient-name/1234
