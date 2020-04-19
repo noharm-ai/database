@@ -50,9 +50,15 @@ AS $BODY$BEGIN
         END IF;
     END IF;
 
-   INSERT INTO demo.presmed (fkprescricao, fkpresmed, fkfrequencia, fkmedicamento, fkunidademedida, dose, frequenciadia, via, quantidade, idsegmento, doseconv, idoutlier)
-      VALUES (NEW.fkprescricao, NEW.fkpresmed, NEW.fkfrequencia, NEW.fkmedicamento, NEW.fkunidademedida, NEW.dose, NEW.frequenciadia, NEW.via, NEW.quantidade, NEW.idsegmento, NEW.doseconv, NEW.idoutlier)
-       ON CONFLICT (fkpresmed) do nothing;
+   INSERT INTO demo.presmed (fkprescricao, fkpresmed, fkfrequencia, fkmedicamento, 
+	   fkunidademedida, dose, frequenciadia, via, quantidade, idsegmento, doseconv, idoutlier,
+	   origem, dtsuspensao, horario, complemento, padronizado )
+  
+   VALUES (NEW.fkprescricao, NEW.fkpresmed, NEW.fkfrequencia, NEW.fkmedicamento, 
+	   NEW.fkunidademedida, NEW.dose, NEW.frequenciadia, NEW.via, NEW.quantidade, NEW.idsegmento, NEW.doseconv, NEW.idoutlier,
+	   NEW.origem, NEW.dtsuspensao, NEW.horario, NEW.complemento, NEW.padronizado )
+       ON CONFLICT (fkpresmed) 
+         DO UPDATE SET dtsuspensao = NEW.dtsuspensao;
       
     RETURN NULL;
  ELSE
@@ -84,17 +90,28 @@ AS $BODY$BEGIN
 		    WHERE s.fksetor = NEW.fksetor
 		    AND s.fkhospital = NEW.fkhospital
 		);
-      INSERT INTO demo.prescricao (fkprescricao, fkpessoa, nratendimento, fksetor, dtprescricao, idsegmento) 
-			VALUES (NEW.fkprescricao, NEW.fkpessoa, NEW.nratendimento, NEW.fksetor, NEW.dtprescricao, NEW.idsegmento)
-         ON CONFLICT (fkprescricao)
-         DO UPDATE SET fkpessoa = NEW.fkpessoa,
-					fksetor = NEW.fksetor,
-					dtprescricao = NEW.dtprescricao,
-					idsegmento = NEW.idsegmento;
+	
+	  IF NEW.peso IS NULL THEN
+	      INSERT INTO demo.prescricao (fkprescricao, fkpessoa, nratendimento, fksetor, dtprescricao, idsegmento) 
+				VALUES (NEW.fkprescricao, NEW.fkpessoa, NEW.nratendimento, NEW.fksetor, NEW.dtprescricao, NEW.idsegmento)
+	         ON CONFLICT (fkprescricao)
+	         DO UPDATE SET fkpessoa = NEW.fkpessoa,
+						fksetor = NEW.fksetor,
+						dtprescricao = NEW.dtprescricao,
+						idsegmento = NEW.idsegmento;
+	  ELSE
+	      INSERT INTO demo.prescricao (fkprescricao, fkpessoa, nratendimento, fksetor, dtprescricao, idsegmento, peso) 
+				VALUES (NEW.fkprescricao, NEW.fkpessoa, NEW.nratendimento, NEW.fksetor, NEW.dtprescricao, NEW.idsegmento, NEW.peso)
+	         ON CONFLICT (fkprescricao)
+	         DO UPDATE SET fkpessoa = NEW.fkpessoa,
+						fksetor = NEW.fksetor,
+						dtprescricao = NEW.dtprescricao,
+						idsegmento = NEW.idsegmento;
+		END IF; 
       RETURN NULL;
    ELSE
       RETURN NEW;
-   END IF;   
+   END IF;  
 END;$BODY$;
 
 ALTER FUNCTION demo.complete_prescricao()
