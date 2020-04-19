@@ -31,7 +31,7 @@ INSERT INTO demo_test.medicamento
 	FROM demo.medicamento;
 
 INSERT INTO demo_test.prescricao
-	SELECT fkhospital, fksetor, fkprescricao, fkpessoa, nratendimento, idsegmento, dtprescricao + INTERVAL '1 month', status , update_at, update_by
+	SELECT fkhospital, fksetor, fkprescricao, fkpessoa, nratendimento, idsegmento, dtprescricao + INTERVAL '1 month', status , peso, update_at, update_by
 	FROM demo.prescricao
 	WHERE dtprescricao > current_date - 2 and idsegmento = 1;
 
