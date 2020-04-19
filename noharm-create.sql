@@ -59,6 +59,7 @@ CREATE TABLE demo."pessoa" (
   "cor" varchar(100) DEFAULT NULL,
   "sexo" char(1) DEFAULT NULL,
   "peso" float DEFAULT NULL,
+  "dtpeso" timestamp DEFAULT NULL,
   PRIMARY KEY ("fkpessoa", "nratendimento")
 );
 
@@ -76,6 +77,7 @@ CREATE TABLE demo."prescricao" (
   "idsegmento" smallint DEFAULT NULL,
   "dtprescricao" timestamp NOT NULL,
   "status" char(1) DEFAULT '0',
+  "peso" float DEFAULT NULL,
   "update_at" timestamp DEFAULT 'NOW()',
   "update_by" integer
 );
@@ -107,8 +109,12 @@ CREATE TABLE demo."presmed" (
   "doseconv" float4 DEFAULT NULL,
   "frequenciadia" float4 DEFAULT NULL,
   "via" varchar(50) DEFAULT NULL,
+  "horario" varchar(600) DEFAULT NULL,
   "complemento" text,
   "quantidade" integer DEFAULT NULL,
+  "origem" varchar(13) DEFAULT NULL,
+  "dtsuspensao" timestamp DEFAULT NULL,
+  "padronizado" char(1) DEFAULT NULL,
   "escorefinal" smallint DEFAULT NULL,
   "status" char(1),
   "aprox" boolean,
@@ -208,7 +214,7 @@ CREATE INDEX ON demo."exame" ("fkpessoa", "nratendimento");
 
 CREATE UNIQUE INDEX ON demo."outlier" ("fkmedicamento", "idsegmento", "doseconv", "frequenciadia");
 
-CREATE UNIQUE INDEX ON demo."prescricao" ("fkprescricao", "nratendimento");
+CREATE INDEX ON demo."prescricao" ("nratendimento");
 
 CREATE UNIQUE INDEX ON demo."prescricaoagg" ("fksetor", "fkmedicamento", "fkunidademedida", "dose", "fkfrequencia", "frequenciadia", "idade", "peso");
 
