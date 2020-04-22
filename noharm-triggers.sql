@@ -131,7 +131,7 @@ CREATE OR REPLACE  FUNCTION demo.atualiza_escore_presemed()
     COST 100
     VOLATILE NOT LEAKPROOF
 AS $BODY$BEGIN
-    IF NEW.status = 'S' THEN
+    IF NEW.status = 's' THEN
         UPDATE demo.presmed pm
         SET escorefinal = (SELECT COALESCE(escoremanual, escore) 
                                 FROM demo.outlier o
