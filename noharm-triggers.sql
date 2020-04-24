@@ -50,13 +50,15 @@ AS $BODY$BEGIN
         END IF;
     END IF;
 
-   INSERT INTO demo.presmed (fkprescricao, fkpresmed, fkfrequencia, fkmedicamento, 
+   INSERT INTO hscpoa.presmed (fkprescricao, fkpresmed, fkfrequencia, fkmedicamento, 
 	   fkunidademedida, dose, frequenciadia, via, quantidade, idsegmento, doseconv, idoutlier,
-	   origem, dtsuspensao, horario, complemento, padronizado )
+	   origem, dtsuspensao, horario, complemento, padronizado,
+	   slagrupamento, slacm, sletapas, slhorafase, sltempoaplicacao, sldosagem, sltipodosagem)
   
    VALUES (NEW.fkprescricao, NEW.fkpresmed, NEW.fkfrequencia, NEW.fkmedicamento, 
 	   NEW.fkunidademedida, NEW.dose, NEW.frequenciadia, NEW.via, NEW.quantidade, NEW.idsegmento, NEW.doseconv, NEW.idoutlier,
-	   NEW.origem, NEW.dtsuspensao, NEW.horario, NEW.complemento, NEW.padronizado )
+	   NEW.origem, NEW.dtsuspensao, NEW.horario, NEW.complemento, NEW.padronizado,
+	   NEW.slagrupamento, NEW.slacm, NEW.sletapas, NEW.slhorafase, NEW.sltempoaplicacao, NEW.sldosagem, NEW.sltipodosagem)
        ON CONFLICT (fkpresmed) 
          DO UPDATE SET dtsuspensao = NEW.dtsuspensao;
       
