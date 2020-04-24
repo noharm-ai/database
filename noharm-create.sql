@@ -119,7 +119,7 @@ CREATE TABLE demo."presmed" (
   "slagrupamento" bigint DEFAULT NULL;
   "slacm" varchar(1) DEFAULT NULL;
   "sletapas" bigint DEFAULT NULL;
-  "slhorafase" bigint DEFAULT NULL;
+  "slhorafase" float4 DEFAULT NULL;
   "sltempoaplicacao" bigint DEFAULT NULL;
   "sldosagem" float4 DEFAULT NULL;
   "sltipodosagem" varchar(3) DEFAULT NULL;
