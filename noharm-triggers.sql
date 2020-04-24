@@ -50,7 +50,7 @@ AS $BODY$BEGIN
         END IF;
     END IF;
 
-   INSERT INTO hscpoa.presmed (fkprescricao, fkpresmed, fkfrequencia, fkmedicamento, 
+   INSERT INTO demo.presmed (fkprescricao, fkpresmed, fkfrequencia, fkmedicamento, 
 	   fkunidademedida, dose, frequenciadia, via, quantidade, idsegmento, doseconv, idoutlier,
 	   origem, dtsuspensao, horario, complemento, padronizado,
 	   slagrupamento, slacm, sletapas, slhorafase, sltempoaplicacao, sldosagem, sltipodosagem)
