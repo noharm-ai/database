@@ -20,7 +20,7 @@ AS $BODY$BEGIN
     END IF;
 
     -- Soluções com Etapa
-    NEW.frequenciadia := NEW.sletapas;
+    IF NEW.frequenciadia IS NULL THEN NEW.frequenciadia := NEW.sletapas; END IF;
 
     -- Medicamentos com Horário
     IF NEW.frequenciadia IS NULL AND NEW.horario IS NOT NULL AND NEW.origem = 'Medicamentos' THEN
