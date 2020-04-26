@@ -11,11 +11,37 @@ AS $BODY$BEGIN
 
   IF pg_trigger_depth() = 1 then
 
+    -- Medicamentos com Frequência
     IF NEW.frequenciadia IS NULL AND NEW.fkfrequencia IS NOT NULL THEN
     	    NEW.frequenciadia := (
     	        SELECT f.frequenciadia FROM demo.frequencia f
     	        WHERE f.fkfrequencia = NEW.fkfrequencia
     	    );
+    END IF;
+
+    -- Soluções com Etapa
+    NEW.frequenciadia := NEW.sletapas;
+
+    -- Medicamentos com Horário
+    IF NEW.frequenciadia IS NULL AND NEW.horario IS NOT NULL AND NEW.origem = 'Medicamentos' THEN
+          NEW.frequenciadia := ( SELECT array_length(string_to_array(trim(NEW.horario), ' '), 1) );
+          IF NEW.horario = 'ACM' THEN NEW.frequenciadia := 44; END IF;
+          IF NEW.horario = 'SN' THEN NEW.frequenciadia := 33; END IF;
+    END IF;
+
+    -- Soluções com Horário
+    IF NEW.frequenciadia IS NULL AND NEW.horario IS NOT NULL AND NEW.origem = 'Soluções' THEN
+          NEW.frequenciadia := ( SELECT array_length(string_to_array(trim(NEW.horario), 'das'), 1) );
+    END IF;
+
+    -- Soluções ACM
+    IF NEW.frequenciadia IS NULL AND NEW.slacm = 'S' AND NEW.origem = 'Soluções' THEN
+          NEW.frequenciadia := 44;
+    END IF;
+
+    -- Medicamento sem Frequência
+    IF NEW.frequenciadia IS NULL THEN
+          NEW.frequenciadia := 99;
     END IF;
 
     NEW.idsegmento = (
@@ -60,7 +86,8 @@ AS $BODY$BEGIN
 	   NEW.origem, NEW.dtsuspensao, NEW.horario, NEW.complemento, NEW.padronizado,
 	   NEW.slagrupamento, NEW.slacm, NEW.sletapas, NEW.slhorafase, NEW.sltempoaplicacao, NEW.sldosagem, NEW.sltipodosagem)
        ON CONFLICT (fkpresmed) 
-         DO UPDATE SET dtsuspensao = NEW.dtsuspensao;
+         DO UPDATE SET dtsuspensao = NEW.dtsuspensao,
+         frequenciadia = NEW.frequenciadia;
       
     RETURN NULL;
  ELSE
