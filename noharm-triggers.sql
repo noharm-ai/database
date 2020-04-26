@@ -31,7 +31,7 @@ AS $BODY$BEGIN
 
     -- Soluções com Horário
     IF NEW.frequenciadia IS NULL AND NEW.horario IS NOT NULL AND NEW.origem = 'Soluções' THEN
-          NEW.frequenciadia := ( SELECT array_length(string_to_array(trim(NEW.horario), 'das'), 1) );
+          NEW.frequenciadia := ( SELECT array_length(string_to_array(trim(NEW.horario), 'das'), 1)-1 );
     END IF;
 
     -- Soluções ACM
