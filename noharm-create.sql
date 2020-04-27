@@ -116,13 +116,13 @@ CREATE TABLE demo."presmed" (
   "dtsuspensao" timestamp DEFAULT NULL,
   "padronizado" char(1) DEFAULT NULL,
   "escorefinal" smallint DEFAULT NULL,
-  "slagrupamento" bigint DEFAULT NULL;
-  "slacm" varchar(1) DEFAULT NULL;
-  "sletapas" bigint DEFAULT NULL;
-  "slhorafase" float4 DEFAULT NULL;
-  "sltempoaplicacao" bigint DEFAULT NULL;
-  "sldosagem" float4 DEFAULT NULL;
-  "sltipodosagem" varchar(3) DEFAULT NULL;
+  "slagrupamento" bigint DEFAULT NULL,
+  "slacm" varchar(1) DEFAULT NULL,
+  "sletapas" bigint DEFAULT NULL,
+  "slhorafase" float4 DEFAULT NULL,
+  "sltempoaplicacao" bigint DEFAULT NULL,
+  "sldosagem" float4 DEFAULT NULL,
+  "sltipodosagem" varchar(3) DEFAULT NULL,
   "status" char(1),
   "aprox" boolean,
   "suspenso" boolean,
