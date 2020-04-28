@@ -44,12 +44,12 @@ AS $BODY$BEGIN
           NEW.frequenciadia := 99;
     END IF;
 
-    NEW.idsegmento = (
+    NEW.idsegmento := (
         SELECT p.idsegmento FROM demo.prescricao p
         WHERE p.fkprescricao = NEW.fkprescricao
     );
 
-    NEW.doseconv = ( SELECT COALESCE (
+    NEW.doseconv := ( SELECT COALESCE (
 		(SELECT (NEW.dose * u.fator) as doseconv
 		FROM demo.unidadeconverte u
 		WHERE u.fkhospital = 1 
@@ -72,7 +72,7 @@ AS $BODY$BEGIN
     		NEW.doseconv, 
     		NEW.frequenciadia));
         IF NEW.idoutlier IS not NULL then
-          NEW.aprox = true;
+          NEW.aprox := true;
         END IF;
     END IF;
 
