@@ -25,6 +25,7 @@ CREATE TABLE demo."intervencao" (
   "interacoes" bigint [] NULL,
   "custo" boolean NULL,
   "observacao" text NULL,
+  "status" char(1) NOT NULL,
   "update_at" timestamp NOT NULL DEFAULT 'NOW()',
   "update_by" integer NOT NULL
 );
@@ -219,6 +220,8 @@ CREATE UNIQUE INDEX prescricaofoto_fkprescricao_idx ON demo.prescricaofoto (fkpr
 ALTER TABLE demo."intervencao" ADD FOREIGN KEY ("fkpresmed") REFERENCES demo."presmed" ("fkpresmed");
 
 ALTER TABLE demo."intervencao" ADD FOREIGN KEY ("idmotivointervencao") REFERENCES demo."motivointervencao" ("idmotivointervencao");
+
+CREATE INDEX ON demo."intervencao" ("nratendimento");
 
 CREATE INDEX ON demo."exame" ("fkpessoa", "nratendimento");
 
