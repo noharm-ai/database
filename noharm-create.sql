@@ -222,6 +222,7 @@ ALTER TABLE demo."intervencao" ADD FOREIGN KEY ("fkpresmed") REFERENCES demo."pr
 ALTER TABLE demo."intervencao" ADD FOREIGN KEY ("idmotivointervencao") REFERENCES demo."motivointervencao" ("idmotivointervencao");
 
 CREATE INDEX ON demo."intervencao" ("nratendimento");
+CREATE INDEX ON demo."intervencao" ("fkpresmed");
 
 CREATE INDEX ON demo."exame" ("fkpessoa", "nratendimento");
 
