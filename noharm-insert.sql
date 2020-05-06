@@ -1063,7 +1063,7 @@ INSERT INTO demo.unidadeconverte (fkhospital,fkunidademedida,fator,fkmedicamento
 ,(1,'3',3,2)
 ,(1,'1',1,2);
 
-INSERT INTO demo.intervencao (fkpresmed, idusuario, idmotivointervencao, boolpropaga, observacao) VALUES
+INSERT INTO demo.intervencao (fkpresmed, update_by, idmotivointervencao, tipo, observacao) VALUES
 	(4, 1, 2, 'N', '<p><strong>Existe </strong><em>apresenta&ccedil;&atilde;o adequada</em> de <strong>50mg</strong></p>'),
 	(18, 1, 3, 'N', 'Possivel erro de via. Trocar para EV'),
 	(14, 1, 2, 'N', 'Frequência potencialmente inadequada para paciente obeso.'),

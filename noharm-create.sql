@@ -18,11 +18,15 @@ CREATE TABLE demo."exame" (
 CREATE TABLE demo."intervencao" (
   "idintervencao" SERIAL PRIMARY KEY NOT NULL,
   "fkpresmed" bigint NOT NULL,
-  "idusuario" smallint NOT NULL,
+  "nratendimento" bigint NOT NULL,
   "idmotivointervencao" smallint NOT NULL,
-  "dtintervencao" timestamp NOT NULL DEFAULT 'now()',
-  "boolpropaga" char(1) NOT NULL DEFAULT 'n',
-  "observacao" text
+  "tipo" char(1) NOT NULL,
+  "dtintervencao" timestamp NOT NULL DEFAULT 'NOW()',
+  "interacoes" bigint [] NULL,
+  "custo" boolean NULL,
+  "observacao" text NULL,
+  "update_at" timestamp NOT NULL DEFAULT 'NOW()',
+  "update_by" integer NOT NULL
 );
 
 CREATE TABLE demo."outlier" (
@@ -34,8 +38,7 @@ CREATE TABLE demo."outlier" (
   "frequenciadia" float DEFAULT NULL,
   "escore" smallint DEFAULT NULL,
   "escoremanual" smallint DEFAULT NULL,
-  "idusuario" smallint DEFAULT NULL,
-  "update_at" timestamp,
+  "update_at" timestamp DEFAULT 'NOW()',
   "update_by" integer
 );
 
@@ -46,7 +49,7 @@ CREATE TABLE demo."outlierobs" (
   "doseconv" float DEFAULT NULL,
   "frequenciadia" float DEFAULT NULL,
   "text" text DEFAULT NULL,
-  "update_at" timestamp,
+  "update_at" timestamp DEFAULT 'NOW()',
   "update_by" integer
 );
 
@@ -126,7 +129,7 @@ CREATE TABLE demo."presmed" (
   "status" char(1),
   "aprox" boolean,
   "suspenso" boolean,
-  "update_at" timestamp,
+  "update_at" timestamp DEFAULT 'NOW()',
   "update_by" integer
 );
 
