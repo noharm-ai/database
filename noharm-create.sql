@@ -19,7 +19,7 @@ CREATE TABLE demo."intervencao" (
   "idintervencao" SERIAL PRIMARY KEY NOT NULL,
   "fkpresmed" bigint NOT NULL,
   "nratendimento" bigint NOT NULL,
-  "idmotivointervencao" smallint NOT NULL,
+  "idmotivointervencao" smallint [] NOT NULL,
   "tipo" char(1) NOT NULL,
   "dtintervencao" timestamp NOT NULL DEFAULT 'NOW()',
   "interacoes" bigint [] NULL,
@@ -216,10 +216,6 @@ CREATE TABLE demo.prescricaofoto (
 );
 
 CREATE UNIQUE INDEX prescricaofoto_fkprescricao_idx ON demo.prescricaofoto (fkprescricao);
-
-ALTER TABLE demo."intervencao" ADD FOREIGN KEY ("fkpresmed") REFERENCES demo."presmed" ("fkpresmed");
-
-ALTER TABLE demo."intervencao" ADD FOREIGN KEY ("idmotivointervencao") REFERENCES demo."motivointervencao" ("idmotivointervencao");
 
 CREATE INDEX ON demo."intervencao" ("nratendimento");
 CREATE INDEX ON demo."intervencao" ("fkpresmed");
