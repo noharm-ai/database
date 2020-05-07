@@ -1064,17 +1064,17 @@ INSERT INTO demo.unidadeconverte (fkhospital,fkunidademedida,fator,fkmedicamento
 ,(1,'1',1,2);
 
 INSERT INTO demo.intervencao (fkpresmed, nratendimento, update_by, idmotivointervencao, tipo, observacao) VALUES
-	(4, 1, 1, [2], 'N', '<p><strong>Existe </strong><em>apresenta&ccedil;&atilde;o adequada</em> de <strong>50mg</strong></p>'),
-	(18, 2, 1, [3], 'N', 'Possivel erro de via. Trocar para EV'),
-	(14, 3, 1, [2], 'N', 'Frequência potencialmente inadequada para paciente obeso.'),
-	(6, 4, 1, [2], 'S', '<p>Temos dispon&iacute;vel apresenta&ccedil;&atilde;o de ENALAPRIL 5 mg mais adequada para a dose prescrita.</p><p>Att, Farm...</p><p>Ramal...</p>'),
-	(9, 5, 1, [2], 'N', '<p>Temos dispon&iacute;vel DIAZEPAM 5mg, mais adequado para a dose prescrita.</p><p>Att, Farm...</p><p>Ramal...</p>'),
-	(2, 6, 1, [2], 'N', '<p>Temos dispon&iacute;vel DIAZEPAM 5mg, mais adequado para a dose prescrita.</p><p>Att, Farm...</p><p>Ramal...</p>'),
-	(5, 7, 1, [2], 'N', '<p>Temos dispon&iacute;vel apresenta&ccedil;&atilde;o de ANLODIPINO 5 mg mais adequada para a dose prescrita.</p><p>Att, Farm...</p><p>Ramal...</p>'),
-	(24, 8, 1, [2], 'S', '<p>Temos dispon&iacute;vel apresenta&ccedil;&atilde;o da HIDRALAZINA 25mg, mais adequado para a dose prescrita.</p><p>Att, Farm...</p><p>Ramal..</p><p>&nbsp;</p>'),
-	(13, 1, 1, [12], 'N', '<p>N&atilde;o temos dispon&iacute;vel apresenta&ccedil;&atilde;o com essa dose dispon&iacute;vel, portanto n&atilde;o ser&aacute; administrada de forma precisa. Avaliar apresenta&ccedil;&otilde;es dispon&iacute;veis mais adequadas.</p><p>Att, Farm...</p><p>Ramal...</p>'),
-	(3, 2, 1, [12], 'N', '<p>Sugiro revisar dose da RISPERIDONA.</p><p>Doses acima de 10 mg/dia n&atilde;o se mostraram superiores em efic&aacute;cia em rela&ccedil;&atilde;o a doses mais baixas, e podem provocar mais sintomas extrapiramidais.</p><p>Att, Farm. ....</p><p>Ramal...</p>'),
-	(10, 3, 1, [12], 'N', '<p>Sugiro revisar dose da RISPERIDONA.</p><p>Doses acima de 10 mg/dia n&atilde;o se mostraram superiores em efic&aacute;cia em rela&ccedil;&atilde;o a doses mais baixas, e podem provocar mais sintomas extrapiramidais.</p><p>Att, Farm. ....</p><p>Ramal...</p>'),
-	(35, 4, 1, [12], 'N', '<p>Medicamento de alta vigil&acirc;ncia - VARFARINA - com dose acima da usual.</p><p>Favor revisar.</p><p>Att, Farm...</p><p>Ramal...</p>'),
-	(34, 5, 1, [12], 'N', '<p>A dose m&aacute;xima di&aacute;ria do PARACETAMOL &eacute; de 4g.</p><p>Favor rever frequ&ecirc;ncia (frequ&ecirc;ncia usual 6/6h)</p><p>Att, Farm...</p><p>Ramal...</p>'),
-	(23, 6, 1, [15], 'N', '<p>A dose m&aacute;xima di&aacute;ria da HIOSCINA &eacute; de 100mg.</p><p>Frequ&ecirc;ncia usual &eacute; 6/6h.</p><p>Favor rever frequ&ecirc;ncia.</p><p>Att, Farm...</p><p>Ramal...</p>');
+	(4, 1, 1, '{2}', 'N', '<p><strong>Existe </strong><em>apresenta&ccedil;&atilde;o adequada</em> de <strong>50mg</strong></p>'),
+	(18, 2, 1, '{3}', 'N', 'Possivel erro de via. Trocar para EV'),
+	(14, 3, 1, '{2}', 'N', 'Frequência potencialmente inadequada para paciente obeso.'),
+	(6, 4, 1, '{2}', 'S', '<p>Temos dispon&iacute;vel apresenta&ccedil;&atilde;o de ENALAPRIL 5 mg mais adequada para a dose prescrita.</p><p>Att, Farm...</p><p>Ramal...</p>'),
+	(9, 5, 1, '{2}', 'N', '<p>Temos dispon&iacute;vel DIAZEPAM 5mg, mais adequado para a dose prescrita.</p><p>Att, Farm...</p><p>Ramal...</p>'),
+	(2, 6, 1, '{2}', 'N', '<p>Temos dispon&iacute;vel DIAZEPAM 5mg, mais adequado para a dose prescrita.</p><p>Att, Farm...</p><p>Ramal...</p>'),
+	(5, 7, 1, '{2}', 'N', '<p>Temos dispon&iacute;vel apresenta&ccedil;&atilde;o de ANLODIPINO 5 mg mais adequada para a dose prescrita.</p><p>Att, Farm...</p><p>Ramal...</p>'),
+	(24, 8, 1, '{2}', 'S', '<p>Temos dispon&iacute;vel apresenta&ccedil;&atilde;o da HIDRALAZINA 25mg, mais adequado para a dose prescrita.</p><p>Att, Farm...</p><p>Ramal..</p><p>&nbsp;</p>'),
+	(13, 1, 1, '{12}', 'N', '<p>N&atilde;o temos dispon&iacute;vel apresenta&ccedil;&atilde;o com essa dose dispon&iacute;vel, portanto n&atilde;o ser&aacute; administrada de forma precisa. Avaliar apresenta&ccedil;&otilde;es dispon&iacute;veis mais adequadas.</p><p>Att, Farm...</p><p>Ramal...</p>'),
+	(3, 2, 1, '{12}', 'N', '<p>Sugiro revisar dose da RISPERIDONA.</p><p>Doses acima de 10 mg/dia n&atilde;o se mostraram superiores em efic&aacute;cia em rela&ccedil;&atilde;o a doses mais baixas, e podem provocar mais sintomas extrapiramidais.</p><p>Att, Farm. ....</p><p>Ramal...</p>'),
+	(10, 3, 1, '{12}', 'N', '<p>Sugiro revisar dose da RISPERIDONA.</p><p>Doses acima de 10 mg/dia n&atilde;o se mostraram superiores em efic&aacute;cia em rela&ccedil;&atilde;o a doses mais baixas, e podem provocar mais sintomas extrapiramidais.</p><p>Att, Farm. ....</p><p>Ramal...</p>'),
+	(35, 4, 1, '{12}', 'N', '<p>Medicamento de alta vigil&acirc;ncia - VARFARINA - com dose acima da usual.</p><p>Favor revisar.</p><p>Att, Farm...</p><p>Ramal...</p>'),
+	(34, 5, 1, '{12}', 'N', '<p>A dose m&aacute;xima di&aacute;ria do PARACETAMOL &eacute; de 4g.</p><p>Favor rever frequ&ecirc;ncia (frequ&ecirc;ncia usual 6/6h)</p><p>Att, Farm...</p><p>Ramal...</p>'),
+	(23, 6, 1, '{15}', 'N', '<p>A dose m&aacute;xima di&aacute;ria da HIOSCINA &eacute; de 100mg.</p><p>Frequ&ecirc;ncia usual &eacute; 6/6h.</p><p>Favor rever frequ&ecirc;ncia.</p><p>Att, Farm...</p><p>Ramal...</p>');
