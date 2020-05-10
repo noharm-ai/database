@@ -16,8 +16,7 @@ CREATE TABLE demo."exame" (
 );
 
 CREATE TABLE demo."intervencao" (
-  "idintervencao" SERIAL PRIMARY KEY NOT NULL,
-  "fkpresmed" bigint NOT NULL,
+  "fkpresmed" bigint PRIMARY KEY NOT NULL,
   "nratendimento" bigint NOT NULL,
   "idmotivointervencao" smallint [] NOT NULL,
   "tipo" char(1) NOT NULL,
@@ -148,8 +147,8 @@ CREATE TABLE demo."medicamento" (
 CREATE TABLE demo."motivointervencao" (
   "fkhospital" smallint DEFAULT 1,
   "idmotivointervencao" SERIAL PRIMARY KEY NOT NULL,
-  "nome" varchar(250) NOT NULL,
-  "tipo" varchar(50) NOT NULL
+  "idmotivomae" int4 NULL,
+  "nome" varchar(250) NOT NULL
 );
 
 CREATE TABLE demo."frequencia" (
@@ -217,8 +216,8 @@ CREATE TABLE demo.prescricaofoto (
 
 CREATE UNIQUE INDEX prescricaofoto_fkprescricao_idx ON demo.prescricaofoto (fkprescricao);
 
+CREATE UNIQUE INDEX ON demo."intervencao" ("fkpresmed");
 CREATE INDEX ON demo."intervencao" ("nratendimento");
-CREATE INDEX ON demo."intervencao" ("fkpresmed");
 
 CREATE INDEX ON demo."exame" ("fkpessoa", "nratendimento");
 

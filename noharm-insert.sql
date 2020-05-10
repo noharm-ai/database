@@ -86,31 +86,30 @@ INSERT INTO demo.medicamento (fkhospital,fkmedicamento,fkunidademedida,nome,anti
 ,(1,4,'1','BISACODIL 5 mg CP',false,false,true)
 ,(1,14,'4','MORFINA 10 mg/ml SOL ORAL',false,true,true);
 
-INSERT INTO demo.motivointervencao (tipo, nome) VALUES
-								('Técnica', 'Aprazamento'),
-								('Técnica', 'Apresentação'),
-								('Técnica', 'Diluição Padrão'),
-								('Técnica', 'Duplicidade medicamentosa'),
-								('Técnica', 'Frequência SN/Obs'),
-								('Técnica', 'Medicamento não padronizado'),
-								('Técnica', 'Medicamento de uso próprio'),
-								('Técnica', 'Via'),
-								('Clínica', 'Alergia'),
-								('Clínica', 'Aprazamento'),
-								('Clínica', 'Diluição'),
-								('Clínica', 'Dose'),
-								('Clínica', 'Duplicidade Terapêutica'),
-								('Clínica', 'Forma Farmacêutica'),
-								('Clínica', 'Frequência'),
-								('Clínica', 'Incompatibilidade'),
-								('Clínica', 'Indicação Terapêutica'),
-								('Clínica', 'Interação medicamentosa'),
-								('Clínica', 'Orientação Farmacêutica'),
-								('Clínica', 'Medicamento não padronizado - avaliação'),
-								('Clínica', 'Reconciliação medicamentosa'),
-								('Clínica', 'Suspensão da terapia'),
-								('Clínica', 'Tempo de tratamento'),
-								('Clínica', 'Via');
+INSERT INTO demo.motivointervencao (nome) VALUES
+								('Aprazamento'),
+								('Apresentação'),
+								('Diluição Padrão'),
+								('Duplicidade medicamentosa'),
+								('Frequência SN/Obs'),
+								('Medicamento não padronizado'),
+								('Medicamento de uso próprio'),
+								('Alergia'),
+								('Aprazamento'),
+								('Diluição'),
+								('Dose'),
+								('Duplicidade Terapêutica'),
+								('Forma Farmacêutica'),
+								('Frequência'),
+								('Incompatibilidade'),
+								('Indicação Terapêutica'),
+								('Interação medicamentosa'),
+								('Orientação Farmacêutica'),
+								('Medicamento não padronizado - avaliação'),
+								('Reconciliação medicamentosa'),
+								('Suspensão da terapia'),
+								('Tempo de tratamento'),
+								('Via');
 
 --
 -- Insert Prescription's Tables
