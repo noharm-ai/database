@@ -19,7 +19,7 @@ CREATE TABLE demo."intervencao" (
   "fkpresmed" bigint PRIMARY KEY NOT NULL,
   "nratendimento" bigint NOT NULL,
   "idmotivointervencao" smallint [] NOT NULL,
-  "erro" boolean NOT NULL,
+  "erro" boolean NULL,
   "dtintervencao" timestamp NOT NULL DEFAULT 'NOW()',
   "interacoes" bigint [] NULL,
   "custo" boolean NULL,
