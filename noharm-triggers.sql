@@ -97,7 +97,7 @@ AS $BODY$BEGIN
           AND pr2.nratendimento = pr1.nratendimento
           AND pr2.fkprescricao = p2.fkprescricao 
         WHERE p2.fkmedicamento = NEW.fkmedicamento
-        AND pr2.dtprescricao > current_date - interval '30' day;
+        AND pr2.dtprescricao > current_date - interval '30' day
     );
 
    INSERT INTO demo.presmed (fkprescricao, fkpresmed, fkfrequencia, fkmedicamento, 
