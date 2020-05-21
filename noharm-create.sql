@@ -129,6 +129,8 @@ CREATE TABLE demo."presmed" (
   "status" char(1),
   "aprox" boolean,
   "suspenso" boolean,
+  "checado" boolean  DEFAULT NULL,
+  "periodo" int2  DEFAULT NULL,
   "update_at" timestamp DEFAULT 'NOW()',
   "update_by" integer
 );
@@ -141,7 +143,11 @@ CREATE TABLE demo."medicamento" (
   "antimicro" boolean,
   "mav" boolean,
   "controlados" boolean,
-  "naopadronizado" boolean
+  "naopadronizado" boolean,
+  "dosemaxima" smallint,
+  "renal" smallint,
+  "hepatico" boolean,
+  "idoso" boolean
 );
 
 CREATE TABLE demo."motivointervencao" (
@@ -206,7 +212,8 @@ CREATE TABLE public."usuario" (
   "senha" varchar(255) NOT NULL,
   "schema" varchar(10) NOT NULL,
   "getnameurl" varchar(255) DEFAULT NULL,
-  "logourl" varchar(255) DEFAULT NULL
+  "logourl" varchar(255) DEFAULT NULL,
+  "relatorios" json DEFAULT NULL
 );
 
 CREATE TABLE demo.prescricaofoto (

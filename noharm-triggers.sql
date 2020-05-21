@@ -76,14 +76,38 @@ AS $BODY$BEGIN
         END IF;
     END IF;
 
+    NEW.checado := (
+        SELECT true FROM demo.presmed p2
+        INNER JOIN demo.prescricao pr1 ON pr1.fkprescricao = NEW.fkprescricao
+        INNER JOIN demo.prescricao pr2 ON pr2.fkprescricao < NEW.fkprescricao
+          AND pr2.nratendimento = pr1.nratendimento
+          AND pr2.fkprescricao = p2.fkprescricao 
+        WHERE p2.fkmedicamento = NEW.fkmedicamento
+        AND p2.doseconv = NEW.doseconv
+        AND p2.frequenciadia = NEW.frequenciadia
+        AND p2.idsegmento = NEW.idsegmento
+        AND (p2.status = 's' or p2.checado = True)
+        LIMIT 1
+    );
+
+    NEW.periodo := (
+        SELECT count(1) FROM demo.presmed p2
+        INNER JOIN demo.prescricao pr1 ON pr1.fkprescricao = NEW.fkprescricao
+        INNER JOIN demo.prescricao pr2 ON pr2.fkprescricao < NEW.fkprescricao
+          AND pr2.nratendimento = pr1.nratendimento
+          AND pr2.fkprescricao = p2.fkprescricao 
+        WHERE p2.fkmedicamento = NEW.fkmedicamento
+        AND pr2.dtprescricao > current_date - interval '30' day;
+    );
+
    INSERT INTO demo.presmed (fkprescricao, fkpresmed, fkfrequencia, fkmedicamento, 
 	   fkunidademedida, dose, frequenciadia, via, quantidade, idsegmento, doseconv, idoutlier,
-	   origem, dtsuspensao, horario, complemento, padronizado,
+	   origem, dtsuspensao, horario, complemento, padronizado, aprox, checado, periodo,
 	   slagrupamento, slacm, sletapas, slhorafase, sltempoaplicacao, sldosagem, sltipodosagem)
   
    VALUES (NEW.fkprescricao, NEW.fkpresmed, NEW.fkfrequencia, NEW.fkmedicamento, 
 	   NEW.fkunidademedida, NEW.dose, NEW.frequenciadia, NEW.via, NEW.quantidade, NEW.idsegmento, NEW.doseconv, NEW.idoutlier,
-	   NEW.origem, NEW.dtsuspensao, NEW.horario, NEW.complemento, NEW.padronizado,
+	   NEW.origem, NEW.dtsuspensao, NEW.horario, NEW.complemento, NEW.padronizado, NEW.aprox, NEW.checado, NEW.periodo,
 	   NEW.slagrupamento, NEW.slacm, NEW.sletapas, NEW.slhorafase, NEW.sltempoaplicacao, NEW.sldosagem, NEW.sltipodosagem)
        ON CONFLICT (fkpresmed) 
          DO UPDATE SET dtsuspensao = NEW.dtsuspensao,
