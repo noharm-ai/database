@@ -86,7 +86,7 @@ AS $BODY$BEGIN
         AND p2.doseconv = NEW.doseconv
         AND p2.frequenciadia = NEW.frequenciadia
         AND p2.idsegmento = NEW.idsegmento
-        AND (p2.status IS NOT NULL or p2.checado = True)
+        AND pr2.status = 's'
         LIMIT 1
     );
 
