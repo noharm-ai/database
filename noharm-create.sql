@@ -81,6 +81,10 @@ CREATE TABLE demo."prescricao" (
   "dtprescricao" timestamp NOT NULL,
   "status" char(1) DEFAULT '0',
   "peso" float DEFAULT NULL,
+  "leito" varchar(16) NULL,
+  "protocolo" bpchar(1) NULL,
+  "prontuario" int8 NULL,
+  "crm" varchar(16) NULL,
   "update_at" timestamp DEFAULT 'NOW()',
   "update_by" integer
 );
