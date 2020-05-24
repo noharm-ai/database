@@ -82,7 +82,6 @@ CREATE TABLE demo."prescricao" (
   "status" char(1) DEFAULT '0',
   "peso" float DEFAULT NULL,
   "leito" varchar(16) NULL,
-  "protocolo" bpchar(1) NULL,
   "prontuario" int8 NULL,
   "crm" varchar(16) NULL,
   "update_at" timestamp DEFAULT 'NOW()',
@@ -178,7 +177,7 @@ CREATE TABLE demo."unidademedida" (
 CREATE TABLE demo."unidadeconverte" (
   "fkhospital" smallint DEFAULT 1,
   "fkmedicamento" bigint NOT NULL,
-  "fkunidademedida" varchar(10) NOT NULL,
+  "fkunidademedida" varchar(15) NOT NULL,
   "fator" float NOT NULL
 );
 

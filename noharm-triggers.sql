@@ -91,7 +91,7 @@ AS $BODY$BEGIN
     );
 
     NEW.periodo := (
-        SELECT count(1) FROM demo.presmed p2
+        SELECT count(distinct(pr2.dtprescricao::date)) FROM demo.presmed p2
         INNER JOIN demo.prescricao pr1 ON pr1.fkprescricao = NEW.fkprescricao
         INNER JOIN demo.prescricao pr2 ON pr2.fkprescricao < NEW.fkprescricao
           AND pr2.nratendimento = pr1.nratendimento
@@ -145,16 +145,16 @@ AS $BODY$BEGIN
 		);
 	
 	  IF NEW.peso IS NULL THEN
-	      INSERT INTO demo.prescricao (fkprescricao, fkpessoa, nratendimento, fksetor, dtprescricao, idsegmento, leito, protocolo, prontuario, crm) 
-				VALUES (NEW.fkprescricao, NEW.fkpessoa, NEW.nratendimento, NEW.fksetor, NEW.dtprescricao, NEW.idsegmento, NEW.leito, NEW.protocolo, NEW.prontuario, NEW.crm)
+	      INSERT INTO demo.prescricao (fkprescricao, fkpessoa, nratendimento, fksetor, dtprescricao, idsegmento, leito, prontuario, crm) 
+				VALUES (NEW.fkprescricao, NEW.fkpessoa, NEW.nratendimento, NEW.fksetor, NEW.dtprescricao, NEW.idsegmento, NEW.leito, NEW.prontuario, NEW.crm)
 	         ON CONFLICT (fkprescricao)
 	         DO UPDATE SET fkpessoa = NEW.fkpessoa,
 						fksetor = NEW.fksetor,
 						dtprescricao = NEW.dtprescricao,
 						idsegmento = NEW.idsegmento;
 	  ELSE
-	      INSERT INTO demo.prescricao (fkprescricao, fkpessoa, nratendimento, fksetor, dtprescricao, idsegmento, peso, leito, protocolo, prontuario, crm) 
-				VALUES (NEW.fkprescricao, NEW.fkpessoa, NEW.nratendimento, NEW.fksetor, NEW.dtprescricao, NEW.idsegmento, NEW.peso, NEW.leito, NEW.protocolo, NEW.prontuario, NEW.crm)
+	      INSERT INTO demo.prescricao (fkprescricao, fkpessoa, nratendimento, fksetor, dtprescricao, idsegmento, peso, leito, prontuario, crm) 
+				VALUES (NEW.fkprescricao, NEW.fkpessoa, NEW.nratendimento, NEW.fksetor, NEW.dtprescricao, NEW.idsegmento, NEW.peso, NEW.leito, NEW.prontuario, NEW.crm)
 	         ON CONFLICT (fkprescricao)
 	         DO UPDATE SET fkpessoa = NEW.fkpessoa,
 						fksetor = NEW.fksetor,
@@ -362,22 +362,23 @@ CREATE FUNCTION demo.propaga_idsegmento()
     COST 100
     VOLATILE NOT LEAKPROOF
 AS $BODY$BEGIN
-
-    UPDATE demo.presmed pm
-        SET idsegmento = NEW.idsegmento
-        WHERE pm.fkprescricao in (
-            SELECT p.fkprescricao FROM demo.prescricao p
-            WHERE p.fksetor = NEW.fksetor
-            AND p.fkhospital = NEW.fkhospital
-            )   
-        AND pm.escorefinal IS NULL;
    
     UPDATE demo.prescricao p
         SET idsegmento = NEW.idsegmento
         WHERE p.fksetor = NEW.fksetor
         AND p.fkhospital = NEW.fkhospital
-        AND (p.status IS null or p.status = '0');
+        AND (p.status IS null or p.status = '0')
+        AND p.dtprescricao > current_date - 2;
        
+    UPDATE demo.presmed pm
+        SET idsegmento = NEW.idsegmento
+        WHERE pm.fkprescricao in (
+            SELECT p.fkprescricao FROM demo.prescricao p
+            WHERE p.idsegmento = NEW.idsegmento
+            AND p.dtprescricao > current_date - 2
+            )   
+        AND pm.escorefinal IS NULL;
+
     UPDATE demo.prescricaoagg pa
         SET idsegmento = NEW.idsegmento
             WHERE pa.fksetor = NEW.fksetor
