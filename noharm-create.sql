@@ -57,7 +57,7 @@ CREATE TABLE demo."pessoa" (
   "fkhospital" smallint DEFAULT 1,
   "fkpessoa" bigint NOT NULL,
   "nratendimento" bigint UNIQUE NOT NULL,
-  "dtnascimento" date NOT NULL,
+  "dtnascimento" date DEFAULT NULL,
   "dtinternacao" timestamp NOT NULL,
   "cor" varchar(100) DEFAULT NULL,
   "sexo" char(1) DEFAULT NULL,
