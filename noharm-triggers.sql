@@ -2,12 +2,17 @@
 -------- UPDATE SELF TABLES --------
 -------------------------------------
 
-CREATE FUNCTION demo.complete_presmed()
+CREATE OR REPLACE FUNCTION demo.complete_presmed()
     RETURNS trigger
     LANGUAGE 'plpgsql'
     COST 100
     VOLATILE NOT LEAKPROOF
-AS $BODY$BEGIN
+AS $BODY$
+DECLARE
+  DIVISOR int;
+  USAPESO boolean;
+  PESO float;
+BEGIN
 
   IF pg_trigger_depth() = 1 then
 
@@ -56,6 +61,39 @@ AS $BODY$BEGIN
 		AND u.fkmedicamento = NEW.fkmedicamento 
 		AND u.fkunidademedida = NEW.fkunidademedida )
     , NEW.dose ) );
+
+
+    -- Medicamento com Faixa de Valores para Outliers
+    DIVISOR := (SELECT a.divisor FROM demo.medatributos a
+                WHERE a.fkmedicamento = NEW.fkmedicamento 
+                  AND a.idsegmento = NEW.idsegmento
+                  AND a.divisor IS NOT NULL);
+
+    IF DIVISOR IS NOT NULL THEN
+
+      PESO := 1;
+
+      USAPESO := (SELECT a.usapeso FROM demo.medatributos a
+                  WHERE a.fkmedicamento = NEW.fkmedicamento 
+                    AND a.idsegmento = NEW.idsegmento
+                    AND a.divisor IS NOT NULL);
+
+      IF USAPESO IS NOT NULL THEN
+
+        PESO := ( SELECT COALESCE (
+          ( SELECT pe.peso FROM demo.pessoa pe
+          INNER JOIN demo.prescricao pr ON pr.nratendimento = pe.nratendimento
+          WHERE pr.fkprescricao = NEW.fkprescricao )
+          , 1 ) );
+
+      END IF;
+
+      NEW.doseconv := (SELECT ROUND(((NEW.doseconv/PESO)/DIVISOR)::numeric) * DIVISOR);
+
+    END IF;
+
+
+    -- Define Outliers para os Medicamentos
 
     NEW.idoutlier := (
         SELECT MAX(o.idoutlier) FROM demo.outlier o 
@@ -602,6 +640,97 @@ CREATE TRIGGER trg_atualiza_doseconv_on_update
     FOR EACH ROW
     WHEN (OLD.fator IS DISTINCT FROM NEW.fator) 
     EXECUTE PROCEDURE demo.atualiza_doseconv();
+
+-----------------
+
+CREATE OR REPLACE  FUNCTION demo.atualiza_divisor()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$BEGIN
+
+    IF NEW.divisor IS NOT NULL THEN    
+
+      UPDATE demo.prescricaoagg pa
+        SET doseconv = ( SELECT COALESCE (
+          ( SELECT (pa.dose * un.fator) as doseconv
+            FROM demo.unidadeconverte un
+            WHERE un.fkmedicamento = pa.fkmedicamento
+            AND un.fkunidademedida = pa.fkunidademedida) 
+          , pa.dose) )
+        WHERE pa.fkmedicamento = NEW.fkmedicamento
+        AND pa.idsegmento = NEW.idsegmento;
+
+      IF NEW.usapeso = true THEN 
+
+        UPDATE demo.presmed pm
+        SET doseconv = COALESCE ( ROUND(((pm.doseconv/pe.peso)/NEW.divisor)::numeric) * NEW.divisor, pm.doseconv)
+        FROM demo.pessoa pe, demo.prescricao pr
+          WHERE pm.fkmedicamento = NEW.fkmedicamento
+          AND pm.idsegmento = NEW.idsegmento
+          AND pm.fkprescricao IN (
+            SELECT fkprescricao
+            FROM demo.prescricao
+            WHERE dtprescricao > current_date - 2
+          )
+          AND pr.fkprescricao = pm.fkprescricao
+          AND pe.nratendimento = pr.nratendimento
+          AND pe.peso IS NOT NULL;
+
+        UPDATE demo.prescricaoagg pa
+          SET doseconv = COALESCE ( ROUND(((pa.doseconv/pa.peso)/NEW.divisor)::numeric) * NEW.divisor, pa.doseconv)
+          WHERE pa.fkmedicamento = NEW.fkmedicamento
+          AND pa.idsegmento = NEW.idsegmento
+          AND pa.peso != 999 and pa.peso >= 0.5
+          AND doseconv is not null;
+
+        UPDATE demo.prescricaoagg pa
+          SET doseconv = NULL
+          WHERE pa.fkmedicamento = NEW.fkmedicamento
+          AND pa.idsegmento = NEW.idsegmento
+          AND (pa.peso = 999 or pa.peso < 0.5 or pa.peso IS NULL);
+
+      ELSE
+
+        UPDATE demo.presmed pm
+        SET doseconv = COALESCE ( ROUND((pm.doseconv/NEW.divisor)::numeric) * NEW.divisor, pm.doseconv)
+          WHERE pm.fkmedicamento = NEW.fkmedicamento
+          AND pm.idsegmento = NEW.idsegmento
+          AND pm.fkprescricao IN (
+            SELECT fkprescricao
+            FROM demo.prescricao
+            WHERE dtprescricao > current_date - 2
+          );
+
+        UPDATE demo.prescricaoagg pa
+          SET doseconv = COALESCE ( ROUND((pa.doseconv/NEW.divisor)::numeric) * NEW.divisor, pa.doseconv)
+          WHERE pa.fkmedicamento = NEW.fkmedicamento
+          AND pa.idsegmento = NEW.idsegmento
+          AND doseconv is not null;
+
+      END IF;
+
+    END IF;
+
+    RETURN NULL;
+END;$BODY$;
+
+ALTER FUNCTION demo.atualiza_divisor()
+    OWNER TO postgres;
+
+CREATE TRIGGER trg_atualiza_divisor_on_insert
+    AFTER INSERT
+    ON demo.medatributos
+    FOR EACH ROW
+    EXECUTE PROCEDURE demo.atualiza_divisor();
+
+CREATE TRIGGER trg_atualiza_divisor_on_update
+    AFTER UPDATE
+    ON demo.medatributos
+    FOR EACH ROW
+    WHEN (OLD.divisor IS DISTINCT FROM NEW.divisor) 
+    EXECUTE PROCEDURE demo.atualiza_divisor();
 
 -----------------
 

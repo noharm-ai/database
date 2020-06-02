@@ -59,32 +59,38 @@ INSERT INTO demo.frequencia (fkfrequencia, nome, frequenciadia) VALUES
 							(4, '6h/6h', 4),
 							(6, '4h/4h', 6);
 
-INSERT INTO demo.medicamento (fkhospital,fkmedicamento,fkunidademedida,nome,antimicro,mav,controlados) VALUES 
-(1,3,'1','ANLODIPINO 10 mg CP',NULL,NULL,NULL)
-,(1,5,'1','CETOPROFENO 100 mg SOL INJ IV',NULL,NULL,NULL)
-,(1,6,'4','CLORETO DE POTASSIO 6 % (0,8 mEq/ml) SOL AQ',NULL,NULL,NULL)
-,(1,7,'1','DIAZEPAM 10 mg CP',NULL,NULL,NULL)
-,(1,8,'1','DICLOFENACO 50 mg CP',NULL,NULL,NULL)
-,(1,9,'1','DOXAZOSINA 2 mg CP',NULL,NULL,NULL)
-,(1,10,'1','ENALAPRIL 20 mg CP',NULL,NULL,NULL)
-,(1,11,'4','ENOXAPARINA 60 mg/0,6 ml',NULL,NULL,NULL)
-,(1,12,'1','HIDRALAZINA 50 mg CP',NULL,NULL,NULL)
-,(1,13,'1','LOPERAMIDA 2 mg CP',NULL,NULL,NULL)
-,(1,15,'1','PARACETAMOL 500 mg CP',NULL,NULL,NULL)
-,(1,16,'5','POLIMIXINA B 500.000 UI SOL INJ',NULL,NULL,NULL)
-,(1,17,'1','RISPERIDONA 2 mg CP',NULL,NULL,NULL)
-,(1,18,'1','SULFAMETOXAZOL + TRIMETOPRIMA 800 mg + 160 mg CP',NULL,NULL,NULL)
-,(1,19,'1','TENOFOVIR 300mg + LAMIVUDINA 300mg CP',NULL,NULL,NULL)
-,(1,20,'1','VARFARINA 5 mg CP',NULL,NULL,NULL)
-,(1,21,'6','VITAMINAS DO COMPLEXO B CP',NULL,NULL,NULL)
-,(1,22,'4','MEROPENEM 1 g/100 ml SOL INJ',NULL,NULL,NULL)
-,(1,23,'3','HIOSCINA 20 mg/ml SOL INJ',NULL,NULL,NULL)
-,(1,24,'1','OMEPRAZOL 20mg CP',NULL,NULL,NULL)
+INSERT INTO demo.medicamento (fkhospital,fkmedicamento,fkunidademedida,nome) VALUES 
+(1,3,'1','ANLODIPINO 10 mg CP')
+,(1,5,'1','CETOPROFENO 100 mg SOL INJ IV')
+,(1,6,'4','CLORETO DE POTASSIO 6 % (0,8 mEq/ml) SOL AQ')
+,(1,7,'1','DIAZEPAM 10 mg CP')
+,(1,8,'1','DICLOFENACO 50 mg CP')
+,(1,9,'1','DOXAZOSINA 2 mg CP')
+,(1,10,'1','ENALAPRIL 20 mg CP')
+,(1,11,'4','ENOXAPARINA 60 mg/0,6 ml')
+,(1,12,'1','HIDRALAZINA 50 mg CP')
+,(1,13,'1','LOPERAMIDA 2 mg CP')
+,(1,15,'1','PARACETAMOL 500 mg CP')
+,(1,16,'5','POLIMIXINA B 500.000 UI SOL INJ')
+,(1,17,'1','RISPERIDONA 2 mg CP')
+,(1,18,'1','SULFAMETOXAZOL + TRIMETOPRIMA 800 mg + 160 mg CP')
+,(1,19,'1','TENOFOVIR 300mg + LAMIVUDINA 300mg CP')
+,(1,20,'1','VARFARINA 5 mg CP')
+,(1,21,'6','VITAMINAS DO COMPLEXO B CP')
+,(1,22,'4','MEROPENEM 1 g/100 ml SOL INJ')
+,(1,23,'3','HIOSCINA 20 mg/ml SOL INJ')
+,(1,24,'1','OMEPRAZOL 20mg CP')
 ,(1,25,'2','LEVOFLOXACINO 100mcg CP',NULL,NULL,NULL)
 ,(1,1,'4','AMPICILINA + SULBACTAM 2 g + 1 g SOL INJ',true,true,false)
 ,(1,2,'1','ALOPURINOL 100 mg CP',true,true,false)
 ,(1,4,'1','BISACODIL 5 mg CP',false,false,true)
 ,(1,14,'4','MORFINA 10 mg/ml SOL ORAL',false,true,true);
+
+INSERT INTO demo.medatributos (idsegmento,fkmedicamento,antimicro,mav,controlados) VALUES
+(1,1,true,true,false)
+,(1,2,true,true,false)
+,(1,4,false,false,true)
+,(1,14,false,true,true);
 
 INSERT INTO demo.motivointervencao (nome) VALUES
 								('Aprazamento'),

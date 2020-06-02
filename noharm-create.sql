@@ -142,15 +142,22 @@ CREATE TABLE demo."medicamento" (
   "fkhospital" smallint DEFAULT 1,
   "fkmedicamento" bigint PRIMARY KEY NOT NULL,
   "fkunidademedida" varchar(16) DEFAULT NULL,
-  "nome" varchar(250) NOT NULL,
+  "nome" varchar(250) NOT NULL
+);
+
+CREATE TABLE demo."medatributos" (
+  "fkmedicamento" bigint NOT NULL,
+  "idsegmento" smallint NOT NULL,
   "antimicro" boolean,
   "mav" boolean,
   "controlados" boolean,
   "naopadronizado" boolean,
   "dosemaxima" smallint,
   "renal" smallint,
-  "hepatico" boolean,
-  "idoso" boolean
+  "hepatico" smallint,
+  "idoso" boolean,
+  "divisor" smallint,
+  "usapeso" boolean
 );
 
 CREATE TABLE demo."motivointervencao" (
@@ -246,6 +253,7 @@ CREATE INDEX ON demo."presmed" ("fkmedicamento", "idsegmento", "doseconv", "freq
 CREATE INDEX ON demo."presmed" ("fkprescricao");
 
 CREATE UNIQUE INDEX ON demo."medicamento" ("fkhospital", "fkmedicamento");
+CREATE UNIQUE INDEX ON demo."medatributos" ("fkmedicamento", "idsegmento");
 
 CREATE UNIQUE INDEX ON demo."frequencia" ("fkhospital", "fkfrequencia");
 
