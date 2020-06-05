@@ -80,11 +80,11 @@ INSERT INTO demo.medicamento (fkhospital,fkmedicamento,fkunidademedida,nome) VAL
 ,(1,22,'4','MEROPENEM 1 g/100 ml SOL INJ')
 ,(1,23,'3','HIOSCINA 20 mg/ml SOL INJ')
 ,(1,24,'1','OMEPRAZOL 20mg CP')
-,(1,25,'2','LEVOFLOXACINO 100mcg CP',NULL,NULL,NULL)
-,(1,1,'4','AMPICILINA + SULBACTAM 2 g + 1 g SOL INJ',true,true,false)
-,(1,2,'1','ALOPURINOL 100 mg CP',true,true,false)
-,(1,4,'1','BISACODIL 5 mg CP',false,false,true)
-,(1,14,'4','MORFINA 10 mg/ml SOL ORAL',false,true,true);
+,(1,25,'2','LEVOFLOXACINO 100mcg CP')
+,(1,1,'4','AMPICILINA + SULBACTAM 2 g + 1 g SOL INJ')
+,(1,2,'1','ALOPURINOL 100 mg CP')
+,(1,4,'1','BISACODIL 5 mg CP')
+,(1,14,'4','MORFINA 10 mg/ml SOL ORAL');
 
 INSERT INTO demo.medatributos (idsegmento,fkmedicamento,antimicro,mav,controlados) VALUES
 (1,1,true,true,false)
