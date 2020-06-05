@@ -88,7 +88,7 @@ BEGIN
 
       END IF;
 
-      NEW.doseconv := (SELECT ROUND(((NEW.doseconv/PESO)/DIVISOR)::numeric) * DIVISOR);
+      NEW.doseconv := (SELECT CEIL(((NEW.doseconv/PESO)/DIVISOR)::numeric) * DIVISOR);
 
     END IF;
 
@@ -652,10 +652,10 @@ AS $BODY$BEGIN
 
     IF NEW.divisor IS NOT NULL THEN    
 
-      UPDATE demo.prescricaoagg pa
+      UPDATE hsc_test.prescricaoagg pa
         SET doseconv = ( SELECT COALESCE (
           ( SELECT (pa.dose * un.fator) as doseconv
-            FROM demo.unidadeconverte un
+            FROM hsc_test.unidadeconverte un
             WHERE un.fkmedicamento = pa.fkmedicamento
             AND un.fkunidademedida = pa.fkunidademedida) 
           , pa.dose) )
@@ -664,28 +664,28 @@ AS $BODY$BEGIN
 
       IF NEW.usapeso = true THEN 
 
-        UPDATE demo.presmed pm
-        SET doseconv = COALESCE ( ROUND(((pm.doseconv/pe.peso)/NEW.divisor)::numeric) * NEW.divisor, pm.doseconv)
-        FROM demo.pessoa pe, demo.prescricao pr
+        UPDATE hsc_test.presmed pm
+        SET doseconv = COALESCE ( CEIL((((pm.doseconv+0.1)/pe.peso)/NEW.divisor)::numeric) * NEW.divisor, pm.doseconv)
+        FROM hsc_test.pessoa pe, hsc_test.prescricao pr
           WHERE pm.fkmedicamento = NEW.fkmedicamento
           AND pm.idsegmento = NEW.idsegmento
           AND pm.fkprescricao IN (
             SELECT fkprescricao
-            FROM demo.prescricao
+            FROM hsc_test.prescricao
             WHERE dtprescricao > current_date - 2
           )
           AND pr.fkprescricao = pm.fkprescricao
           AND pe.nratendimento = pr.nratendimento
           AND pe.peso IS NOT NULL;
 
-        UPDATE demo.prescricaoagg pa
-          SET doseconv = COALESCE ( ROUND(((pa.doseconv/pa.peso)/NEW.divisor)::numeric) * NEW.divisor, pa.doseconv)
+        UPDATE hsc_test.prescricaoagg pa
+          SET doseconv = COALESCE ( CEIL((((pa.doseconv+0.1)/pa.peso)/NEW.divisor)::numeric) * NEW.divisor, pa.doseconv)
           WHERE pa.fkmedicamento = NEW.fkmedicamento
           AND pa.idsegmento = NEW.idsegmento
           AND pa.peso != 999 and pa.peso >= 0.5
           AND doseconv is not null;
 
-        UPDATE demo.prescricaoagg pa
+        UPDATE hsc_test.prescricaoagg pa
           SET doseconv = NULL
           WHERE pa.fkmedicamento = NEW.fkmedicamento
           AND pa.idsegmento = NEW.idsegmento
@@ -693,18 +693,18 @@ AS $BODY$BEGIN
 
       ELSE
 
-        UPDATE demo.presmed pm
-        SET doseconv = COALESCE ( ROUND((pm.doseconv/NEW.divisor)::numeric) * NEW.divisor, pm.doseconv)
+        UPDATE hsc_test.presmed pm
+        SET doseconv = COALESCE ( CEIL(((pm.doseconv+0.1)/NEW.divisor)::numeric) * NEW.divisor, pm.doseconv)
           WHERE pm.fkmedicamento = NEW.fkmedicamento
           AND pm.idsegmento = NEW.idsegmento
           AND pm.fkprescricao IN (
             SELECT fkprescricao
-            FROM demo.prescricao
+            FROM hsc_test.prescricao
             WHERE dtprescricao > current_date - 2
           );
 
-        UPDATE demo.prescricaoagg pa
-          SET doseconv = COALESCE ( ROUND((pa.doseconv/NEW.divisor)::numeric) * NEW.divisor, pa.doseconv)
+        UPDATE hsc_test.prescricaoagg pa
+          SET doseconv = COALESCE ( CEIL(((pa.doseconv+0.1)/NEW.divisor)::numeric) * NEW.divisor, pa.doseconv)
           WHERE pa.fkmedicamento = NEW.fkmedicamento
           AND pa.idsegmento = NEW.idsegmento
           AND doseconv is not null;
