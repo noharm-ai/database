@@ -664,20 +664,6 @@ AS $BODY$BEGIN
 
       IF NEW.usapeso = true THEN 
 
-        UPDATE demo.presmed pm
-        SET doseconv = COALESCE ( CEIL((((pm.doseconv+0.1)/pe.peso)/NEW.divisor)::numeric) * NEW.divisor, pm.doseconv)
-        FROM demo.pessoa pe, demo.prescricao pr
-          WHERE pm.fkmedicamento = NEW.fkmedicamento
-          AND pm.idsegmento = NEW.idsegmento
-          AND pm.fkprescricao IN (
-            SELECT fkprescricao
-            FROM demo.prescricao
-            WHERE dtprescricao > current_date - 2
-          )
-          AND pr.fkprescricao = pm.fkprescricao
-          AND pe.nratendimento = pr.nratendimento
-          AND pe.peso IS NOT NULL;
-
         UPDATE demo.prescricaoagg pa
           SET doseconv = COALESCE ( CEIL((((pa.doseconv+0.1)/pa.peso)/NEW.divisor)::numeric) * NEW.divisor, pa.doseconv)
           WHERE pa.fkmedicamento = NEW.fkmedicamento
@@ -692,16 +678,6 @@ AS $BODY$BEGIN
           AND (pa.peso = 999 or pa.peso < 0.5 or pa.peso IS NULL);
 
       ELSE
-
-        UPDATE demo.presmed pm
-        SET doseconv = COALESCE ( CEIL(((pm.doseconv+0.1)/NEW.divisor)::numeric) * NEW.divisor, pm.doseconv)
-          WHERE pm.fkmedicamento = NEW.fkmedicamento
-          AND pm.idsegmento = NEW.idsegmento
-          AND pm.fkprescricao IN (
-            SELECT fkprescricao
-            FROM demo.prescricao
-            WHERE dtprescricao > current_date - 2
-          );
 
         UPDATE demo.prescricaoagg pa
           SET doseconv = COALESCE ( CEIL(((pa.doseconv+0.1)/NEW.divisor)::numeric) * NEW.divisor, pa.doseconv)
