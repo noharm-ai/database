@@ -156,7 +156,7 @@ CREATE TABLE demo."medatributos" (
   "renal" smallint,
   "hepatico" smallint,
   "idoso" boolean,
-  "divisor" smallint,
+  "divisor" float4,
   "usapeso" boolean
 );
 
