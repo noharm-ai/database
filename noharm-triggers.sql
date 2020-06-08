@@ -9,7 +9,7 @@ CREATE OR REPLACE FUNCTION demo.complete_presmed()
     VOLATILE NOT LEAKPROOF
 AS $BODY$
 DECLARE
-  DIVISOR int;
+  DIVISOR float;
   USAPESO boolean;
   PESO float;
 BEGIN
@@ -83,7 +83,7 @@ BEGIN
         PESO := ( SELECT COALESCE (
           ( SELECT pe.peso FROM demo.pessoa pe
           INNER JOIN demo.prescricao pr ON pr.nratendimento = pe.nratendimento
-          WHERE pr.fkprescricao = NEW.fkprescricao )
+          WHERE pr.fkprescricao = NEW.fkprescricao AND pe.peso > 0 )
           , 1 ) );
 
       END IF;
