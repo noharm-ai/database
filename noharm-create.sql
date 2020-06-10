@@ -236,7 +236,7 @@ CREATE UNIQUE INDEX prescricaofoto_fkprescricao_idx ON demo.prescricaofoto (fkpr
 CREATE UNIQUE INDEX ON demo."intervencao" ("fkpresmed");
 CREATE INDEX ON demo."intervencao" ("nratendimento");
 
-CREATE INDEX ON demo."exame" ("fkpessoa", "nratendimento");
+CREATE INDEX ON demo."exame" ("nratendimento", "tpexame")
 
 CREATE UNIQUE INDEX ON demo."outlier" ("fkmedicamento", "idsegmento", "doseconv", "frequenciadia");
 
