@@ -141,12 +141,12 @@ BEGIN
    INSERT INTO demo.presmed (fkprescricao, fkpresmed, fkfrequencia, fkmedicamento, 
 	   fkunidademedida, dose, frequenciadia, via, quantidade, idsegmento, doseconv, idoutlier,
 	   origem, dtsuspensao, horario, complemento, padronizado, aprox, checado, periodo,
-	   slagrupamento, slacm, sletapas, slhorafase, sltempoaplicacao, sldosagem, sltipodosagem)
+	   slagrupamento, slacm, sletapas, slhorafase, sltempoaplicacao, sldosagem, sltipodosagem, alergia)
   
    VALUES (NEW.fkprescricao, NEW.fkpresmed, NEW.fkfrequencia, NEW.fkmedicamento, 
 	   NEW.fkunidademedida, NEW.dose, NEW.frequenciadia, NEW.via, NEW.quantidade, NEW.idsegmento, NEW.doseconv, NEW.idoutlier,
 	   NEW.origem, NEW.dtsuspensao, NEW.horario, NEW.complemento, NEW.padronizado, NEW.aprox, NEW.checado, NEW.periodo,
-	   NEW.slagrupamento, NEW.slacm, NEW.sletapas, NEW.slhorafase, NEW.sltempoaplicacao, NEW.sldosagem, NEW.sltipodosagem)
+	   NEW.slagrupamento, NEW.slacm, NEW.sletapas, NEW.slhorafase, NEW.sltempoaplicacao, NEW.sldosagem, NEW.sltipodosagem, NEW.alergia)
        ON CONFLICT (fkpresmed) 
          DO UPDATE SET dtsuspensao = NEW.dtsuspensao,
          frequenciadia = NEW.frequenciadia,
