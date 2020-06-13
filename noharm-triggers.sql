@@ -149,7 +149,11 @@ BEGIN
 	   NEW.slagrupamento, NEW.slacm, NEW.sletapas, NEW.slhorafase, NEW.sltempoaplicacao, NEW.sldosagem, NEW.sltipodosagem)
        ON CONFLICT (fkpresmed) 
          DO UPDATE SET dtsuspensao = NEW.dtsuspensao,
-         frequenciadia = NEW.frequenciadia;
+         frequenciadia = NEW.frequenciadia,
+         periodo = NEW.periodo,
+         checado = NEW.checado,
+         idoutlier = NEW.idoutlier,
+         doseconv = NEW.doseconv;
       
     RETURN NULL;
  ELSE
