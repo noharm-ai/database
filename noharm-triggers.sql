@@ -103,7 +103,7 @@ BEGIN
         AND o.idsegmento = NEW.idsegmento
     );
 
-    IF NEW.idoutlier IS NULL THEN
+    IF NEW.idoutlier IS NULL AND NEW.doseconv > 0 THEN
         NEW.idoutlier := (SELECT demo.similaridade(
     		NEW.idsegmento,
     		NEW.fkmedicamento,
@@ -731,6 +731,7 @@ BEGIN
 		FROM demo.outlier o
 		WHERE o.idsegmento = p_idsegmento
 		and o.fkmedicamento = p_fkmedicamento
+    and o.doseconv > 0 and o.frequenciadia > 0
 	) as t
 	ORDER BY cosine asc, euclidian asc
 	LIMIT 1;
