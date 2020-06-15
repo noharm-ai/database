@@ -78,7 +78,7 @@ BEGIN
                     AND a.idsegmento = NEW.idsegmento
                     AND a.divisor IS NOT NULL);
 
-      IF USAPESO IS NOT NULL THEN
+      IF USAPESO IS TRUE THEN
 
         PESO := ( SELECT COALESCE (
           ( SELECT pe.peso FROM demo.pessoa pe
