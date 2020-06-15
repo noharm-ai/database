@@ -88,7 +88,9 @@ BEGIN
 
       END IF;
 
-      NEW.doseconv := (SELECT CEIL(((NEW.doseconv/PESO)/DIVISOR)::numeric) * DIVISOR);
+      IF PESO > 0 AND DIVISOR > 0 THEN
+        NEW.doseconv := (SELECT CEIL(((NEW.doseconv/PESO)/DIVISOR)::numeric) * DIVISOR);
+      END IF;
 
     END IF;
 
