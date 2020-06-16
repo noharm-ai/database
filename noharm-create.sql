@@ -42,10 +42,11 @@ CREATE TABLE demo."outlier" (
   "update_by" integer
 );
 
-CREATE TABLE demo."outlierobs" (
-  "idoutlier" SERIAL PRIMARY KEY NOT NULL,
+CREATE TABLE demo."observacao" (
+  "idoutlier" integer DEFAULT 0,
+  "fkpresmed" bigint DEFAULT 0,
   "idsegmento" smallint DEFAULT NULL,
-  "fkmedicamento" bigint NOT NULL,
+  "fkmedicamento" bigint DEFAULT NULL,
   "doseconv" float DEFAULT NULL,
   "frequenciadia" float DEFAULT NULL,
   "text" text DEFAULT NULL,
@@ -143,7 +144,8 @@ CREATE TABLE demo."medicamento" (
   "fkhospital" smallint DEFAULT 1,
   "fkmedicamento" bigint PRIMARY KEY NOT NULL,
   "fkunidademedida" varchar(16) DEFAULT NULL,
-  "nome" varchar(250) NOT NULL
+  "nome" varchar(250) NOT NULL,
+  "sctid" bigint DEFAULT NULL
 );
 
 CREATE TABLE demo."medatributos" (
@@ -232,6 +234,18 @@ CREATE TABLE demo.prescricaofoto (
   "foto" json NOT NULL
 );
 
+CREATE TABLE public."substancia" (
+  "sctid" bigint NOT NULL,
+  "nome" varchar(255) NOT NULL
+);
+
+CREATE TABLE public."relacao" (
+  "sctida" bigint NOT NULL,
+  "sctidb" bigint NOT NULL,
+  "tprelacao" char(2) DEFAULT NULL,
+  "texto" text
+);
+
 CREATE UNIQUE INDEX prescricaofoto_fkprescricao_idx ON demo.prescricaofoto (fkprescricao);
 
 CREATE UNIQUE INDEX ON demo."intervencao" ("fkpresmed");
@@ -246,14 +260,13 @@ CREATE INDEX ON demo."prescricao" ("fksetor");
 CREATE INDEX ON demo."prescricao" ("idsegmento");
 
 CREATE UNIQUE INDEX ON demo."prescricaoagg" ("fksetor", "fkmedicamento", "fkunidademedida", "dose", "fkfrequencia", "frequenciadia", "idade", "peso");
-
 CREATE INDEX ON demo."prescricaoagg" ("idsegmento", "fkmedicamento", "doseconv", "frequenciadia");
 
 CREATE INDEX ON demo."presmed" ("fkmedicamento", "idsegmento", "doseconv", "frequenciadia");
-
 CREATE INDEX ON demo."presmed" ("fkprescricao");
 
 CREATE UNIQUE INDEX ON demo."medicamento" ("fkhospital", "fkmedicamento");
+
 CREATE UNIQUE INDEX ON demo."medatributos" ("fkmedicamento", "idsegmento");
 
 CREATE UNIQUE INDEX ON demo."frequencia" ("fkhospital", "fkfrequencia");
@@ -270,3 +283,7 @@ CREATE INDEX presmed_update_by_idx ON demo.presmed (update_by);
 
 CREATE INDEX prescricao_update_by_idx ON demo.prescricao (update_by);
 
+CREATE UNIQUE INDEX ON demo."observacao" ("idoutlier", "fkpresmed");
+
+CREATE UNIQUE INDEX ON public."substancia" ("sctid");
+CREATE UNIQUE INDEX ON public."relacoes" ("sctida", "sctidb","tprelacao");
