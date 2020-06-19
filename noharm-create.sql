@@ -45,6 +45,7 @@ CREATE TABLE demo."outlier" (
 CREATE TABLE demo."observacao" (
   "idoutlier" integer DEFAULT 0,
   "fkpresmed" bigint DEFAULT 0,
+  "nratendimento" bigint NOT NULL,
   "idsegmento" smallint DEFAULT NULL,
   "fkmedicamento" bigint DEFAULT NULL,
   "doseconv" float DEFAULT NULL,
@@ -64,6 +65,8 @@ CREATE TABLE demo."pessoa" (
   "sexo" char(1) DEFAULT NULL,
   "peso" float DEFAULT NULL,
   "dtpeso" timestamp DEFAULT NULL,
+  "update_at" timestamp DEFAULT NULL,
+  "update_by" integer DEFAULT NULL,
   PRIMARY KEY ("fkpessoa", "nratendimento")
 );
 
@@ -243,7 +246,11 @@ CREATE TABLE public."relacao" (
   "sctida" bigint NOT NULL,
   "sctidb" bigint NOT NULL,
   "tprelacao" char(2) DEFAULT NULL,
-  "texto" text
+  "texto" text,
+  "ativo" boolean,
+  "create_by" integer,
+  "update_at" timestamp DEFAULT 'NOW()',
+  "update_by" integer
 );
 
 CREATE UNIQUE INDEX prescricaofoto_fkprescricao_idx ON demo.prescricaofoto (fkprescricao);
@@ -279,11 +286,11 @@ CREATE UNIQUE INDEX ON demo."segmentosetor" ("fkhospital", "fksetor");
 
 CREATE UNIQUE INDEX ON demo."setor" ("fkhospital", "fksetor");
 
-CREATE INDEX presmed_update_by_idx ON demo.presmed (update_by);
-
-CREATE INDEX prescricao_update_by_idx ON demo.prescricao (update_by);
+CREATE INDEX ON demo."presmed" ("update_by");
+CREATE INDEX ON demo."prescricao" ("update_by");
 
 CREATE UNIQUE INDEX ON demo."observacao" ("idoutlier", "fkpresmed");
+CREATE INDEX ON demo."observacao" ("nratendimento","fkmedicamento");
 
 CREATE UNIQUE INDEX ON public."substancia" ("sctid");
 CREATE UNIQUE INDEX ON public."relacoes" ("sctida", "sctidb","tprelacao");
