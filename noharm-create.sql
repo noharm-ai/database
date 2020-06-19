@@ -293,4 +293,4 @@ CREATE UNIQUE INDEX ON demo."observacao" ("idoutlier", "fkpresmed");
 CREATE INDEX ON demo."observacao" ("nratendimento","fkmedicamento");
 
 CREATE UNIQUE INDEX ON public."substancia" ("sctid");
-CREATE UNIQUE INDEX ON public."relacoes" ("sctida", "sctidb","tprelacao");
+CREATE UNIQUE INDEX ON public."relacao" ("sctida", "sctidb","tprelacao");
