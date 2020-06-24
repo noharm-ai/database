@@ -455,6 +455,7 @@ AS $BODY$BEGIN
             SELECT p.fkprescricao FROM demo.prescricao p
             WHERE p.fksetor = NEW.fksetor
             AND p.fkhospital = NEW.fkhospital
+            AND p.dtprescricao > current_date - 2
             )   
         AND pm.escorefinal IS NULL;
    
@@ -462,6 +463,7 @@ AS $BODY$BEGIN
         SET idsegmento = NULL
         WHERE p.fksetor = NEW.fksetor
         AND p.fkhospital = NEW.fkhospital
+        AND p.dtprescricao > current_date - 2
         AND (p.status IS null or p.status = '0');
        
     UPDATE demo.prescricaoagg pa

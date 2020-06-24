@@ -197,11 +197,22 @@ CREATE TABLE demo."unidadeconverte" (
 CREATE TABLE demo."segmento" (
   "idsegmento" SERIAL PRIMARY KEY NOT NULL,
   "nome" varchar(250) NOT NULL,
-  "idade_min" smallint DEFAULT NULL,
-  "idade_max" smallint DEFAULT NULL,
-  "peso_min" smallint DEFAULT NULL,
-  "peso_max" smallint DEFAULT NULL,
   "status" smallint DEFAULT NULL
+);
+
+CREATE TABLE demo."segmentoexame" (
+  "idsegmento" smallint NOT NULL,
+  "tpexame" varchar(100) NOT NULL,
+  "abrev" varchar(50),
+  "nome" varchar(250), 
+  "min" smallint,
+  "max" smallint, 
+  "referencia" varchar(250), 
+  "posicao" smallint, 
+  "ativo" boolean,
+  "update_at" timestamp NOT NULL DEFAULT 'NOW()',
+  "update_by" integer NOT NULL,
+  PRIMARY KEY ("idsegmento", "tpexame")
 );
 
 CREATE TABLE demo."segmentosetor" (
@@ -232,7 +243,7 @@ CREATE TABLE public."usuario" (
   "relatorios" json DEFAULT NULL
 );
 
-CREATE TABLE demo.prescricaofoto (
+CREATE TABLE demo."prescricaofoto" (
   "fkprescricao" bigint NOT NULL,
   "foto" json NOT NULL
 );
