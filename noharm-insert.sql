@@ -1063,7 +1063,7 @@ INSERT INTO demo.presmed (fkprescricao,fkmedicamento,fkunidademedida,fkfrequenci
 ,(20,22,'1',4,1,403,2000,4,'VO',NULL,NULL,NULL,2000)
 ,(20,4,'1',2,1,30,5,2,'VO',NULL,NULL,NULL,5);
 
-INSERT INTO demo.unidadeconverte (fkhospital,fkunidademedida,fator,fkmedicamento) VALUES 
+INSERT INTO demo.unidadeconverte (idsegmento,fkunidademedida,fator,fkmedicamento) VALUES 
 (1,'2',3.3,2)
 ,(1,'3',3,2)
 ,(1,'1',1,2);

@@ -57,7 +57,7 @@ BEGIN
     NEW.doseconv := ( SELECT COALESCE (
 		(SELECT (NEW.dose * u.fator) as doseconv
 		FROM demo.unidadeconverte u
-		WHERE u.fkhospital = 1 
+		WHERE u.idsegmento = NEW.idsegmento
 		AND u.fkmedicamento = NEW.fkmedicamento 
 		AND u.fkunidademedida = NEW.fkunidademedida )
     , NEW.dose ) );
@@ -276,7 +276,7 @@ AS $BODY$BEGIN
     NEW.doseconv = ( SELECT COALESCE (
 		(SELECT (NEW.dose * u.fator) as doseconv
 		FROM demo.unidadeconverte u
-		WHERE u.fkhospital = NEW.fkhospital 
+		WHERE u.idsegmento = NEW.idsegmento 
 		AND u.fkmedicamento = NEW.fkmedicamento 
 		AND u.fkunidademedida = NEW.fkunidademedida )
     , NEW.dose ) );
@@ -615,7 +615,7 @@ AS $BODY$BEGIN
 
    UPDATE demo.presmed pm
      SET doseconv = COALESCE (pm.dose * NEW.fator, pm.dose)
-     WHERE 1 = NEW.fkhospital
+     WHERE pm.idsegmento = NEW.idsegmento
      AND pm.fkmedicamento = NEW.fkmedicamento
      AND pm.fkunidademedida = NEW.fkunidademedida
      AND pm.fkprescricao IN (
@@ -626,7 +626,7 @@ AS $BODY$BEGIN
 
    UPDATE demo.prescricaoagg pa
      SET doseconv = COALESCE (pa.dose * NEW.fator, pa.dose)
-     WHERE pa.fkhospital = NEW.fkhospital
+     WHERE pa.idsegmento = NEW.idsegmento
      AND pa.fkmedicamento = NEW.fkmedicamento
      AND pa.fkunidademedida = NEW.fkunidademedida;
 
@@ -665,7 +665,8 @@ AS $BODY$BEGIN
           ( SELECT (pa.dose * un.fator) as doseconv
             FROM demo.unidadeconverte un
             WHERE un.fkmedicamento = pa.fkmedicamento
-            AND un.fkunidademedida = pa.fkunidademedida) 
+            AND un.fkunidademedida = pa.fkunidademedida
+            AND un.idsegmento = NEW.idsegmento) 
           , pa.dose) )
         WHERE pa.fkmedicamento = NEW.fkmedicamento
         AND pa.idsegmento = NEW.idsegmento;

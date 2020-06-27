@@ -64,6 +64,7 @@ CREATE TABLE demo."pessoa" (
   "cor" varchar(100) DEFAULT NULL,
   "sexo" char(1) DEFAULT NULL,
   "peso" float DEFAULT NULL,
+  "altura" float DEFAULT NULL,
   "dtpeso" timestamp DEFAULT NULL,
   "update_at" timestamp DEFAULT NULL,
   "update_by" integer DEFAULT NULL,
@@ -188,7 +189,7 @@ CREATE TABLE demo."unidademedida" (
 );
 
 CREATE TABLE demo."unidadeconverte" (
-  "fkhospital" smallint DEFAULT 1,
+  "idsegmento" smallint DEFAULT 1,
   "fkmedicamento" bigint NOT NULL,
   "fkunidademedida" varchar(15) NOT NULL,
   "fator" float NOT NULL
@@ -205,8 +206,8 @@ CREATE TABLE demo."segmentoexame" (
   "tpexame" varchar(100) NOT NULL,
   "abrev" varchar(50),
   "nome" varchar(250), 
-  "min" smallint,
-  "max" smallint, 
+  "min" float4,
+  "max" float4, 
   "referencia" varchar(250), 
   "posicao" smallint, 
   "ativo" boolean,
