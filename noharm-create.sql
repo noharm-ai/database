@@ -164,7 +164,10 @@ CREATE TABLE demo."medatributos" (
   "hepatico" smallint,
   "idoso" boolean,
   "divisor" float4,
-  "usapeso" boolean
+  "usapeso" boolean,
+  "concentracao" smallint,
+  "concentracaounidade" varchar(3),
+  "linhabranca" boolean
 );
 
 CREATE TABLE demo."motivointervencao" (
