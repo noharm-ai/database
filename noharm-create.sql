@@ -165,7 +165,7 @@ CREATE TABLE demo."medatributos" (
   "idoso" boolean,
   "divisor" float4,
   "usapeso" boolean,
-  "concentracao" smallint,
+  "concentracao" float4,
   "concentracaounidade" varchar(3),
   "linhabranca" boolean
 );
