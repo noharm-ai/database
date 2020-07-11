@@ -255,7 +255,7 @@ CREATE TRIGGER trg_atualiza_escore_presemed
 
 --------
 
-CREATE FUNCTION demo.complete_prescricaoagg()
+CREATE OR REPLACE FUNCTION demo.complete_prescricaoagg()
     RETURNS trigger
     LANGUAGE 'plpgsql'
     COST 100
@@ -315,7 +315,7 @@ CREATE TRIGGER trg_complete_prescricaoagg
 
 --------
 
-CREATE FUNCTION demo.complete_frequencia()
+CREATE OR REPLACE FUNCTION demo.complete_frequencia()
     RETURNS trigger
     LANGUAGE 'plpgsql'
     COST 100
@@ -355,7 +355,7 @@ CREATE TRIGGER trg_complete_frequencia
 -------- UPDATE CHILD TABLES --------
 -------------------------------------
 
-CREATE FUNCTION demo.popula_presmed_by_outlier()
+CREATE OR REPLACE FUNCTION demo.popula_presmed_by_outlier()
     RETURNS trigger
     LANGUAGE 'plpgsql'
     COST 100
@@ -388,7 +388,7 @@ CREATE TRIGGER trg_popula_presmed_by_outlier
 
 --------
 
-CREATE FUNCTION demo.popula_presmed_by_frequencia()
+CREATE OR REPLACE FUNCTION demo.popula_presmed_by_frequencia()
     RETURNS trigger
     LANGUAGE 'plpgsql'
     COST 100
@@ -414,7 +414,7 @@ CREATE TRIGGER trg_popula_presmed_by_frequencia
 
 --------
 
-CREATE FUNCTION demo.propaga_idsegmento()
+CREATE OR REPLACE FUNCTION demo.propaga_idsegmento()
     RETURNS trigger
     LANGUAGE 'plpgsql'
     COST 100
@@ -458,7 +458,7 @@ CREATE TRIGGER trg_propaga_idsegmento
 
     --------
 
-CREATE FUNCTION demo.deleta_idsegmento()
+CREATE OR REPLACE FUNCTION demo.deleta_idsegmento()
     RETURNS trigger
     LANGUAGE 'plpgsql'
     COST 100
