@@ -624,7 +624,7 @@ ALTER FUNCTION demo.insert_update_unidademedida()
 		     
 DROP TRIGGER IF EXISTS insert_update_hospital ON demo.unidademedida;
 
-CREATE TRIGGER insert_update_hospital
+CREATE TRIGGER insert_update_unidademedida
     BEFORE INSERT 
     ON demo.unidademedida
     FOR EACH ROW
