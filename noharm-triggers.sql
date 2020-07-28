@@ -167,6 +167,8 @@ END;$BODY$;
 ALTER FUNCTION demo.complete_presmed()
     OWNER TO postgres;
 
+DROP TRIGGER IF EXISTS trg_complete_presmed ON demo.presmed;
+		     
 CREATE TRIGGER trg_complete_presmed
     BEFORE INSERT 
     ON demo.presmed
@@ -214,6 +216,8 @@ END;$BODY$;
 ALTER FUNCTION demo.complete_prescricao()
     OWNER TO postgres;
 
+DROP TRIGGER IF EXISTS trg_complete_prescricao ON demo.prescricao;
+		     
 CREATE TRIGGER trg_complete_prescricao
     BEFORE INSERT 
     ON demo.prescricao
@@ -241,6 +245,8 @@ END;$BODY$;
 ALTER FUNCTION demo.atualiza_escore_presemed()
     OWNER TO postgres;
 
+DROP TRIGGER IF EXISTS trg_atualiza_escore_presemed ON demo.prescricao;
+		     
 CREATE TRIGGER trg_atualiza_escore_presemed
     AFTER UPDATE
     ON demo.prescricao
@@ -249,7 +255,7 @@ CREATE TRIGGER trg_atualiza_escore_presemed
 
 --------
 
-CREATE FUNCTION demo.complete_prescricaoagg()
+CREATE OR REPLACE FUNCTION demo.complete_prescricaoagg()
     RETURNS trigger
     LANGUAGE 'plpgsql'
     COST 100
@@ -299,6 +305,8 @@ END;$BODY$;
 ALTER FUNCTION demo.complete_prescricaoagg()
     OWNER TO postgres;
 
+DROP TRIGGER IF EXISTS trg_complete_prescricaoagg ON demo.prescricaoagg;
+
 CREATE TRIGGER trg_complete_prescricaoagg
     BEFORE INSERT 
     ON demo.prescricaoagg
@@ -307,7 +315,7 @@ CREATE TRIGGER trg_complete_prescricaoagg
 
 --------
 
-CREATE FUNCTION demo.complete_frequencia()
+CREATE OR REPLACE FUNCTION demo.complete_frequencia()
     RETURNS trigger
     LANGUAGE 'plpgsql'
     COST 100
@@ -335,6 +343,8 @@ END;$BODY$;
 ALTER FUNCTION demo.complete_frequencia()
     OWNER TO postgres;
 
+DROP TRIGGER IF EXISTS trg_complete_frequencia ON demo.frequencia;
+		     
 CREATE TRIGGER trg_complete_frequencia
     BEFORE INSERT 
     ON demo.frequencia
@@ -345,7 +355,7 @@ CREATE TRIGGER trg_complete_frequencia
 -------- UPDATE CHILD TABLES --------
 -------------------------------------
 
-CREATE FUNCTION demo.popula_presmed_by_outlier()
+CREATE OR REPLACE FUNCTION demo.popula_presmed_by_outlier()
     RETURNS trigger
     LANGUAGE 'plpgsql'
     COST 100
@@ -368,6 +378,8 @@ END;$BODY$;
 ALTER FUNCTION demo.popula_presmed_by_outlier()
     OWNER TO postgres;
 
+DROP TRIGGER IF EXISTS trg_popula_presmed_by_outlier ON demo.outlier;
+		     
 CREATE TRIGGER trg_popula_presmed_by_outlier
     AFTER INSERT
     ON demo.outlier
@@ -376,7 +388,7 @@ CREATE TRIGGER trg_popula_presmed_by_outlier
 
 --------
 
-CREATE FUNCTION demo.popula_presmed_by_frequencia()
+CREATE OR REPLACE FUNCTION demo.popula_presmed_by_frequencia()
     RETURNS trigger
     LANGUAGE 'plpgsql'
     COST 100
@@ -392,6 +404,8 @@ END;$BODY$;
 ALTER FUNCTION demo.popula_presmed_by_frequencia()
     OWNER TO postgres;
 
+DROP TRIGGER IF EXISTS trg_popula_presmed_by_frequencia ON demo.frequencia;
+		     
 CREATE TRIGGER trg_popula_presmed_by_frequencia
     AFTER INSERT 
     ON demo.frequencia
@@ -400,7 +414,7 @@ CREATE TRIGGER trg_popula_presmed_by_frequencia
 
 --------
 
-CREATE FUNCTION demo.propaga_idsegmento()
+CREATE OR REPLACE FUNCTION demo.propaga_idsegmento()
     RETURNS trigger
     LANGUAGE 'plpgsql'
     COST 100
@@ -433,6 +447,8 @@ END;$BODY$;
 
 ALTER FUNCTION demo.propaga_idsegmento()
     OWNER TO postgres;
+		     
+DROP TRIGGER IF EXISTS trg_propaga_idsegmento ON demo.segmentosetor;
 
 CREATE TRIGGER trg_propaga_idsegmento
     AFTER INSERT
@@ -442,7 +458,7 @@ CREATE TRIGGER trg_propaga_idsegmento
 
     --------
 
-CREATE FUNCTION demo.deleta_idsegmento()
+CREATE OR REPLACE FUNCTION demo.deleta_idsegmento()
     RETURNS trigger
     LANGUAGE 'plpgsql'
     COST 100
@@ -477,6 +493,8 @@ END;$BODY$;
 ALTER FUNCTION demo.deleta_idsegmento()
     OWNER TO postgres;
 
+DROP TRIGGER IF EXISTS trg_deleta_idsegmento ON demo.segmentosetor;
+		     
 CREATE TRIGGER trg_deleta_idsegmento
     BEFORE DELETE
     ON demo.segmentosetor
@@ -507,6 +525,8 @@ END;$BODY$;
 ALTER FUNCTION demo.insert_update_setor()
     OWNER TO postgres;
 
+DROP TRIGGER IF EXISTS trg_insert_update_setor ON demo.setor;
+		     
 CREATE TRIGGER trg_insert_update_setor
     BEFORE INSERT 
     ON demo.setor
@@ -537,6 +557,8 @@ END;$BODY$;
 
 ALTER FUNCTION demo.insert_update_medicamento()
     OWNER TO postgres;
+		     
+DROP TRIGGER IF EXISTS trg_insert_update_medicamento ON demo.medicamento;
 
 CREATE TRIGGER trg_insert_update_medicamento
     BEFORE INSERT 
@@ -567,6 +589,8 @@ END;$BODY$;
 
 ALTER FUNCTION demo.insert_update_hospital()
     OWNER TO postgres;
+		     
+DROP TRIGGER IF EXISTS insert_update_hospital ON demo.hospital;
 
 CREATE TRIGGER insert_update_hospital
     BEFORE INSERT 
@@ -597,8 +621,10 @@ END;$BODY$;
 
 ALTER FUNCTION demo.insert_update_unidademedida()
     OWNER TO postgres;
+		     
+DROP TRIGGER IF EXISTS insert_update_hospital ON demo.unidademedida;
 
-CREATE TRIGGER insert_update_hospital
+CREATE TRIGGER insert_update_unidademedida
     BEFORE INSERT 
     ON demo.unidademedida
     FOR EACH ROW
@@ -636,11 +662,15 @@ END;$BODY$;
 ALTER FUNCTION demo.atualiza_doseconv()
     OWNER TO postgres;
 
+DROP TRIGGER IF EXISTS trg_atualiza_doseconv_on_insert ON demo.unidadeconverte;
+		     
 CREATE TRIGGER trg_atualiza_doseconv_on_insert
     AFTER INSERT
     ON demo.unidadeconverte
     FOR EACH ROW
     EXECUTE PROCEDURE demo.atualiza_doseconv();
+		     
+DROP TRIGGER IF EXISTS trg_atualiza_doseconv_on_update ON demo.unidadeconverte;
 
 CREATE TRIGGER trg_atualiza_doseconv_on_update
     AFTER UPDATE
@@ -703,12 +733,16 @@ END;$BODY$;
 
 ALTER FUNCTION demo.atualiza_divisor()
     OWNER TO postgres;
+    
+DROP TRIGGER IF EXISTS trg_atualiza_divisor_on_insert ON demo.medatributos;
 
 CREATE TRIGGER trg_atualiza_divisor_on_insert
     AFTER INSERT
     ON demo.medatributos
     FOR EACH ROW
     EXECUTE PROCEDURE demo.atualiza_divisor();
+    
+DROP TRIGGER IF EXISTS trg_atualiza_divisor_on_update ON demo.medatributos;
 
 CREATE TRIGGER trg_atualiza_divisor_on_update
     AFTER UPDATE
