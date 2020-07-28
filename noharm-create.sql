@@ -66,6 +66,7 @@ CREATE TABLE demo."pessoa" (
   "peso" float DEFAULT NULL,
   "altura" float DEFAULT NULL,
   "dtpeso" timestamp DEFAULT NULL,
+  "anotacao" text DEFAULT NULL,
   "update_at" timestamp DEFAULT NULL,
   "update_by" integer DEFAULT NULL,
   PRIMARY KEY ("fkpessoa", "nratendimento")
@@ -88,7 +89,8 @@ CREATE TABLE demo."prescricao" (
   "peso" float DEFAULT NULL,
   "leito" varchar(16) NULL,
   "prontuario" int8 NULL,
-  "crm" varchar(16) NULL,
+  "prescritor" varchar(255) NULL,
+  "indicadores" json DEFAULT NULL
   "update_at" timestamp DEFAULT 'NOW()',
   "update_by" integer
 );
@@ -103,7 +105,6 @@ CREATE TABLE demo."prescricaoagg" (
   "dose" float4 DEFAULT NULL,
   "doseconv" float4 DEFAULT NULL,
   "frequenciadia" float4 DEFAULT NULL,
-  "idade" smallint DEFAULT NULL,
   "peso" float4 DEFAULT NULL,
   "contagem" integer DEFAULT NULL
 );
@@ -147,7 +148,6 @@ CREATE TABLE demo."presmed" (
 CREATE TABLE demo."medicamento" (
   "fkhospital" smallint DEFAULT 1,
   "fkmedicamento" bigint PRIMARY KEY NOT NULL,
-  "fkunidademedida" varchar(16) DEFAULT NULL,
   "nome" varchar(250) NOT NULL,
   "sctid" bigint DEFAULT NULL
 );
@@ -167,7 +167,9 @@ CREATE TABLE demo."medatributos" (
   "usapeso" boolean,
   "concentracao" float4,
   "concentracaounidade" varchar(3),
-  "linhabranca" boolean
+  "linhabranca" boolean,
+  "update_at" timestamp DEFAULT NULL,
+  "update_by" integer DEFAULT NULL
 );
 
 CREATE TABLE demo."motivointervencao" (
@@ -247,11 +249,6 @@ CREATE TABLE public."usuario" (
   "relatorios" json DEFAULT NULL
 );
 
-CREATE TABLE demo."prescricaofoto" (
-  "fkprescricao" bigint NOT NULL,
-  "foto" json NOT NULL
-);
-
 CREATE TABLE public."substancia" (
   "sctid" bigint NOT NULL,
   "nome" varchar(255) NOT NULL
@@ -267,8 +264,6 @@ CREATE TABLE public."relacao" (
   "update_at" timestamp DEFAULT 'NOW()',
   "update_by" integer
 );
-
-CREATE UNIQUE INDEX prescricaofoto_fkprescricao_idx ON demo.prescricaofoto (fkprescricao);
 
 CREATE UNIQUE INDEX ON demo."intervencao" ("fkpresmed");
 CREATE INDEX ON demo."intervencao" ("nratendimento");
