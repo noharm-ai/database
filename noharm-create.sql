@@ -91,7 +91,7 @@ CREATE TABLE demo."prescricao" (
   "leito" varchar(16) NULL,
   "prontuario" int8 NULL,
   "prescritor" varchar(255) NULL,
-  "indicadores" json DEFAULT NULL
+  "indicadores" json DEFAULT NULL,
   "update_at" timestamp DEFAULT 'NOW()',
   "update_by" integer
 );
@@ -277,7 +277,7 @@ CREATE INDEX ON demo."prescricao" ("nratendimento");
 CREATE INDEX ON demo."prescricao" ("fksetor");
 CREATE INDEX ON demo."prescricao" ("idsegmento");
 
-CREATE UNIQUE INDEX ON demo."prescricaoagg" ("fksetor", "fkmedicamento", "fkunidademedida", "dose", "fkfrequencia", "frequenciadia", "idade", "peso");
+CREATE UNIQUE INDEX ON demo."prescricaoagg" ("fksetor", "fkmedicamento", "fkunidademedida", "dose", "fkfrequencia", "frequenciadia", "peso");
 CREATE INDEX ON demo."prescricaoagg" ("idsegmento", "fkmedicamento", "doseconv", "frequenciadia");
 
 CREATE INDEX ON demo."presmed" ("fkmedicamento", "idsegmento", "doseconv", "frequenciadia");
