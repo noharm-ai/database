@@ -85,6 +85,7 @@ CREATE TABLE demo."prescricao" (
   "nratendimento" bigint NOT NULL,
   "idsegmento" smallint DEFAULT NULL,
   "dtprescricao" timestamp NOT NULL,
+  "dtvigencia" timestamp NOT NULL,
   "status" char(1) DEFAULT '0',
   "peso" float DEFAULT NULL,
   "leito" varchar(16) NULL,
