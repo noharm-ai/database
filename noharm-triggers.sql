@@ -543,11 +543,10 @@ CREATE OR REPLACE  FUNCTION demo.insert_update_medicamento()
 AS $BODY$BEGIN
    IF pg_trigger_depth() = 1 then
 
-        INSERT INTO demo.medicamento (fkhospital, fkmedicamento, fkunidademedida, nome)
-            VALUES(1, NEW.fkmedicamento, NEW.fkunidademedida, NEW.nome)
+        INSERT INTO demo.medicamento (fkhospital, fkmedicamento, nome)
+            VALUES(1, NEW.fkmedicamento, NEW.nome)
          ON CONFLICT (fkmedicamento)
-         DO UPDATE SET nome = NEW.nome,
-            fkunidademedida = NEW.fkunidademedida;
+         DO UPDATE SET nome = NEW.nome;
 
       RETURN NULL;
    ELSE
