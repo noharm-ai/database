@@ -67,6 +67,9 @@ CREATE TABLE demo."pessoa" (
   "altura" float DEFAULT NULL,
   "dtpeso" timestamp DEFAULT NULL,
   "anotacao" text DEFAULT NULL,
+  "alertadata" timestamp DEFAULT NULL,
+  "alertatexto" text DEFAULT NULL,
+  "alertavigencia" timestamp DEFAULT NULL,
   "update_at" timestamp DEFAULT NULL,
   "update_by" integer DEFAULT NULL,
   PRIMARY KEY ("fkpessoa", "nratendimento")
@@ -91,7 +94,8 @@ CREATE TABLE demo."prescricao" (
   "leito" varchar(16) NULL,
   "prontuario" int8 NULL,
   "prescritor" varchar(255) NULL,
-  "indicadores" json DEFAULT NULL
+  "indicadores" json DEFAULT NULL,
+  "evolucao" text DEFAULT NULL,
   "update_at" timestamp DEFAULT 'NOW()',
   "update_by" integer
 );
@@ -169,6 +173,7 @@ CREATE TABLE demo."medatributos" (
   "concentracao" float4,
   "concentracaounidade" varchar(3),
   "linhabranca" boolean,
+  "fkunidademedida" varchar(16),
   "update_at" timestamp DEFAULT NULL,
   "update_by" integer DEFAULT NULL
 );

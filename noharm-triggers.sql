@@ -676,7 +676,6 @@ CREATE TRIGGER trg_atualiza_doseconv_on_update
     AFTER UPDATE
     ON demo.unidadeconverte
     FOR EACH ROW
-    WHEN (OLD.fator IS DISTINCT FROM NEW.fator) 
     EXECUTE PROCEDURE demo.atualiza_doseconv();
 
 -----------------
