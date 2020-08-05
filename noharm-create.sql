@@ -282,7 +282,7 @@ CREATE INDEX ON demo."prescricao" ("nratendimento");
 CREATE INDEX ON demo."prescricao" ("fksetor");
 CREATE INDEX ON demo."prescricao" ("idsegmento");
 
-CREATE UNIQUE INDEX ON demo."prescricaoagg" ("fksetor", "fkmedicamento", "fkunidademedida", "dose", "fkfrequencia", "frequenciadia", "idade", "peso");
+CREATE UNIQUE INDEX ON demo."prescricaoagg" ("fksetor", "fkmedicamento", "fkunidademedida", "dose", "fkfrequencia", "frequenciadia", "peso");
 CREATE INDEX ON demo."prescricaoagg" ("idsegmento", "fkmedicamento", "doseconv", "frequenciadia");
 
 CREATE INDEX ON demo."presmed" ("fkmedicamento", "idsegmento", "doseconv", "frequenciadia");

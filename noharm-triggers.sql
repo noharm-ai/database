@@ -290,9 +290,9 @@ AS $BODY$BEGIN
    IF pg_trigger_depth() = 1 then
 
         INSERT INTO demo.prescricaoagg
-            (fkhospital, fksetor, fkmedicamento, fkunidademedida, fkfrequencia, dose, frequenciadia, idade, peso, contagem, doseconv)
-            VALUES(1, NEW.fksetor, NEW.fkmedicamento, NEW.fkunidademedida, NEW.fkfrequencia, NEW.dose, NEW.frequenciadia, NEW.idade, NEW.peso, NEW.contagem, NEW.doseconv)
-        ON CONFLICT (fksetor, fkmedicamento, fkunidademedida, fkfrequencia, dose, frequenciadia, idade, peso)
+            (fkhospital, fksetor, fkmedicamento, fkunidademedida, fkfrequencia, dose, frequenciadia, peso, contagem, doseconv)
+            VALUES(1, NEW.fksetor, NEW.fkmedicamento, NEW.fkunidademedida, NEW.fkfrequencia, NEW.dose, NEW.frequenciadia, NEW.peso, NEW.contagem, NEW.doseconv)
+        ON CONFLICT (fksetor, fkmedicamento, fkunidademedida, fkfrequencia, dose, frequenciadia, peso)
          DO UPDATE SET contagem = NEW.contagem, doseconv = NEW.doseconv, idsegmento = NEW.idsegmento, frequenciadia = NEW.frequenciadia;
 
       RETURN NULL;
@@ -543,11 +543,10 @@ CREATE OR REPLACE  FUNCTION demo.insert_update_medicamento()
 AS $BODY$BEGIN
    IF pg_trigger_depth() = 1 then
 
-        INSERT INTO demo.medicamento (fkhospital, fkmedicamento, fkunidademedida, nome)
-            VALUES(1, NEW.fkmedicamento, NEW.fkunidademedida, NEW.nome)
+        INSERT INTO demo.medicamento (fkhospital, fkmedicamento, nome)
+            VALUES(1, NEW.fkmedicamento, NEW.nome)
          ON CONFLICT (fkmedicamento)
-         DO UPDATE SET nome = NEW.nome,
-            fkunidademedida = NEW.fkunidademedida;
+         DO UPDATE SET nome = NEW.nome;
 
       RETURN NULL;
    ELSE
