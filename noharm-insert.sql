@@ -20,7 +20,7 @@ TRUNCATE TABLE demo.motivointervencao, demo.intervencao, demo.presmed RESTART ID
 --
 
 INSERT INTO public.usuario (nome,email,senha,schema,getnameurl,logourl) VALUES 
-('demo','demo','demo','demo','http://localhost:5000/patient-name/{idPatient}','');
+('demo','demo',md5('demo'),'demo','http://localhost:5000/patient-name/{idPatient}','');
 
 INSERT INTO demo.hospital (fkhospital, nome) VALUES
 						(1, 'Hospital Demonstração');
