@@ -134,7 +134,7 @@ INSERT INTO demo.pessoa (fkpessoa, fkhospital, nratendimento, dtnascimento, sexo
 					(10, 1, 10, '1967-02-05', 'F', '2019-08-12', 100, 'B'),
 					(11, 1, 11, '1950-02-05', 'F', '2019-08-12', 100, 'B'),
 					(12, 1, 12, '1941-02-05', 'F', '2019-08-12', 100, 'B'),
-					(13, 1, 12, '1941-02-05', 'F', '2019-08-12', 100, 'B');
+					(13, 1, 13, '1941-02-05', 'F', '2019-08-12', 100, 'B');
 
 INSERT INTO demo.nome (fkpessoa, nome) VALUES
 					(1, 'João da Silva Júnior'),
