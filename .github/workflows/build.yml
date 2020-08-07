@@ -5,6 +5,7 @@ on:
 
 jobs:
   build:
+    name: Build PostgreSQL
     runs-on: ubuntu-latest
     services:
       postgres:
