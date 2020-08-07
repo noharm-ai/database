@@ -122,8 +122,8 @@ INSERT INTO demo.motivointervencao (nome) VALUES
 --
 
 INSERT INTO demo.pessoa (fkpessoa, fkhospital, nratendimento, dtnascimento, sexo, dtinternacao, peso, cor) VALUES
-					(1, 1, 1 '2000-10-10', 'M', '2019-08-01', 75, 'B'),
-					(2, 1, 2 '2000-10-10', 'F', '2019-08-22', 75, 'N'),
+					(1, 1, 1, '2000-10-10', 'M', '2019-08-01', 75, 'B'),
+					(2, 1, 2, '2000-10-10', 'F', '2019-08-22', 75, 'N'),
 					(3, 1, 3, '1951-04-05', 'M', '2019-08-24', 75, 'B'),
 					(4, 1, 4, '1985-03-04', 'M', '2019-08-23', 75, 'N'),
 					(5, 1, 5, '1954-02-05', 'F', '2019-08-12', 67, 'B'),
