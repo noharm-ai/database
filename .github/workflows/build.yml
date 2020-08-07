@@ -24,7 +24,7 @@ jobs:
       - name: Run PostgreSQL Insert
         run: psql -h localhost -U postgres -d noharm -a -f noharm-insert.sql -v ON_ERROR_STOP=1
       - name: Run PostgreSQL Create Test
-        run: pg_dump -h localhost -U postgres --schema='demo' noharm -s | sed 's/demo/demo_test/g' | psql -U postgres -d noharm -v ON_ERROR_STOP=1
+        run: pg_dump -h localhost -U postgres --schema='demo' noharm -s | sed 's/demo/demo_test/g' | psql -h localhost -U postgres -d noharm -v ON_ERROR_STOP=1
       - name: Run PostgreSQL Copy Test
         run: psql -h localhost -U postgres -d noharm -a -f noharm-test.sql -v ON_ERROR_STOP=1
       - name: Run PostgreSQL Create Users
