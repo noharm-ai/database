@@ -271,6 +271,15 @@ CREATE TABLE public."relacao" (
   "update_by" integer
 );
 
+CREATE TABLE demo."memoria" (
+  "idmemoria" SERIAL NOT NULL,
+  "tipo" varchar(100) NOT NULL,
+  "valor" json NOT NULL,
+  "update_at" timestamp NOT NULL DEFAULT 'NOW()',
+  "update_by" integer NOT NULL,
+  PRIMARY KEY ("idmemoria", "tipo")
+);
+
 CREATE UNIQUE INDEX ON demo."intervencao" ("fkpresmed");
 CREATE INDEX ON demo."intervencao" ("nratendimento");
 
