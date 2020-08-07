@@ -12,17 +12,16 @@ jobs:
         image: postgres:11.6
         env:
           POSTGRES_USER: postgres
-          POSTGRES_DB: postgres
+          POSTGRES_DB: noharm
         ports:
           - 5432:5432
     steps:
       - uses: actions/checkout@v2
       - name: Run PostgreSQL Build
         run: |
-          psql -U postgres -c 'create database noharm;'
-          psql -U postgres -d noharm -a -f noharm-create.sql -v ON_ERROR_STOP=1
-          psql -U postgres -d noharm -a -f noharm-triggers.sql -v ON_ERROR_STOP=1
-          psql -U postgres -d noharm -a -f noharm-insert.sql -v ON_ERROR_STOP=1
-          pg_dump -U postgres --schema='demo' noharm -s | sed 's/demo/demo_test/g' | psql -U postgres -d noharm -v ON_ERROR_STOP=1
-          psql -U postgres -d noharm -a -f noharm-test.sql -v ON_ERROR_STOP=1
-          psql -U postgres -d noharm -a -f noharm-newuser.sql -v ON_ERROR_STOP=1
+          psql -h localhost -U postgres -d noharm -a -f noharm-create.sql -v ON_ERROR_STOP=1
+          psql -h localhost -U postgres -d noharm -a -f noharm-triggers.sql -v ON_ERROR_STOP=1
+          psql -h localhost -U postgres -d noharm -a -f noharm-insert.sql -v ON_ERROR_STOP=1
+          pg_dump -h localhost -U postgres --schema='demo' noharm -s | sed 's/demo/demo_test/g' | psql -U postgres -d noharm -v ON_ERROR_STOP=1
+          psql -h localhost -U postgres -d noharm -a -f noharm-test.sql -v ON_ERROR_STOP=1
+          psql -h localhost -U postgres -d noharm -a -f noharm-newuser.sql -v ON_ERROR_STOP=1
