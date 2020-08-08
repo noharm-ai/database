@@ -20,12 +20,12 @@ CREATE TABLE demo."intervencao" (
   "nratendimento" bigint NOT NULL,
   "idmotivointervencao" smallint [] NULL,
   "erro" boolean NULL,
-  "dtintervencao" timestamp NOT NULL DEFAULT 'NOW()',
+  "dtintervencao" timestamp NOT NULL DEFAULT NOW(),
   "interacoes" bigint [] NULL,
   "custo" boolean NULL,
   "observacao" text NULL,
   "status" char(1) NOT NULL DEFAULT '0',
-  "update_at" timestamp NOT NULL DEFAULT 'NOW()',
+  "update_at" timestamp NOT NULL DEFAULT NOW(),
   "update_by" integer NOT NULL
 );
 
@@ -38,7 +38,7 @@ CREATE TABLE demo."outlier" (
   "frequenciadia" float DEFAULT NULL,
   "escore" smallint DEFAULT NULL,
   "escoremanual" smallint DEFAULT NULL,
-  "update_at" timestamp DEFAULT 'NOW()',
+  "update_at" timestamp DEFAULT NOW(),
   "update_by" integer
 );
 
@@ -51,7 +51,7 @@ CREATE TABLE demo."observacao" (
   "doseconv" float DEFAULT NULL,
   "frequenciadia" float DEFAULT NULL,
   "text" text DEFAULT NULL,
-  "update_at" timestamp DEFAULT 'NOW()',
+  "update_at" timestamp DEFAULT NOW(),
   "update_by" integer
 );
 
@@ -96,7 +96,7 @@ CREATE TABLE demo."prescricao" (
   "prescritor" varchar(255) NULL,
   "indicadores" json DEFAULT NULL,
   "evolucao" text DEFAULT NULL,
-  "update_at" timestamp DEFAULT 'NOW()',
+  "update_at" timestamp DEFAULT NOW(),
   "update_by" integer
 );
 
@@ -146,7 +146,7 @@ CREATE TABLE demo."presmed" (
   "suspenso" boolean,
   "checado" boolean  DEFAULT NULL,
   "periodo" int2  DEFAULT NULL,
-  "update_at" timestamp DEFAULT 'NOW()',
+  "update_at" timestamp DEFAULT NOW(),
   "update_by" integer
 );
 
@@ -222,7 +222,7 @@ CREATE TABLE demo."segmentoexame" (
   "referencia" varchar(250), 
   "posicao" smallint, 
   "ativo" boolean,
-  "update_at" timestamp NOT NULL DEFAULT 'NOW()',
+  "update_at" timestamp NOT NULL DEFAULT NOW(),
   "update_by" integer NOT NULL,
   PRIMARY KEY ("idsegmento", "tpexame")
 );
@@ -267,7 +267,7 @@ CREATE TABLE public."relacao" (
   "texto" text,
   "ativo" boolean,
   "create_by" integer,
-  "update_at" timestamp DEFAULT 'NOW()',
+  "update_at" timestamp DEFAULT NOW(),
   "update_by" integer
 );
 
@@ -275,7 +275,7 @@ CREATE TABLE demo."memoria" (
   "idmemoria" SERIAL NOT NULL,
   "tipo" varchar(100) NOT NULL,
   "valor" json NOT NULL,
-  "update_at" timestamp NOT NULL DEFAULT 'NOW()',
+  "update_at" timestamp NOT NULL DEFAULT NOW(),
   "update_by" integer NOT NULL,
   PRIMARY KEY ("idmemoria", "tipo")
 );
