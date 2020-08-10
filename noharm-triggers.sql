@@ -199,7 +199,7 @@ AS $BODY$BEGIN
 						dtprescricao = NEW.dtprescricao,
 						idsegmento = NEW.idsegmento;
 	  ELSE
-	      INSERT INTO .prescricao (fkprescricao, fkpessoa, nratendimento, fksetor, dtprescricao, idsegmento, peso, leito, prontuario, dtvigencia, prescritor) 
+	      INSERT INTO demo.prescricao (fkprescricao, fkpessoa, nratendimento, fksetor, dtprescricao, idsegmento, peso, leito, prontuario, dtvigencia, prescritor) 
 				VALUES (NEW.fkprescricao, NEW.fkpessoa, NEW.nratendimento, NEW.fksetor, NEW.dtprescricao, NEW.idsegmento, NEW.peso, NEW.leito, NEW.prontuario, NEW.dtvigencia, NEW.prescritor)
 	         ON CONFLICT (fkprescricao)
 	         DO UPDATE SET fkpessoa = NEW.fkpessoa,
