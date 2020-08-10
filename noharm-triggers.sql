@@ -191,16 +191,16 @@ AS $BODY$BEGIN
 		);
 	
 	  IF NEW.peso IS NULL THEN
-	      INSERT INTO demo.prescricao (fkprescricao, fkpessoa, nratendimento, fksetor, dtprescricao, idsegmento, leito, prontuario) 
-				VALUES (NEW.fkprescricao, NEW.fkpessoa, NEW.nratendimento, NEW.fksetor, NEW.dtprescricao, NEW.idsegmento, NEW.leito, NEW.prontuario)
+	      INSERT INTO demo.prescricao (fkprescricao, fkpessoa, nratendimento, fksetor, dtprescricao, idsegmento, leito, prontuario, dtvigencia, prescritor) 
+				VALUES (NEW.fkprescricao, NEW.fkpessoa, NEW.nratendimento, NEW.fksetor, NEW.dtprescricao, NEW.idsegmento, NEW.leito, NEW.prontuario, NEW.dtvigencia, NEW.prescritor)
 	         ON CONFLICT (fkprescricao)
 	         DO UPDATE SET fkpessoa = NEW.fkpessoa,
 						fksetor = NEW.fksetor,
 						dtprescricao = NEW.dtprescricao,
 						idsegmento = NEW.idsegmento;
 	  ELSE
-	      INSERT INTO demo.prescricao (fkprescricao, fkpessoa, nratendimento, fksetor, dtprescricao, idsegmento, peso, leito, prontuario) 
-				VALUES (NEW.fkprescricao, NEW.fkpessoa, NEW.nratendimento, NEW.fksetor, NEW.dtprescricao, NEW.idsegmento, NEW.peso, NEW.leito, NEW.prontuario)
+	      INSERT INTO .prescricao (fkprescricao, fkpessoa, nratendimento, fksetor, dtprescricao, idsegmento, peso, leito, prontuario, dtvigencia, prescritor) 
+				VALUES (NEW.fkprescricao, NEW.fkpessoa, NEW.nratendimento, NEW.fksetor, NEW.dtprescricao, NEW.idsegmento, NEW.peso, NEW.leito, NEW.prontuario, NEW.dtvigencia, NEW.prescritor)
 	         ON CONFLICT (fkprescricao)
 	         DO UPDATE SET fkpessoa = NEW.fkpessoa,
 						fksetor = NEW.fksetor,
