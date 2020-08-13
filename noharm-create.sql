@@ -250,9 +250,7 @@ CREATE TABLE public."usuario" (
   "email" varchar(255) UNIQUE NOT NULL,
   "senha" varchar(255) NOT NULL,
   "schema" varchar(10) NOT NULL,
-  "getnameurl" varchar(255) DEFAULT NULL,
-  "logourl" varchar(255) DEFAULT NULL,
-  "relatorios" json DEFAULT NULL
+  "config" json DEFAULT NULL
 );
 
 CREATE TABLE public."substancia" (

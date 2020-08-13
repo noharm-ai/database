@@ -19,8 +19,8 @@ TRUNCATE TABLE demo.motivointervencao, demo.intervencao, demo.presmed RESTART ID
 -- Insert Support's Tables
 --
 
-INSERT INTO public.usuario (nome,email,senha,schema,getnameurl,logourl) VALUES 
-('demo','demo',md5('demo'),'demo','http://localhost:5000/patient-name/{idPatient}','');
+INSERT INTO public.usuario (nome,email,senha,schema,config) VALUES 
+('Demonstração','demo',md5('demo'),'demo','{}');
 
 INSERT INTO demo.hospital (fkhospital, nome) VALUES
 						(1, 'Hospital Demonstração');
@@ -32,12 +32,12 @@ INSERT INTO demo.setor (fksetor, nome) VALUES
 						(4, 'Setor Pediatrico 1'),
 						(5, 'Setor Pediatrico 2'),
 						(6, 'Setor Pediatrico 3'),
-						(7, 'Setor UTI 1'),
-						(8, 'Setor UTI 2'),
-						(9, 'Setor UTI 3');
+						(7, 'Setor NeoNatal 1'),
+						(8, 'Setor NeoNatal 2'),
+						(9, 'Setor NeoNatal 3');
 
 INSERT INTO demo.segmento (nome) VALUES
-						('Hospital Adulto');
+						('Segmento Adulto');
 
 INSERT INTO demo.segmentosetor (idsegmento, fkhospital, fksetor) VALUES
 								(1,1,1),
