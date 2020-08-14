@@ -20,7 +20,7 @@ TRUNCATE TABLE demo.motivointervencao, demo.intervencao, demo.presmed RESTART ID
 --
 
 INSERT INTO public.usuario (nome,email,senha,schema,config) VALUES 
-						('Demonstração','demo',md5('demo'),'demo','{"roles":["admin"]}'),
+						('Demonstração','demo',md5('demo'),'demo','{"roles":["suporte"]}'),
 						('Não Admin','noadmin',md5('noadmin'),'demo','{}');
 
 INSERT INTO demo.hospital (fkhospital, nome) VALUES
