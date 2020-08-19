@@ -70,6 +70,7 @@ CREATE TABLE demo."pessoa" (
   "alertadata" timestamp DEFAULT NULL,
   "alertatexto" text DEFAULT NULL,
   "alertavigencia" timestamp DEFAULT NULL,
+  "alerta_by" integer DEFAULT NULL,
   "update_at" timestamp DEFAULT NULL,
   "update_by" integer DEFAULT NULL,
   PRIMARY KEY ("fkpessoa", "nratendimento")
@@ -96,6 +97,7 @@ CREATE TABLE demo."prescricao" (
   "prescritor" varchar(255) NULL,
   "indicadores" json DEFAULT NULL,
   "evolucao" text DEFAULT NULL,
+  "agrupado" boolean DEFAULT NULL,
   "update_at" timestamp DEFAULT NOW(),
   "update_by" integer
 );
@@ -250,6 +252,7 @@ CREATE TABLE public."usuario" (
   "email" varchar(255) UNIQUE NOT NULL,
   "senha" varchar(255) NOT NULL,
   "schema" varchar(10) NOT NULL,
+  "fkusuario" integer DEFAULT NULL,
   "config" json DEFAULT NULL
 );
 
