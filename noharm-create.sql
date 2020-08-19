@@ -97,7 +97,7 @@ CREATE TABLE demo."prescricao" (
   "prescritor" varchar(255) NULL,
   "indicadores" json DEFAULT NULL,
   "evolucao" text DEFAULT NULL,
-  "agrupado" boolean DEFAULT NULL,
+  "agrupada" boolean DEFAULT NULL,
   "update_at" timestamp DEFAULT NOW(),
   "update_by" integer
 );
