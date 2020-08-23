@@ -288,16 +288,17 @@ CREATE INDEX ON demo."exame" ("nratendimento", "tpexame");
 
 CREATE UNIQUE INDEX ON demo."outlier" ("fkmedicamento", "idsegmento", "doseconv", "frequenciadia");
 
-CREATE INDEX ON demo."prescricao" ("nratendimento");
 CREATE INDEX ON demo."prescricao" ("fksetor");
 CREATE INDEX ON demo."prescricao" ("idsegmento");
 CREATE INDEX ON demo."prescricao" ("nratendimento","dtprescricao");
+CREATE INDEX ON demo."prescricao" ("update_by");
 
 CREATE UNIQUE INDEX ON demo."prescricaoagg" ("fksetor", "fkmedicamento", "fkunidademedida", "dose", "fkfrequencia", "frequenciadia", "peso");
 CREATE INDEX ON demo."prescricaoagg" ("idsegmento", "fkmedicamento", "doseconv", "frequenciadia");
 
 CREATE INDEX ON demo."presmed" ("fkmedicamento", "idsegmento", "doseconv", "frequenciadia");
 CREATE INDEX ON demo."presmed" ("fkprescricao");
+CREATE INDEX ON demo."presmed" ("update_by");
 
 CREATE UNIQUE INDEX ON demo."medicamento" ("fkhospital", "fkmedicamento");
 
@@ -312,9 +313,6 @@ CREATE UNIQUE INDEX ON demo."unidadeconverte" ("fkmedicamento", "fkunidademedida
 CREATE UNIQUE INDEX ON demo."segmentosetor" ("fkhospital", "fksetor");
 
 CREATE UNIQUE INDEX ON demo."setor" ("fkhospital", "fksetor");
-
-CREATE INDEX ON demo."presmed" ("update_by");
-CREATE INDEX ON demo."prescricao" ("update_by");
 
 CREATE UNIQUE INDEX ON demo."observacao" ("idoutlier", "fkpresmed");
 CREATE INDEX ON demo."observacao" ("nratendimento","fkmedicamento");
