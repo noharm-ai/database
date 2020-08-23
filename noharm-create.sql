@@ -291,6 +291,7 @@ CREATE UNIQUE INDEX ON demo."outlier" ("fkmedicamento", "idsegmento", "doseconv"
 CREATE INDEX ON demo."prescricao" ("nratendimento");
 CREATE INDEX ON demo."prescricao" ("fksetor");
 CREATE INDEX ON demo."prescricao" ("idsegmento");
+CREATE INDEX ON demo."prescricao" ("nratendimento","dtprescricao");
 
 CREATE UNIQUE INDEX ON demo."prescricaoagg" ("fksetor", "fkmedicamento", "fkunidademedida", "dose", "fkfrequencia", "frequenciadia", "peso");
 CREATE INDEX ON demo."prescricaoagg" ("idsegmento", "fkmedicamento", "doseconv", "frequenciadia");
