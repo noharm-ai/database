@@ -628,6 +628,43 @@ CREATE TRIGGER insert_update_unidademedida
     ON demo.unidademedida
     FOR EACH ROW
     EXECUTE PROCEDURE demo.insert_update_unidademedida();
+		     
+-----------------
+		     
+CREATE OR REPLACE FUNCTION demo.insert_update_exame()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$
+DECLARE
+ TEST_EXISTS integer;
+BEGIN
+
+   TEST_EXISTS := (SELECT fkexame FROM demo.exame e
+				   WHERE fkexame = NEW.fkexame 
+				   AND nratendimento = NEW.nratendimento
+				   AND tpexame = NEW.tpexame
+				   AND dtexame = NEW.dtexame
+   );
+
+   IF TEST_EXISTS IS NULL THEN
+      RETURN NEW;
+   ELSE
+      RETURN NULL;
+   END IF;   
+END;$BODY$;
+
+ALTER FUNCTION demo.insert_update_exame()
+    OWNER TO postgres;
+
+DROP TRIGGER IF EXISTS trg_insert_update_exame ON demo.exame;
+		     
+CREATE TRIGGER trg_insert_update_exame
+    BEFORE INSERT 
+    ON demo.exame
+    FOR EACH ROW
+    EXECUTE PROCEDURE demo.insert_update_exame();
 
 -----------------
 
