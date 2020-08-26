@@ -646,6 +646,7 @@ BEGIN
 				   AND nratendimento = NEW.nratendimento
 				   AND tpexame = NEW.tpexame
 				   AND dtexame = NEW.dtexame
+				   LIMIT 1
    );
 
    IF TEST_EXISTS IS NULL THEN
