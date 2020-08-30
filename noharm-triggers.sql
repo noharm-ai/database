@@ -126,6 +126,10 @@ BEGIN
         AND p2.doseconv = NEW.doseconv
         AND p2.frequenciadia = NEW.frequenciadia
         AND p2.idsegmento = NEW.idsegmento
+        AND p2.sletapas = NEW.sletapas
+        AND p2.slhorafase = NEW.slhorafase
+        AND p2.sltempoaplicacao = NEW.sltempoaplicacao
+        AND p2.sldosagem = NEW.sldosagem
         AND pr2.status = 's'
         LIMIT 1
     );
