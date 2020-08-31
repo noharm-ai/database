@@ -126,10 +126,10 @@ BEGIN
         AND p2.doseconv = NEW.doseconv
         AND p2.frequenciadia = NEW.frequenciadia
         AND p2.idsegmento = NEW.idsegmento
-        AND p2.sletapas = NEW.sletapas
-        AND p2.slhorafase = NEW.slhorafase
-        AND p2.sltempoaplicacao = NEW.sltempoaplicacao
-        AND p2.sldosagem = NEW.sldosagem
+        AND COALESCE(p2.sletapas, 0) = COALESCE(NEW.sletapas, 0)
+        AND COALESCE(p2.slhorafase, 0) = COALESCE(NEW.slhorafase, 0)
+        AND COALESCE(p2.sltempoaplicacao, 0) = COALESCE(NEW.sltempoaplicacao, 0)
+        AND COALESCE(p2.sldosagem, 0) = COALESCE(NEW.sldosagem, 0)
         AND pr2.status = 's'
         LIMIT 1
     );
