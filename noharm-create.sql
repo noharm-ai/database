@@ -97,6 +97,7 @@ CREATE TABLE demo."prescricao" (
   "prescritor" varchar(255) NULL,
   "indicadores" json DEFAULT NULL,
   "evolucao" text DEFAULT NULL,
+  "evolucao_at" timestamp DEFAULT NULL,
   "agregada" boolean DEFAULT NULL,
   "update_at" timestamp DEFAULT NOW(),
   "update_by" integer
@@ -166,7 +167,7 @@ CREATE TABLE demo."medatributos" (
   "mav" boolean,
   "controlados" boolean,
   "naopadronizado" boolean,
-  "dosemaxima" smallint,
+  "dosemaxima" float4,
   "renal" smallint,
   "hepatico" smallint,
   "idoso" boolean,
