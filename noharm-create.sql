@@ -61,6 +61,8 @@ CREATE TABLE demo."pessoa" (
   "nratendimento" bigint UNIQUE NOT NULL,
   "dtnascimento" date DEFAULT NULL,
   "dtinternacao" timestamp NOT NULL,
+  "dtalta" timestamp NOT NULL,
+  "motivoalta" varchar(100) DEFAULT NULL,
   "cor" varchar(100) DEFAULT NULL,
   "sexo" char(1) DEFAULT NULL,
   "peso" float DEFAULT NULL,
