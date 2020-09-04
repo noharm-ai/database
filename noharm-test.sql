@@ -36,7 +36,7 @@ INSERT INTO demo_test.prescricao
 	WHERE dtprescricao > current_date - 2 and idsegmento = 1;
 
 INSERT INTO demo_test.pessoa
-	SELECT fkhospital, fkpessoa, nratendimento, dtnascimento, dtinternacao + INTERVAL '1 month', cor, sexo, peso
+	SELECT fkhospital, fkpessoa, nratendimento, dtnascimento, dtinternacao + INTERVAL '1 month', NULL, NULL, cor, sexo, peso
 	FROM demo.pessoa p
 	WHERE EXISTS (
 		SELECT * 
