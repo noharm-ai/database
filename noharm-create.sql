@@ -144,7 +144,7 @@ CREATE TABLE demo."presmed" (
   "slhorafase" float4 DEFAULT NULL,
   "sltempoaplicacao" bigint DEFAULT NULL,
   "sldosagem" float4 DEFAULT NULL,
-  "sltipodosagem" varchar(3) DEFAULT NULL,
+  "sltipodosagem" varchar(16) DEFAULT NULL,
   "alergia" char(1) DEFAULT NULL,
   "status" char(1),
   "aprox" boolean,
