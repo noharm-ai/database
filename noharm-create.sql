@@ -179,6 +179,7 @@ CREATE TABLE demo."medatributos" (
   "concentracaounidade" varchar(3),
   "linhabranca" boolean,
   "fkunidademedida" varchar(16),
+  "custo" float4,
   "update_at" timestamp DEFAULT NULL,
   "update_by" integer DEFAULT NULL
 );

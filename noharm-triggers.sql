@@ -343,9 +343,7 @@ AS $BODY$BEGIN
       INSERT INTO demo.frequencia (fkhospital, fkfrequencia, nome, frequenciadia, frequenciahora) 
             VALUES(1, NEW.fkfrequencia, NEW.nome, NEW.frequenciadia, NEW.frequenciahora)
          ON CONFLICT (fkfrequencia)
-         DO UPDATE SET nome = NEW.nome,
-            frequenciadia = NEW.frequenciadia, 
-            frequenciahora = NEW.frequenciahora;
+         DO NOTHING;
       RETURN NULL;
    ELSE
       RETURN NEW;
