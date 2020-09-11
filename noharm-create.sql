@@ -188,6 +188,7 @@ CREATE TABLE demo."motivointervencao" (
   "fkhospital" smallint DEFAULT 1,
   "idmotivointervencao" SERIAL PRIMARY KEY NOT NULL,
   "idmotivomae" int4 NULL,
+  "ativo" bool NOT NULL DEFAULT true,
   "nome" varchar(250) NOT NULL
 );
 
