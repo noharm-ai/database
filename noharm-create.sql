@@ -110,7 +110,7 @@ CREATE TABLE demo."prescricaoagg" (
   "fksetor" integer NOT NULL,
   "idsegmento" smallint DEFAULT null,
   "fkmedicamento" bigint NOT NULL,
-  "fkunidademedida" varchar(16) DEFAULT NULL,
+  "fkunidademedida" varchar(32) DEFAULT NULL,
   "fkfrequencia" varchar(16) DEFAULT NULL,
   "dose" float4 DEFAULT NULL,
   "doseconv" float4 DEFAULT NULL,
@@ -123,7 +123,7 @@ CREATE TABLE demo."presmed" (
   "fkpresmed" bigserial PRIMARY KEY NOT NULL,
   "fkprescricao" bigint NOT NULL,
   "fkmedicamento" bigint NOT NULL,
-  "fkunidademedida" varchar(16) DEFAULT NULL,
+  "fkunidademedida" varchar(32) DEFAULT NULL,
   "fkfrequencia" varchar(16) DEFAULT NULL,
   "idsegmento" smallint DEFAULT NULL,
   "idoutlier" integer DEFAULT NULL,
@@ -178,7 +178,7 @@ CREATE TABLE demo."medatributos" (
   "concentracao" float4,
   "concentracaounidade" varchar(3),
   "linhabranca" boolean,
-  "fkunidademedida" varchar(16),
+  "fkunidademedida" varchar(32),
   "custo" float4,
   "update_at" timestamp DEFAULT NULL,
   "update_by" integer DEFAULT NULL
@@ -202,14 +202,14 @@ CREATE TABLE demo."frequencia" (
 
 CREATE TABLE demo."unidademedida" (
   "fkhospital" smallint DEFAULT 1,
-  "fkunidademedida" varchar(16) PRIMARY KEY NOT NULL,
+  "fkunidademedida" varchar(32) PRIMARY KEY NOT NULL,
   "nome" varchar(250) NOT NULL
 );
 
 CREATE TABLE demo."unidadeconverte" (
   "idsegmento" smallint DEFAULT 1,
   "fkmedicamento" bigint NOT NULL,
-  "fkunidademedida" varchar(15) NOT NULL,
+  "fkunidademedida" varchar(32) NOT NULL,
   "fator" float NOT NULL
 );
 
