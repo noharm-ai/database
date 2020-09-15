@@ -305,7 +305,7 @@ AS $BODY$BEGIN
         INSERT INTO demo.prescricaoagg
             (fkhospital, fksetor, fkmedicamento, fkunidademedida, fkfrequencia, dose, frequenciadia, peso, contagem, doseconv)
             VALUES(1, NEW.fksetor, NEW.fkmedicamento, NEW.fkunidademedida, NEW.fkfrequencia, NEW.dose, NEW.frequenciadia, NEW.peso, NEW.contagem, NEW.doseconv)
-        ON CONFLICT (fksetor, fkmedicamento, fkunidademedida, fkfrequencia, dose, frequenciadia, peso)
+        ON CONFLICT (fksetor, fkmedicamento, fkunidademedida, fkfrequencia, dose, peso)
          DO UPDATE SET contagem = NEW.contagem, doseconv = NEW.doseconv, idsegmento = NEW.idsegmento, frequenciadia = NEW.frequenciadia;
 
       RETURN NULL;

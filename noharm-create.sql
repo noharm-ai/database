@@ -298,7 +298,7 @@ CREATE INDEX ON demo."prescricao" ("idsegmento");
 CREATE INDEX ON demo."prescricao" ("nratendimento","dtprescricao");
 CREATE INDEX ON demo."prescricao" ("update_by");
 
-CREATE UNIQUE INDEX ON demo."prescricaoagg" ("fksetor", "fkmedicamento", "fkunidademedida", "dose", "fkfrequencia", "frequenciadia", "peso");
+ALTER TABLE hscpoa.prescricaoagg ADD CONSTRAINT prescricaoagg_un UNIQUE (fkmedicamento,fksetor,fkunidademedida,fkfrequencia,dose,peso);
 CREATE INDEX ON demo."prescricaoagg" ("idsegmento", "fkmedicamento", "doseconv", "frequenciadia");
 
 CREATE INDEX ON demo."presmed" ("fkmedicamento", "idsegmento", "doseconv", "frequenciadia");
