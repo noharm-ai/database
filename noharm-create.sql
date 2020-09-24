@@ -180,6 +180,7 @@ CREATE TABLE demo."medatributos" (
   "linhabranca" boolean,
   "fkunidademedida" varchar(32),
   "custo" float4,
+  "tempotratamento" smallint,
   "update_at" timestamp DEFAULT NULL,
   "update_by" integer DEFAULT NULL
 );
