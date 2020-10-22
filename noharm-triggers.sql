@@ -335,7 +335,7 @@ CREATE OR REPLACE FUNCTION demo.complete_frequencia()
     VOLATILE NOT LEAKPROOF
 AS $BODY$BEGIN
 
-    IF NEW.frequenciadia IS NULL AND NEW.frequenciahora IS NOT NULL THEN
+    IF NEW.frequenciadia IS NULL AND NEW.frequenciahora IS NOT NULL AND NEW.frequenciahora <> 0 THEN
             NEW.frequenciadia := 24 / NEW.frequenciahora;
     END IF;
 
