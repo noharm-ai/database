@@ -101,6 +101,8 @@ CREATE TABLE demo."prescricao" (
   "evolucao" text DEFAULT NULL,
   "evolucao_at" timestamp DEFAULT NULL,
   "agregada" boolean DEFAULT NULL,
+  "aggsetor" integer [] NULL,
+  "addmedicamento" bigint [] NULL,
   "update_at" timestamp DEFAULT NOW(),
   "update_by" integer
 );
