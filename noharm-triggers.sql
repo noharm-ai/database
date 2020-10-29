@@ -201,23 +201,14 @@ AS $BODY$BEGIN
 		    AND s.fkhospital = NEW.fkhospital
 		);
 	
-	  IF NEW.peso IS NULL THEN
-	      INSERT INTO demo.prescricao (fkprescricao, fkpessoa, nratendimento, fksetor, dtprescricao, idsegmento, leito, prontuario, dtvigencia, prescritor, agregada, indicadores) 
-				VALUES (NEW.fkprescricao, NEW.fkpessoa, NEW.nratendimento, NEW.fksetor, NEW.dtprescricao, NEW.idsegmento, NEW.leito, NEW.prontuario, NEW.dtvigencia, NEW.prescritor, NEW.agregada, NEW.indicadores)
-	         ON CONFLICT (fkprescricao)
-	         DO UPDATE SET fkpessoa = NEW.fkpessoa,
-						fksetor = NEW.fksetor,
-						dtprescricao = NEW.dtprescricao,
-						idsegmento = NEW.idsegmento;
-	  ELSE
-	      INSERT INTO demo.prescricao (fkprescricao, fkpessoa, nratendimento, fksetor, dtprescricao, idsegmento, peso, leito, prontuario, dtvigencia, prescritor, agregada, indicadores)
-				VALUES (NEW.fkprescricao, NEW.fkpessoa, NEW.nratendimento, NEW.fksetor, NEW.dtprescricao, NEW.idsegmento, NEW.peso, NEW.leito, NEW.prontuario, NEW.dtvigencia, NEW.prescritor, NEW.agregada, NEW.indicadores)
-	         ON CONFLICT (fkprescricao)
-	         DO UPDATE SET fkpessoa = NEW.fkpessoa,
-						fksetor = NEW.fksetor,
-						dtprescricao = NEW.dtprescricao,
-						idsegmento = NEW.idsegmento;
-		END IF; 
+        INSERT INTO demo.prescricao (fkprescricao, fkpessoa, nratendimento, fksetor, dtprescricao, idsegmento, leito, prontuario, dtvigencia, prescritor, agregada, indicadores) 
+            VALUES (NEW.fkprescricao, NEW.fkpessoa, NEW.nratendimento, NEW.fksetor, NEW.dtprescricao, NEW.idsegmento, NEW.leito, NEW.prontuario, NEW.dtvigencia, NEW.prescritor, NEW.agregada, NEW.indicadores)
+            ON CONFLICT (fkprescricao)
+            DO UPDATE SET fkpessoa = NEW.fkpessoa,
+                    fksetor = NEW.fksetor,
+                    dtprescricao = NEW.dtprescricao,
+                    idsegmento = NEW.idsegmento;
+
       RETURN NULL;
    ELSE
       RETURN NEW;
