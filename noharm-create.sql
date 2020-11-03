@@ -43,8 +43,8 @@ CREATE TABLE demo."outlier" (
 );
 
 CREATE TABLE demo."observacao" (
-  "idoutlier" integer NOT NULL,
-  "fkpresmed" bigint NOT NULL,
+  "idoutlier" integer DEFAULT 0,
+  "fkpresmed" bigint DEFAULT 0,
   "nratendimento" bigint DEFAULT NULL,
   "idsegmento" smallint DEFAULT NULL,
   "fkmedicamento" bigint DEFAULT NULL,
