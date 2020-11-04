@@ -735,6 +735,8 @@ AS $BODY$BEGIN
         WHERE pa.fkmedicamento = NEW.fkmedicamento
         AND pa.idsegmento = NEW.idsegmento;
 
+    IF NEW.divisor IS NOT NULL THEN  
+
       IF NEW.usapeso = true THEN 
 
         UPDATE demo.prescricaoagg pa
@@ -759,6 +761,8 @@ AS $BODY$BEGIN
           AND doseconv is not null;
 
       END IF;
+
+    END IF;
 
     RETURN NULL;
 END;$BODY$;
