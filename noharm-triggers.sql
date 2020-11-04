@@ -724,8 +724,6 @@ CREATE OR REPLACE  FUNCTION demo.atualiza_divisor()
     VOLATILE NOT LEAKPROOF
 AS $BODY$BEGIN
 
-    IF NEW.divisor IS NOT NULL THEN    
-
       UPDATE demo.prescricaoagg pa
         SET doseconv = ( SELECT COALESCE (
           ( SELECT (pa.dose * un.fator) as doseconv
@@ -761,8 +759,6 @@ AS $BODY$BEGIN
           AND doseconv is not null;
 
       END IF;
-
-    END IF;
 
     RETURN NULL;
 END;$BODY$;
