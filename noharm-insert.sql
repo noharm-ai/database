@@ -19,9 +19,11 @@ TRUNCATE TABLE demo.motivointervencao, demo.intervencao, demo.presmed RESTART ID
 -- Insert Support's Tables
 --
 
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
 INSERT INTO public.usuario (nome,email,senha,schema,config) VALUES 
-						('Demonstração','demo',md5('demo'),'demo','{"roles":["suporte"]}'),
-						('Não Admin','noadmin',md5('noadmin'),'demo','{}');
+						('Demonstração','demo',crypt('demo', gen_salt('bf',8)) ,'demo','{"roles":["suporte"]}'),
+						('Não Admin','noadmin',crypt('noadmin', gen_salt('bf',8)),'demo','{}');
 
 INSERT INTO demo.hospital (fkhospital, nome) VALUES
 						(1, 'Hospital Demonstração');
