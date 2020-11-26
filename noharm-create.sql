@@ -326,3 +326,9 @@ CREATE INDEX ON demo."observacao" ("nratendimento","fkmedicamento");
 
 CREATE UNIQUE INDEX ON public."substancia" ("sctid");
 CREATE UNIQUE INDEX ON public."relacao" ("sctida", "sctidb","tprelacao");
+
+CREATE OR REPLACE VIEW demo.usuario
+  AS SELECT usuario.idusuario,
+    usuario.fkusuario
+    FROM public.usuario
+    WHERE usuario.schema::text = 'demo'::text;
