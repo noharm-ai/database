@@ -173,7 +173,7 @@ CREATE TABLE demo."medatributos" (
   "dosemaxima" float4,
   "renal" smallint,
   "hepatico" smallint,
-  "plaquetas" float4,
+  "plaquetas" integer,
   "idoso" boolean,
   "sonda" boolean,
   "divisor" float4,
