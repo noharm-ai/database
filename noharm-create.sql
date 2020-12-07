@@ -137,7 +137,6 @@ CREATE TABLE demo."presmed" (
   "quantidade" integer DEFAULT NULL,
   "origem" varchar(13) DEFAULT NULL,
   "dtsuspensao" timestamp DEFAULT NULL,
-  "padronizado" char(1) DEFAULT NULL,
   "escorefinal" smallint DEFAULT NULL,
   "slagrupamento" bigint DEFAULT NULL,
   "slacm" varchar(1) DEFAULT NULL,
