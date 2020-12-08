@@ -16,7 +16,8 @@ CREATE TABLE demo."exame" (
 );
 
 CREATE TABLE demo."intervencao" (
-  "fkpresmed" bigint PRIMARY KEY NOT NULL,
+  "fkpresmed" bigint DEFAULT 0,
+  "fkprescricao" bigint DEFAULT 0,
   "nratendimento" bigint NOT NULL,
   "idmotivointervencao" smallint [] NULL,
   "erro" boolean NULL,
@@ -289,7 +290,7 @@ CREATE TABLE demo."memoria" (
   PRIMARY KEY ("idmemoria", "tipo")
 );
 
-CREATE UNIQUE INDEX ON demo."intervencao" ("fkpresmed");
+CREATE UNIQUE INDEX ON demo."intervencao" ("fkpresmed","fkprescricao");
 CREATE INDEX ON demo."intervencao" ("nratendimento");
 
 CREATE INDEX ON demo."exame" ("nratendimento", "tpexame");
