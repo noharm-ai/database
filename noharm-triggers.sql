@@ -138,6 +138,7 @@ BEGIN
         AND COALESCE(p2.sltempoaplicacao, 0) = COALESCE(NEW.sltempoaplicacao, 0)
         AND COALESCE(p2.sldosagem, 0) = COALESCE(NEW.sldosagem, 0)
         AND pr2.status = 's'
+        AND p2.dtsuspensao IS NULL 
         LIMIT 1
     );
 
