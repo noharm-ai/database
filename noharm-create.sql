@@ -11,7 +11,7 @@ CREATE TABLE demo."exame" (
   "fkprescricao" bigint DEFAULT null,
   "dtexame" timestamp NOT NULL,
   "tpexame" varchar(100) NOT NULL,
-  "resultado" float DEFAULT null,
+  "resultado" float4 DEFAULT null,
   "unidade" varchar(250) DEFAULT NULL
 );
 
@@ -35,8 +35,8 @@ CREATE TABLE demo."outlier" (
   "idoutlier" SERIAL PRIMARY KEY NOT NULL,
   "idsegmento" smallint DEFAULT NULL,
   "contagem" integer DEFAULT NULL,
-  "doseconv" float DEFAULT NULL,
-  "frequenciadia" float DEFAULT NULL,
+  "doseconv" float4 DEFAULT NULL,
+  "frequenciadia" float4 DEFAULT NULL,
   "escore" smallint DEFAULT NULL,
   "escoremanual" smallint DEFAULT NULL,
   "update_at" timestamp DEFAULT NOW(),
@@ -49,8 +49,8 @@ CREATE TABLE demo."observacao" (
   "nratendimento" bigint DEFAULT NULL,
   "idsegmento" smallint DEFAULT NULL,
   "fkmedicamento" bigint DEFAULT NULL,
-  "doseconv" float DEFAULT NULL,
-  "frequenciadia" float DEFAULT NULL,
+  "doseconv" float4 DEFAULT NULL,
+  "frequenciadia" float4 DEFAULT NULL,
   "text" text DEFAULT NULL,
   "update_at" timestamp DEFAULT NOW(),
   "update_by" integer
@@ -66,8 +66,8 @@ CREATE TABLE demo."pessoa" (
   "motivoalta" varchar(100) DEFAULT NULL,
   "cor" varchar(100) DEFAULT NULL,
   "sexo" char(1) DEFAULT NULL,
-  "peso" float DEFAULT NULL,
-  "altura" float DEFAULT NULL,
+  "peso" float4 DEFAULT NULL,
+  "altura" float4 DEFAULT NULL,
   "dtpeso" timestamp DEFAULT NULL,
   "anotacao" text DEFAULT NULL,
   "alertadata" timestamp DEFAULT NULL,
@@ -214,7 +214,7 @@ CREATE TABLE demo."unidadeconverte" (
   "idsegmento" smallint DEFAULT 1,
   "fkmedicamento" bigint NOT NULL,
   "fkunidademedida" varchar(32) NOT NULL,
-  "fator" float NOT NULL
+  "fator" float4 NOT NULL
 );
 
 CREATE TABLE demo."segmento" (
