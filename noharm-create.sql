@@ -135,7 +135,6 @@ CREATE TABLE demo."presmed" (
   "via" varchar(50) DEFAULT NULL,
   "horario" varchar(600) DEFAULT NULL,
   "complemento" text,
-  "quantidade" integer DEFAULT NULL,
   "origem" varchar(13) DEFAULT NULL,
   "dtsuspensao" timestamp DEFAULT NULL,
   "escorefinal" smallint DEFAULT NULL,
