@@ -125,9 +125,8 @@ BEGIN
 
     NEW.checado := (
         SELECT true FROM demo.presmed p2
-        INNER JOIN demo.prescricao pr1 ON pr1.fkprescricao = NEW.fkprescricao
         INNER JOIN demo.prescricao pr2 ON pr2.fkprescricao < NEW.fkprescricao
-          AND pr2.nratendimento = pr1.nratendimento
+          AND pr2.nratendimento = (select nratendimento from demo.prescricao pp where pp.fkprescricao = NEW.fkprescricao)
           AND pr2.fkprescricao = p2.fkprescricao 
         WHERE p2.fkmedicamento = NEW.fkmedicamento
         AND p2.doseconv = NEW.doseconv
