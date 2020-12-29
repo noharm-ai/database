@@ -17,10 +17,12 @@ BEGIN
   IF pg_trigger_depth() = 1 then
   
     -- Muda nome da origem quando integrando com Sistema MV
-    NEW.origem := 'Medicamentos';
+    
     IF NEW.origem = 'SOR' THEN
            NEW.origem := 'Soluções';
-	END IF;           
+    ELSE
+           NEW.origem := 'Medicamentos';
+    END IF;           
 
 
     -- Medicamentos com Frequência
