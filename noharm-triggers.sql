@@ -125,7 +125,7 @@ BEGIN
         END IF;
     END IF;
 
-    NEW.checado := (
+    /*NEW.checado := (
         SELECT true FROM demo.presmed p2
         INNER JOIN demo.prescricao pr2 ON pr2.fkprescricao < NEW.fkprescricao
           AND pr2.nratendimento = (select nratendimento from demo.prescricao pp where pp.fkprescricao = NEW.fkprescricao limit 1)
@@ -140,6 +140,19 @@ BEGIN
         AND COALESCE(p2.sldosagem, 0) = COALESCE(NEW.sldosagem, 0)
         AND pr2.status = 's'
         AND p2.dtsuspensao IS NULL 
+        LIMIT 1
+    );*/
+
+    NEW.checado := (
+        SELECT true FROM demo.checkedindex
+        WHERE nratendimento = (select nratendimento from demo.prescricao pp where pp.fkprescricao = NEW.fkprescricao limit 1)
+        and fkmedicamento = NEW.fkmedicamento
+        AND doseconv = NEW.doseconv
+        AND frequenciadia = NEW.frequenciadia
+        AND sletapas = COALESCE(NEW.sletapas, 0)
+        AND slhorafase = COALESCE(NEW.slhorafase, 0)
+        AND sltempoaplicacao = COALESCE(NEW.sltempoaplicacao, 0)
+        AND sldosagem = COALESCE(NEW.sldosagem, 0)
         LIMIT 1
     );
 
