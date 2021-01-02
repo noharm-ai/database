@@ -298,7 +298,7 @@ CREATE TABLE demo.checkedindex (
   "slhorafase" float4 DEFAULT 0,
   "sltempoaplicacao" bigint DEFAULT 0,
   "sldosagem" float4 DEFAULT 0,
-  "dtprescricao" timestamp NOT NULL,
+  "dtprescricao" timestamp NOT NULL
 );
 CREATE INDEX ON demo.checkedindex ("nratendimento","fkmedicamento");
 
