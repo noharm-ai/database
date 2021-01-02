@@ -240,6 +240,22 @@ AS $BODY$BEGIN
                                 FROM demo.outlier o
                                 WHERE o.idoutlier = pm.idoutlier)
         WHERE pm.fkprescricao = NEW.fkprescricao;
+
+        INSERT INTO demo.checkedindex
+            SELECT p.nratendimento, pm.fkmedicamento, pm.doseconv, pm.frequenciadia, 
+            COALESCE(pm.sletapas, 0), COALESCE(pm.slhorafase, 0), 
+            COALESCE(pm.sltempoaplicacao, 0), COALESCE(pm.sldosagem, 0),
+            p.dtprescricao
+            FROM demo.prescricao p
+            INNER JOIN demo.presmed pm ON pm.fkprescricao = p.fkprescricao 
+            WHERE p.status = 's'
+            AND p.fkprescricao = NEW.fkprescricao
+            AND pm.dtsuspensao is null;
+
+        DELETE FROM demo.checkedindex
+            WHERE nratendimento = NEW.nratendimento
+            AND dtprescricao < current_date - 15;
+
     END IF;
     RETURN NULL;
 END;$BODY$;

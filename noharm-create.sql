@@ -289,6 +289,19 @@ CREATE TABLE demo."memoria" (
   PRIMARY KEY ("idmemoria", "tipo")
 );
 
+CREATE TABLE demo.checkedindex (
+  "nratendimento" bigint NOT NULL,
+  "fkmedicamento" bigint NOT NULL,
+  "doseconv" float4 DEFAULT 0,
+  "frequenciadia" float4 DEFAULT 0,
+  "sletapas" bigint DEFAULT 0,
+  "slhorafase" float4 DEFAULT 0,
+  "sltempoaplicacao" bigint DEFAULT 0,
+  "sldosagem" float4 DEFAULT 0,
+  "dtprescricao" timestamp NOT NULL,
+);
+CREATE INDEX ON demo.checkedindex ("nratendimento","fkmedicamento");
+
 CREATE UNIQUE INDEX ON demo."intervencao" ("fkpresmed","fkprescricao");
 CREATE INDEX ON demo."intervencao" ("nratendimento");
 
