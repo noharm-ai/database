@@ -318,7 +318,7 @@ CREATE INDEX ON demo."prescricao" USING brin ("update_at") with (pages_per_range
 
 CREATE INDEX ON demo."presmed" ("fkmedicamento", "idsegmento");
 CREATE INDEX ON demo."presmed" ("update_by");
-CREATE INDEX ON demo."presmed" USING brin ("fkprescricao") with (pages_per_range = 64);
+CREATE INDEX ON demo."presmed" USING brin ("fkprescricao") with (pages_per_range = 16);
 CREATE INDEX ON demo."presmed" USING brin ("update_at") with (pages_per_range = 64);
 
 CREATE UNIQUE INDEX ON demo.prescricaoagg USING btree (fkmedicamento, fksetor, fkunidademedida, fkfrequencia, dose, peso);
