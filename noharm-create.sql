@@ -305,21 +305,22 @@ CREATE INDEX ON demo.checkedindex ("nratendimento","fkmedicamento");
 CREATE UNIQUE INDEX ON demo."intervencao" ("fkpresmed","fkprescricao");
 CREATE INDEX ON demo."intervencao" ("nratendimento");
 
-CREATE INDEX ON demo."exame" ("nratendimento", "tpexame");
+CREATE INDEX ON demo."exame" ("nratendimento");
 
 CREATE UNIQUE INDEX ON demo."outlier" ("fkmedicamento", "idsegmento", "doseconv", "frequenciadia");
 
 CREATE INDEX ON demo."prescricao" ("fksetor");
 CREATE INDEX ON demo."prescricao" ("idsegmento");
-CREATE INDEX ON demo."prescricao" ("nratendimento","dtprescricao");
-CREATE INDEX ON demo."prescricao" ("update_by");
+CREATE INDEX ON demo."prescricao" ("nratendimento");
+CREATE INDEX ON demo."prescricao" USING brin ("dtprescricao");
+CREATE INDEX ON demo."prescricao" USING brin ("update_by");
 
 CREATE UNIQUE INDEX ON demo.prescricaoagg USING btree (fkmedicamento, fksetor, fkunidademedida, fkfrequencia, dose, peso);
 CREATE INDEX ON demo."prescricaoagg" ("idsegmento", "fkmedicamento", "doseconv", "frequenciadia");
 
-CREATE INDEX ON demo."presmed" ("fkmedicamento", "idsegmento", "doseconv", "frequenciadia");
-CREATE INDEX ON demo."presmed" ("fkprescricao");
-CREATE INDEX ON demo."presmed" ("update_by");
+CREATE INDEX ON demo."presmed" ("fkmedicamento", "idsegmento");
+CREATE INDEX ON demo."presmed" USING brin ("fkprescricao");
+CREATE INDEX ON demo."presmed" USING brin ("update_by");
 
 CREATE UNIQUE INDEX ON demo."medicamento" ("fkhospital", "fkmedicamento");
 
