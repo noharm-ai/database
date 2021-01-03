@@ -312,15 +312,15 @@ CREATE UNIQUE INDEX ON demo."outlier" ("fkmedicamento", "idsegmento", "doseconv"
 CREATE INDEX ON demo."prescricao" ("fksetor");
 CREATE INDEX ON demo."prescricao" ("idsegmento");
 CREATE INDEX ON demo."prescricao" ("nratendimento");
-CREATE INDEX ON demo."prescricao" USING brin ("dtprescricao");
-CREATE INDEX ON demo."prescricao" USING brin ("update_by");
+CREATE INDEX ON demo."prescricao" USING brin ("dtprescricao") with (pages_per_range = 32);
+CREATE INDEX ON demo."prescricao" USING brin ("update_by") with (pages_per_range = 32);
+
+CREATE INDEX ON demo."presmed" ("fkmedicamento", "idsegmento");
+CREATE INDEX ON demo."presmed" USING brin ("fkprescricao") with (pages_per_range = 64);
+CREATE INDEX ON demo."presmed" USING brin ("update_by") with (pages_per_range = 64);
 
 CREATE UNIQUE INDEX ON demo.prescricaoagg USING btree (fkmedicamento, fksetor, fkunidademedida, fkfrequencia, dose, peso);
 CREATE INDEX ON demo."prescricaoagg" ("idsegmento", "fkmedicamento", "doseconv", "frequenciadia");
-
-CREATE INDEX ON demo."presmed" ("fkmedicamento", "idsegmento");
-CREATE INDEX ON demo."presmed" USING brin ("fkprescricao");
-CREATE INDEX ON demo."presmed" USING brin ("update_by");
 
 CREATE UNIQUE INDEX ON demo."medicamento" ("fkhospital", "fkmedicamento");
 
