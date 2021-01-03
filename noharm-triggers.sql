@@ -269,8 +269,7 @@ AS $BODY$BEGIN
             AND pm.dtsuspensao is null;
 
         DELETE FROM demo.checkedindex
-            WHERE nratendimento = NEW.nratendimento
-            AND dtprescricao < current_date - 15;
+            WHERE dtprescricao < current_date - 15;
 
     END IF;
     RETURN NULL;
