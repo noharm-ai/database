@@ -76,7 +76,7 @@ CREATE TABLE demo."pessoa" (
   "alerta_by" integer DEFAULT NULL,
   "update_at" timestamp DEFAULT NULL,
   "update_by" integer DEFAULT NULL,
-  PRIMARY KEY ("fkpessoa", "nratendimento")
+  PRIMARY KEY ("nratendimento")
 );
 
 CREATE TABLE demo."nome" (
