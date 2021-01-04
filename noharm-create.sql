@@ -300,15 +300,15 @@ CREATE TABLE demo.checkedindex (
   "sldosagem" float4 DEFAULT 0,
   "dtprescricao" timestamp NOT NULL
 );
-CREATE INDEX ON demo.checkedindex ("nratendimento","fkmedicamento");
+CREATE INDEX demo_checkedindex_idx ON demo.checkedindex ("nratendimento","fkmedicamento");
 
 CREATE UNIQUE INDEX demo_intervencao_unique ON demo."intervencao" ("fkpresmed","fkprescricao");
 CREATE INDEX demo_intervencao_nratendimento_idx ON demo."intervencao" ("nratendimento");
 CREATE INDEX demo_intervencao_dtintervencao_idx ON demo."intervencao" USING brin ("dtintervencao") with (pages_per_range = 16);
 
-CREATE INDEX ON demo."exame" ("nratendimento");
+CREATE INDEX demo_exame_idx ON demo."exame" ("nratendimento");
 
-CREATE UNIQUE INDEX ON demo."outlier" ("fkmedicamento", "idsegmento", "doseconv", "frequenciadia");
+CREATE UNIQUE INDEX demo_outlier_idx ON demo."outlier" ("fkmedicamento", "idsegmento", "doseconv", "frequenciadia");
 
 CREATE INDEX demo_prescricao_fksetor_idx ON demo."prescricao" ("fksetor");
 CREATE INDEX demo_prescricao_idsegmento_idx ON demo."prescricao" ("idsegmento");
@@ -323,19 +323,13 @@ CREATE INDEX demo_presmed_fkprescricao_idx ON demo."presmed" ("fkprescricao");
 CREATE UNIQUE INDEX ON demo.prescricaoagg USING btree (fkmedicamento, fksetor, fkunidademedida, fkfrequencia, dose, peso);
 CREATE INDEX ON demo."prescricaoagg" ("idsegmento", "fkmedicamento", "doseconv", "frequenciadia");
 
-CREATE UNIQUE INDEX ON demo."medicamento" ("fkhospital", "fkmedicamento");
-
-CREATE UNIQUE INDEX ON demo."medatributos" ("fkmedicamento", "idsegmento");
-
-CREATE UNIQUE INDEX ON demo."frequencia" ("fkhospital", "fkfrequencia");
-
-CREATE UNIQUE INDEX ON demo."unidademedida" ("fkhospital", "fkunidademedida");
-
-CREATE UNIQUE INDEX ON demo."unidadeconverte" ("idsegmento", "fkmedicamento", "fkunidademedida");
-
-CREATE UNIQUE INDEX ON demo."segmentosetor" ("fkhospital", "fksetor");
-
-CREATE UNIQUE INDEX ON demo."setor" ("fkhospital", "fksetor");
+CREATE UNIQUE INDEX demo_medicamento_idx ON demo."medicamento" ("fkhospital", "fkmedicamento");
+CREATE UNIQUE INDEX demo_medatributos_idx ON demo."medatributos" ("fkmedicamento", "idsegmento");
+CREATE UNIQUE INDEX demo_frequencia_idx ON demo."frequencia" ("fkhospital", "fkfrequencia");
+CREATE UNIQUE INDEX demo_unidademedida_idx ON demo."unidademedida" ("fkhospital", "fkunidademedida");
+CREATE UNIQUE INDEX demo_unidadeconverte_idx ON demo."unidadeconverte" ("idsegmento", "fkmedicamento", "fkunidademedida");
+CREATE UNIQUE INDEX demo_segmentosetor_idx ON demo."segmentosetor" ("fkhospital", "fksetor");
+CREATE UNIQUE INDEX demo_setor_idx ON demo."setor" ("fkhospital", "fksetor");
 
 CREATE UNIQUE INDEX ON demo."observacao" ("idoutlier", "fkpresmed");
 CREATE INDEX ON demo."observacao" ("nratendimento","fkmedicamento");
