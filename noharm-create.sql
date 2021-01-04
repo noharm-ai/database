@@ -331,7 +331,7 @@ CREATE UNIQUE INDEX ON demo."frequencia" ("fkhospital", "fkfrequencia");
 
 CREATE UNIQUE INDEX ON demo."unidademedida" ("fkhospital", "fkunidademedida");
 
-CREATE UNIQUE INDEX ON demo."unidadeconverte" ("fkmedicamento", "fkunidademedida");
+CREATE UNIQUE INDEX ON demo."unidadeconverte" ("idsegmento", "fkmedicamento", "fkunidademedida");
 
 CREATE UNIQUE INDEX ON demo."segmentosetor" ("fkhospital", "fksetor");
 
