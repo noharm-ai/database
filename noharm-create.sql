@@ -302,8 +302,9 @@ CREATE TABLE demo.checkedindex (
 );
 CREATE INDEX ON demo.checkedindex ("nratendimento","fkmedicamento");
 
-CREATE UNIQUE INDEX ON demo."intervencao" ("fkpresmed","fkprescricao");
-CREATE INDEX ON demo."intervencao" ("nratendimento");
+CREATE UNIQUE INDEX demo_intervencao_unique ON demo."intervencao" ("fkpresmed","fkprescricao");
+CREATE INDEX demo_intervencao_nratendimento_idx ON demo."intervencao" ("nratendimento");
+CREATE INDEX demo_intervencao_dtintervencao_idx ON demo."intervencao" USING brin ("dtintervencao") with (pages_per_range = 16);
 
 CREATE INDEX ON demo."exame" ("nratendimento");
 
@@ -318,7 +319,6 @@ CREATE INDEX demo_prescricao_update_at_idx ON demo."prescricao" USING brin ("upd
 CREATE INDEX demo_presmed_fkmedicamento_idx ON demo."presmed" ("fkmedicamento", "idsegmento");
 CREATE INDEX demo_presmed_update_by_idx ON demo."presmed" ("update_by");
 CREATE INDEX demo_presmed_fkprescricao_idx ON demo."presmed" ("fkprescricao");
-CREATE INDEX demo_presmed_update_at_idx ON demo."presmed" USING brin ("update_at") with (pages_per_range = 64);
 
 CREATE UNIQUE INDEX ON demo.prescricaoagg USING btree (fkmedicamento, fksetor, fkunidademedida, fkfrequencia, dose, peso);
 CREATE INDEX ON demo."prescricaoagg" ("idsegmento", "fkmedicamento", "doseconv", "frequenciadia");
