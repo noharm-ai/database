@@ -315,6 +315,9 @@ CREATE INDEX demo_prescricao_idsegmento_idx ON demo."prescricao" ("idsegmento");
 CREATE INDEX demo_prescricao_nratendimento_idx ON demo."prescricao" ("nratendimento","dtprescricao");
 CREATE INDEX demo_prescricao_update_by_idx ON demo."prescricao" ("update_by");
 CREATE INDEX demo_prescricao_update_at_idx ON demo."prescricao" USING brin ("update_at") with (pages_per_range = 32);
+CREATE INDEX demo_prescricao_evolucao_at_idx ON demo."prescricao" USING brin ("evolucao_at") with (pages_per_range = 32);
+
+CREATE INDEX demo_pessoa_alertadata_idx ON demo."pessoa" USING brin ("alertadata") with (pages_per_range = 16);
 
 CREATE INDEX demo_presmed_fkmedicamento_idx ON demo."presmed" ("fkmedicamento", "idsegmento");
 CREATE INDEX demo_presmed_update_by_idx ON demo."presmed" ("update_by");
