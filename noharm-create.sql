@@ -65,6 +65,7 @@ CREATE TABLE demo."pessoa" (
   "dtalta" timestamp DEFAULT NULL,
   "motivoalta" varchar(100) DEFAULT NULL,
   "cor" varchar(100) DEFAULT NULL,
+  "corconv" char(1) DEFAULT NULL,
   "sexo" char(1) DEFAULT NULL,
   "peso" float4 DEFAULT NULL,
   "altura" float4 DEFAULT NULL,
@@ -133,6 +134,7 @@ CREATE TABLE demo."presmed" (
   "doseconv" float4 DEFAULT NULL,
   "frequenciadia" float4 DEFAULT NULL,
   "via" varchar(50) DEFAULT NULL,
+  "sonda" boolean DEFAULT NULL,
   "horario" varchar(600) DEFAULT NULL,
   "complemento" text,
   "origem" varchar(13) DEFAULT NULL,
@@ -319,7 +321,6 @@ CREATE INDEX demo_prescricao_update_at_idx ON demo."prescricao" USING brin ("upd
 CREATE INDEX demo_prescricao_evolucao_at_idx ON demo."prescricao" USING brin ("evolucao_at") with (pages_per_range = 32);
 
 CREATE INDEX demo_pessoa_alertadata_idx ON demo."pessoa" USING brin ("alertadata") with (pages_per_range = 16);
-CREATE INDEX demo_pessoa_dtinternacao_idx ON demo."pessoa" USING brin ("dtinternacao") with (pages_per_range = 16);
 
 CREATE INDEX demo_presmed_fkmedicamento_idx ON demo."presmed" ("fkmedicamento", "idsegmento");
 CREATE INDEX demo_presmed_update_by_idx ON demo."presmed" ("update_by");
