@@ -65,7 +65,6 @@ CREATE TABLE demo."pessoa" (
   "dtalta" timestamp DEFAULT NULL,
   "motivoalta" varchar(100) DEFAULT NULL,
   "cor" varchar(100) DEFAULT NULL,
-  "corconv" char(1) DEFAULT NULL,
   "sexo" char(1) DEFAULT NULL,
   "peso" float4 DEFAULT NULL,
   "altura" float4 DEFAULT NULL,
