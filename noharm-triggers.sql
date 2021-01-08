@@ -24,6 +24,9 @@ BEGIN
            NEW.origem := 'Medicamentos';
     END IF;           
 
+    IF NEW.via in ('Gastrostomia','Sonda Nasogástrica','Jejunostomia','Sonda Nasoenteral','Enteral') THEN
+           NEW.sonda := TRUE;
+    END IF; 
 
     -- Medicamentos com Frequência
     IF NEW.frequenciadia IS NULL AND NEW.fkfrequencia IS NOT NULL THEN
@@ -169,19 +172,20 @@ BEGIN
    INSERT INTO demo.presmed (fkprescricao, fkpresmed, fkfrequencia, fkmedicamento, 
 	   fkunidademedida, dose, frequenciadia, via, idsegmento, doseconv, idoutlier,
 	   origem, dtsuspensao, horario, complemento, aprox, checado, periodo,
-	   slagrupamento, slacm, sletapas, slhorafase, sltempoaplicacao, sldosagem, sltipodosagem, alergia)
+	   slagrupamento, slacm, sletapas, slhorafase, sltempoaplicacao, sldosagem, sltipodosagem, alergia, sonda)
   
    VALUES (NEW.fkprescricao, NEW.fkpresmed, NEW.fkfrequencia, NEW.fkmedicamento, 
 	   NEW.fkunidademedida, NEW.dose, NEW.frequenciadia, NEW.via, NEW.idsegmento, NEW.doseconv, NEW.idoutlier,
 	   NEW.origem, NEW.dtsuspensao, NEW.horario, NEW.complemento, NEW.aprox, NEW.checado, NEW.periodo,
-	   NEW.slagrupamento, NEW.slacm, NEW.sletapas, NEW.slhorafase, NEW.sltempoaplicacao, NEW.sldosagem, NEW.sltipodosagem, NEW.alergia)
+	   NEW.slagrupamento, NEW.slacm, NEW.sletapas, NEW.slhorafase, NEW.sltempoaplicacao, NEW.sldosagem, NEW.sltipodosagem, NEW.alergia, NEW.sonda)
        ON CONFLICT (fkpresmed) 
          DO UPDATE SET dtsuspensao = NEW.dtsuspensao,
          frequenciadia = NEW.frequenciadia,
          periodo = NEW.periodo,
          checado = NEW.checado,
          idoutlier = NEW.idoutlier,
-         doseconv = NEW.doseconv;
+         doseconv = NEW.doseconv,
+         sonda = NEW.sonda;
       
     RETURN NULL;
  ELSE
