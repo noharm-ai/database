@@ -322,6 +322,9 @@ CREATE INDEX demo_intervencao_dtintervencao_idx ON demo."intervencao" USING brin
 CREATE INDEX demo_exame_idx ON demo."exame" ("nratendimento");
 CREATE INDEX demo_exame_dtexame_idx ON demo."exame" USING brin ("dtexame") with (pages_per_range = 32);
 
+CREATE INDEX demo_evolucao_nratendimento_idx ON demo."evolucao" ("nratendimento");
+CREATE INDEX demo_evolucao_dtevolucao_idx ON demo."evolucao" USING brin ("dtevolucao") with (pages_per_range = 32);
+
 CREATE UNIQUE INDEX demo_outlier_idx ON demo."outlier" ("fkmedicamento", "idsegmento", "doseconv", "frequenciadia");
 
 CREATE INDEX demo_prescricao_fksetor_idx ON demo."prescricao" ("fksetor");
