@@ -290,6 +290,18 @@ CREATE TABLE demo."memoria" (
   PRIMARY KEY ("idmemoria", "tipo")
 );
 
+CREATE TABLE demo."evolucao" (
+  "fkevolucao" bigint PRIMARY KEY NOT NULL,
+  "nratendimento" bigint NOT NULL,
+  "dtevolucao" timestamp NOT NULL,
+  "texto" text DEFAULT NULL,
+  "prescritor" varchar(255) NULL,
+  "cargo" varchar(255) NULL,
+  "indicadores" json DEFAULT NULL,
+  "update_at" timestamp DEFAULT NOW(),
+  "update_by" integer
+);
+
 CREATE TABLE demo.checkedindex (
   "nratendimento" bigint NOT NULL,
   "fkmedicamento" bigint NOT NULL,
