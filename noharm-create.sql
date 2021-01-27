@@ -297,9 +297,17 @@ CREATE TABLE demo."evolucao" (
   "texto" text DEFAULT NULL,
   "prescritor" varchar(255) NULL,
   "cargo" varchar(255) NULL,
-  "indicadores" json DEFAULT NULL,
-  "update_at" timestamp DEFAULT NOW(),
-  "update_by" integer
+  "complicacoes" smallint NULL,
+  "sintomas" smallint NULL,
+  "doencas" smallint NULL,
+  "medicamentos" smallint NULL,
+  "dados" smallint NULL,
+  "conduta" smallint NULL,
+  "sinais" smallint NULL,
+  "update_at" timestamp NULL,
+  "update_by" integer NULL,
+  "review_at" timestamp NULL,
+  "review_by" integer NULL
 );
 
 CREATE TABLE demo.checkedindex (
