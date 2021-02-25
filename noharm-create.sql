@@ -305,6 +305,8 @@ CREATE TABLE demo."evolucao" (
   "conduta" smallint NULL,
   "sinais" smallint NULL,
   "nomes" smallint NULL,
+  "processed" smallint NULL,
+  "total" smallint NULL,
   "update_at" timestamp NULL,
   "update_by" integer NULL,
   "review_at" timestamp NULL,
