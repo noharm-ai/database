@@ -12,6 +12,7 @@ DECLARE
   DIVISOR float;
   USAPESO boolean;
   PESO float;
+  NUMHOSPITAL int;
 BEGIN
 
   IF pg_trigger_depth() = 1 then
@@ -28,11 +29,17 @@ BEGIN
            NEW.sonda := TRUE;
     END IF; 
 
+    NUMHOSPITAL := (
+        SELECT p.fkhospital FROM farme.prescricao p
+        WHERE p.fkprescricao = NEW.fkprescricao
+    );
+
     -- Medicamentos com Frequência
     IF NEW.frequenciadia IS NULL AND NEW.fkfrequencia IS NOT NULL THEN
     	    NEW.frequenciadia := (
     	        SELECT f.frequenciadia FROM demo.frequencia f
     	        WHERE f.fkfrequencia = NEW.fkfrequencia
+                AND f.fkhospital = NUMHOSPITAL
     	    );
     END IF;
 
@@ -220,8 +227,8 @@ AS $BODY$BEGIN
 		    AND s.fkhospital = NEW.fkhospital
 		);
 	
-        INSERT INTO demo.prescricao (fkprescricao, fkpessoa, nratendimento, fksetor, dtprescricao, idsegmento, leito, prontuario, dtvigencia, prescritor, agregada, indicadores, aggsetor, aggmedicamento) 
-            VALUES (NEW.fkprescricao, NEW.fkpessoa, NEW.nratendimento, NEW.fksetor, NEW.dtprescricao, NEW.idsegmento, NEW.leito, NEW.prontuario, NEW.dtvigencia, NEW.prescritor, NEW.agregada, NEW.indicadores, NEW.aggsetor, NEW.aggmedicamento)
+        INSERT INTO demo.prescricao (fkhospital, fkprescricao, fkpessoa, nratendimento, fksetor, dtprescricao, idsegmento, leito, prontuario, dtvigencia, prescritor, agregada, indicadores, aggsetor, aggmedicamento) 
+            VALUES (NEW.fkhospital, NEW.fkprescricao, NEW.fkpessoa, NEW.nratendimento, NEW.fksetor, NEW.dtprescricao, NEW.idsegmento, NEW.leito, NEW.prontuario, NEW.dtvigencia, NEW.prescritor, NEW.agregada, NEW.indicadores, NEW.aggsetor, NEW.aggmedicamento)
             ON CONFLICT (fkprescricao)
             DO UPDATE SET fkpessoa = NEW.fkpessoa,
                     fksetor = NEW.fksetor,
@@ -327,7 +334,7 @@ AS $BODY$BEGIN
 
         INSERT INTO demo.prescricaoagg
             (fkhospital, fksetor, fkmedicamento, fkunidademedida, fkfrequencia, dose, frequenciadia, peso, contagem, doseconv)
-            VALUES(1, NEW.fksetor, NEW.fkmedicamento, NEW.fkunidademedida, NEW.fkfrequencia, NEW.dose, NEW.frequenciadia, NEW.peso, NEW.contagem, NEW.doseconv)
+            VALUES(NEW.fkhospital, NEW.fksetor, NEW.fkmedicamento, NEW.fkunidademedida, NEW.fkfrequencia, NEW.dose, NEW.frequenciadia, NEW.peso, NEW.contagem, NEW.doseconv)
         ON CONFLICT (fksetor, fkmedicamento, fkunidademedida, fkfrequencia, dose, peso)
          DO UPDATE SET contagem = NEW.contagem, doseconv = NEW.doseconv, idsegmento = NEW.idsegmento, frequenciadia = NEW.frequenciadia;
 
@@ -364,7 +371,7 @@ AS $BODY$BEGIN
 
    IF pg_trigger_depth() = 1 then
       INSERT INTO demo.frequencia (fkhospital, fkfrequencia, nome, frequenciadia, frequenciahora) 
-            VALUES(1, NEW.fkfrequencia, NEW.nome, NEW.frequenciadia, NEW.frequenciahora)
+            VALUES(NEW.fkhospital, NEW.fkfrequencia, NEW.nome, NEW.frequenciadia, NEW.frequenciahora)
          ON CONFLICT (fkfrequencia)
          DO NOTHING;
       RETURN NULL;
@@ -547,7 +554,7 @@ CREATE OR REPLACE  FUNCTION demo.insert_update_setor()
 AS $BODY$BEGIN
    IF pg_trigger_depth() = 1 then
       INSERT INTO demo.setor (fkhospital, fksetor, nome) 
-            VALUES(1, NEW.fksetor, NEW.nome)
+            VALUES(NEW.fkhospital, NEW.fksetor, NEW.nome)
          ON CONFLICT (fksetor)
          DO UPDATE SET nome = NEW.nome;
       RETURN NULL;
@@ -578,7 +585,7 @@ AS $BODY$BEGIN
    IF pg_trigger_depth() = 1 then
 
         INSERT INTO demo.medicamento (fkhospital, fkmedicamento, nome)
-            VALUES(1, NEW.fkmedicamento, NEW.nome)
+            VALUES(NEW.fkhospital, NEW.fkmedicamento, NEW.nome)
          ON CONFLICT (fkmedicamento)
          DO UPDATE SET nome = NEW.nome;
 
@@ -642,7 +649,7 @@ AS $BODY$BEGIN
    IF pg_trigger_depth() = 1 then
 
       INSERT INTO demo.unidademedida (fkhospital, fkunidademedida, nome) 
-            VALUES(1, NEW.fkunidademedida, NEW.nome)
+            VALUES(NEW.fkhospital, NEW.fkunidademedida, NEW.nome)
          ON CONFLICT (fkunidademedida)
          DO UPDATE SET nome = NEW.nome;
 
