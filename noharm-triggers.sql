@@ -30,7 +30,7 @@ BEGIN
     END IF; 
 
     NUMHOSPITAL := (
-        SELECT p.fkhospital FROM farme.prescricao p
+        SELECT p.fkhospital FROM demo.prescricao p
         WHERE p.fkprescricao = NEW.fkprescricao
     );
 
