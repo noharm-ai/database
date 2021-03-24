@@ -13,6 +13,7 @@ GRANT USAGE ON SCHEMA demo TO onlydemo;
 GRANT SELECT, INSERT, UPDATE ON ALL TABLES IN SCHEMA demo TO onlydemo;
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA demo TO onlydemo;
 GRANT SELECT ON TABLE demo.usuario TO onlydemo;
+GRANT DELETE ON TABLE demo.checkedindex TO onlydemo;
 
 CREATE USER api_user WITH PASSWORD 'userapi';
 GRANT CONNECT ON DATABASE postgres TO api_user;
