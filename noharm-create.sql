@@ -103,6 +103,7 @@ CREATE TABLE demo."prescricao" (
   "agregada" boolean DEFAULT NULL,
   "aggsetor" integer [] NULL,
   "aggmedicamento" bigint [] NULL,
+  "concilia" char(1) DEFAULT NULL,
   "update_at" timestamp DEFAULT NOW(),
   "update_by" integer
 );
@@ -176,6 +177,7 @@ CREATE TABLE demo."medatributos" (
   "plaquetas" integer,
   "idoso" boolean,
   "sonda" boolean,
+  "quimio" boolean,
   "divisor" float4,
   "usapeso" boolean,
   "concentracao" float4,
