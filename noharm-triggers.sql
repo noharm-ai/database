@@ -227,8 +227,8 @@ AS $BODY$BEGIN
 		    AND s.fkhospital = NEW.fkhospital
 		);
 	
-        INSERT INTO demo.prescricao (fkhospital, fkprescricao, fkpessoa, nratendimento, fksetor, dtprescricao, idsegmento, leito, prontuario, dtvigencia, prescritor, agregada, indicadores, aggsetor, aggmedicamento) 
-            VALUES (NEW.fkhospital, NEW.fkprescricao, NEW.fkpessoa, NEW.nratendimento, NEW.fksetor, NEW.dtprescricao, NEW.idsegmento, NEW.leito, NEW.prontuario, NEW.dtvigencia, NEW.prescritor, NEW.agregada, NEW.indicadores, NEW.aggsetor, NEW.aggmedicamento)
+        INSERT INTO demo.prescricao (fkhospital, fkprescricao, fkpessoa, nratendimento, fksetor, dtprescricao, idsegmento, leito, prontuario, dtvigencia, prescritor, agregada, indicadores, aggsetor, aggmedicamento, concilia) 
+            VALUES (NEW.fkhospital, NEW.fkprescricao, NEW.fkpessoa, NEW.nratendimento, NEW.fksetor, NEW.dtprescricao, NEW.idsegmento, NEW.leito, NEW.prontuario, NEW.dtvigencia, NEW.prescritor, NEW.agregada, NEW.indicadores, NEW.aggsetor, NEW.aggmedicamento, NEW.concilia)
             ON CONFLICT (fkprescricao)
             DO UPDATE SET fkpessoa = NEW.fkpessoa,
                     fksetor = NEW.fksetor,
