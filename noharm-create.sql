@@ -350,4 +350,4 @@ CREATE OR REPLACE VIEW demo.usuario
   AS SELECT usuario.idusuario,
     usuario.fkusuario
     FROM public.usuario
-    WHERE usuario.schema::text = 'demo'::text;
+    WHERE usuario.schema = 'demo';
