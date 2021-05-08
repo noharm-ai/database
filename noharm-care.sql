@@ -12,6 +12,7 @@ CREATE TABLE demo."evolucao" (
   "dados" smallint NULL,
   "conduta" smallint NULL,
   "sinais" smallint NULL,
+  "alergia" smallint NULL,
   "nomes" smallint NULL,
   "sinaistexto" varchar(255) NULL,
   "dadostexto" varchar(255) NULL,
