@@ -30,3 +30,6 @@ CREATE TABLE demo."evolucao" (
 
 CREATE INDEX demo_evolucao_nratendimento_idx ON demo."evolucao" ("nratendimento");
 CREATE INDEX demo_evolucao_dtevolucao_idx ON demo."evolucao" USING brin ("dtevolucao") with (pages_per_range = 32);
+
+GRANT SELECT, UPDATE ON demo.evolucao TO api_user;
+GRANT SELECT, INSERT, UPDATE ON demo.evolucao TO onlydemo;
