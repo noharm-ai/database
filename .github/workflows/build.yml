@@ -20,7 +20,9 @@ jobs:
       - name: Run PostgreSQL Create
         run: | 
           sleep 10
-          psql -h localhost -U postgres -d noharm -a -f noharm-create.sql -v ON_ERROR_STOP=1
+          psql -h localhost -U postgres -d noharm -a -f noharm-public.sql -v ON_ERROR_STOP=1
+      - name: Run PostgreSQL Demo Schema
+        run: psql -h localhost -U postgres -d noharm -a -f noharm-create.sql -v ON_ERROR_STOP=1
       - name: Run PostgreSQL Triggers
         run: psql -h localhost -U postgres -d noharm -a -f noharm-triggers.sql -v ON_ERROR_STOP=1
       - name: Run PostgreSQL Insert

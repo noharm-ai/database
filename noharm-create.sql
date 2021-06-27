@@ -257,32 +257,6 @@ CREATE TABLE demo."setor" (
   "nome" varchar(255) NOT NULL
 );
 
-CREATE TABLE public."usuario" (
-  "idusuario" SERIAL PRIMARY KEY NOT NULL,
-  "nome" varchar(255) UNIQUE NOT NULL,
-  "email" varchar(255) UNIQUE NOT NULL,
-  "senha" varchar(255) NOT NULL,
-  "schema" varchar(10) NOT NULL,
-  "fkusuario" integer DEFAULT NULL,
-  "config" json DEFAULT NULL
-);
-
-CREATE TABLE public."substancia" (
-  "sctid" bigint NOT NULL,
-  "nome" varchar(255) NOT NULL
-);
-
-CREATE TABLE public."relacao" (
-  "sctida" bigint NOT NULL,
-  "sctidb" bigint NOT NULL,
-  "tprelacao" char(2) DEFAULT NULL,
-  "texto" text,
-  "ativo" boolean,
-  "create_by" integer,
-  "update_at" timestamp DEFAULT NOW(),
-  "update_by" integer
-);
-
 CREATE TABLE demo."memoria" (
   "idmemoria" SERIAL NOT NULL,
   "tipo" varchar(100) NOT NULL,
@@ -342,9 +316,6 @@ CREATE UNIQUE INDEX demo_setor_idx ON demo."setor" ("fkhospital", "fksetor");
 
 CREATE UNIQUE INDEX ON demo."observacao" ("idoutlier", "fkpresmed");
 CREATE INDEX ON demo."observacao" ("nratendimento","fkmedicamento");
-
-CREATE UNIQUE INDEX ON public."substancia" ("sctid");
-CREATE UNIQUE INDEX ON public."relacao" ("sctida", "sctidb","tprelacao");
 
 CREATE OR REPLACE VIEW demo.usuario
   AS SELECT usuario.idusuario,
