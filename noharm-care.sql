@@ -41,7 +41,7 @@ CREATE OR REPLACE FUNCTION demo.insert_update_evolucao()
     VOLATILE NOT LEAKPROOF
 AS $BODY$
 DECLARE
- TEST_EXISTS integer;
+ TEST_EXISTS int8;
 BEGIN
 
    TEST_EXISTS := (
