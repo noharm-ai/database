@@ -21,7 +21,7 @@ CREATE TABLE demo."evolucao" (
   "sintomastexto" varchar(255) NULL,
   "processed" smallint NULL,
   "total" smallint NULL,
-  "evolucao" boolean NULL,
+  "exame" boolean NULL,
   "update_at" timestamp NULL,
   "update_by" integer NULL,
   "review_at" timestamp NULL,
