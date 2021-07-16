@@ -679,7 +679,7 @@ CREATE OR REPLACE FUNCTION demo.insert_update_exame()
     VOLATILE NOT LEAKPROOF
 AS $BODY$
 DECLARE
- TEST_EXISTS integer;
+ TEST_EXISTS bigint;
 BEGIN
 
    TEST_EXISTS := (SELECT fkexame FROM demo.exame e
