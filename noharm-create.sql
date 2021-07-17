@@ -283,7 +283,7 @@ CREATE UNIQUE INDEX demo_intervencao_unique ON demo."intervencao" ("fkpresmed","
 CREATE INDEX demo_intervencao_nratendimento_idx ON demo."intervencao" ("nratendimento");
 CREATE INDEX demo_intervencao_dtintervencao_idx ON demo."intervencao" USING brin ("dtintervencao") with (pages_per_range = 16);
 
-CREATE INDEX demo_exame_idx ON demo."exame" ("nratendimento");
+CREATE INDEX demo_exame_fkx ON demo."exame" ("fkpessoa");
 CREATE INDEX demo_exame_dtexame_idx ON demo."exame" USING brin ("dtexame") with (pages_per_range = 32);
 
 CREATE UNIQUE INDEX demo_outlier_idx ON demo."outlier" ("fkmedicamento", "idsegmento", "doseconv", "frequenciadia");

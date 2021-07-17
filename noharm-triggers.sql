@@ -684,7 +684,7 @@ BEGIN
 
    TEST_EXISTS := (SELECT fkexame FROM demo.exame e
 				   WHERE fkexame = NEW.fkexame 
-				   AND nratendimento = NEW.nratendimento
+				   AND fkpessoa = NEW.fkpessoa
 				   AND tpexame = NEW.tpexame
 				   AND dtexame = NEW.dtexame
 				   LIMIT 1
