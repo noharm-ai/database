@@ -4,7 +4,7 @@ CREATE TABLE public."usuario" (
   "email" varchar(255) UNIQUE NOT NULL,
   "senha" varchar(255) NOT NULL,
   "schema" varchar(25) NOT NULL,
-  "fkusuario" integer DEFAULT NULL,
+  "fkusuario" varchar(50) DEFAULT NULL,
   "config" json DEFAULT NULL
 );
 
