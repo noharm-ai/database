@@ -29,7 +29,7 @@ BEGIN
            NEW.sonda := TRUE;
     END IF; 
 
-    IF NEW.via in ('Intravenosa infusao', 'Intravenosa bolus') THEN
+    IF NEW.via ilike 'intravenosa%' OR NEW.via in ('IV','EV','BU') THEN
            NEW.intravenosa := TRUE;
     END IF;
 
