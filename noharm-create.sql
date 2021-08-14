@@ -135,6 +135,7 @@ CREATE TABLE demo."presmed" (
   "frequenciadia" float4 DEFAULT NULL,
   "via" varchar(50) DEFAULT NULL,
   "sonda" boolean DEFAULT NULL,
+  "intravenosa" boolean DEFAULT NULL,
   "horario" varchar(600) DEFAULT NULL,
   "complemento" text,
   "origem" varchar(13) DEFAULT NULL,
