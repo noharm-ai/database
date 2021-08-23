@@ -5,7 +5,8 @@ CREATE TABLE public."usuario" (
   "senha" varchar(255) NOT NULL,
   "schema" varchar(25) NOT NULL,
   "fkusuario" varchar(50) DEFAULT NULL,
-  "config" json DEFAULT NULL
+  "config" json DEFAULT NULL,
+  "ativo" boolean DEFAULT NULL
 );
 
 CREATE TABLE public."substancia" (
