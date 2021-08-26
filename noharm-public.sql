@@ -6,7 +6,7 @@ CREATE TABLE public."usuario" (
   "schema" varchar(25) NOT NULL,
   "fkusuario" varchar(50) DEFAULT NULL,
   "config" json DEFAULT NULL,
-  "ativo" boolean DEFAULT NULL
+  "ativo" bool NOT NULL DEFAULT true
 );
 
 CREATE TABLE public."substancia" (
