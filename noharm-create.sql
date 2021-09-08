@@ -277,10 +277,10 @@ CREATE INDEX demo_checkedindex_idx ON demo.checkedindex ("nratendimento","fkmedi
 
 CREATE UNIQUE INDEX demo_intervencao_unique ON demo."intervencao" ("fkpresmed","fkprescricao");
 CREATE INDEX demo_intervencao_nratendimento_idx ON demo."intervencao" ("nratendimento");
-CREATE INDEX demo_intervencao_dtintervencao_idx ON demo."intervencao" USING brin ("dtintervencao") with (pages_per_range = 16);
+CREATE INDEX demo_intervencao_dtintervencao_idx ON demo."intervencao" USING brin ("dtintervencao") with (pages_per_range = 8);
 
 CREATE INDEX demo_exame_fkx ON demo."exame" ("fkpessoa");
-CREATE INDEX demo_exame_dtexame_idx ON demo."exame" USING brin ("dtexame") with (pages_per_range = 32);
+CREATE INDEX demo_exame_dtexame_idx ON demo."exame" USING brin ("dtexame") with (pages_per_range = 8);
 
 CREATE UNIQUE INDEX demo_outlier_idx ON demo."outlier" ("fkmedicamento", "idsegmento", "doseconv", "frequenciadia");
 
@@ -288,16 +288,16 @@ CREATE INDEX demo_prescricao_fksetor_idx ON demo."prescricao" ("fksetor");
 CREATE INDEX demo_prescricao_idsegmento_idx ON demo."prescricao" ("idsegmento");
 CREATE INDEX demo_prescricao_nratendimento_idx ON demo."prescricao" ("nratendimento","dtprescricao");
 CREATE INDEX demo_prescricao_update_by_idx ON demo."prescricao" ("update_by");
-CREATE INDEX demo_prescricao_update_at_idx ON demo."prescricao" USING brin ("update_at") with (pages_per_range = 32);
-CREATE INDEX demo_prescricao_evolucao_at_idx ON demo."prescricao" USING brin ("evolucao_at") with (pages_per_range = 32);
+CREATE INDEX demo_prescricao_update_at_idx ON demo."prescricao" USING brin ("update_at") with (pages_per_range = 8);
+CREATE INDEX demo_prescricao_evolucao_at_idx ON demo."prescricao" USING brin ("evolucao_at") with (pages_per_range = 8);
 
-CREATE INDEX demo_pessoa_alertadata_idx ON demo."pessoa" USING brin ("alertadata") with (pages_per_range = 16);
-CREATE INDEX demo_pessoa_dtnascimento_idx ON demo."pessoa" USING brin ("dtnascimento") with (pages_per_range = 16);
+CREATE INDEX demo_pessoa_alertadata_idx ON demo."pessoa" USING brin ("alertadata") with (pages_per_range = 8);
+CREATE INDEX demo_pessoa_dtnascimento_idx ON demo."pessoa" USING brin ("dtnascimento") with (pages_per_range = 8);
 
 CREATE INDEX demo_presmed_fkmedicamento_idx ON demo."presmed" ("fkmedicamento", "idsegmento");
 CREATE INDEX demo_presmed_update_by_idx ON demo."presmed" ("update_by");
 CREATE INDEX demo_presmed_fkprescricao_idx ON demo."presmed" ("fkprescricao");
-CREATE INDEX demo_presmed_slagrupamento_idx ON demo."presmed" USING brin ("slagrupamento") with (pages_per_range = 16);
+CREATE INDEX demo_presmed_slagrupamento_idx ON demo."presmed" USING brin ("slagrupamento") with (pages_per_range = 8);
 
 CREATE UNIQUE INDEX ON demo.prescricaoagg USING btree (fkmedicamento, fksetor, fkunidademedida, fkfrequencia, dose, peso);
 CREATE INDEX ON demo."prescricaoagg" ("idsegmento", "fkmedicamento", "doseconv", "frequenciadia");

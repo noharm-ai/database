@@ -10,7 +10,6 @@ TRUNCATE TABLE demo.unidademedida RESTART IDENTITY;
 TRUNCATE TABLE demo.frequencia RESTART IDENTITY;
 TRUNCATE TABLE demo.medicamento RESTART IDENTITY;
 TRUNCATE TABLE demo.pessoa RESTART IDENTITY;
-TRUNCATE TABLE demo.nome RESTART IDENTITY;
 TRUNCATE TABLE demo.exame RESTART IDENTITY;
 TRUNCATE TABLE demo.prescricao, demo.outlier, demo.prescricaoagg RESTART IDENTITY;
 TRUNCATE TABLE demo.motivointervencao, demo.intervencao, demo.presmed RESTART IDENTITY;
@@ -138,21 +137,6 @@ INSERT INTO demo.pessoa (fkpessoa, fkhospital, nratendimento, dtnascimento, sexo
 					(11, 1, 11, '1950-02-05', 'F', '2019-08-12', 100, 'B'),
 					(12, 1, 12, '1941-02-05', 'F', '2019-08-12', 100, 'B'),
 					(13, 1, 13, '1941-02-05', 'F', '2019-08-12', 100, 'B');
-
-INSERT INTO demo.nome (fkpessoa, nome) VALUES
-					(1, 'João da Silva Júnior'),
-					(2, 'Maria dos Santos'),
-					(3, 'Miguel de Oliveira'),
-					(4, 'Eládio Gonçalves'),
-					(5, 'Maria Clara Brum de Souza'),
-					(6, 'Antônio Carlos dos Santos Gonçalves'),
-					(7, 'Ana Paula Farias Nunes'),
-					(8, 'Isadora Fagundes Bernardes'),
-					(9, 'Nelson de Jesus Azambuja'),
-					(10, 'Letícia Soares Vieira'),
-					(11, 'Iolanda da Silva'),
-					(12, 'Jordana Barreto'),
-					(13, 'Julia Dias Fernandes');
 
 INSERT INTO demo.exame (fkexame,fkpessoa,nratendimento,dtexame,tpexame,resultado,unidade) VALUES 
 (1,1,1234,'2019-10-14 18:32:22.000','CR',0.4,'mg/dL')
