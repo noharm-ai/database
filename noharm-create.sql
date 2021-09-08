@@ -79,11 +79,6 @@ CREATE TABLE demo."pessoa" (
   PRIMARY KEY ("nratendimento")
 );
 
-CREATE TABLE demo."nome" (
-  "fkpessoa" bigint PRIMARY KEY NOT NULL,
-  "nome" varchar(255) NOT NULL
-);
-
 CREATE TABLE demo."prescricao" (
   "fkhospital" smallint DEFAULT 1,
   "fksetor" integer NOT NULL,
