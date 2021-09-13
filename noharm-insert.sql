@@ -22,6 +22,7 @@ CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
 INSERT INTO public.usuario (nome,email,senha,schema,config) VALUES 
 						('Demonstração','demo',crypt('demo', gen_salt('bf',8)) ,'demo','{"roles":["suporte"]}'),
+						('User Admin','user@admin.com',crypt('useradmin', gen_salt('bf',8)) ,'demo','{"roles":["userAdmin"]}'),
 						('Não Admin','noadmin',crypt('noadmin', gen_salt('bf',8)),'demo','{}');
 
 INSERT INTO demo.hospital (fkhospital, nome) VALUES
