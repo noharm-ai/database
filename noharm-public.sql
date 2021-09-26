@@ -16,7 +16,7 @@ CREATE TABLE public."substancia" (
 
 CREATE TABLE public."notifica" (
   "idnotifica" SERIAL PRIMARY KEY NOT NULL,
-  "tituto" varchar(100) NOT NULL,
+  "titulo" varchar(100) NOT NULL,
   "tooltip" varchar(255) NOT NULL,
   "link" varchar(100) NOT NULL,
   "icon" varchar(25) NOT NULL,
