@@ -14,6 +14,17 @@ CREATE TABLE public."substancia" (
   "nome" varchar(255) NOT NULL
 );
 
+CREATE TABLE public."notifica" (
+  "idnotifica" SERIAL PRIMARY KEY NOT NULL,
+  "tituto" varchar(100) NOT NULL,
+  "tooltip" varchar(255) NOT NULL,
+  "link" varchar(100) NOT NULL,
+  "icon" varchar(25) NOT NULL,
+  "classname"  varchar(50) NOT NULL,
+  "inicio" date NOT NULL,
+  "validade" date NOT NULL
+);
+
 CREATE TABLE public."relacao" (
   "sctida" bigint NOT NULL,
   "sctidb" bigint NOT NULL,
