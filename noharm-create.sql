@@ -26,6 +26,7 @@ CREATE TABLE demo."intervencao" (
   "custo" boolean NULL,
   "observacao" text NULL,
   "status" char(1) NOT NULL DEFAULT '0',
+  "transcricao" json DEFAULT NULL,
   "update_at" timestamp NOT NULL DEFAULT NOW(),
   "update_by" integer NOT NULL
 );
