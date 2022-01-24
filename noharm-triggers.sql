@@ -833,6 +833,40 @@ CREATE TRIGGER trg_atualiza_divisor_on_update
     WHEN (OLD.divisor IS DISTINCT FROM NEW.divisor) 
     EXECUTE PROCEDURE demo.atualiza_divisor();
 
+CREATE OR REPLACE FUNCTION demo.insert_update_evolucao()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$
+DECLARE
+ TEST_EXISTS int8;
+BEGIN
+
+   TEST_EXISTS := (
+           SELECT fkevolucao FROM demo.evolucao e
+				   WHERE fkevolucao = NEW.fkevolucao 
+				   LIMIT 1
+   );
+
+   IF TEST_EXISTS IS NULL THEN
+      RETURN NEW;
+   ELSE
+      RETURN NULL;
+   END IF;   
+END;$BODY$;
+
+ALTER FUNCTION demo.insert_update_evolucao()
+    OWNER TO postgres;
+
+DROP TRIGGER IF EXISTS trg_insert_update_evolucao ON demo.evolucao;
+		     
+CREATE TRIGGER trg_insert_update_evolucao
+    BEFORE INSERT 
+    ON demo.evolucao
+    FOR EACH ROW
+    EXECUTE PROCEDURE demo.insert_update_evolucao();
+
 -----------------
 
 CREATE OR REPLACE FUNCTION demo.similaridade (p_idsegmento int2, p_fkmedicamento int8, p_doseconv float4, p_frequenciadia float4)

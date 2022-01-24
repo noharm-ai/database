@@ -262,6 +262,36 @@ CREATE TABLE demo."memoria" (
   PRIMARY KEY ("idmemoria", "tipo")
 );
 
+CREATE TABLE demo."evolucao" (
+  "fkevolucao" bigint PRIMARY KEY NOT NULL,
+  "nratendimento" bigint NOT NULL,
+  "dtevolucao" timestamp NOT NULL,
+  "texto" text DEFAULT NULL,
+  "prescritor" varchar(255) NULL,
+  "cargo" varchar(255) NULL,
+  "complicacoes" smallint NULL,
+  "sintomas" smallint NULL,
+  "doencas" smallint NULL,
+  "medicamentos" smallint NULL,
+  "dados" smallint NULL,
+  "conduta" smallint NULL,
+  "sinais" smallint NULL,
+  "alergia" smallint NULL,
+  "nomes" smallint NULL,
+  "sinaistexto" varchar(255) NULL,
+  "dadostexto" varchar(255) NULL,
+  "complicacoestexto" varchar(255) NULL,
+  "doencastexto" varchar(255) NULL,
+  "sintomastexto" varchar(255) NULL,
+  "processed" smallint NULL,
+  "total" smallint NULL,
+  "exame" boolean NULL,
+  "update_at" timestamp NULL,
+  "update_by" integer NULL,
+  "review_at" timestamp NULL,
+  "review_by" integer NULL
+);
+
 CREATE TABLE demo.checkedindex (
   "nratendimento" bigint NOT NULL,
   "fkmedicamento" bigint NOT NULL,
@@ -312,6 +342,9 @@ CREATE UNIQUE INDEX demo_setor_idx ON demo."setor" ("fkhospital", "fksetor");
 
 CREATE UNIQUE INDEX ON demo."observacao" ("idoutlier", "fkpresmed");
 CREATE INDEX ON demo."observacao" ("nratendimento","fkmedicamento");
+
+CREATE INDEX demo_evolucao_nratendimento_idx ON demo."evolucao" ("nratendimento");
+CREATE INDEX demo_evolucao_dtevolucao_idx ON demo."evolucao" USING brin ("dtevolucao") with (pages_per_range = 8);
 
 CREATE OR REPLACE VIEW demo.usuario
   AS SELECT usuario.idusuario,
