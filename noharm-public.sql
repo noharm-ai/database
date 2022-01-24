@@ -1,6 +1,6 @@
 CREATE TABLE public."usuario" (
   "idusuario" SERIAL PRIMARY KEY NOT NULL,
-  "nome" varchar(255) UNIQUE NOT NULL,
+  "nome" varchar(255) NOT NULL,
   "email" varchar(255) UNIQUE NOT NULL,
   "senha" varchar(255) NOT NULL,
   "schema" varchar(25) NOT NULL,
@@ -22,7 +22,8 @@ CREATE TABLE public."notifica" (
   "icon" varchar(25) NOT NULL,
   "classname"  varchar(50) NOT NULL,
   "inicio" date NOT NULL,
-  "validade" date NOT NULL
+  "validade" date NOT NULL,
+  "schema" varchar(25) NULL
 );
 
 CREATE TABLE public."relacao" (
