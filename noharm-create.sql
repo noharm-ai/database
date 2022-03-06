@@ -75,6 +75,7 @@ CREATE TABLE demo."pessoa" (
   "alertatexto" text DEFAULT NULL,
   "alertavigencia" timestamp DEFAULT NULL,
   "alerta_by" integer DEFAULT NULL,
+  "dialise" char(1) DEFAULT NULL,
   "update_at" timestamp DEFAULT NULL,
   "update_by" integer DEFAULT NULL,
   PRIMARY KEY ("nratendimento")
@@ -278,6 +279,7 @@ CREATE TABLE demo."evolucao" (
   "conduta" smallint NULL,
   "sinais" smallint NULL,
   "alergia" smallint NULL,
+  "dialise" smallint NULL,
   "nomes" smallint NULL,
   "sinaistexto" varchar(255) NULL,
   "dadostexto" varchar(255) NULL,
@@ -285,6 +287,7 @@ CREATE TABLE demo."evolucao" (
   "doencastexto" varchar(255) NULL,
   "sintomastexto" varchar(255) NULL,
   "alergiatexto" varchar(255) NULL,
+  "dialisetexto" varchar(255) NULL,
   "processed" smallint NULL,
   "total" smallint NULL,
   "exame" boolean NULL,
