@@ -11,7 +11,8 @@ CREATE TABLE public."usuario" (
 
 CREATE TABLE public."substancia" (
   "sctid" bigint NOT NULL,
-  "nome" varchar(255) NOT NULL
+  "nome" varchar(255) NOT NULL,
+  "link" varchar(255) DEFAULT NULL
 );
 
 CREATE TABLE public."notifica" (
