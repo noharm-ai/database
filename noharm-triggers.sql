@@ -168,6 +168,8 @@ BEGIN
         AND slhorafase = COALESCE(NEW.slhorafase, 0)
         AND sltempoaplicacao = COALESCE(NEW.sltempoaplicacao, 0)
         AND sldosagem = COALESCE(NEW.sldosagem, 0)
+        AND via = COALESCE(NEW.via, '')
+        AND horario = COALESCE(left(NEW.horario ,50), '')
         LIMIT 1
     );
 
@@ -276,7 +278,7 @@ AS $BODY$BEGIN
             SELECT p.nratendimento, pm.fkmedicamento, pm.doseconv, pm.frequenciadia, 
             COALESCE(pm.sletapas, 0), COALESCE(pm.slhorafase, 0), 
             COALESCE(pm.sltempoaplicacao, 0), COALESCE(pm.sldosagem, 0),
-            p.dtprescricao
+            p.dtprescricao, COALESCE(pm.via, ''), COALESCE(left(pm.horario ,50), '')
             FROM demo.prescricao p
             INNER JOIN demo.presmed pm ON pm.fkprescricao = p.fkprescricao 
             WHERE p.status = 's'

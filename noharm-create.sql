@@ -306,7 +306,9 @@ CREATE TABLE demo.checkedindex (
   "slhorafase" float4 DEFAULT 0,
   "sltempoaplicacao" bigint DEFAULT 0,
   "sldosagem" float4 DEFAULT 0,
-  "dtprescricao" timestamp NOT NULL
+  "dtprescricao" timestamp NOT NULL,
+  "via" varchar(50) DEFAULT NULL,
+  "horario" varchar(50) DEFAULT NULL
 );
 CREATE INDEX demo_checkedindex_idx ON demo.checkedindex ("nratendimento","fkmedicamento");
 
