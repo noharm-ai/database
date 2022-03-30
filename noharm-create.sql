@@ -288,6 +288,7 @@ CREATE TABLE demo."evolucao" (
   "sintomastexto" varchar(255) NULL,
   "alergiatexto" varchar(255) NULL,
   "dialisetexto" varchar(255) NULL,
+  "germetexto" varchar(255) NULL,
   "processed" smallint NULL,
   "total" smallint NULL,
   "exame" boolean NULL,
