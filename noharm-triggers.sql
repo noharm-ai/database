@@ -142,7 +142,7 @@ BEGIN
     NEW.escorefinal := (
         SELECT COALESCE(escoremanual, escore)
         FROM demo.outlier
-        WHERE idoutlier = NEW.idoutlier;
+        WHERE idoutlier = NEW.idoutlier
     );
 
     /*NEW.checado := (
