@@ -139,6 +139,12 @@ BEGIN
         END IF;
     END IF;
 
+    NEW.escorefinal := (
+        SELECT COALESCE(escoremanual, escore)
+        FROM demo.outlier
+        WHERE idoutlier = NEW.idoutlier;
+    )
+
     /*NEW.checado := (
         SELECT true FROM demo.presmed p2
         INNER JOIN demo.prescricao pr2 ON pr2.fkprescricao < NEW.fkprescricao
@@ -268,11 +274,11 @@ CREATE OR REPLACE  FUNCTION demo.atualiza_escore_presemed()
     VOLATILE NOT LEAKPROOF
 AS $BODY$BEGIN
     IF NEW.status = 's' THEN
-        UPDATE demo.presmed pm
+        /*UPDATE demo.presmed pm
         SET escorefinal = (SELECT COALESCE(escoremanual, escore) 
                                 FROM demo.outlier o
                                 WHERE o.idoutlier = pm.idoutlier)
-        WHERE pm.fkprescricao = NEW.fkprescricao;
+        WHERE pm.fkprescricao = NEW.fkprescricao;*/
 
         INSERT INTO demo.checkedindex
             SELECT p.nratendimento, pm.fkmedicamento, pm.doseconv, pm.frequenciadia, 
@@ -409,7 +415,7 @@ CREATE OR REPLACE FUNCTION demo.popula_presmed_by_outlier()
     COST 100
     VOLATILE NOT LEAKPROOF
 AS $BODY$BEGIN
-    UPDATE demo.presmed pm
+    /*UPDATE demo.presmed pm
         SET idoutlier = NEW.idoutlier
         WHERE pm.fkmedicamento = NEW.fkmedicamento
             AND pm.doseconv = NEW.doseconv
@@ -419,7 +425,7 @@ AS $BODY$BEGIN
               SELECT fkprescricao
               FROM demo.prescricao
               WHERE dtprescricao > current_date - 2 AND idsegmento = NEW.idsegmento
-            );
+            );*/
     RETURN NULL;
 END;$BODY$;
 
@@ -724,7 +730,7 @@ CREATE OR REPLACE  FUNCTION demo.atualiza_doseconv()
     VOLATILE NOT LEAKPROOF
 AS $BODY$BEGIN
 
-   UPDATE demo.presmed pm
+   /*UPDATE demo.presmed pm
      SET doseconv = COALESCE (pm.dose * NEW.fator, pm.dose)
      WHERE pm.idsegmento = NEW.idsegmento
      AND pm.fkmedicamento = NEW.fkmedicamento
@@ -733,7 +739,7 @@ AS $BODY$BEGIN
           SELECT fkprescricao
           FROM demo.prescricao
           WHERE dtprescricao > current_date - 2
-          );
+          );*/
 
    UPDATE demo.prescricaoagg pa
      SET doseconv = COALESCE (pa.dose * NEW.fator, pa.dose)
