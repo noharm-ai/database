@@ -145,25 +145,6 @@ BEGIN
         WHERE idoutlier = NEW.idoutlier
     );
 
-    /*NEW.checado := (
-        SELECT true FROM demo.presmed p2
-        INNER JOIN demo.prescricao pr2 ON pr2.fkprescricao < NEW.fkprescricao
-          AND pr2.nratendimento = (select nratendimento from demo.prescricao pp where pp.fkprescricao = NEW.fkprescricao limit 1)
-          AND pr2.fkprescricao = p2.fkprescricao 
-        WHERE p2.fkmedicamento = NEW.fkmedicamento
-        AND p2.doseconv = NEW.doseconv
-        AND p2.frequenciadia = NEW.frequenciadia
-        AND p2.idsegmento = NEW.idsegmento
-        AND COALESCE(p2.sletapas, 0) = COALESCE(NEW.sletapas, 0)
-        AND COALESCE(p2.slhorafase, 0) = COALESCE(NEW.slhorafase, 0)
-        AND COALESCE(p2.sltempoaplicacao, 0) = COALESCE(NEW.sltempoaplicacao, 0)
-        AND COALESCE(p2.sldosagem, 0) = COALESCE(NEW.sldosagem, 0)
-        AND pr2.status = 's'
-        AND pr2.dtprescricao > current_date - 15
-        AND p2.dtsuspensao IS NULL 
-        LIMIT 1
-    );*/
-
     NEW.checado := (
         SELECT true FROM demo.checkedindex
         WHERE nratendimento = (select nratendimento from demo.prescricao pp where pp.fkprescricao = NEW.fkprescricao limit 1)
@@ -274,11 +255,6 @@ CREATE OR REPLACE  FUNCTION demo.atualiza_escore_presemed()
     VOLATILE NOT LEAKPROOF
 AS $BODY$BEGIN
     IF NEW.status = 's' THEN
-        /*UPDATE demo.presmed pm
-        SET escorefinal = (SELECT COALESCE(escoremanual, escore) 
-                                FROM demo.outlier o
-                                WHERE o.idoutlier = pm.idoutlier)
-        WHERE pm.fkprescricao = NEW.fkprescricao;*/
 
         INSERT INTO demo.checkedindex
             SELECT p.nratendimento, pm.fkmedicamento, pm.doseconv, pm.frequenciadia, 
@@ -408,39 +384,6 @@ CREATE TRIGGER trg_complete_frequencia
 -------------------------------------
 -------- UPDATE CHILD TABLES --------
 -------------------------------------
-
-CREATE OR REPLACE FUNCTION demo.popula_presmed_by_outlier()
-    RETURNS trigger
-    LANGUAGE 'plpgsql'
-    COST 100
-    VOLATILE NOT LEAKPROOF
-AS $BODY$BEGIN
-    /*UPDATE demo.presmed pm
-        SET idoutlier = NEW.idoutlier
-        WHERE pm.fkmedicamento = NEW.fkmedicamento
-            AND pm.doseconv = NEW.doseconv
-            AND pm.frequenciadia = NEW.frequenciadia
-            AND pm.idsegmento = NEW.idsegmento
-            AND pm.fkprescricao IN (
-              SELECT fkprescricao
-              FROM demo.prescricao
-              WHERE dtprescricao > current_date - 2 AND idsegmento = NEW.idsegmento
-            );*/
-    RETURN NULL;
-END;$BODY$;
-
-ALTER FUNCTION demo.popula_presmed_by_outlier()
-    OWNER TO postgres;
-
-DROP TRIGGER IF EXISTS trg_popula_presmed_by_outlier ON demo.outlier;
-		     
-CREATE TRIGGER trg_popula_presmed_by_outlier
-    AFTER INSERT
-    ON demo.outlier
-    FOR EACH ROW
-    EXECUTE PROCEDURE demo.popula_presmed_by_outlier();
-
---------
 
 CREATE OR REPLACE FUNCTION demo.popula_presmed_by_frequencia()
     RETURNS trigger
@@ -729,17 +672,6 @@ CREATE OR REPLACE  FUNCTION demo.atualiza_doseconv()
     COST 100
     VOLATILE NOT LEAKPROOF
 AS $BODY$BEGIN
-
-   /*UPDATE demo.presmed pm
-     SET doseconv = COALESCE (pm.dose * NEW.fator, pm.dose)
-     WHERE pm.idsegmento = NEW.idsegmento
-     AND pm.fkmedicamento = NEW.fkmedicamento
-     AND pm.fkunidademedida = NEW.fkunidademedida
-     AND pm.fkprescricao IN (
-          SELECT fkprescricao
-          FROM demo.prescricao
-          WHERE dtprescricao > current_date - 2
-          );*/
 
    UPDATE demo.prescricaoagg pa
      SET doseconv = COALESCE (pa.dose * NEW.fator, pa.dose)
