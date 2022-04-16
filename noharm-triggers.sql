@@ -450,8 +450,8 @@ CREATE OR REPLACE FUNCTION demo.popula_presmed_by_frequencia()
 AS $BODY$BEGIN
     UPDATE demo.presmed pm
         SET frequenciadia = NEW.frequenciadia
-    WHERE pm.fkfrequencia = NEW.fkfrequencia
-    AND pm.escorefinal IS NULL;
+    WHERE pm.fkfrequencia = NEW.fkfrequencia;
+    -- AND pm.escorefinal IS NULL;
     RETURN NULL;
 END;$BODY$;
 
@@ -488,8 +488,8 @@ AS $BODY$BEGIN
             SELECT p.fkprescricao FROM demo.prescricao p
             WHERE p.idsegmento = NEW.idsegmento
             AND p.dtprescricao > current_date - 2
-            )   
-        AND pm.escorefinal IS NULL;
+            );
+        -- AND pm.escorefinal IS NULL;
 
     UPDATE demo.prescricaoagg pa
         SET idsegmento = NEW.idsegmento
@@ -526,8 +526,8 @@ AS $BODY$BEGIN
             WHERE p.fksetor = NEW.fksetor
             AND p.fkhospital = NEW.fkhospital
             AND p.dtprescricao > current_date - 2
-            )   
-        AND pm.escorefinal IS NULL;
+            );   
+        -- AND pm.escorefinal IS NULL;
    
     UPDATE demo.prescricao p
         SET idsegmento = NULL
