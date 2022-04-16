@@ -143,7 +143,7 @@ BEGIN
         SELECT COALESCE(escoremanual, escore)
         FROM demo.outlier
         WHERE idoutlier = NEW.idoutlier;
-    )
+    );
 
     /*NEW.checado := (
         SELECT true FROM demo.presmed p2
