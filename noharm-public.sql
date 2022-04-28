@@ -38,5 +38,20 @@ CREATE TABLE public."relacao" (
   "update_by" integer
 );
 
+CREATE TABLE public.bulletin (
+	idbulletin serial4 NOT NULL,
+	"schema" varchar(50) NULL,
+	category text NULL,
+	groupid text NULL,
+	id text NULL,
+	"level" text NULL,
+	message text NULL,
+	sourcename text NULL,
+	sourceid text NULL,
+	"timestamp" text NULL,
+	created_at timestamptz NULL DEFAULT now(),
+	CONSTRAINT bulletin_pkey PRIMARY KEY (idbulletin)
+);
+
 CREATE UNIQUE INDEX ON public."substancia" ("sctid");
 CREATE UNIQUE INDEX ON public."relacao" ("sctida", "sctidb","tprelacao");
