@@ -9,10 +9,10 @@ GRANT INSERT ON TABLE public.bulletin TO onlydemo;
 GRANT USAGE, SELECT ON SEQUENCE public.bulletin_idbulletin_seq TO onlydemo;
 
 -- na base de produção já tem o api_user, descomentar trecho abaixo APENAS se for criar um banco do ZERO
---CREATE USER api_user WITH PASSWORD 'userapi';
---GRANT CONNECT ON DATABASE postgres TO api_user;
---GRANT SELECT, UPDATE ON ALL TABLES IN SCHEMA public TO api_user;
---GRANT USAGE ON SCHEMA public TO api_user;
+CREATE USER api_user WITH PASSWORD 'userapi'; -- necessário para os testes automatizados
+-- GRANT CONNECT ON DATABASE postgres TO api_user;
+-- GRANT SELECT, UPDATE ON ALL TABLES IN SCHEMA public TO api_user;
+-- GRANT USAGE ON SCHEMA public TO api_user;
 
 GRANT USAGE ON SCHEMA demo TO api_user;
 GRANT SELECT, INSERT, UPDATE ON ALL TABLES IN SCHEMA demo TO api_user;
