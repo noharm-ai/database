@@ -170,15 +170,16 @@ BEGIN
     );
 
    INSERT INTO demo.presmed (fkprescricao, fkpresmed, fkfrequencia, fkmedicamento, 
-	   fkunidademedida, dose, frequenciadia, via, idsegmento, doseconv, idoutlier,
+	   fkunidademedida, dose, frequenciadia, via, idsegmento, doseconv, idoutlier, escorefinal,
 	   origem, dtsuspensao, horario, complemento, aprox, checado, periodo,
-	   slagrupamento, slacm, sletapas, slhorafase, sltempoaplicacao, sldosagem, sltipodosagem, alergia, sonda, intravenosa)
+	   slagrupamento, slacm, sletapas, slhorafase, sltempoaplicacao, sldosagem, sltipodosagem, 
+       alergia, sonda, intravenosa, cpoe_grupo)
   
    VALUES (NEW.fkprescricao, NEW.fkpresmed, NEW.fkfrequencia, NEW.fkmedicamento, 
-	   NEW.fkunidademedida, NEW.dose, NEW.frequenciadia, NEW.via, NEW.idsegmento, NEW.doseconv, NEW.idoutlier,
+	   NEW.fkunidademedida, NEW.dose, NEW.frequenciadia, NEW.via, NEW.idsegmento, NEW.doseconv, NEW.idoutlier, NEW.escorefinal,
 	   NEW.origem, NEW.dtsuspensao, NEW.horario, NEW.complemento, NEW.aprox, NEW.checado, NEW.periodo,
 	   NEW.slagrupamento, NEW.slacm, NEW.sletapas, NEW.slhorafase, NEW.sltempoaplicacao, NEW.sldosagem, 
-       NEW.sltipodosagem, NEW.alergia, NEW.sonda, NEW.intravenosa)
+       NEW.sltipodosagem, NEW.alergia, NEW.sonda, NEW.intravenosa, NEW.cpoe_grupo)
        ON CONFLICT (fkpresmed) 
          DO UPDATE SET dtsuspensao = NEW.dtsuspensao,
          frequenciadia = NEW.frequenciadia,
@@ -186,7 +187,7 @@ BEGIN
          checado = NEW.checado,
          idoutlier = NEW.idoutlier,
          doseconv = NEW.doseconv,
-         sonda = NEW.sonda;
+         escorefinal = NEW.escorefinal;
       
     RETURN NULL;
  ELSE
@@ -497,172 +498,6 @@ CREATE TRIGGER trg_deleta_idsegmento
     ON demo.segmentosetor
     FOR EACH ROW
     EXECUTE PROCEDURE demo.deleta_idsegmento();
-
--------------------------------------------------------
--------- HANDLE INSERT ON CONFLICT (from Nifi) --------
--------------------------------------------------------
-
-CREATE OR REPLACE  FUNCTION demo.insert_update_setor()
-    RETURNS trigger
-    LANGUAGE 'plpgsql'
-    COST 100
-    VOLATILE NOT LEAKPROOF
-AS $BODY$BEGIN
-   IF pg_trigger_depth() = 1 then
-      INSERT INTO demo.setor (fkhospital, fksetor, nome) 
-            VALUES(NEW.fkhospital, NEW.fksetor, NEW.nome)
-         ON CONFLICT (fksetor)
-         DO UPDATE SET nome = NEW.nome;
-      RETURN NULL;
-   ELSE
-      RETURN NEW;
-   END IF;   
-END;$BODY$;
-
-ALTER FUNCTION demo.insert_update_setor()
-    OWNER TO postgres;
-
-DROP TRIGGER IF EXISTS trg_insert_update_setor ON demo.setor;
-		     
-CREATE TRIGGER trg_insert_update_setor
-    BEFORE INSERT 
-    ON demo.setor
-    FOR EACH ROW
-    EXECUTE PROCEDURE demo.insert_update_setor();
-
------------------
-
-CREATE OR REPLACE  FUNCTION demo.insert_update_medicamento()
-    RETURNS trigger
-    LANGUAGE 'plpgsql'
-    COST 100
-    VOLATILE NOT LEAKPROOF
-AS $BODY$BEGIN
-   IF pg_trigger_depth() = 1 then
-
-        INSERT INTO demo.medicamento (fkhospital, fkmedicamento, nome)
-            VALUES(NEW.fkhospital, NEW.fkmedicamento, NEW.nome)
-         ON CONFLICT (fkmedicamento)
-         DO UPDATE SET nome = NEW.nome;
-
-      RETURN NULL;
-   ELSE
-      RETURN NEW;
-   END IF;   
-END;$BODY$;
-
-ALTER FUNCTION demo.insert_update_medicamento()
-    OWNER TO postgres;
-		     
-DROP TRIGGER IF EXISTS trg_insert_update_medicamento ON demo.medicamento;
-
-CREATE TRIGGER trg_insert_update_medicamento
-    BEFORE INSERT 
-    ON demo.medicamento
-    FOR EACH ROW
-    EXECUTE PROCEDURE demo.insert_update_medicamento();
-
------------------
-
-CREATE OR REPLACE  FUNCTION demo.insert_update_hospital()
-    RETURNS trigger
-    LANGUAGE 'plpgsql'
-    COST 100
-    VOLATILE NOT LEAKPROOF
-AS $BODY$BEGIN
-   IF pg_trigger_depth() = 1 then
-
-        INSERT INTO demo.hospital (fkhospital, nome)
-            VALUES(NEW.fkhospital, NEW.nome)
-         ON CONFLICT (fkhospital)
-         DO UPDATE SET nome = NEW.nome;
-
-      RETURN NULL;
-   ELSE
-      RETURN NEW;
-   END IF;   
-END;$BODY$;
-
-ALTER FUNCTION demo.insert_update_hospital()
-    OWNER TO postgres;
-		     
-DROP TRIGGER IF EXISTS insert_update_hospital ON demo.hospital;
-
-CREATE TRIGGER insert_update_hospital
-    BEFORE INSERT 
-    ON demo.hospital
-    FOR EACH ROW
-    EXECUTE PROCEDURE demo.insert_update_hospital();
-
------------------
-
-CREATE OR REPLACE  FUNCTION demo.insert_update_unidademedida()
-    RETURNS trigger
-    LANGUAGE 'plpgsql'
-    COST 100
-    VOLATILE NOT LEAKPROOF
-AS $BODY$BEGIN
-   IF pg_trigger_depth() = 1 then
-
-      INSERT INTO demo.unidademedida (fkhospital, fkunidademedida, nome) 
-            VALUES(NEW.fkhospital, NEW.fkunidademedida, NEW.nome)
-         ON CONFLICT (fkunidademedida)
-         DO UPDATE SET nome = NEW.nome;
-
-      RETURN NULL;
-   ELSE
-      RETURN NEW;
-   END IF;   
-END;$BODY$;
-
-ALTER FUNCTION demo.insert_update_unidademedida()
-    OWNER TO postgres;
-		     
-DROP TRIGGER IF EXISTS insert_update_hospital ON demo.unidademedida;
-
-CREATE TRIGGER insert_update_unidademedida
-    BEFORE INSERT 
-    ON demo.unidademedida
-    FOR EACH ROW
-    EXECUTE PROCEDURE demo.insert_update_unidademedida();
-		     
------------------
-		     
-CREATE OR REPLACE FUNCTION demo.insert_update_exame()
-    RETURNS trigger
-    LANGUAGE 'plpgsql'
-    COST 100
-    VOLATILE NOT LEAKPROOF
-AS $BODY$
-DECLARE
- TEST_EXISTS bigint;
-BEGIN
-
-   TEST_EXISTS := (SELECT fkexame FROM demo.exame e
-				   WHERE fkexame = NEW.fkexame 
-				   AND fkpessoa = NEW.fkpessoa
-				   AND tpexame = NEW.tpexame
-				   AND dtexame = NEW.dtexame
-				   LIMIT 1
-   );
-
-   IF TEST_EXISTS IS NULL THEN
-      RETURN NEW;
-   ELSE
-      RETURN NULL;
-   END IF;   
-END;$BODY$;
-
-ALTER FUNCTION demo.insert_update_exame()
-    OWNER TO postgres;
-
-DROP TRIGGER IF EXISTS trg_insert_update_exame ON demo.exame;
-		     
-CREATE TRIGGER trg_insert_update_exame
-    BEFORE INSERT 
-    ON demo.exame
-    FOR EACH ROW
-    EXECUTE PROCEDURE demo.insert_update_exame();
 
 -----------------
 

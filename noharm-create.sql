@@ -153,8 +153,7 @@ CREATE TABLE demo."presmed" (
   "periodo" int2  DEFAULT NULL,
   "update_at" timestamp DEFAULT NOW(),
   "update_by" integer,
-  "cpoe_grupo" bigint,
-  "cpoe_duplicada" varchar(1)
+  "cpoe_grupo" bigint
 );
 
 CREATE TABLE demo."medicamento" (
