@@ -169,6 +169,18 @@ BEGIN
         AND pr2.dtprescricao > current_date - interval '30' day
     );
 
+   -- Trecho do caso CPOE
+   /*if new.cpoe_nrseq_anterior is null then
+   		new.cpoe_grupo := new.cpoe_nrseq;
+   else
+   		NEW.cpoe_grupo := (
+   			select coalesce((select cpoe_grupo  
+   			from oswaldocruz.presmed
+   			where cpoe_nrseq = new.cpoe_nrseq_anterior
+   			limit 1), new.cpoe_nrseq)
+   		);
+   END IF;*/
+
    INSERT INTO demo.presmed (fkprescricao, fkpresmed, fkfrequencia, fkmedicamento, 
 	   fkunidademedida, dose, frequenciadia, via, idsegmento, doseconv, idoutlier, escorefinal,
 	   origem, dtsuspensao, horario, complemento, aprox, checado, periodo,
