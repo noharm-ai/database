@@ -15,6 +15,20 @@ CREATE TABLE demo."exame" (
   "unidade" varchar(250) DEFAULT NULL
 );
 
+CREATE TABLE demo."cultura" (
+  "fkexame" bigint NOT NULL,
+  "fkpessoa" bigint NOT NULL,
+  "nratendimento" bigint DEFAULT null,
+  "dtexame" timestamp NOT NULL,
+  "fkmedicamento" bigint DEFAULT NULL,
+  "nomemedicamento" varchar(250) DEFAULT NULL,
+  "fkmicroorganismo" bigint DEFAULT NULL,
+  "nomemicroorganismo" varchar(250) DEFAULT NULL,
+  "qtmicroorganismo" float4 DEFAULT null,
+  "resultado" varchar(250) DEFAULT null,
+  "sensivel" boolean DEFAULT null
+);
+
 CREATE TABLE demo."intervencao" (
   "fkpresmed" bigint DEFAULT 0,
   "fkprescricao" bigint DEFAULT 0,
@@ -318,8 +332,11 @@ CREATE UNIQUE INDEX demo_intervencao_unique ON demo."intervencao" ("fkpresmed","
 CREATE INDEX demo_intervencao_nratendimento_idx ON demo."intervencao" ("nratendimento");
 CREATE INDEX demo_intervencao_dtintervencao_idx ON demo."intervencao" USING brin ("dtintervencao") with (pages_per_range = 1);
 
-CREATE INDEX demo_exame_fkx ON demo."exame" ("fkpessoa");
+CREATE INDEX demo_exame_fkpessoa ON demo."exame" ("fkpessoa");
 CREATE INDEX demo_exame_dtexame_idx ON demo."exame" USING brin ("dtexame") with (pages_per_range = 1);
+
+CREATE INDEX demo_cultura_fkpessoa ON demo."cultura" ("fkpessoa");
+CREATE INDEX demo_cultura_dtexame_idx ON demo."cultura" USING brin ("dtexame") with (pages_per_range = 1);
 
 CREATE UNIQUE INDEX demo_outlier_idx ON demo."outlier" ("fkmedicamento", "idsegmento", "doseconv", "frequenciadia");
 
