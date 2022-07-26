@@ -16,17 +16,17 @@ CREATE TABLE demo."exame" (
 );
 
 CREATE TABLE demo."cultura" (
-  "fkexame" bigint NOT NULL,
-  "fkpessoa" bigint NOT NULL,
-  "nratendimento" bigint DEFAULT null,
-  "dtexame" timestamp NOT NULL,
-  "fkmedicamento" bigint DEFAULT NULL,
-  "nomemedicamento" varchar(250) DEFAULT NULL,
-  "fkmicroorganismo" bigint DEFAULT NULL,
-  "nomemicroorganismo" varchar(250) DEFAULT NULL,
-  "qtmicroorganismo" float4 DEFAULT null,
-  "resultado" varchar(250) DEFAULT null,
-  "sensivel" boolean DEFAULT null
+  "fkexame" bigint NOT NULL,
+  "fkpessoa" bigint NOT NULL,
+  "nratendimento" bigint DEFAULT null,
+  "dtexame" timestamp NOT NULL,
+  "fkmedicamento" bigint DEFAULT NULL,
+  "nomemedicamento" varchar(250) DEFAULT NULL,
+  "fkmicroorganismo" bigint DEFAULT NULL,
+  "nomemicroorganismo" varchar(250) DEFAULT NULL,
+  "qtmicroorganismo" float4 DEFAULT null,
+  "resultado" varchar(250) DEFAULT null,
+  "sensivel" boolean DEFAULT null
 );
 
 CREATE TABLE demo."intervencao" (
