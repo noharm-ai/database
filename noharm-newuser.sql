@@ -1,12 +1,12 @@
-CREATE USER onlydemo WITH PASSWORD 'onlydemo';
-GRANT CONNECT ON DATABASE postgres TO onlydemo;
-GRANT USAGE ON SCHEMA demo TO onlydemo;
-GRANT SELECT, INSERT, UPDATE ON ALL TABLES IN SCHEMA demo TO onlydemo;
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA demo TO onlydemo;
-GRANT SELECT ON TABLE demo.usuario TO onlydemo;
-GRANT DELETE ON TABLE demo.checkedindex TO onlydemo;
-GRANT INSERT ON TABLE public.bulletin TO onlydemo;
-GRANT USAGE, SELECT ON SEQUENCE public.bulletin_idbulletin_seq TO onlydemo;
+CREATE USER demo_user WITH PASSWORD 'demo_user';
+GRANT CONNECT ON DATABASE postgres TO demo_user;
+GRANT USAGE ON SCHEMA demo TO demo_user;
+GRANT SELECT, INSERT, UPDATE ON ALL TABLES IN SCHEMA demo TO demo_user;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA demo TO demo_user;
+GRANT SELECT ON TABLE demo.usuario TO demo_user;
+GRANT DELETE ON TABLE demo.checkedindex TO demo_user;
+GRANT INSERT ON TABLE public.bulletin TO demo_user;
+GRANT USAGE, SELECT ON SEQUENCE public.bulletin_idbulletin_seq TO demo_user;
 
 -- na base de produção já tem o api_user, descomentar trecho abaixo APENAS se for criar um banco do ZERO
 CREATE USER api_user WITH PASSWORD 'userapi'; -- necessário para os testes automatizados
@@ -24,3 +24,6 @@ GRANT SELECT, INSERT, DELETE ON TABLE demo.checkedindex TO api_user;
 
 GRANT USAGE ON SCHEMA demo TO noharmcare;
 GRANT SELECT, UPDATE ON demo.evolucao TO noharmcare;
+
+GRANT USAGE ON SCHEMA demo TO readnoharm;
+GRANT SELECT ON ALL TABLES IN SCHEMA demo TO readnoharm;
