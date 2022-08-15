@@ -25,5 +25,6 @@ GRANT SELECT, INSERT, DELETE ON TABLE demo.checkedindex TO api_user;
 GRANT USAGE ON SCHEMA demo TO noharmcare;
 GRANT SELECT, UPDATE ON demo.evolucao TO noharmcare;
 
-GRANT USAGE ON SCHEMA demo TO readnoharm;
-GRANT SELECT ON ALL TABLES IN SCHEMA demo TO readnoharm;
+-- descomentar trecho abaixo APENAS se for criar um banco do ZERO (este usuário não existe no ambiente de teste automatizado)
+-- GRANT USAGE ON SCHEMA demo TO readnoharm;
+-- GRANT SELECT ON ALL TABLES IN SCHEMA demo TO readnoharm;
