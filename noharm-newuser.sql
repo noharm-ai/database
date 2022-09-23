@@ -22,8 +22,8 @@ GRANT DELETE ON demo.segmentosetor TO api_user;
 GRANT DELETE ON demo.outlier TO api_user;
 GRANT SELECT, INSERT, DELETE ON TABLE demo.checkedindex TO api_user;
 
-GRANT USAGE ON SCHEMA demo TO noharmcare;
-GRANT SELECT, UPDATE ON demo.evolucao TO noharmcare;
+GRANT USAGE ON SCHEMA demo TO noharm_care;
+GRANT SELECT, UPDATE ON demo.evolucao TO noharm_care;
 
 -- descomentar trecho abaixo APENAS se for criar um banco do ZERO (este usuário não existe no ambiente de teste automatizado)
 -- GRANT USAGE ON SCHEMA demo TO readnoharm;
