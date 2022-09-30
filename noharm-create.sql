@@ -12,7 +12,8 @@ CREATE TABLE demo."exame" (
   "dtexame" timestamp NOT NULL,
   "tpexame" varchar(100) NOT NULL,
   "resultado" float4 DEFAULT null,
-  "unidade" varchar(250) DEFAULT NULL
+  "unidade" varchar(250) DEFAULT NULL,
+  UNIQUE (fkexame, fkpessoa, tpexame)
 );
 
 CREATE TABLE demo."cultura" (
