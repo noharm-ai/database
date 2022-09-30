@@ -12,8 +12,7 @@ CREATE TABLE demo."exame" (
   "dtexame" timestamp NOT NULL,
   "tpexame" varchar(100) NOT NULL,
   "resultado" float4 DEFAULT null,
-  "unidade" varchar(250) DEFAULT NULL,
-  UNIQUE (fkexame, fkpessoa, tpexame)
+  "unidade" varchar(250) DEFAULT NULL
 );
 
 CREATE TABLE demo."cultura" (
@@ -334,7 +333,7 @@ CREATE UNIQUE INDEX demo_intervencao_unique ON demo."intervencao" ("fkpresmed","
 CREATE INDEX demo_intervencao_nratendimento_idx ON demo."intervencao" ("nratendimento");
 CREATE INDEX demo_intervencao_idx_status_dtintervencao ON demo."intervencao" USING btree ("status", "dtintervencao");
 
-CREATE INDEX demo_exame_fkpessoa ON demo."exame" ("fkpessoa");
+CREATE UNIQUE INDEX demo_exame_idx ON demo."exame" ("fkpessoa", "fkpessoa", "tpexame");
 CREATE INDEX demo_exame_dtexame_idx ON demo."exame" USING brin ("dtexame") with (pages_per_range = 1);
 
 CREATE INDEX demo_cultura_fkpessoa ON demo."cultura" ("fkpessoa");
