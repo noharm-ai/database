@@ -336,7 +336,7 @@ CREATE INDEX demo_intervencao_idx_status_dtintervencao ON demo."intervencao" USI
 CREATE UNIQUE INDEX demo_exame_idx ON demo."exame" ("fkexame", "fkpessoa", "tpexame");
 CREATE INDEX demo_exame_dtexame_idx ON demo."exame" USING brin ("dtexame") with (pages_per_range = 1);
 
-CREATE INDEX demo_cultura_fkpessoa ON demo."cultura" ("fkpessoa");
+CREATE UNIQUE INDEX demo_cultura_idx ON demo."cultura" ("fkexame", "fkpessoa", "fkmedicamento", "fkmicroorganismo");
 CREATE INDEX demo_cultura_dtexame_idx ON demo."cultura" USING brin ("dtexame") with (pages_per_range = 1);
 
 CREATE UNIQUE INDEX demo_outlier_idx ON demo."outlier" ("fkmedicamento", "idsegmento", "doseconv", "frequenciadia");
