@@ -25,6 +25,8 @@ CREATE TABLE demo."cultura" (
   "fkmicroorganismo" bigint DEFAULT NULL,
   "nomemicroorganismo" varchar(250) DEFAULT NULL,
   "qtmicroorganismo" float4 DEFAULT null,
+  "nomeexame" varchar(250) DEFAULT NULL,
+  "nomematerial" varchar(250) DEFAULT NULL,
   "resultado" varchar(250) DEFAULT null,
   "sensivel" boolean DEFAULT null
 );
