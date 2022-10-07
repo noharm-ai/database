@@ -234,7 +234,7 @@ AS $BODY$BEGIN
 		    AND s.fkhospital = NEW.fkhospital
 		);
 
-    IF NEW.dtprescricao > NEW.dtvigencia THEN
+           IF NEW.dtprescricao > NEW.dtvigencia THEN
 			NEW.dtvigencia := NEW.dtprescricao + interval '1 min';
 		END IF;
 	
@@ -244,7 +244,8 @@ AS $BODY$BEGIN
             DO UPDATE SET fkpessoa = NEW.fkpessoa,
                     fksetor = NEW.fksetor,
                     dtprescricao = NEW.dtprescricao,
-                    idsegmento = NEW.idsegmento;
+                    idsegmento = NEW.idsegmento
+	       WHERE demo.prescricao.status <> 's';
 
       RETURN NULL;
    ELSE
