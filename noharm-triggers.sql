@@ -688,3 +688,36 @@ END;$BODY$;
 
 ALTER FUNCTION demo.similaridade(int2, int8, float4, float4)
     OWNER TO postgres;
+
+--------
+
+CREATE OR REPLACE  FUNCTION demo.complete_intervencao_cpoe()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$BEGIN
+
+		NEW.fksetor = (
+		    SELECT fksetor FROM demo.prescricao p
+		    WHERE p.nratendimento = NEW.nratendimento
+		    ORDER BY p.dtprescricao
+            LIMIT 1
+		);	
+
+      RETURN NEW;
+
+END;$BODY$;
+
+ALTER FUNCTION demo.complete_intervencao_cpoe()
+    OWNER TO postgres;
+
+DROP TRIGGER IF EXISTS trg_complete_intervencao_cpoe ON demo.intervencao;
+		     
+CREATE TRIGGER trg_complete_intervencao_cpoe
+    BEFORE INSERT 
+    ON demo.intervencao
+    FOR EACH ROW
+    EXECUTE PROCEDURE demo.complete_intervencao_cpoe();
+
+--------

@@ -18,6 +18,7 @@ CREATE TABLE demo."exame" (
 CREATE TABLE demo."cultura" (
   "fkexame" bigint NOT NULL,
   "fkpessoa" bigint NOT NULL,
+  "fksetor" integer DEFAULT null,
   "nratendimento" bigint DEFAULT null,
   "dtexame" timestamp NOT NULL,
   "fkmedicamento" bigint DEFAULT NULL,
@@ -27,6 +28,7 @@ CREATE TABLE demo."cultura" (
   "qtmicroorganismo" float4 DEFAULT null,
   "nomeexame" varchar(250) DEFAULT NULL,
   "nomematerial" varchar(250) DEFAULT NULL,
+  "nomematerialtipo" varchar(250) DEFAULT NULL,
   "resultado" varchar(250) DEFAULT null,
   "sensivel" boolean DEFAULT null
 );
@@ -35,6 +37,7 @@ CREATE TABLE demo."intervencao" (
   "fkpresmed" bigint DEFAULT 0,
   "fkprescricao" bigint DEFAULT 0,
   "nratendimento" bigint NOT NULL,
+  "fksetor" integer DEFAULT null,
   "idmotivointervencao" smallint [] NULL,
   "erro" boolean NULL,
   "dtintervencao" timestamp NOT NULL DEFAULT NOW(),
