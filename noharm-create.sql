@@ -377,6 +377,7 @@ CREATE INDEX ON demo."observacao" ("nratendimento","fkmedicamento");
 
 CREATE INDEX demo_evolucao_nratendimento_idx ON demo."evolucao" ("nratendimento");
 CREATE INDEX demo_evolucao_dtevolucao_idx ON demo."evolucao" USING brin ("dtevolucao") with (pages_per_range = 1);
+CREATE INDEX demo_evolucao_evolucao_at_idx ON demo."evolucao" USING brin ("evolucao_at") with (pages_per_range = 1);
 
 CREATE OR REPLACE VIEW demo.usuario
   AS SELECT usuario.idusuario,
