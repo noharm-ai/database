@@ -228,15 +228,24 @@ CREATE OR REPLACE  FUNCTION demo.complete_prescricao()
     VOLATILE NOT LEAKPROOF
 AS $BODY$BEGIN
    IF pg_trigger_depth() = 1 then
-		NEW.idsegmento = (
-		    SELECT s.idsegmento FROM demo.segmentosetor s
-		    WHERE s.fksetor = NEW.fksetor
-		    AND s.fkhospital = NEW.fkhospital
-		);
+	NEW.idsegmento = (
+		SELECT s.idsegmento FROM demo.segmentosetor s
+		WHERE s.fksetor = NEW.fksetor
+		AND s.fkhospital = NEW.fkhospital
+	);
 
-           IF NEW.dtprescricao > NEW.dtvigencia THEN
-			NEW.dtvigencia := NEW.dtprescricao + interval '1 min';
-		END IF;
+	IF NEW.dtprescricao > NEW.dtvigencia THEN
+		NEW.dtvigencia := NEW.dtprescricao + interval '1 min';
+	END IF;
+
+	UPDATE demo.prescricao p
+	set aggsetor = array_append(aggsetor, NEW.fksetor),
+	fksetor = NEW.fksetor,
+	leito = NEW.leito,
+	status = '0'
+	where nratendimento = NEW.nratendimento
+	and dtprescricao = NEW.dtprescricao::date
+	and agregada is not null;
 	
         INSERT INTO demo.prescricao (fkhospital, fkprescricao, fkpessoa, nratendimento, fksetor, dtprescricao, idsegmento, leito, prontuario, dtvigencia, prescritor, agregada, indicadores, aggsetor, aggmedicamento, concilia, convenio) 
             VALUES (NEW.fkhospital, NEW.fkprescricao, NEW.fkpessoa, NEW.nratendimento, NEW.fksetor, NEW.dtprescricao, NEW.idsegmento, NEW.leito, NEW.prontuario, NEW.dtvigencia, NEW.prescritor, NEW.agregada, NEW.indicadores, NEW.aggsetor, NEW.aggmedicamento, NEW.concilia, NEW.convenio)
