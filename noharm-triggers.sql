@@ -235,7 +235,7 @@ AS $BODY$BEGIN
 	);
 
 	IF NEW.dtprescricao > NEW.dtvigencia THEN
-		NEW.dtvigencia := NEW.dtprescricao + interval '1 min';
+		NEW.dtvigencia := NEW.dtprescricao + interval '10 min';
 	END IF;
 
 	UPDATE demo.prescricao p
