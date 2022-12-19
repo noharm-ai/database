@@ -175,7 +175,7 @@ BEGIN
    else
    		NEW.cpoe_grupo := (
    			select coalesce((select cpoe_grupo  
-   			from oswaldocruz.presmed
+   			from demo.presmed
    			where cpoe_nrseq = new.cpoe_nrseq_anterior
    			limit 1), new.cpoe_nrseq)
    		);
