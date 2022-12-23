@@ -15,22 +15,36 @@ CREATE TABLE demo."exame" (
   "unidade" varchar(250) DEFAULT NULL
 );
 
-CREATE TABLE demo."cultura" (
-  "fkexame" bigint NOT NULL,
+CREATE TABLE demo."cultura_cabecalho" (
+  "idculturacab" serial4 NOT NULL,  
   "fkpessoa" bigint NOT NULL,
-  "fksetor" integer DEFAULT null,
+  "fksetor" int4 null,
   "nratendimento" bigint DEFAULT null,
-  "dtexame" timestamp NOT NULL,
-  "fkmedicamento" bigint DEFAULT NULL,
-  "nomemedicamento" varchar(250) DEFAULT NULL,
-  "fkmicroorganismo" bigint DEFAULT NULL,
-  "nomemicroorganismo" varchar(250) DEFAULT NULL,
-  "qtmicroorganismo" float4 DEFAULT null,
-  "nomeexame" varchar(250) DEFAULT NULL,
-  "nomematerial" varchar(250) DEFAULT NULL,
-  "nomematerialtipo" varchar(250) DEFAULT NULL,
-  "resultado" varchar(250) DEFAULT null,
-  "sensivel" boolean DEFAULT null
+  "fkexame" bigint NOT NULL,
+  "fkitemexame" bigint NOT NULL,
+  "nomeexame" varchar(250) NULL,
+  "nomematerial" varchar(250) NULL,
+  "nomematerialtipo" varchar(250) NULL,
+  "dtpedido" timestamp NULL,
+  "dtcoleta" timestamp NULL,
+  "dtliberacao" timestamp not NULL,
+  "gram" varchar(250) DEFAULT null,
+  "dscolonia" varchar(250) DEFAULT null,
+  "nrcolonia" bigint DEFAULT NULL,
+  "resultprevio" varchar(20) DEFAULT null,
+  "complemento" varchar(250) DEFAULT null  
+);
+
+CREATE TABLE demo.cultura (
+  "idcultura" serial4 NOT NULL,  
+  "fkexame" bigint NOT NULL,
+  "fkitemexame" bigint NOT NULL,
+  "fkmedicamento" int8 NULL,
+  "nomemedicamento" varchar(250) NULL DEFAULT NULL::character varying,
+  "fkmicroorganismo" int8 NULL,
+  "nomemicroorganismo" varchar(250) NULL DEFAULT NULL::character varying,
+  "qtmicroorganismo" varchar(250) NULL,
+  "resultado" varchar(250) NULL DEFAULT NULL::character varying
 );
 
 CREATE TABLE demo."intervencao" (
@@ -341,8 +355,9 @@ CREATE INDEX demo_intervencao_idx_status_dtintervencao ON demo."intervencao" USI
 CREATE UNIQUE INDEX demo_exame_idx ON demo."exame" ("fkexame", "fkpessoa", "tpexame");
 CREATE INDEX demo_exame_dtexame_idx ON demo."exame" USING brin ("dtexame") with (pages_per_range = 1);
 
-CREATE UNIQUE INDEX demo_cultura_idx ON demo."cultura" ("fkexame", "fkpessoa", "fkmedicamento", "fkmicroorganismo");
-CREATE INDEX demo_cultura_dtexame_idx ON demo."cultura" USING brin ("dtexame") with (pages_per_range = 1);
+CREATE UNIQUE INDEX demo_cultura_cab_idx ON demo."cultura_cabecalho" ("idculturacab");
+CREATE INDEX demo_cultura_cab_fkpessoa ON demo."cultura_cabecalho" USING btree (fkpessoa);
+CREATE INDEX demo_cultura_fkitemexame_idx ON demo.cultura USING brin (fkitemexame) WITH (pages_per_range='1');
 
 CREATE UNIQUE INDEX demo_outlier_idx ON demo."outlier" ("fkmedicamento", "idsegmento", "doseconv", "frequenciadia");
 
