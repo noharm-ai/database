@@ -356,10 +356,10 @@ CREATE UNIQUE INDEX demo_exame_idx ON demo."exame" ("fkexame", "fkpessoa", "tpex
 CREATE INDEX demo_exame_dtexame_idx ON demo."exame" USING brin ("dtexame") with (pages_per_range = 1);
 
 CREATE UNIQUE INDEX demo_cultura_cab_idx ON demo."cultura_cabecalho" ("idculturacab");
-CREATE UNIQUE INDEX demo_cultura_cab_uniq ON demo."cultura_cabecalho" ("fkexame", "fkpessoa");
+CREATE UNIQUE INDEX demo_cultura_cab_uniq ON demo."cultura_cabecalho" ("fkexame", "fkpessoa", "fkitemexame");
 
 CREATE INDEX demo_cultura_fkitemexame_idx ON demo.cultura USING brin (fkitemexame) WITH (pages_per_range='1');
-CREATE UNIQUE INDEX demo_cultura_unq ON demo."cultura" ("fkexame","fkitemexame");
+CREATE UNIQUE INDEX demo_cultura_unq ON demo."cultura" ("fkexame","fkitemexame", "fkmedicamento");
 
 CREATE UNIQUE INDEX demo_outlier_idx ON demo."outlier" ("fkmedicamento", "idsegmento", "doseconv", "frequenciadia");
 
