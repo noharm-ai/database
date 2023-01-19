@@ -30,3 +30,6 @@ GRANT SELECT, INSERT, DELETE ON TABLE demo.checkedindex TO api_user;
 
 -- GRANT USAGE ON SCHEMA demo TO noharm_care;
 -- GRANT SELECT, UPDATE ON demo.evolucao TO noharm_care;
+
+-- GRANT USAGE ON SCHEMA demo TO nifi_user;
+-- GRANT SELECT, UPDATE, INSERT ON demo.prescricaoagg TO nifi_user;
