@@ -378,6 +378,7 @@ CREATE INDEX demo_pessoa_dtnascimento_idx ON demo."pessoa" USING brin ("dtnascim
 
 CREATE INDEX demo_presmed_fkmedicamento_idx ON demo."presmed" ("fkmedicamento", "idsegmento");
 CREATE INDEX demo_presmed_update_by_idx ON demo."presmed" ("update_by");
+-- CREATE INDEX demo_presmed_cpoe_nrseq_idx ON demo."presmed" ("cpoe_nrseq"); -- CPOE opcional
 CREATE INDEX demo_presmed_fkprescricao_idx ON demo."presmed" ("fkprescricao");
 CREATE INDEX demo_presmed_slagrupamento_idx ON demo."presmed" USING brin ("slagrupamento") with (pages_per_range = 1);
 
