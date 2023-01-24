@@ -123,6 +123,7 @@ CREATE TABLE demo."prescricao" (
   "idsegmento" smallint DEFAULT NULL,
   "dtprescricao" timestamp NOT NULL,
   "dtvigencia" timestamp NULL,
+  "dtatualizacao" timestamp NULL,
   "status" char(1) DEFAULT '0',
   "leito" varchar(16) NULL,
   "prontuario" int8 NULL,
@@ -187,7 +188,9 @@ CREATE TABLE demo."presmed" (
   "periodo" int2  DEFAULT NULL,
   "update_at" timestamp DEFAULT NOW(),
   "update_by" integer,
-  "cpoe_grupo" bigint
+  "cpoe_grupo" bigint NULL,
+  "cpoe_nrseq" bigint NULL,
+  "cpoe_nrseq_anterior" bigint NULL
 );
 
 CREATE TABLE demo."medicamento" (
