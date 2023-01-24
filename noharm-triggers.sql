@@ -247,13 +247,18 @@ AS $BODY$BEGIN
 	and dtprescricao = NEW.dtprescricao::date
 	and agregada is not null;
 	
-        INSERT INTO demo.prescricao (fkhospital, fkprescricao, fkpessoa, nratendimento, fksetor, dtprescricao, idsegmento, leito, prontuario, dtvigencia, prescritor, agregada, indicadores, aggsetor, aggmedicamento, concilia, convenio) 
-            VALUES (NEW.fkhospital, NEW.fkprescricao, NEW.fkpessoa, NEW.nratendimento, NEW.fksetor, NEW.dtprescricao, NEW.idsegmento, NEW.leito, NEW.prontuario, NEW.dtvigencia, NEW.prescritor, NEW.agregada, NEW.indicadores, NEW.aggsetor, NEW.aggmedicamento, NEW.concilia, NEW.convenio)
+        INSERT INTO demo.prescricao (fkhospital, fkprescricao, fkpessoa, nratendimento, fksetor, dtprescricao, idsegmento, 
+				     leito, prontuario, dtvigencia, prescritor, agregada, indicadores, aggsetor, aggmedicamento, 
+				     concilia, convenio, dtatualizacao) 
+            VALUES (NEW.fkhospital, NEW.fkprescricao, NEW.fkpessoa, NEW.nratendimento, NEW.fksetor, NEW.dtprescricao, NEW.idsegmento, 
+		    NEW.leito, NEW.prontuario, NEW.dtvigencia, NEW.prescritor, NEW.agregada, NEW.indicadores, NEW.aggsetor, NEW.aggmedicamento, 
+		    NEW.concilia, NEW.convenio, NEW.dtatualizacao)
             ON CONFLICT (fkprescricao)
             DO UPDATE SET fkpessoa = NEW.fkpessoa,
                     fksetor = NEW.fksetor,
                     dtprescricao = NEW.dtprescricao,
-                    idsegmento = NEW.idsegmento
+                    idsegmento = NEW.idsegmento,
+                    dtatualizacao = NEW.dtatualizacao
 	       WHERE demo.prescricao.status <> 's';
 
       RETURN NULL;
