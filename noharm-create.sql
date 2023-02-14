@@ -27,11 +27,11 @@ CREATE TABLE demo."cultura_cabecalho" (
   "nomematerialtipo" varchar(250) NULL,
   "dtpedido" timestamp NULL,
   "dtcoleta" timestamp NULL,
-  "dtliberacao" timestamp not NULL,
+  "dtliberacao" timestamp NULL,
   "gram" varchar(250) DEFAULT null,
   "dscolonia" varchar(250) DEFAULT null,
   "nrcolonia" bigint DEFAULT NULL,
-  "resultprevio" varchar(20) DEFAULT null,
+  "resultprevio" varchar(250) DEFAULT null,
   "complemento" varchar(250) DEFAULT null  
 );
 
