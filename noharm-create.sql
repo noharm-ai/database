@@ -231,8 +231,13 @@ CREATE TABLE demo."motivointervencao" (
   "idmotivointervencao" SERIAL PRIMARY KEY NOT NULL,
   "idmotivomae" int4 NULL,
   "ativo" bool NOT NULL DEFAULT true,
-  "nome" varchar(250) NOT NULL
+  "nome" varchar(250) NOT NULL,
+  "suspensao" bool NOT NULL DEFAULT false,
+  "substituicao" bool NOT NULL DEFAULT false,
+  "tp_relacao" smallint NOT NULL DEFAULT 0
 );
+
+COMMENT ON COLUMN demo.motivointervencao.tp_relacao IS '0: nao possui; 1: opcional; 2: obrigatorio';
 
 CREATE TABLE demo."frequencia" (
   "fkhospital" smallint DEFAULT 1,
