@@ -355,6 +355,17 @@ CREATE TABLE demo.checkedindex (
   "via" varchar(50) DEFAULT NULL,
   "horario" varchar(50) DEFAULT NULL
 );
+
+CREATE TABLE demo."alergia" (
+  "fkpessoa" bigint NOT NULL,
+  "fkmedicamento" bigint DEFAULT null,
+  "nome_medicamento" varchar(250) DEFAULT NULL,
+  "created_at" timestamp NOT NULL DEFAULT now(),
+  "created_by" integer NOT NULL,
+  "updated_at" timestamp NOT NULL DEFAULT now(),
+  "updated_by" integer NOT NULL
+);
+
 CREATE INDEX demo_checkedindex_idx ON demo.checkedindex ("nratendimento","fkmedicamento");
 
 CREATE UNIQUE INDEX demo_intervencao_unique ON demo."intervencao" ("fkpresmed","fkprescricao");
@@ -404,6 +415,8 @@ CREATE INDEX ON demo."observacao" ("nratendimento","fkmedicamento");
 
 CREATE INDEX demo_evolucao_nratendimento_idx ON demo."evolucao" ("nratendimento");
 CREATE INDEX demo_evolucao_dtevolucao_idx ON demo."evolucao" USING brin ("dtevolucao") with (pages_per_range = 1);
+
+CREATE INDEX demo_alergia_fkpessoa_idx ON demo."alergia" ("fkpessoa");
 
 CREATE OR REPLACE VIEW demo.usuario
   AS SELECT usuario.idusuario,
