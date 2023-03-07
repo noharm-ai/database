@@ -221,6 +221,7 @@ CREATE TABLE demo."medatributos" (
   "concentracaounidade" varchar(3),
   "linhabranca" boolean,
   "fkunidademedida" varchar(32),
+  "fkunidademedidacusto" varchar(32),
   "custo" float4,
   "tempotratamento" smallint,
   "update_at" timestamp DEFAULT NULL,
@@ -417,7 +418,6 @@ CREATE INDEX ON demo."observacao" ("nratendimento","fkmedicamento");
 CREATE INDEX demo_evolucao_nratendimento_idx ON demo."evolucao" ("nratendimento");
 CREATE INDEX demo_evolucao_dtevolucao_idx ON demo."evolucao" USING brin ("dtevolucao") with (pages_per_range = 1);
 
-CREATE INDEX demo_alergia_fkpessoa_idx ON demo."alergia" ("fkpessoa");
 CREATE UNIQUE INDEX demo_alergia_unique ON demo."alergia" ("fkpessoa","fkmedicamento");
 
 CREATE OR REPLACE VIEW demo.usuario
