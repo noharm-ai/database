@@ -418,7 +418,7 @@ CREATE INDEX ON demo."observacao" ("nratendimento","fkmedicamento");
 CREATE INDEX demo_evolucao_nratendimento_idx ON demo."evolucao" ("nratendimento");
 CREATE INDEX demo_evolucao_dtevolucao_idx ON demo."evolucao" USING brin ("dtevolucao") with (pages_per_range = 1);
 
-CREATE UNIQUE INDEX demo_alergia_unique ON demo."alergia" ("fkpessoa","fkmedicamento");
+ALTER TABLE demo."alergia" ADD CONSTRAINT demo_alergia_uniq_const UNIQUE (fkpessoa,fkmedicamento);
 
 CREATE OR REPLACE VIEW demo.usuario
   AS SELECT usuario.idusuario,
