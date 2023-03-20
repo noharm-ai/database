@@ -364,8 +364,8 @@ CREATE TABLE demo."alergia" (
   "ativo" boolean DEFAULT true,
   "created_at" timestamp NOT NULL DEFAULT now(),
   "created_by" integer NOT NULL,
-  "updated_at" timestamp NOT NULL DEFAULT now(),
-  "updated_by" integer NOT NULL
+  "updated_at" timestamp DEFAULT now(),
+  "updated_by" integer DEFAULT 0
 );
 
 CREATE INDEX demo_checkedindex_idx ON demo.checkedindex ("nratendimento","fkmedicamento");
