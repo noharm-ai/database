@@ -61,6 +61,7 @@ CREATE TABLE demo."intervencao" (
   "status" char(1) NOT NULL DEFAULT '0',
   "transcricao" json DEFAULT NULL,
   "dias_economia" smallint default NULL,
+  "dose_despendida" float4 default NULL,
   "update_at" timestamp NOT NULL DEFAULT NOW(),
   "update_by" integer NOT NULL
 );
