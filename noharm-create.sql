@@ -157,7 +157,7 @@ CREATE TABLE demo."prescricaoagg" (
 );
 
 CREATE TABLE demo."presmed" (
-  "fkpresmed" bigint NOT NULL,
+  "fkpresmed" bigserial PRIMARY KEY NOT NULL,
   "fkprescricao" bigint NOT NULL,
   "fkmedicamento" bigint NOT NULL,
   "fkunidademedida" varchar(32) DEFAULT NULL,
@@ -396,7 +396,6 @@ CREATE INDEX demo_prescricao_evolucao_at_idx ON demo."prescricao" USING brin ("e
 CREATE INDEX demo_pessoa_alertadata_idx ON demo."pessoa" USING brin ("alertadata") with (pages_per_range = 1);
 CREATE INDEX demo_pessoa_dtnascimento_idx ON demo."pessoa" USING brin ("dtnascimento") with (pages_per_range = 1);
 
-CREATE UNIQUE INDEX demo_presmed_fkpresmed_idx ON demo."presmed" ("fkpresmed") WHERE (update_at > '2023-01-01 00:00:00'::timestamp without time zone);
 CREATE INDEX demo_presmed_fkmedicamento_idx ON demo."presmed" ("fkmedicamento", "idsegmento");
 -- CREATE INDEX demo_presmed_cpoe_nrseq_idx ON demo."presmed" ("cpoe_nrseq"); -- CPOE opcional
 CREATE INDEX demo_presmed_fkprescricao_idx ON demo."presmed" ("fkprescricao") WHERE (update_at > '2023-01-01 00:00:00'::timestamp without time zone);
