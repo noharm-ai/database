@@ -192,7 +192,8 @@ CREATE TABLE demo."presmed" (
   "update_by" integer,
   "cpoe_grupo" bigint NULL,
   "cpoe_nrseq" bigint NULL,
-  "cpoe_nrseq_anterior" bigint NULL
+  "cpoe_nrseq_anterior" bigint NULL,
+  "form" json NULL 
 );
 
 CREATE TABLE demo."medicamento" (
