@@ -376,7 +376,7 @@ CREATE UNIQUE INDEX demo_intervencao_unique ON demo."intervencao" ("fkpresmed","
 CREATE INDEX demo_intervencao_nratendimento_idx ON demo."intervencao" ("nratendimento");
 CREATE INDEX demo_intervencao_idx_status_dtintervencao ON demo."intervencao" USING btree ("status", "dtintervencao");
 
-CREATE UNIQUE INDEX demo_exame_idx ON demo."exame" ("fkexame", "fkpessoa", "tpexame") WHERE (dtexame > '2023-01-01 00:00:00'::timestamp without time zone);
+CREATE UNIQUE INDEX demo_exame_idx ON demo."exame" ("fkexame", "fkpessoa", "tpexame");
 CREATE INDEX demo_exame_dtexame_idx ON demo."exame" USING brin ("dtexame") with (pages_per_range = 1);
 
 CREATE UNIQUE INDEX demo_cultura_cab_idx ON demo."cultura_cabecalho" ("idculturacab");
@@ -399,7 +399,7 @@ CREATE INDEX demo_pessoa_dtnascimento_idx ON demo."pessoa" USING brin ("dtnascim
 
 CREATE INDEX demo_presmed_fkmedicamento_idx ON demo."presmed" ("fkmedicamento", "idsegmento");
 -- CREATE INDEX demo_presmed_cpoe_nrseq_idx ON demo."presmed" ("cpoe_nrseq"); -- CPOE opcional
-CREATE INDEX demo_presmed_fkprescricao_idx ON demo."presmed" ("fkprescricao") WHERE (update_at > '2023-01-01 00:00:00'::timestamp without time zone);
+CREATE INDEX demo_presmed_fkprescricao_idx ON demo."presmed" ("fkprescricao");
 CREATE INDEX demo_presmed_slagrupamento_idx ON demo."presmed" USING brin ("slagrupamento") with (pages_per_range = 1);
 
 CREATE UNIQUE INDEX ON demo.prescricaoagg USING btree (fkmedicamento, fksetor, fkunidademedida, fkfrequencia, dose, peso);
