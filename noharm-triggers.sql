@@ -337,11 +337,11 @@ AS $BODY$BEGIN
    		NEW.peso = 999;
    END IF;
 
-    NEW.idsegmento = (
+    NEW.idsegmento = ( SELECT COALESCE (NEW.idsegmento, (
         SELECT s.idsegmento FROM demo.segmentosetor s
         WHERE s.fksetor = NEW.fksetor
-        AND s.fkhospital = NEW.fkhospital
-    );
+        AND s.fkhospital = NEW.fkhospital)
+    ) );
 
     NEW.doseconv = ( SELECT COALESCE (
 		(SELECT (NEW.dose * u.fator) as doseconv
