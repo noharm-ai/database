@@ -12,7 +12,8 @@ CREATE TABLE public."usuario" (
 CREATE TABLE public."substancia" (
   "sctid" bigint NOT NULL,
   "nome" varchar(255) NOT NULL,
-  "link" varchar(255) DEFAULT NULL
+  "link" varchar(255) DEFAULT NULL,
+  "idclasse" varchar(10) NULL
 );
 
 CREATE TABLE public."notifica" (
@@ -51,6 +52,13 @@ CREATE TABLE public.bulletin (
 	"timestamp" text NULL,
 	created_at timestamptz NULL DEFAULT now(),
 	CONSTRAINT bulletin_pkey PRIMARY KEY (idbulletin)
+);
+
+CREATE TABLE public.classe (
+	idclasse varchar(10) NOT NULL,
+	idclassemae varchar(10) NULL,
+	nome varchar(250) NOT NULL,
+	CONSTRAINT classe_pkey PRIMARY KEY (idclasse)
 );
 
 CREATE UNIQUE INDEX ON public."substancia" ("sctid");
