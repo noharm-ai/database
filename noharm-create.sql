@@ -142,6 +142,23 @@ CREATE TABLE demo."prescricao" (
   "update_by" integer
 );
 
+--validating
+create table demo."prescricao_audit" (
+	"idprescricao_audit" serial8 primary key,
+	"tp_audit" smallint not null,
+	"nratendimento" bigint not null,
+	"fkprescricao" bigint not null,
+	"dtprescricao" timestamp not null,
+	"fksetor" integer not null,
+	"total_itens" integer not null,
+	"agregada" boolean, 
+	"concilia" char(1),
+	"idsegmento" smallint,
+	"leito" varchar(16),
+	"created_at" timestamp not null,
+	"created_by" integer not null
+)
+
 CREATE TABLE demo."prescricaoagg" (
   "fkhospital" smallint DEFAULT 1,
   "fksetor" integer NOT NULL,
