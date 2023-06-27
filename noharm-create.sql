@@ -157,7 +157,7 @@ create table demo."prescricao_audit" (
 	"leito" varchar(16),
 	"created_at" timestamp not null,
 	"created_by" integer not null
-)
+);
 
 CREATE TABLE demo."prescricaoagg" (
   "fkhospital" smallint DEFAULT 1,
