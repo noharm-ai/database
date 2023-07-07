@@ -144,7 +144,7 @@ CREATE TABLE demo."prescricao" (
 
 --validating
 create table demo."prescricao_audit" (
-	"idprescricao_audit" serial8 primary key,
+	"idprescricao_audit" serial8 not null,
 	"tp_audit" smallint not null,
 	"nratendimento" bigint not null,
 	"fkprescricao" bigint not null,
@@ -410,6 +410,9 @@ CREATE INDEX demo_prescricao_nratendimento_idx ON demo."prescricao" ("nratendime
 CREATE INDEX demo_prescricao_update_by_idx ON demo."prescricao" ("update_by");
 CREATE INDEX demo_prescricao_update_at_idx ON demo."prescricao" USING brin ("update_at") with (pages_per_range = 1);
 CREATE INDEX demo_prescricao_evolucao_at_idx ON demo."prescricao" USING brin ("evolucao_at") with (pages_per_range = 1);
+
+CREATE INDEX demo_prescricao_audit_fkprescricao_idx ON demo."prescricao_audit" ("fkprescricao");
+CREATE INDEX demo_prescricao_audit_created_at_idx ON demo."prescricao_audit" USING brin ("created_at") with (pages_per_range = 1);
 
 CREATE INDEX demo_pessoa_alertadata_idx ON demo."pessoa" USING brin ("alertadata") with (pages_per_range = 1);
 CREATE INDEX demo_pessoa_dtnascimento_idx ON demo."pessoa" USING brin ("dtnascimento") with (pages_per_range = 1);
