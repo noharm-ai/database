@@ -169,6 +169,36 @@ BEGIN
         AND pr2.dtprescricao > current_date - interval '30' day
     );
 
+    -- periodo CPOE
+    -- busca quantidade de dias anteriores à prescricao atual
+    /*
+    NEW.periodo := (
+      select 
+        coalesce(sum(end_date - ini_date), 0) as periodo
+      from (
+        select 
+          ini_date, max(end_date) as end_date
+        from (
+          select
+            distinct
+            max(dtprescricao::date) as ini_date,
+            coalesce(max(presmed.dtsuspensao)::date,  max(prescricao.dtvigencia)::date) as end_date
+          FROM demo.presmed 
+            JOIN demo.prescricao ON prescricao.fkprescricao = presmed.fkprescricao 
+          WHERE 
+            prescricao.nratendimento = (select nratendimento from demo.prescricao pp where pp.fkprescricao = NEW.fkprescricao limit 1)
+            AND presmed.fkmedicamento = NEW.fkmedicamento
+            and prescricao.fkprescricao < NEW.fkprescricao
+          GROUP BY prescricao.dtprescricao, presmed.frequenciadia, presmed.dose, presmed.fkunidademedida 
+        ) periodos
+        group by 
+          ini_date
+      ) periodo_agrupado
+      where
+        end_date - ini_date > 0
+    );
+    */
+
    -- Trecho do caso CPOE
    /*if new.cpoe_nrseq_anterior is null then
    		new.cpoe_grupo := new.cpoe_nrseq;
