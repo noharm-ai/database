@@ -182,7 +182,10 @@ BEGIN
           select
             distinct
             max(dtprescricao::date) as ini_date,
-            coalesce(max(presmed.dtsuspensao)::date,  max(prescricao.dtvigencia)::date) as end_date
+            case 
+							when coalesce(max(presmed.dtsuspensao)::date,  max(prescricao.dtvigencia)::date) > now()::date then now()::date
+							else coalesce(max(presmed.dtsuspensao)::date,  max(prescricao.dtvigencia)::date)
+						end as end_date
           FROM demo.presmed 
             JOIN demo.prescricao ON prescricao.fkprescricao = presmed.fkprescricao 
           WHERE 
