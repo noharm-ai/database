@@ -174,7 +174,7 @@ BEGIN
     /*
     NEW.periodo := (
       select 
-        coalesce(sum(end_date - ini_date), 0) as periodo
+        coalesce(sum(case when end_date - ini_date = 0 then 1 else end_date - ini_date end), 0) as periodo
       from (
         select 
           ini_date, max(end_date) as end_date
@@ -198,7 +198,7 @@ BEGIN
           ini_date
       ) periodo_agrupado
       where
-        end_date - ini_date > 0
+        end_date - ini_date >= 0
     );
     */
 
