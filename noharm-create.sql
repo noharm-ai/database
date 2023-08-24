@@ -48,6 +48,7 @@ CREATE TABLE demo.cultura (
 );
 
 CREATE TABLE demo."intervencao" (
+  "idintervencao" serial NOT NULL,
   "fkpresmed" bigint DEFAULT 0,
   "fkprescricao" bigint DEFAULT 0,
   "nratendimento" bigint NOT NULL,
@@ -389,7 +390,9 @@ CREATE TABLE demo."alergia" (
 
 CREATE INDEX demo_checkedindex_idx ON demo.checkedindex ("nratendimento","fkmedicamento");
 
-CREATE UNIQUE INDEX demo_intervencao_unique ON demo."intervencao" ("fkpresmed","fkprescricao");
+CREATE UNIQUE INDEX demo_intervencao_unique ON demo."intervencao" ("idintervencao");
+CREATE INDEX demo_intervencao_fkpresmed_idx ON demo."intervencao" ("fkpresmed");
+CREATE INDEX demo_intervencao_fkprescricao_idx ON demo."intervencao" ("fkprescricao");
 CREATE INDEX demo_intervencao_nratendimento_idx ON demo."intervencao" ("nratendimento");
 CREATE INDEX demo_intervencao_idx_status_dtintervencao ON demo."intervencao" USING btree ("status", "dtintervencao");
 
