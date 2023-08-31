@@ -309,7 +309,7 @@ CREATE TABLE demo."segmentoexame" (
 CREATE TABLE demo."segmentosetor" (
   "idsegmento" smallint NOT NULL,
   "fkhospital" smallint NOT NULL,
-  "fksetor" integer NOT NULL,
+  "fksetor" integer NOT NULL
 );
 
 CREATE TABLE demo."hospital" (
