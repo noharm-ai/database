@@ -216,9 +216,10 @@ CREATE TABLE demo."presmed" (
 
 CREATE TABLE demo."medicamento" (
   "fkhospital" smallint DEFAULT 1,
-  "fkmedicamento" bigint PRIMARY KEY NOT NULL,
+  "fkmedicamento" bigint NOT NULL,
   "nome" varchar(250) NOT NULL,
-  "sctid" bigint DEFAULT NULL
+  "sctid" bigint DEFAULT NULL,
+  PRIMARY KEY ("fkhospital", "fkmedicamento")
 );
 
 CREATE TABLE demo."medatributos" (
