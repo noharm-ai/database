@@ -426,7 +426,7 @@ AS $BODY$BEGIN
    IF pg_trigger_depth() = 1 then
       INSERT INTO demo.frequencia (fkhospital, fkfrequencia, nome, frequenciadia, frequenciahora) 
             VALUES(NEW.fkhospital, NEW.fkfrequencia, NEW.nome, NEW.frequenciadia, NEW.frequenciahora)
-         ON CONFLICT (fkfrequencia)
+         ON CONFLICT (fkhospital, fkfrequencia)
          DO NOTHING;
       RETURN NULL;
    ELSE
