@@ -263,16 +263,18 @@ COMMENT ON COLUMN demo.motivointervencao.tp_relacao IS '0: nao possui; 1: opcion
 
 CREATE TABLE demo."frequencia" (
   "fkhospital" smallint DEFAULT 1,
-  "fkfrequencia" varchar(16) PRIMARY KEY NOT NULL,
+  "fkfrequencia" varchar(16) NOT NULL,
   "nome" varchar(250) NOT NULL,
   "frequenciadia" float4 DEFAULT NULL,
   "frequenciahora" float4 DEFAULT NULL
+  PRIMARY KEY ("fkhospital", "fkfrequencia")
 );
 
 CREATE TABLE demo."unidademedida" (
   "fkhospital" smallint DEFAULT 1,
-  "fkunidademedida" varchar(32) PRIMARY KEY NOT NULL,
-  "nome" varchar(250) NOT NULL
+  "fkunidademedida" varchar(32) NOT NULL,
+  "nome" varchar(250) NOT NULL,
+  PRIMARY KEY ("fkhospital", "fkunidademedida")
 );
 
 CREATE TABLE demo."unidadeconverte" (
