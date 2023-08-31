@@ -306,7 +306,7 @@ CREATE TABLE demo."segmentoexame" (
 CREATE TABLE demo."segmentosetor" (
   "idsegmento" smallint NOT NULL,
   "fkhospital" smallint NOT NULL,
-  "fksetor" integer NOT NULL
+  "fksetor" integer NOT NULL,
 );
 
 CREATE TABLE demo."hospital" (
@@ -316,8 +316,9 @@ CREATE TABLE demo."hospital" (
 
 CREATE TABLE demo."setor" (
   "fkhospital" smallint DEFAULT 1,
-  "fksetor" integer PRIMARY KEY NOT NULL,
-  "nome" varchar(255) NOT NULL
+  "fksetor" integer NOT NULL,
+  "nome" varchar(255) NOT NULL,
+  PRIMARY KEY ("fkhospital", "fksetor")
 );
 
 CREATE TABLE demo."memoria" (
