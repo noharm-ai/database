@@ -267,7 +267,7 @@ CREATE TABLE demo."frequencia" (
   "fkfrequencia" varchar(16) NOT NULL,
   "nome" varchar(250) NOT NULL,
   "frequenciadia" float4 DEFAULT NULL,
-  "frequenciahora" float4 DEFAULT NULL
+  "frequenciahora" float4 DEFAULT NULL,
   PRIMARY KEY ("fkhospital", "fkfrequencia")
 );
 
