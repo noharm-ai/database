@@ -403,7 +403,6 @@ CREATE INDEX demo_intervencao_idx_status_dtintervencao ON demo."intervencao" USI
 CREATE UNIQUE INDEX demo_exame_idx ON demo."exame" ("fkexame", "fkpessoa", "tpexame");
 CREATE INDEX demo_exame_dtexame_idx ON demo."exame" USING brin ("dtexame") with (pages_per_range = 1);
 CREATE INDEX demo_exame_fkpessoa_idx ON demo."exame" USING btree ("fkpessoa");
-CREATE INDEX demo_exame_tpexame_idx ON demo."exame" USING btree ("tpexame");
 
 CREATE UNIQUE INDEX demo_cultura_cab_idx ON demo."cultura_cabecalho" ("idculturacab");
 CREATE UNIQUE INDEX demo_cultura_cab_uniq ON demo."cultura_cabecalho" ("fkexame", "fkpessoa", "fkitemexame");
