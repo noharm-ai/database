@@ -39,12 +39,15 @@ BEGIN
     );
 
     -- Medicamentos com Frequência
-    IF NEW.frequenciadia IS NULL AND NEW.fkfrequencia IS NOT NULL THEN
-    	    NEW.frequenciadia := (
-    	        SELECT f.frequenciadia FROM demo.frequencia f
-    	        WHERE f.fkfrequencia = NEW.fkfrequencia
-                AND f.fkhospital = NUMHOSPITAL
-    	    );
+    IF NEW.fkfrequencia IS NOT NULL then
+	    NEW.frequenciadia := COALESCE(
+	    	(
+		        SELECT f.frequenciadia FROM demo.frequencia f
+		        WHERE f.fkfrequencia = NEW.fkfrequencia
+	           	AND f.fkhospital = NUMHOSPITAL
+			),
+			new.frequenciadia
+		);
     END IF;
 
     -- Soluções com Etapa
