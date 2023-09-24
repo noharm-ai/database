@@ -143,7 +143,6 @@ CREATE TABLE demo."prescricao" (
   "update_by" integer
 );
 
---validating
 create table demo."prescricao_audit" (
 	"idprescricao_audit" serial8 not null,
 	"tp_audit" smallint not null,
@@ -211,7 +210,8 @@ CREATE TABLE demo."presmed" (
   "cpoe_grupo" bigint NULL,
   "cpoe_nrseq" bigint NULL,
   "cpoe_nrseq_anterior" bigint NULL,
-  "form" json NULL 
+  "form" json NULL,
+  "dtprocessada" timestamp NULL
 );
 
 CREATE TABLE demo."medicamento" (
