@@ -378,7 +378,8 @@ CREATE TABLE demo.checkedindex (
   "sldosagem" float4 DEFAULT 0,
   "dtprescricao" timestamp NOT NULL,
   "via" varchar(50) DEFAULT NULL,
-  "horario" varchar(50) DEFAULT NULL
+  "horario" varchar(50) DEFAULT NULL,
+  "dose" float4 DEFAULT 0
 );
 
 CREATE TABLE demo."alergia" (

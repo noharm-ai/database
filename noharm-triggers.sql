@@ -160,6 +160,7 @@ BEGIN
         AND sldosagem = COALESCE(NEW.sldosagem, 0)
         AND via = COALESCE(NEW.via, '')
         AND horario = COALESCE(left(NEW.horario ,50), '')
+        and dose = NEW.dose
         LIMIT 1
     );
 
@@ -325,10 +326,15 @@ AS $BODY$BEGIN
     IF NEW.status = 's' THEN
 
         INSERT INTO demo.checkedindex
+            (
+              nratendimento, fkmedicamento, doseconv, frequenciadia, sletapas, slhorafase,
+              sltempoaplicacao, sldosagem, dtprescricao, via, horario, dose
+            )
             SELECT p.nratendimento, pm.fkmedicamento, pm.doseconv, pm.frequenciadia, 
             COALESCE(pm.sletapas, 0), COALESCE(pm.slhorafase, 0), 
             COALESCE(pm.sltempoaplicacao, 0), COALESCE(pm.sldosagem, 0),
-            p.dtprescricao, COALESCE(pm.via, ''), COALESCE(left(pm.horario ,50), '')
+            p.dtprescricao, COALESCE(pm.via, ''), COALESCE(left(pm.horario ,50), ''),
+            pm.dose
             FROM demo.prescricao p
             INNER JOIN demo.presmed pm ON pm.fkprescricao = p.fkprescricao 
             WHERE p.status = 's'
