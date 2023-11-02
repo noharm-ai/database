@@ -574,43 +574,6 @@ CREATE TRIGGER trg_deleta_idsegmento
 
 -----------------
 
-CREATE OR REPLACE  FUNCTION demo.atualiza_doseconv()
-    RETURNS trigger
-    LANGUAGE 'plpgsql'
-    COST 100
-    VOLATILE NOT LEAKPROOF
-AS $BODY$BEGIN
-
-   UPDATE demo.prescricaoagg pa
-     SET doseconv = COALESCE (pa.dose * NEW.fator, pa.dose)
-     WHERE pa.idsegmento = NEW.idsegmento
-     AND pa.fkmedicamento = NEW.fkmedicamento
-     AND pa.fkunidademedida = NEW.fkunidademedida;
-
-    RETURN NULL;
-END;$BODY$;
-
-ALTER FUNCTION demo.atualiza_doseconv()
-    OWNER TO postgres;
-
-DROP TRIGGER IF EXISTS trg_atualiza_doseconv_on_insert ON demo.unidadeconverte;
-		     
-CREATE TRIGGER trg_atualiza_doseconv_on_insert
-    AFTER INSERT
-    ON demo.unidadeconverte
-    FOR EACH ROW
-    EXECUTE PROCEDURE demo.atualiza_doseconv();
-		     
-DROP TRIGGER IF EXISTS trg_atualiza_doseconv_on_update ON demo.unidadeconverte;
-
-CREATE TRIGGER trg_atualiza_doseconv_on_update
-    AFTER UPDATE
-    ON demo.unidadeconverte
-    FOR EACH ROW
-    EXECUTE PROCEDURE demo.atualiza_doseconv();
-
------------------
-
 CREATE OR REPLACE  FUNCTION demo.atualiza_divisor()
     RETURNS trigger
     LANGUAGE 'plpgsql'
