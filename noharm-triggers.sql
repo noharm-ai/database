@@ -17,21 +17,48 @@ BEGIN
 
   IF pg_trigger_depth() = 1 then
   
-    -- Muda nome da origem quando integrando com Sistema MV
-    
-    IF NEW.origem = 'SOR' THEN
-           NEW.origem := 'Soluções';
-    ELSE
-           NEW.origem := 'Medicamentos';
-    END IF;           
+    -- lista de origens configuradas pela interface
+    NEW.origem := (
+  		select 
+        case 
+          when tipo = 'map-origin-drug' then 'Medicamentos'
+          when tipo = 'map-origin-solution' then 'Soluções'
+          when tipo = 'map-origin-procedure' then 'Proced/Exames'
+          when tipo = 'map-origin-diet' then 'Dietas'
+          when tipo = 'map-origin-custom' then NEW.origem
+          else 'Medicamentos' 			
+        end as origem
+      from (
+        select 
+          jsonb_array_elements_text(valor::jsonb) valor,
+          tipo 
+        from 
+          demo.memoria m 
+        where 
+          tipo in (
+            'map-origin-drug', 'map-origin-solution', 
+            'map-origin-procedure', 'map-origin-diet',
+            'map-origin-custom'
+          )
+      ) o
+      where 
+        valor = NEW.origem
+      limit 1
+  	);
+  
+  	if NEW.origem is null then
+  		NEW.origem := 'Medicamentos';
+  	end if;
 
-    IF NEW.via in ('Gastrostomia','Sonda Nasogástrica','Jejunostomia','Sonda Nasoenteral','Enteral') THEN
+    -- lista de vias configuradas pela interface
+    IF NEW.via in (select jsonb_array_elements_text(valor::jsonb) from demo.memoria m where tipo = 'map-tube') THEN
            NEW.sonda := TRUE;
     END IF; 
-
-    IF NEW.via ilike 'intravenos%' OR NEW.via in ('IV','EV','BU') THEN
+   
+   -- lista de vias configuradas pela interface
+    IF NEW.via in (select jsonb_array_elements_text(valor::jsonb) from demo.memoria m where tipo = 'map-iv') THEN
            NEW.intravenosa := TRUE;
-    END IF;
+    END IF; 
 
     NUMHOSPITAL := (
         SELECT p.fkhospital FROM demo.prescricao p
