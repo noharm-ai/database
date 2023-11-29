@@ -170,7 +170,9 @@ CREATE TABLE demo."prescricaoagg" (
   "doseconv" float4 DEFAULT NULL,
   "frequenciadia" float4 DEFAULT NULL,
   "peso" float4 DEFAULT NULL,
-  "contagem" integer DEFAULT NULL
+  "contagem" integer DEFAULT NULL,
+  "created_at" timestamp not null default now(),
+  "updated_at" timestamp null
 );
 
 CREATE TABLE demo."presmed" (

@@ -389,51 +389,139 @@ CREATE TRIGGER trg_atualiza_escore_presemed
 --------
 
 CREATE OR REPLACE FUNCTION demo.complete_prescricaoagg()
-    RETURNS trigger
-    LANGUAGE 'plpgsql'
-    COST 100
-    VOLATILE NOT LEAKPROOF
-AS $BODY$BEGIN
+  RETURNS trigger
+  LANGUAGE plpgsql
+AS $function$
+declare 
+  DIVISOR int;
+  USAPESO boolean;
+begin
+	
+	IF NEW.fkfrequencia IS NOT NULL then
+    NEW.frequenciadia := COALESCE(
+      (
+        SELECT 
+          f.frequenciadia 
+        FROM 
+          demo.frequencia f
+        where
+          f.fkfrequencia = NEW.fkfrequencia
+          AND f.fkhospital = new.fkhospital
+			),
+			new.frequenciadia
+		);
+	END IF;
 
-    IF NEW.frequenciadia IS NULL AND NEW.fkfrequencia IS NOT NULL THEN
-            NEW.frequenciadia := (
-                SELECT f.frequenciadia FROM demo.frequencia f
-                WHERE f.fkfrequencia = NEW.fkfrequencia
-            );
+	IF NEW.fkfrequencia IS NULL THEN
+		NEW.fkfrequencia = '';
+	END IF;
+
+	IF NEW.fkunidademedida IS NULL THEN
+		NEW.fkunidademedida = '';
+	END IF;
+   
+	IF NEW.peso IS NULL THEN
+		NEW.peso = 999;
+	END IF;
+
+  NEW.idsegmento = (
+    SELECT s.idsegmento FROM demo.segmentosetor s
+    WHERE s.fksetor = NEW.fksetor
+    AND s.fkhospital = NEW.fkhospital
+  );
+   
+	NEW.doseconv = ( 
+		select
+			COALESCE (
+				(
+					select
+						(NEW.dose * u.fator) as doseconv
+					FROM 
+						demo.unidadeconverte u
+					WHERE 
+						u.idsegmento = NEW.idsegmento  
+						AND u.fkmedicamento = NEW.fkmedicamento 
+						AND u.fkunidademedida = NEW.fkunidademedida 
+				),
+				NEW.dose 
+			) 
+	);
+   
+	------
+	-- BEGIN
+	-- Medicamento com Faixa de Valores para Outliers
+	------
+	DIVISOR := (
+    select
+      a.divisor
+    FROM 
+      demo.medatributos a
+		WHERE 
+			a.fkmedicamento = NEW.fkmedicamento 
+			AND a.idsegmento = NEW.idsegmento
+			AND a.divisor IS NOT null
+	);
+
+  IF DIVISOR IS NOT null and DIVISOR > 0 and new.doseconv is not null THEN
+
+    USAPESO := (
+      select
+        a.usapeso
+      FROM 
+        demo.medatributos a
+      WHERE 
+        a.fkmedicamento = NEW.fkmedicamento 
+        AND a.idsegmento = NEW.idsegmento
+        AND a.divisor IS NOT null
+    );
+
+    IF USAPESO IS TRUE THEN
+      if new.PESO > 0 and DIVISOR > 0 and new.peso <> 999 and new.peso is not null  then 
+        NEW.doseconv := (SELECT CEIL(((NEW.doseconv/new.PESO)/DIVISOR)::numeric) * DIVISOR);
+      else
+        new.doseconv := null;
+      END IF;
+    else
+      new.doseconv = COALESCE(CEIL(((new.doseconv+0.1)/DIVISOR)::numeric) * DIVISOR, new.doseconv);
     END IF;
+
+  END IF;
+  ------
+	-- END
+	-- Medicamento com Faixa de Valores para Outliers
+	------
    
-   IF NEW.peso IS NULL THEN
-   		NEW.peso = 999;
-   END IF;
+	IF pg_trigger_depth() = 1 then
 
-    NEW.idsegmento = ( SELECT COALESCE (NEW.idsegmento, (
-        SELECT s.idsegmento FROM demo.segmentosetor s
-        WHERE s.fksetor = NEW.fksetor
-        AND s.fkhospital = NEW.fkhospital)
-    ) );
-
-    NEW.doseconv = ( SELECT COALESCE (
-		(SELECT (NEW.dose * u.fator) as doseconv
-		FROM demo.unidadeconverte u
-		WHERE u.idsegmento = NEW.idsegmento 
-		AND u.fkmedicamento = NEW.fkmedicamento 
-		AND u.fkunidademedida = NEW.fkunidademedida )
-    , NEW.dose ) );
-   
-   IF pg_trigger_depth() = 1 then
-
-        INSERT INTO demo.prescricaoagg
-            (fkhospital, fksetor, fkmedicamento, fkunidademedida, fkfrequencia, dose, frequenciadia, peso, contagem, doseconv)
-            VALUES(NEW.fkhospital, NEW.fksetor, NEW.fkmedicamento, NEW.fkunidademedida, NEW.fkfrequencia, NEW.dose, NEW.frequenciadia, NEW.peso, NEW.contagem, NEW.doseconv)
-        ON CONFLICT (fksetor, fkmedicamento, fkunidademedida, fkfrequencia, dose, peso)
-         DO UPDATE SET contagem = NEW.contagem, doseconv = NEW.doseconv, idsegmento = NEW.idsegmento, frequenciadia = NEW.frequenciadia;
+		INSERT INTO 
+			demo.prescricaoagg
+      (
+        fkhospital, fksetor, fkmedicamento, fkunidademedida, 
+        fkfrequencia, dose, frequenciadia, peso, contagem, doseconv
+      )
+		values
+			(
+        NEW.fkhospital, NEW.fksetor, NEW.fkmedicamento, NEW.fkunidademedida, 
+        NEW.fkfrequencia, NEW.dose, NEW.frequenciadia, NEW.peso, NEW.contagem, NEW.doseconv
+      )
+      ON CONFLICT (
+        fksetor, fkmedicamento, fkunidademedida, fkfrequencia, dose, peso
+      )
+		DO UPDATE SET 
+			contagem = NEW.contagem, 
+			doseconv = NEW.doseconv, 
+			idsegmento = NEW.idsegmento, 
+      updated_at = now(),
+			frequenciadia = NEW.frequenciadia;
 
       RETURN NULL;
    ELSE
       RETURN NEW;
    END IF;   
 
-END;$BODY$;
+END;$function$
+;
+
 
 ALTER FUNCTION demo.complete_prescricaoagg()
     OWNER TO postgres;
@@ -511,76 +599,6 @@ CREATE TRIGGER trg_popula_presmed_by_frequencia
     EXECUTE PROCEDURE demo.popula_presmed_by_frequencia();
 
 -----------------
-
-CREATE OR REPLACE  FUNCTION demo.atualiza_divisor()
-    RETURNS trigger
-    LANGUAGE 'plpgsql'
-    COST 100
-    VOLATILE NOT LEAKPROOF
-AS $BODY$BEGIN
-
-      UPDATE demo.prescricaoagg pa
-        SET doseconv = ( SELECT COALESCE (
-          ( SELECT (pa.dose * un.fator) as doseconv
-            FROM demo.unidadeconverte un
-            WHERE un.fkmedicamento = pa.fkmedicamento
-            AND un.fkunidademedida = pa.fkunidademedida
-            AND un.idsegmento = NEW.idsegmento) 
-          , pa.dose) )
-        WHERE pa.fkmedicamento = NEW.fkmedicamento
-        AND pa.idsegmento = NEW.idsegmento;
-
-    IF NEW.divisor IS NOT NULL THEN  
-
-      IF NEW.usapeso = true THEN 
-
-        UPDATE demo.prescricaoagg pa
-          SET doseconv = COALESCE ( CEIL((((pa.doseconv+0.1)/pa.peso)/NEW.divisor)::numeric) * NEW.divisor, pa.doseconv)
-          WHERE pa.fkmedicamento = NEW.fkmedicamento
-          AND pa.idsegmento = NEW.idsegmento
-          AND pa.peso != 999 and pa.peso >= 0.5
-          AND doseconv is not null;
-
-        UPDATE demo.prescricaoagg pa
-          SET doseconv = NULL
-          WHERE pa.fkmedicamento = NEW.fkmedicamento
-          AND pa.idsegmento = NEW.idsegmento
-          AND (pa.peso = 999 or pa.peso < 0.5 or pa.peso IS NULL);
-
-      ELSE
-
-        UPDATE demo.prescricaoagg pa
-          SET doseconv = COALESCE ( CEIL(((pa.doseconv+0.1)/NEW.divisor)::numeric) * NEW.divisor, pa.doseconv)
-          WHERE pa.fkmedicamento = NEW.fkmedicamento
-          AND pa.idsegmento = NEW.idsegmento
-          AND doseconv is not null;
-
-      END IF;
-
-    END IF;
-
-    RETURN NULL;
-END;$BODY$;
-
-ALTER FUNCTION demo.atualiza_divisor()
-    OWNER TO postgres;
-    
-DROP TRIGGER IF EXISTS trg_atualiza_divisor_on_insert ON demo.medatributos;
-
-CREATE TRIGGER trg_atualiza_divisor_on_insert
-    AFTER INSERT
-    ON demo.medatributos
-    FOR EACH ROW
-    EXECUTE PROCEDURE demo.atualiza_divisor();
-    
-DROP TRIGGER IF EXISTS trg_atualiza_divisor_on_update ON demo.medatributos;
-
-CREATE TRIGGER trg_atualiza_divisor_on_update
-    AFTER UPDATE
-    ON demo.medatributos
-    FOR EACH ROW
-    WHEN (OLD.divisor IS DISTINCT FROM NEW.divisor) 
-    EXECUTE PROCEDURE demo.atualiza_divisor();
 
 CREATE OR REPLACE FUNCTION demo.insert_update_evolucao()
     RETURNS trigger
