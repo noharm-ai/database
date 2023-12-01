@@ -21,6 +21,7 @@ GRANT USAGE, SELECT, UPDATE ON ALL SEQUENCES IN SCHEMA demo TO api_user;
 GRANT DELETE ON demo.segmentosetor TO api_user;
 GRANT DELETE ON demo.outlier TO api_user;
 GRANT SELECT, INSERT, DELETE ON TABLE demo.checkedindex TO api_user;
+GRANT SELECT, UPDATE, INSERT, DELETE ON demo.prescricaoagg TO api_user;
 
 -- descomentar trecho abaixo APENAS se for criar um banco do ZERO (estes recursos não existem no ambiente de teste automatizado)
 /*GRANT USAGE ON SCHEMA demo TO readnoharm;
