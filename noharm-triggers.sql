@@ -153,7 +153,7 @@ BEGIN
     NEW.idoutlier := (
         SELECT MAX(o.idoutlier) FROM demo.outlier o 
         WHERE o.fkmedicamento = NEW.fkmedicamento
-        AND o.doseconv = NEW.doseconv
+        AND round(o.doseconv::numeric, 2) = round(NEW.doseconv::numeric, 2)
         AND o.frequenciadia = NEW.frequenciadia
         AND o.idsegmento = NEW.idsegmento
     );
