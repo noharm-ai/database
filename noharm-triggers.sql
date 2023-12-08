@@ -393,7 +393,7 @@ CREATE OR REPLACE FUNCTION demo.complete_prescricaoagg()
   LANGUAGE plpgsql
 AS $function$
 declare 
-  DIVISOR int;
+  DIVISOR float;
   USAPESO boolean;
 begin
 	
