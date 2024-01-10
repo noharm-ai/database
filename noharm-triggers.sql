@@ -320,6 +320,7 @@ AS $BODY$BEGIN
             ON CONFLICT (fkprescricao)
             DO UPDATE SET fkpessoa = NEW.fkpessoa,
                     fksetor = NEW.fksetor,
+		    leito - NEW.leito,
                     dtprescricao = NEW.dtprescricao,
                     idsegmento = NEW.idsegmento,
                     dtatualizacao = NEW.dtatualizacao
@@ -694,5 +695,28 @@ CREATE TRIGGER trg_complete_intervencao_cpoe
     ON demo.intervencao
     FOR EACH ROW
     EXECUTE PROCEDURE demo.complete_intervencao_cpoe();
+-- DROP FUNCTION circulo.atualiza_prescricao_aggsetor();
+
+CREATE OR REPLACE FUNCTION demo.atualiza_prescricao_aggsetor()
+ RETURNS trigger
+ LANGUAGE plpgsql
+AS $function$BEGIN
+
+	IF NEW.dtprescricao > NEW.dtvigencia THEN
+		NEW.dtvigencia := NEW.dtprescricao + interval '10 min';
+	END IF;  
+
+	NEW.aggsetor = NEW.aggsetor || NEW.fksetor;
+    RETURN NEW;
+
+END;$function$
+;
+
+ALTER FUNCTION demo.atualiza_prescricao_aggsetor() OWNER TO postgres;
+
+create trigger trg_atualiza_prescricao_aggsetor before
+update
+    on
+    demo.prescricao for each row execute function demo.atualiza_prescricao_aggsetor();
 
 --------
