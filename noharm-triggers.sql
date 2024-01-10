@@ -320,7 +320,7 @@ AS $BODY$BEGIN
             ON CONFLICT (fkprescricao)
             DO UPDATE SET fkpessoa = NEW.fkpessoa,
                     fksetor = NEW.fksetor,
-		    leito - NEW.leito,
+		    leito = NEW.leito,
                     dtprescricao = NEW.dtprescricao,
                     idsegmento = NEW.idsegmento,
                     dtatualizacao = NEW.dtatualizacao
@@ -696,7 +696,7 @@ CREATE TRIGGER trg_complete_intervencao_cpoe
     FOR EACH ROW
     EXECUTE PROCEDURE demo.complete_intervencao_cpoe();
 
-/*DROP FUNCTION IF EXISTS demo.atualiza_prescricao_aggsetor();
+DROP FUNCTION IF EXISTS demo.atualiza_prescricao_aggsetor();
 
 CREATE OR REPLACE FUNCTION demo.atualiza_prescricao_aggsetor()
  RETURNS trigger
@@ -720,6 +720,6 @@ DROP TRIGGER IF EXISTS trg_atualiza_prescricao_aggsetor ON demo.prescricao;
 create trigger trg_atualiza_prescricao_aggsetor before
 update
     on
-    demo.prescricao for each row execute function demo.atualiza_prescricao_aggsetor();*/
+    demo.prescricao for each row execute function demo.atualiza_prescricao_aggsetor();
 
 --------
