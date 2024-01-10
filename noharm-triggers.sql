@@ -695,7 +695,8 @@ CREATE TRIGGER trg_complete_intervencao_cpoe
     ON demo.intervencao
     FOR EACH ROW
     EXECUTE PROCEDURE demo.complete_intervencao_cpoe();
--- DROP FUNCTION circulo.atualiza_prescricao_aggsetor();
+
+DROP FUNCTION IF EXISTS demo.atualiza_prescricao_aggsetor();
 
 CREATE OR REPLACE FUNCTION demo.atualiza_prescricao_aggsetor()
  RETURNS trigger
@@ -713,6 +714,8 @@ END;$function$
 ;
 
 ALTER FUNCTION demo.atualiza_prescricao_aggsetor() OWNER TO postgres;
+
+DROP TRIGGER IF EXISTS trg_atualiza_prescricao_aggsetor ON demo.prescricao;
 
 create trigger trg_atualiza_prescricao_aggsetor before
 update
