@@ -191,6 +191,7 @@ BEGIN
         LIMIT 1
     );
 
+ if new.PERIODO is null THEN
     NEW.periodo := (
         SELECT count(distinct(pr2.dtprescricao::date)) FROM demo.presmed p2
         INNER JOIN demo.prescricao pr2 ON pr2.fkprescricao < NEW.fkprescricao
@@ -199,6 +200,7 @@ BEGIN
         WHERE p2.fkmedicamento = NEW.fkmedicamento
         AND pr2.dtprescricao > current_date - interval '30' day
     );
+ end if;
 
     -- periodo CPOE
     -- busca quantidade de dias anteriores à prescricao atual
