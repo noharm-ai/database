@@ -366,7 +366,8 @@ CREATE TABLE demo."evolucao" (
   "update_at" timestamp NULL,
   "update_by" integer NULL,
   "review_at" timestamp NULL,
-  "review_by" integer NULL
+  "review_by" integer NULL,
+  "anotacoes" jsonb NULL
 );
 
 CREATE TABLE demo.checkedindex (
