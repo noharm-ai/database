@@ -221,6 +221,11 @@ CREATE TABLE demo."medicamento" (
   "fkmedicamento" bigint NOT NULL,
   "nome" varchar(250) NOT NULL,
   "sctid" bigint DEFAULT NULL,
+  "ia_acuracia" float4 null, 
+  "created_by" int4 null,
+  "updated_by" int4 null,
+  "created_at" timestamp NOT NULL DEFAULT now(),
+  "updated_at" timestamp null,
   PRIMARY KEY ("fkhospital", "fkmedicamento")
 );
 
