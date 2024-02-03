@@ -465,3 +465,12 @@ CREATE OR REPLACE VIEW demo.usuario
     usuario.fkusuario, usuario.nome
     FROM public.usuario
     WHERE usuario.schema = 'demo';
+
+CREATE TABLE IF NOT EXISTS demo.presmed_arquivo
+    (LIKE demo.presmed EXCLUDING INDEXES);
+
+CREATE TABLE IF NOT EXISTS demo.prescricao_arquivo
+    (LIKE demo.prescricao EXCLUDING INDEXES);
+
+CREATE TABLE IF NOT EXISTS demo.exame_arquivo
+    (LIKE demo.exame EXCLUDING INDEXES);
