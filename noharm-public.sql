@@ -62,6 +62,22 @@ CREATE TABLE public.classe (
   CONSTRAINT classe_pkey PRIMARY KEY (idclasse)
 );
 
+CREATE TABLE public.schema_config (
+	schema_name varchar(200) NOT NULL,
+	updated_at timestamp NULL,
+	created_at timestamp NOT NULL,
+	fl1_atualiza_indicadores_cpoe bool NOT NULL DEFAULT false,
+	fl2_atualiza_indicadores_prescricao bool NOT NULL DEFAULT false,
+	fl3_atualiza_prescricaoagg bool NOT NULL DEFAULT false,
+	fl3_segmentos _int4 NULL,
+	fl4_cria_conciliacao bool NOT NULL DEFAULT false,
+	configuracao jsonb NULL,
+	tp_noharm_care int2 NOT NULL DEFAULT 2,
+	status int4 NOT NULL DEFAULT 0,
+	updated_by int4 NULL,
+	CONSTRAINT schema_config_pkey PRIMARY KEY (schema_name)
+);
+
 CREATE UNIQUE INDEX ON public."substancia" ("sctid");
 
 CREATE UNIQUE INDEX ON public."relacao" ("sctida", "sctidb", "tprelacao");
