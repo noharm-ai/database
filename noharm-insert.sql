@@ -20,6 +20,9 @@ TRUNCATE TABLE demo.motivointervencao, demo.intervencao, demo.presmed RESTART ID
 
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
+INSERT INTO public.schema_config (schema_name, created_at) VALUES
+            ('demo', now());
+
 INSERT INTO public.usuario (nome,email,senha,schema,config) VALUES 
 						('Demonstração','demo',crypt('demo', gen_salt('bf',8)) ,'demo','{"roles":["suporte"]}'),
 						('User Admin','user@admin.com',crypt('useradmin', gen_salt('bf',8)) ,'demo','{"roles":["userAdmin", "staging"]}'),
