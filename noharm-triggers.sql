@@ -13,6 +13,7 @@ DECLARE
   USAPESO boolean;
   PESO float;
   NUMHOSPITAL int;
+  FKPRESCRICAO_AGG bigint[];
 BEGIN
 
   IF pg_trigger_depth() = 1 then
@@ -192,13 +193,19 @@ BEGIN
     );
 
  if new.PERIODO is null THEN
+
+    FKPRESCRICAO_AGG := (select array_agg(fkprescricao)  from demo.prescricao 
+			where nratendimento = (select nratendimento from demo.prescricao pp where pp.fkprescricao = NEW.fkprescricao limit 1)
+			and idsegmento = new.idsegmento
+			and fkprescricao < NEW.fkprescricao
+			and dtprescricao > current_date - interval '30' day);
+
     NEW.periodo := (
         SELECT count(distinct(pr2.dtprescricao::date)) FROM demo.presmed p2
-        INNER JOIN demo.prescricao pr2 ON pr2.fkprescricao < NEW.fkprescricao
-          AND pr2.nratendimento = (select nratendimento from demo.prescricao pp where pp.fkprescricao = NEW.fkprescricao limit 1)
-          AND pr2.fkprescricao = p2.fkprescricao 
-        WHERE p2.fkmedicamento = NEW.fkmedicamento
-        AND pr2.dtprescricao > current_date - interval '30' day
+        INNER JOIN demo.prescricao pr2 ON pr2.fkprescricao = NEW.fkprescricao
+	WHERE p2.fkmedicamento = NEW.fkmedicamento
+	and p2.idsegmento = new.idsegmento
+	and p2.fkprescricao = any(FKPRESCRICAO_AGG)
     );
  end if;
 
@@ -216,15 +223,14 @@ BEGIN
             distinct
             max(dtprescricao::date) as ini_date,
             case 
-							when coalesce(max(presmed.dtsuspensao)::date,  max(prescricao.dtvigencia)::date) > now()::date then now()::date
-							else coalesce(max(presmed.dtsuspensao)::date,  max(prescricao.dtvigencia)::date)
-						end as end_date
+		when coalesce(max(presmed.dtsuspensao)::date,  max(prescricao.dtvigencia)::date) > now()::date then now()::date
+		else coalesce(max(presmed.dtsuspensao)::date,  max(prescricao.dtvigencia)::date)
+	    end as end_date
           FROM demo.presmed 
             JOIN demo.prescricao ON prescricao.fkprescricao = presmed.fkprescricao 
-          WHERE 
-            prescricao.nratendimento = (select nratendimento from demo.prescricao pp where pp.fkprescricao = NEW.fkprescricao limit 1)
-            AND presmed.fkmedicamento = NEW.fkmedicamento
-            and prescricao.fkprescricao < NEW.fkprescricao
+          WHERE presmed.fkmedicamento = NEW.fkmedicamento
+		and presmed.idsegmento = new.idsegmento
+		and presmed.fkprescricao = any(FKPRESCRICAO_AGG)
           GROUP BY prescricao.dtprescricao, presmed.frequenciadia, presmed.dose, presmed.fkunidademedida 
         ) periodos
         group by 
