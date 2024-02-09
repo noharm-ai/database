@@ -252,6 +252,7 @@ CREATE TABLE demo."medatributos" (
   "fkunidademedidacusto" varchar(32),
   "custo" float4,
   "tempotratamento" smallint,
+  "risco_queda" smallint,
   "update_at" timestamp DEFAULT NULL,
   "update_by" integer DEFAULT NULL
 );
