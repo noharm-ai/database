@@ -78,6 +78,15 @@ CREATE TABLE public.schema_config (
 	CONSTRAINT schema_config_pkey PRIMARY KEY (schema_name)
 );
 
+CREATE TABLE public."memoria" (
+  "idmemoria" SERIAL NOT NULL,
+  "tipo" varchar(100) NOT NULL,
+  "valor" json NOT NULL,
+  "update_at" timestamp NOT NULL DEFAULT NOW(),
+  "update_by" integer NOT NULL,
+  PRIMARY KEY ("idmemoria", "tipo")
+);
+
 CREATE UNIQUE INDEX ON public."substancia" ("sctid");
 
 CREATE UNIQUE INDEX ON public."relacao" ("sctida", "sctidb", "tprelacao");
