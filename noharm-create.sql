@@ -155,6 +155,7 @@ create table demo."prescricao_audit" (
 	"concilia" char(1),
 	"idsegmento" smallint,
 	"leito" varchar(16),
+  "extra" json,
 	"created_at" timestamp not null,
 	"created_by" integer not null
 );
