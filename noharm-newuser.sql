@@ -35,6 +35,7 @@ GRANT SELECT, UPDATE, INSERT, DELETE ON demo.prescricaoagg TO nifi_user;
 GRANT SELECT, UPDATE, INSERT ON demo.medatributos TO nifi_user;
 GRANT SELECT, INSERT ON demo.prescricao_arquivo, demo.presmed_arquivo, demo.exame_arquivo TO nifi_user;
 GRANT SELECT, DELETE ON demo.prescricao, demo.presmed, demo.exame TO nifi_user;
+GRANT INSERT, UPDATE ON demo.prescricao TO nifi_user;
 GRANT UPDATE ON demo.presmed TO nifi_user;
 GRANT SELECT ON ALL TABLES IN SCHEMA demo TO nifi_user;
 
