@@ -202,7 +202,7 @@ BEGIN
 
     NEW.periodo := (
         SELECT count(distinct(pr2.dtprescricao::date)) FROM demo.presmed p2
-        INNER JOIN demo.prescricao pr2 ON pr2.fkprescricao = NEW.fkprescricao
+        INNER JOIN demo.prescricao pr2 ON pr2.fkprescricao = p2.fkprescricao
 	WHERE p2.fkmedicamento = NEW.fkmedicamento
 	and p2.idsegmento = new.idsegmento
 	and p2.fkprescricao = any(FKPRESCRICAO_AGG)
