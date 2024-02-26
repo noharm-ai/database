@@ -214,7 +214,16 @@ CREATE TABLE demo."presmed" (
   "cpoe_nrseq" bigint NULL,
   "cpoe_nrseq_anterior" bigint NULL,
   "form" json NULL,
-  "dtprocessada" timestamp NULL
+  "dtprocessada" timestamp NULL --remover
+);
+
+create table demo."presmed_audit" (
+	"idpresmed_audit" serial8 not null,
+	"tp_audit" smallint not null,
+	"fkpresmed" bigint not null,
+  "extra" json,
+	"created_at" timestamp not null,
+	"created_by" integer not null
 );
 
 CREATE TABLE demo."medicamento" (
@@ -435,6 +444,8 @@ CREATE INDEX demo_prescricao_evolucao_at_idx ON demo."prescricao" USING brin ("e
 
 CREATE INDEX demo_prescricao_audit_fkprescricao_idx ON demo."prescricao_audit" ("fkprescricao");
 CREATE INDEX demo_prescricao_audit_created_at_idx ON demo."prescricao_audit" USING brin ("created_at") with (pages_per_range = 1);
+
+CREATE INDEX demo_presmed_audit_fkpresmed_idx ON demo."presmed_audit" ("fkpresmed");
 
 CREATE INDEX demo_pessoa_alertadata_idx ON demo."pessoa" USING brin ("alertadata") with (pages_per_range = 1);
 CREATE INDEX demo_pessoa_dtnascimento_idx ON demo."pessoa" USING brin ("dtnascimento") with (pages_per_range = 1);
