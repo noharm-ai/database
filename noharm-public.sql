@@ -687,6 +687,31 @@ BEGIN
 	END IF;  
 
 	V_RESULTADO.aggsetor = P_ORIGEM.aggsetor || P_ORIGEM.fksetor;
+
+  /**
+  * REGISTRAR CHECAGEM (utilizado para a flag checado anteriormente)
+  */
+  IF P_ORIGEM.status = 's' THEN
+    INSERT INTO checkedindex
+    (
+      nratendimento, fkmedicamento, doseconv, frequenciadia, sletapas, slhorafase,
+      sltempoaplicacao, sldosagem, dtprescricao, via, horario, dose, complemento
+    )
+    SELECT 
+      p.nratendimento, pm.fkmedicamento, pm.doseconv, pm.frequenciadia, 
+      COALESCE(pm.sletapas, 0), COALESCE(pm.slhorafase, 0), 
+      COALESCE(pm.sltempoaplicacao, 0), COALESCE(pm.sldosagem, 0),
+      p.dtprescricao, COALESCE(pm.via, ''), COALESCE(left(pm.horario ,50), ''),
+      pm.dose, MD5(pm.complemento)
+    FROM prescricao p
+    INNER JOIN presmed pm ON pm.fkprescricao = p.fkprescricao 
+    WHERE 
+      p.fkprescricao = P_ORIGEM.fkprescricao
+      AND pm.dtsuspensao is null;
+
+    -- limpa registros antigos para forçar revalidação
+    DELETE FROM checkedindex WHERE dtprescricao < current_date - 15;
+  END IF;
   
   RESET search_path;
   RETURN V_RESULTADO;
