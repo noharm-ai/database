@@ -398,7 +398,7 @@ CREATE TABLE demo.checkedindex (
   "via" varchar(50) DEFAULT NULL,
   "horario" varchar(50) DEFAULT NULL,
   "dose" float4 DEFAULT 0,
-  "complemento" varchar(50) DEFAULT NULL,
+  "complemento" varchar(50) DEFAULT NULL
 );
 
 CREATE TABLE demo."alergia" (
