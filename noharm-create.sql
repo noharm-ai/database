@@ -112,6 +112,8 @@ CREATE TABLE demo."pessoa" (
   "alertavigencia" timestamp DEFAULT NULL,
   "alerta_by" integer DEFAULT NULL,
   "dialise" char(1) DEFAULT NULL,
+  "lactante" boolean DEFAULT NULL,
+  "gestante" boolean DEFAULT NULL,
   "update_at" timestamp DEFAULT NULL,
   "update_by" integer DEFAULT NULL,
   PRIMARY KEY ("nratendimento")
@@ -262,6 +264,9 @@ CREATE TABLE demo."medatributos" (
   "custo" float4,
   "tempotratamento" smallint,
   "risco_queda" smallint,
+  "dialisavel" boolean,
+  "lactante" varchar(1),
+  "gestante" varchar(1), 
   "update_at" timestamp DEFAULT NULL,
   "update_by" integer DEFAULT NULL
 );
