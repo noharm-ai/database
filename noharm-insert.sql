@@ -26,7 +26,8 @@ INSERT INTO public.schema_config (schema_name, created_at) VALUES
 INSERT INTO public.usuario (nome,email,senha,schema,config) VALUES 
 						('Demonstração','demo',crypt('demo', gen_salt('bf',8)) ,'demo','{"roles":["suporte"]}'),
 						('User Admin','user@admin.com',crypt('useradmin', gen_salt('bf',8)) ,'demo','{"roles":["userAdmin", "staging"]}'),
-						('Não Admin','noadmin',crypt('noadmin', gen_salt('bf',8)),'demo','{"roles":["staging"]}');
+						('Não Admin','noadmin',crypt('noadmin', gen_salt('bf',8)),'demo','{"roles":["staging"]}'),
+            ('E2E Test','e2e@e2e.com',crypt('e2etest', gen_salt('bf',8)),'demo','{"roles":["staging"]}');
 
 INSERT INTO demo.hospital (fkhospital, nome) VALUES
 						(1, 'Hospital Demonstração');
@@ -140,7 +141,8 @@ INSERT INTO demo.pessoa (fkpessoa, fkhospital, nratendimento, dtnascimento, sexo
 					(10, 1, 10, '1967-02-05', 'F', '2019-08-12', 100, 'B'),
 					(11, 1, 11, '1950-02-05', 'F', '2019-08-12', 100, 'B'),
 					(12, 1, 12, '1941-02-05', 'F', '2019-08-12', 100, 'B'),
-					(13, 1, 13, '1941-02-05', 'F', '2019-08-12', 100, 'B');
+					(13, 1, 13, '1941-02-05', 'F', '2019-08-12', 100, 'B'),
+          (99, 1, 9999, '1941-02-05', 'F', '2019-08-12', 100, 'B');
 
 INSERT INTO demo.exame (fkexame,fkpessoa,nratendimento,dtexame,tpexame,resultado,unidade) VALUES 
 (1,1,1234,'2019-10-14 18:32:22.000','CR',0.4,'mg/dL')
@@ -154,7 +156,8 @@ INSERT INTO demo.exame (fkexame,fkpessoa,nratendimento,dtexame,tpexame,resultado
 ,(10,7,8765,'2019-10-14 18:32:22.000','CR',0.4,'mg/dL')
 ,(11,8,7654,'2019-10-14 18:32:22.000','CR',0.4,'mg/dL')
 ,(12,9,7643,'2019-10-14 18:32:22.000','CR',0.4,'mg/dL')
-,(13,10,6345,'2019-10-13 18:32:22.000','CR',0.4,'mg/dL');
+,(13,10,6345,'2019-10-13 18:32:22.000','CR',0.4,'mg/dL')
+,(14,99,9999,now(),'CR',0.4,'mg/dL');
 
 INSERT INTO demo.prescricao (fkhospital,fksetor,fkprescricao,fkpessoa,idsegmento,dtprescricao,status,nratendimento,update_at,update_by) VALUES 
 (1,1,5,4,1,'2020-12-31 00:00:00.000','0',4,'2020-03-25 14:10:50.154',NULL)
@@ -170,7 +173,8 @@ INSERT INTO demo.prescricao (fkhospital,fksetor,fkprescricao,fkpessoa,idsegmento
 ,(1,1,20,5,1,'2021-01-01 00:00:00.000','0',5,'2020-04-01 17:49:05.198',1)
 ,(1,1,7,3,1,'2020-12-31 00:00:00.000','0',3,'2020-04-01 17:49:23.264',1)
 ,(1,1,14,11,1,'2020-12-31 00:00:00.000','s',11,'2020-04-02 13:20:57.102',1)
-,(1,1,1,1,1,'2020-12-31 00:00:00.000','s',1,'2020-04-02 20:55:27.158',1);
+,(1,1,1,1,1,'2020-12-31 00:00:00.000','s',1,'2020-04-02 20:55:27.158',1)
+,(1,1,199,99,1,now(),'0',9999,'2020-04-02 20:55:27.158',1);
 
 INSERT INTO demo.outlier (fkmedicamento,idsegmento,contagem,doseconv,frequenciadia,escore,escoremanual,update_at,update_by) VALUES 
 (4,1,11,5,1,3,NULL,NULL,NULL)
@@ -1052,7 +1056,13 @@ INSERT INTO demo.presmed (fkprescricao,fkmedicamento,fkunidademedida,fkfrequenci
 ,(17,15,'1',4,1,301,500,4,'VO',NULL,NULL,500)
 ,(17,24,'1',1,1,416,20,1,'VO',NULL,NULL,20)
 ,(20,22,'1',4,1,403,2000,4,'VO',NULL,NULL,2000)
-,(20,4,'1',2,1,30,5,2,'VO',NULL,NULL,5);
+,(20,4,'1',2,1,30,5,2,'VO',NULL,NULL,5)
+,(199,10,'1',2,1,123,20,2,'VO',NULL,NULL,20)
+,(199,15,'1',4,1,300,1000,4,'VO',NULL,NULL,1000)
+,(199,25,'1',1,1,417,88,1,'VO',NULL,NULL,88)
+,(199,25,'1',1,1,NULL,80,1,'VO',NULL,NULL,NULL)
+,(199,22,'1',4,1,403,2000,4,'VO',NULL,NULL,2000)
+,(199,4,'1',2,1,30,5,2,'VO',NULL,NULL,5);
 
 INSERT INTO demo.unidadeconverte (idsegmento,fkunidademedida,fator,fkmedicamento) VALUES 
 (1,'2',3.3,2)
