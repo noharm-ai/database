@@ -141,6 +141,7 @@ CREATE TABLE demo."prescricao" (
   "aggmedicamento" bigint [] NULL,
   "concilia" char(1) DEFAULT NULL,
   "convenio" varchar(100) NULL,
+  "tp_revisao" smallint default 0,
   "update_at" timestamp DEFAULT NOW(),
   "update_by" integer
 );
