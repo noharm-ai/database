@@ -176,6 +176,7 @@ INSERT INTO demo.prescricao (fkhospital,fksetor,fkprescricao,fkpessoa,idsegmento
 ,(1,1,1,1,1,'2020-12-31 00:00:00.000','s',1,'2020-04-02 20:55:27.158',1, NULL, NULL)
 ,(1,1,199,99,1,now(),'0',9999,'2020-04-02 20:55:27.158',1, NULL, NULL)
 ,(1,1,198,99,1,now(),'0',9999,'2020-04-02 20:55:27.158',1, NULL, NULL)
+,(1,1,CAST(TO_CHAR(now() - interval '1 day','YYMMDD') || '1000009999' as bigint),99,1,now()::date - interval '1 day','0',9999,'2020-04-02 20:55:27.158',1, true, '{}')
 ,(1,1,CAST(TO_CHAR(now(),'YYMMDD') || '1000009999' as bigint),99,1,now()::date,'0',9999,'2020-04-02 20:55:27.158',1, true, '{}');
 
 INSERT INTO demo.outlier (fkmedicamento,idsegmento,contagem,doseconv,frequenciadia,escore,escoremanual,update_at,update_by) VALUES 
