@@ -36,7 +36,9 @@ BEGIN
 		new.intravenosa := PRESMED_RESULTADO.intravenosa;
 		
 		new.checado := PRESMED_RESULTADO.checado;
-		new.periodo := PRESMED_RESULTADO.periodo;
+		if new.periodo is null then 	
+			new.periodo := PRESMED_RESULTADO.periodo;
+		end if;
 		new.frequenciadia := PRESMED_RESULTADO.frequenciadia;
 		new.doseconv := PRESMED_RESULTADO.doseconv;
 		
