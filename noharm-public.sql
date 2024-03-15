@@ -585,7 +585,7 @@ BEGIN
 	IF P_ORIGEM.fkunidademedida IS NULL THEN
 		V_RESULTADO.fkunidademedida = '';
   else
-    V_RESULTADO.fkunidademedida = P_ORIGEM.fkfrequencia;
+    V_RESULTADO.fkunidademedida = P_ORIGEM.fkunidademedida;
 	END IF;
    
   /**
