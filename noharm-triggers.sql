@@ -36,7 +36,7 @@ BEGIN
 		new.intravenosa := PRESMED_RESULTADO.intravenosa;
 		
 		new.checado := PRESMED_RESULTADO.checado;
-		if new.periodo is null then 	
+		if new.periodo is null then 	-- com esse if, usa o período do pep quando disponível
 			new.periodo := PRESMED_RESULTADO.periodo;
 		end if;
 		new.frequenciadia := PRESMED_RESULTADO.frequenciadia;
