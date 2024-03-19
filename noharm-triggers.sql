@@ -184,12 +184,14 @@ begin
 			demo.prescricaoagg
       (
         fkhospital, fksetor, fkmedicamento, fkunidademedida, 
-        fkfrequencia, dose, frequenciadia, peso, contagem, doseconv
+        fkfrequencia, dose, frequenciadia, peso, contagem, doseconv,
+        idsegmento
       )
 		values
 			(
         NEW.fkhospital, NEW.fksetor, NEW.fkmedicamento, NEW.fkunidademedida, 
-        NEW.fkfrequencia, NEW.dose, NEW.frequenciadia, NEW.peso, NEW.contagem, NEW.doseconv
+        NEW.fkfrequencia, NEW.dose, NEW.frequenciadia, NEW.peso, NEW.contagem, NEW.doseconv,
+        NEW.idsegmento
       )
       ON CONFLICT (
         fksetor, fkmedicamento, fkunidademedida, fkfrequencia, dose, peso
