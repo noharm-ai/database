@@ -41,4 +41,22 @@ GRANT SELECT ON ALL TABLES IN SCHEMA demo TO nifi_user;
 
 GRANT USAGE ON SCHEMA hsc_test TO demo_user;
 GRANT SELECT ON TABLE hsc_test.medatributos, hsc_test.motivointervencao TO demo_user;
+
+insert into public.schema_config (schema_name, created_at) values ('demo', now());
+
+INSERT INTO demo.segmento (nome, status) values ('Adulto', 0) on conflict do nothing;
+
+--Adicionar na tabela nomedocliente.memoria:
+INSERT INTO demo.memoria (tipo, valor, update_at, update_by) 
+VALUES('getnameurl', '{"value":"https://demo.getname.noharm.ai/patient-name/{idPatient}", "multiple": "https://demo.getname.noharm.ai/patient-name/multiple"}'::json, now(), 0)
+on conflict do nothing;
+
+--Revisar as origens quando o cliente não for Tasy
+INSERT INTO demo.memoria (tipo, valor, update_at, update_by) VALUES
+('features', '["MICROMEDEX", "CONCILIATION", "NOHARMCARE"]'::json, now(), 0),
+('map-origin-drug', '["Medicamentos"]'::json, now(), 0),
+('map-origin-solution', '["Solu\u00e7\u00f5es"]'::json, now(), 0),
+('map-origin-procedure', '["Proced/Exames"]'::json, now(), 0),
+('map-origin-diet', '["Dietas"]'::json, now(), 0)
+on conflict do nothing;
 */
