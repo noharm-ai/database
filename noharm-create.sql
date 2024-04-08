@@ -63,6 +63,12 @@ CREATE TABLE demo."intervencao" (
   "transcricao" json DEFAULT NULL,
   "dias_economia" smallint default NULL,
   "dose_despendida" float4 default NULL,
+  "tp_economia" smallint NULL,
+  "vl_economia_dia" float4 NULL,
+  "vl_economia_dia_manual" boolean not null default false,
+  "fkpresmed_destino" int8 null,
+  "origem" jsonb null,
+  "destino" jsonb null,
   "update_at" timestamp NOT NULL DEFAULT NOW(),
   "update_by" integer NOT NULL
 );
