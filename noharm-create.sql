@@ -70,6 +70,7 @@ CREATE TABLE demo."intervencao" (
   "origem" jsonb null,
   "destino" jsonb null,
   "dt_base_economia" timestamp null,
+  "dt_fim_economia" timestamp null,
   "update_at" timestamp NOT NULL DEFAULT NOW(),
   "update_by" integer NOT NULL
 );
