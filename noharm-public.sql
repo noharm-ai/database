@@ -9,6 +9,17 @@ CREATE TABLE public."usuario" (
   "ativo" bool NOT NULL DEFAULT true
 );
 
+create table public."usuario_audit" (
+	"idusuario_audit" serial8 not null,
+	"tp_audit" smallint not null,
+	"idusuario" integer not null,
+	"pw_token" text,
+	"extra" json,
+	"audit_ip" varchar(200),
+	"created_at" timestamp not null,
+	"created_by" integer not null
+);
+
 CREATE TABLE public."substancia" (
   "sctid" bigint NOT NULL,
   "nome" varchar(255) NOT NULL,
