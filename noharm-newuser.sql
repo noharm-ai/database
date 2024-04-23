@@ -30,6 +30,10 @@ GRANT SELECT ON ALL TABLES IN SCHEMA demo TO readnoharm;
 GRANT USAGE ON SCHEMA demo TO noharm_care;
 GRANT SELECT, UPDATE ON demo.evolucao TO noharm_care;
 
+GRANT USAGE ON SCHEMA demo TO batch_reports_noharm;
+GRANT SELECT ON ALL TABLES IN SCHEMA demo TO batch_reports_noharm;
+GRANT UPDATE ON demo.intervencao TO batch_reports_noharm;
+
 GRANT USAGE ON SCHEMA demo TO nifi_user;
 GRANT SELECT, UPDATE, INSERT, DELETE ON demo.prescricaoagg TO nifi_user;
 GRANT SELECT, UPDATE, INSERT ON demo.medatributos TO nifi_user;
