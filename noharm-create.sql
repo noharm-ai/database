@@ -150,9 +150,12 @@ CREATE TABLE demo."prescricao" (
   "concilia" char(1) DEFAULT NULL,
   "convenio" varchar(100) NULL,
   "tp_revisao" smallint default 0,
+  "evolucao_int" bpchar(1) NULL,
   "update_at" timestamp DEFAULT NOW(),
   "update_by" integer
 );
+
+COMMENT ON COLUMN demo.prescricao.evolucao_int IS 'O valor = 1 indica que a evolução foi integrada no PEP';
 
 create table demo."prescricao_audit" (
 	"idprescricao_audit" serial8 not null,
@@ -166,7 +169,7 @@ create table demo."prescricao_audit" (
 	"concilia" char(1),
 	"idsegmento" smallint,
 	"leito" varchar(16),
-  "extra" json,
+  	"extra" json,
 	"created_at" timestamp not null,
 	"created_by" integer not null
 );
