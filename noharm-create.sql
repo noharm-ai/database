@@ -151,11 +151,13 @@ CREATE TABLE demo."prescricao" (
   "convenio" varchar(100) NULL,
   "tp_revisao" smallint default 0,
   "evolucao_int" bpchar(1) NULL,
+  "prescricao_int" bpchar(1) NULL,
   "update_at" timestamp DEFAULT NOW(),
   "update_by" integer
 );
 
 COMMENT ON COLUMN demo.prescricao.evolucao_int IS 'O valor = 1 indica que a evolução foi integrada no PEP';
+COMMENT ON COLUMN demo.prescricao.prescricao_int IS 'O valor = 1 indica que a prescrição foi liberada no PEP';
 
 create table demo."prescricao_audit" (
 	"idprescricao_audit" serial8 not null,
