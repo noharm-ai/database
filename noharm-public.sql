@@ -153,6 +153,7 @@ DECLARE
   V_USAPESO boolean;
   V_PESO float;
   V_NUMHOSPITAL int;
+  V_FKPRESCRICAO_PERIODO bigint[];
 BEGIN
   if P_PARAMS.nome_schema is null or P_PARAMS.nome_schema = '' then
     RAISE EXCEPTION 'Parametro invalido: nome_schema'; 
@@ -407,6 +408,17 @@ BEGIN
   * CALCULO DO PERIODO DE TRATAMENTO
   */
   if 'PERIODO' != all(coalesce(P_PARAMS.skip_list, array[]::text[])) then
+    V_FKPRESCRICAO_PERIODO := (
+      select 
+        array_agg(fkprescricao) 
+      from 
+        prescricao 
+      where 
+        nratendimento = PRESMED_RESULTADO.nratendimento
+        and idsegmento = PRESMED_RESULTADO.idsegmento
+        and fkprescricao < P_PRESMED_ORIGEM.fkprescricao
+        and dtprescricao > current_date - interval '120' day
+    );
     PRESMED_RESULTADO.periodo := (
       with vigencias as (
         select
@@ -421,9 +433,8 @@ BEGIN
           JOIN medicamento ON medicamento.fkmedicamento = presmed.fkmedicamento
         WHERE 
           prescricao.nratendimento = PRESMED_RESULTADO.nratendimento
-          AND presmed.fkmedicamento = P_PRESMED_ORIGEM.fkmedicamento
-          and prescricao.fkprescricao < P_PRESMED_ORIGEM.fkprescricao
-          and prescricao.dtprescricao > current_date - interval '120' day
+          and presmed.fkmedicamento = P_PRESMED_ORIGEM.fkmedicamento
+          and presmed.fkprescricao = any(V_FKPRESCRICAO_PERIODO)
         group by 
           prescricao.dtprescricao
       ),
