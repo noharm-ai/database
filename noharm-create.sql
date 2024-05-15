@@ -32,7 +32,7 @@ CREATE TABLE demo."cultura_cabecalho" (
   "dscolonia" varchar(250) DEFAULT null,
   "nrcolonia" bigint DEFAULT NULL,
   "resultprevio" varchar(250) DEFAULT null,
-  "complemento" varchar(250) DEFAULT null  
+  "complemento" text DEFAULT null  
 );
 
 CREATE TABLE demo.cultura (
