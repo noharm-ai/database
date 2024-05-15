@@ -463,8 +463,8 @@ BEGIN
       )
       select
         case
-          -- desconsidera se o intervalo for mair que 24h
-          when (extract(epoch from (select dtprescricao from prescricao pp where pp.fkprescricao = P_PRESMED_ORIGEM.fkprescricao limit 1) - max(dia))/3600) > 24 then 0
+          -- desconsidera se o intervalo for mair que 1 dia
+          when (extract(day from (select dtprescricao from prescricao pp where pp.fkprescricao = P_PRESMED_ORIGEM.fkprescricao limit 1) - max(dia))) > 1 then 0
           else count(*)
         end
       from 
