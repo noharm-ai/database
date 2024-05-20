@@ -5,7 +5,7 @@ GRANT SELECT, INSERT, UPDATE ON ALL TABLES IN SCHEMA demo TO demo_user;
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA demo TO demo_user;
 GRANT SELECT ON TABLE demo.usuario TO demo_user;
 GRANT DELETE ON TABLE demo.checkedindex TO demo_user;
-GRANT INSERT ON TABLE public.bulletin TO demo_user;
+GRANT INSERT ON TABLE public.bulletin, demo.prescricao_audit, demo.presmed_audit TO demo_user;
 GRANT USAGE, SELECT ON SEQUENCE public.bulletin_idbulletin_seq TO demo_user;
 
 -- na base de produção já tem o api_user, descomentar trecho abaixo APENAS se for criar um banco do ZERO
