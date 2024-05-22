@@ -227,7 +227,7 @@ BEGIN
         SELECT f.frequenciadia FROM frequencia f
         WHERE
           f.fkfrequencia = P_PRESMED_ORIGEM.fkfrequencia
-          AND f.fkhospital = V_NUMHOSPITAL
+        limit 1
     ),
     P_PRESMED_ORIGEM.frequenciadia
   );
@@ -587,7 +587,7 @@ BEGIN
           frequencia f
         where
           f.fkfrequencia = P_ORIGEM.fkfrequencia
-          AND f.fkhospital = P_ORIGEM.fkhospital
+        limit 1
 			),
 			P_ORIGEM.frequenciadia
 		);
