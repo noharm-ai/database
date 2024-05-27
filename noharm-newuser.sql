@@ -57,7 +57,7 @@ on conflict do nothing;
 
 --Revisar as origens quando o cliente não for Tasy
 INSERT INTO demo.memoria (tipo, valor, update_at, update_by) VALUES
-('features', '["MICROMEDEX", "CONCILIATION", "NOHARMCARE"]'::json, now(), 0),
+('features', '["MICROMEDEX", "CONCILIATION", "NOHARMCARE", "CLINICAL_NOTES_NEW_FORMAT"]'::json, now(), 0),
 ('map-origin-drug', '["Medicamentos"]'::json, now(), 0),
 ('map-origin-solution', '["Solu\u00e7\u00f5es"]'::json, now(), 0),
 ('map-origin-procedure', '["Proced/Exames"]'::json, now(), 0),
