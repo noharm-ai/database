@@ -98,6 +98,17 @@ CREATE TABLE public."memoria" (
   PRIMARY KEY ("idmemoria", "tipo")
 );
 
+create table public."usuario_autorizacao" (
+	"idusuario_autorizacao" serial8 not null,
+	"idusuario" integer not null,
+	"idsegmento" int2,
+	"schema_name" varchar(200),
+	"created_at" timestamp not null,
+	"created_by" integer not null
+);
+
+CREATE INDEX ON public."usuario_autorizacao" ("idusuario");
+
 CREATE UNIQUE INDEX ON public."substancia" ("sctid");
 
 CREATE UNIQUE INDEX ON public."relacao" ("sctida", "sctidb", "tprelacao");
