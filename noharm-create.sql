@@ -426,6 +426,26 @@ CREATE TABLE demo."alergia" (
   "updated_by" integer DEFAULT 0
 );
 
+CREATE TABLE demo."nifi_status" (
+  "idnifi_status" smallint DEFAULT 1,
+  "nifi_status" jsonb NULL,
+  "nifi_template" jsonb NULL,
+  "nifi_diagnostics" jsonb NULL,
+  "updated_at" timestamp NOT NULL DEFAULT now()
+);
+
+CREATE TABLE demo."nifi_queue" (
+  "idqueue" serial4 PRIMARY KEY NOT NULL,
+  "url" varchar(100) NOT NULL,
+  "method" varchar(100) NOT NULL,
+  "body" jsonb NULL,
+  "run_status" bool DEFAULT false NOT NULL,
+  "response_code" int4 NULL,
+  "response" jsonb NULL,
+  "create_at" timestamp DEFAULT now() NOT NULL,
+  "response_at" timestamp NULL
+);
+
 CREATE INDEX demo_checkedindex_idx ON demo.checkedindex ("nratendimento","fkmedicamento");
 
 CREATE UNIQUE INDEX demo_intervencao_unique ON demo."intervencao" ("idintervencao");
