@@ -427,7 +427,7 @@ CREATE TABLE demo."alergia" (
 );
 
 CREATE TABLE demo."nifi_status" (
-  "idnifi_status" smallint DEFAULT 1,
+  "idnifi_status" smallint PRIMARY KEY DEFAULT 1,
   "nifi_status" jsonb NULL,
   "nifi_template" jsonb NULL,
   "nifi_diagnostics" jsonb NULL,
