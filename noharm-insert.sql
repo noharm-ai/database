@@ -29,6 +29,9 @@ INSERT INTO public.usuario (nome,email,senha,schema,config) VALUES
 						('Não Admin','noadmin',crypt('noadmin', gen_salt('bf',8)),'demo','{"roles":["staging"]}'),
             ('E2E Test','e2e@e2e.com',crypt('e2etest', gen_salt('bf',8)),'demo','{"roles":["staging"]}');
 
+INSERT INTO public.usuario_autorizacao (idusuario,idsegmento,created_at,created_by) VALUES 
+						((select idusuario from public.usuario where email = 'demo'), 1, now(), 0);
+
 INSERT INTO demo.hospital (fkhospital, nome) VALUES
 						(1, 'Hospital Demonstração');
 
