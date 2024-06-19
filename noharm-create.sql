@@ -436,12 +436,13 @@ CREATE TABLE demo."nifi_status" (
 
 CREATE TABLE demo."nifi_queue" (
   "idqueue" serial4 PRIMARY KEY NOT NULL,
-  "url" varchar(100) NOT NULL,
+  "url" varchar(300) NOT NULL,
   "method" varchar(100) NOT NULL,
   "body" jsonb NULL,
   "run_status" bool DEFAULT false NOT NULL,
   "response_code" int4 NULL,
   "response" jsonb NULL,
+  "extra" jsonb null,
   "create_at" timestamp DEFAULT now() NOT NULL,
   "response_at" timestamp NULL
 );
