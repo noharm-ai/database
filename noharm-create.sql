@@ -288,6 +288,7 @@ CREATE TABLE demo."motivointervencao" (
   "nome" varchar(250) NOT NULL,
   "suspensao" bool NOT NULL DEFAULT false,
   "substituicao" bool NOT NULL DEFAULT false,
+  "economia_customizada" bool NOT NULL DEFAULT false,
   "tp_relacao" smallint NOT NULL DEFAULT 0
 );
 
