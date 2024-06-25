@@ -12,7 +12,7 @@ TRUNCATE TABLE demo.medicamento RESTART IDENTITY;
 TRUNCATE TABLE demo.pessoa RESTART IDENTITY;
 TRUNCATE TABLE demo.exame RESTART IDENTITY;
 TRUNCATE TABLE demo.prescricao, demo.outlier, demo.prescricaoagg RESTART IDENTITY;
-TRUNCATE TABLE demo.motivointervencao, demo.intervencao, demo.presmed RESTART IDENTITY;
+TRUNCATE TABLE demo.motivointervencao, demo.intervencao, demo.presmed, demo.memoria RESTART IDENTITY;
 
 --
 -- Insert Support's Tables
@@ -34,6 +34,9 @@ INSERT INTO public.usuario_autorizacao (idusuario,idsegmento,created_at,created_
 
 INSERT INTO demo.hospital (fkhospital, nome) VALUES
 						(1, 'Hospital Demonstração');
+
+INSERT INTO demo.memoria (tipo, valor, update_by) VALUES
+            ('features','["INTERVENTION_V2"]', 0);
 
 INSERT INTO demo.setor (fksetor, nome) VALUES
 						(1, 'Setor Adulto 1'),
@@ -96,36 +99,39 @@ INSERT INTO demo.medicamento (fkhospital,fkmedicamento,nome) VALUES
 ,(1,4,'BISACODIL 5 mg CP')
 ,(1,14,'MORFINA 10 mg/ml SOL ORAL');
 
-INSERT INTO demo.medatributos (idsegmento,fkmedicamento,antimicro,mav,controlados) VALUES
-(1,1,true,true,false)
-,(1,2,true,true,false)
-,(1,4,false,false,true)
-,(1,14,false,true,true);
+INSERT INTO demo.medatributos (idsegmento,fkmedicamento,antimicro,mav,controlados, fkunidademedida, fkunidademedidacusto, custo) VALUES
+(1,1,true,true,false,'1', '1', 2.52)
+,(1,2,true,true,false,'1', '1', 1.2)
+,(1,4,false,false,true, '1', '1', 4.52)
+,(1,14,false,true,true,'1', '1', 1.52)
+,(1,10,true,true,false,'1', '1', 5.245);
 
-INSERT INTO demo.motivointervencao (nome) VALUES
-								('Aprazamento'),
-								('Apresentação'),
-								('Diluição Padrão'),
-								('Duplicidade medicamentosa'),
-								('Frequência SN/Obs'),
-								('Medicamento não padronizado'),
-								('Medicamento de uso próprio'),
-								('Alergia'),
-								('Aprazamento'),
-								('Diluição'),
-								('Dose'),
-								('Duplicidade Terapêutica'),
-								('Forma Farmacêutica'),
-								('Frequência'),
-								('Incompatibilidade'),
-								('Indicação Terapêutica'),
-								('Interação medicamentosa'),
-								('Orientação Farmacêutica'),
-								('Medicamento não padronizado - avaliação'),
-								('Reconciliação medicamentosa'),
-								('Suspensão da terapia'),
-								('Tempo de tratamento'),
-								('Via');
+INSERT INTO demo.motivointervencao (nome, substituicao, suspensao, economia_customizada) VALUES
+								('Alta antecipada', false, false, true),
+                ('Aprazamento', false, false, false),
+								('Apresentação', false, false, false),
+								('Diluição Padrão', false, false, false),
+								('Duplicidade medicamentosa', false, false, false),
+								('Frequência SN/Obs', false, false, false),
+								('Medicamento não padronizado', false, false, false),
+								('Medicamento de uso próprio', false, false, false),
+								('Alergia', false, false, false),
+								('Aprazamento', false, false, false),
+								('Diluição', false, false, false),
+								('Dose', false, false, false),
+								('Duplicidade Terapêutica', false, false, false),
+								('Forma Farmacêutica', false, false, false),
+								('Frequência', false, false, false),
+								('Incompatibilidade', false, false, false),
+								('Indicação Terapêutica', false, false, false),
+								('Interação medicamentosa', false, false, false),
+								('Orientação Farmacêutica', false, false, false),
+								('Medicamento não padronizado - avaliação', false, false, false),
+								('Reconciliação medicamentosa', false, false, false),
+								('Suspensão da terapia', false, true, false),
+                ('Substituição', true, false, false),
+								('Tempo de tratamento', false, false, false),
+								('Via', false, false, false);
 
 --
 -- Insert Prescription's Tables
@@ -1063,7 +1069,7 @@ INSERT INTO demo.presmed (fkprescricao,fkmedicamento,fkunidademedida,fkfrequenci
 ,(17,24,'1',1,1,416,20,1,'VO',NULL,NULL,20)
 ,(20,22,'1',4,1,403,2000,4,'VO',NULL,NULL,2000)
 ,(20,4,'1',2,1,30,5,2,'VO',NULL,NULL,5)
-,(199,10,'1',2,1,123,20,2,'VO',NULL,NULL,20)
+,(199,10,'1',1,1,123,20,2,'VO',NULL,NULL,20)
 ,(199,15,'1',4,1,300,1000,4,'VO',NULL,NULL,1000)
 ,(199,25,'1',1,1,417,88,1,'VO',NULL,NULL,88)
 ,(199,25,'1',1,1,NULL,80,1,'VO',NULL,NULL,NULL)
