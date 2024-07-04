@@ -46,6 +46,7 @@ CREATE TABLE public."relacao" (
   "tprelacao" char(2) DEFAULT NULL,
   "texto" text,
   "ativo" boolean,
+  "nivel" varchar(100),
   "create_by" integer,
   "update_at" timestamp DEFAULT NOW(),
   "update_by" integer
