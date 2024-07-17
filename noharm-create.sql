@@ -278,6 +278,7 @@ CREATE TABLE demo."medatributos" (
   "dialisavel" boolean,
   "lactante" varchar(1),
   "gestante" varchar(1), 
+  "jejum" boolean,
   "update_at" timestamp DEFAULT NULL,
   "update_by" integer DEFAULT NULL
 );
@@ -302,6 +303,7 @@ CREATE TABLE demo."frequencia" (
   "nome" varchar(250) NOT NULL,
   "frequenciadia" float4 DEFAULT NULL,
   "frequenciahora" float4 DEFAULT NULL,
+  "jejum" bool DEFAULT false,
   PRIMARY KEY ("fkhospital", "fkfrequencia")
 );
 
