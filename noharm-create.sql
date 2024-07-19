@@ -527,3 +527,7 @@ CREATE TABLE IF NOT EXISTS demo.prescricao_arquivo
 
 CREATE TABLE IF NOT EXISTS demo.exame_arquivo
     (LIKE demo.exame EXCLUDING INDEXES);
+
+INSERT INTO demo.nifi_queue
+(idqueue, url, "method", body, run_status)
+VALUES(nextval('demo.nifi_queue_idqueue_seq'::regclass), 'nifi-api/system-diagnostics', 'GET', '{"state": "RUN_ONCE"}'::jsonb, true);
