@@ -44,7 +44,10 @@ CREATE TABLE demo.cultura (
   "fkmicroorganismo" int8 NULL,
   "nomemicroorganismo" varchar(250) NULL DEFAULT NULL::character varying,
   "qtmicroorganismo" varchar(250) NULL,
-  "resultado" varchar(250) NULL DEFAULT NULL::character varying
+  "resultado" varchar(250) NULL DEFAULT NULL::character varying,
+  "predict" bpchar(1) NULL,
+  "predict_proba" float4 NULL,
+  "medicamento_proba" float4 NULL
 );
 
 CREATE TABLE demo."intervencao" (
