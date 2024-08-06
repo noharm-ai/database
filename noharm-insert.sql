@@ -1082,6 +1082,14 @@ INSERT INTO demo.presmed (fkprescricao,fkmedicamento,fkunidademedida,fkfrequenci
 ,(198,22,'1',4,1,403,2000,4,'VO',NULL,NULL,2000)
 ,(198,4,'1',2,1,30,5,2,'VO',NULL,NULL,5);
 
+-- conciliacoes
+INSERT INTO demo.prescricao (fkhospital,fksetor,fkprescricao,fkpessoa,idsegmento,dtprescricao,status,nratendimento,update_at,update_by, agregada, indicadores, concilia) VALUES 
+(1,1,9199,99,1,now(),'0',9999,'2020-04-02 20:55:27.158',1, NULL, NULL, 's');
+
+INSERT INTO demo.presmed (fkprescricao,fkmedicamento,fkunidademedida,fkfrequencia,idsegmento,idoutlier,dose,frequenciadia,via,complemento,escorefinal,doseconv, horario) VALUES 
+(9199,0,'1',1,1,459,100,1,'VO',NULL,NULL,100, 'Medicamento do paciente');
+-- fim conciliacoes
+
 INSERT INTO demo.unidadeconverte (idsegmento,fkunidademedida,fator,fkmedicamento) VALUES 
 (1,'2',3.3,2)
 ,(1,'3',3,2)
