@@ -455,6 +455,43 @@ CREATE TABLE demo."nifi_queue" (
   "response_at" timestamp NULL
 );
 
+CREATE TABLE demo."evolucao_audit"(
+	idevolucao_audit bigserial NOT NULL,
+	tp_audit int2 NOT NULL,
+	fkevolucao int8 NOT NULL,
+	extra json NULL,
+	created_at timestamp NOT NULL,
+	created_by int4 NOT NULL
+);
+
+CREATE TABLE demo."intervencao_audit" (
+	idintervencao_audit bigserial NOT NULL,
+	tp_audit int2 NOT NULL,
+	idintervencao int8 NOT NULL,
+	extra json NULL,
+	created_at timestamp NOT NULL,
+	created_by int4 NOT NULL
+);
+
+CREATE TABLE demo."medatributos_audit" (
+	idmedatributos_audit bigserial NOT NULL,
+	tp_audit int2 NOT NULL,
+	fkmedicamento int8 NOT NULL,
+	idsegmento int4 NOT NULL,
+	extra json NULL,
+	created_at timestamp NOT NULL,
+	created_by int4 NOT NULL
+);
+
+CREATE TABLE demo."pessoa_audit" (
+	idpessoa_audit bigserial NOT NULL,
+	tp_audit int2 NOT NULL,
+	nratendimento int8 NOT NULL,
+	extra json NULL,
+	created_at timestamp NOT NULL,
+	created_by int4 NOT NULL
+);
+
 CREATE INDEX demo_checkedindex_idx ON demo.checkedindex ("nratendimento","fkmedicamento");
 
 CREATE UNIQUE INDEX demo_intervencao_unique ON demo."intervencao" ("idintervencao");
@@ -513,6 +550,11 @@ CREATE INDEX ON demo."observacao" ("nratendimento","fkmedicamento");
 
 CREATE INDEX demo_evolucao_nratendimento_idx ON demo."evolucao" ("nratendimento");
 CREATE INDEX demo_evolucao_dtevolucao_idx ON demo."evolucao" USING brin ("dtevolucao") with (pages_per_range = 1);
+
+CREATE INDEX demo_evolucao_audit_fkevolucao_idx ON demo.evolucao_audit USING btree (fkevolucao);
+CREATE INDEX demo_intervencao_audit_idintervencao_idx ON demo.intervencao_audit USING btree (idintervencao);
+CREATE INDEX demo_medatributos_audit_fkmedicamento_idsegmento_idx ON demo.medatributos_audit USING btree (fkmedicamento, idsegmento);
+CREATE INDEX demo_pessoa_audit_nratendimento_idx ON demo.pessoa_audit USING btree (nratendimento);
 
 ALTER TABLE demo."alergia" ADD CONSTRAINT demo_alergia_uniq_const UNIQUE (fkpessoa,fkmedicamento);
 
