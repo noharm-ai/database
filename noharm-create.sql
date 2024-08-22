@@ -420,7 +420,10 @@ CREATE TABLE demo.checkedindex (
   "via" varchar(50) DEFAULT NULL,
   "horario" varchar(50) DEFAULT NULL,
   "dose" float4 DEFAULT 0,
-  "complemento" varchar(50) DEFAULT NULL
+  "complemento" varchar(50) DEFAULT NULL,
+  "fkprescricao" int8 default null,
+  "created_at" timestamp default null,
+  "created_by" int4 default null
 );
 
 CREATE TABLE demo."alergia" (
