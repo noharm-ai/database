@@ -1,5 +1,5 @@
 CREATE USER demo_user WITH PASSWORD 'demo_user' CONNECTION LIMIT 10;
-ALTER ROLE demo_user SET statement_timeout = 5000;
+ALTER ROLE demo_user SET statement_timeout = 10000;
 GRANT CONNECT ON DATABASE postgres TO demo_user;
 GRANT USAGE ON SCHEMA demo TO demo_user;
 GRANT SELECT, INSERT, UPDATE ON ALL TABLES IN SCHEMA demo TO demo_user;
