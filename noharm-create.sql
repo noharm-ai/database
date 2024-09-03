@@ -156,7 +156,8 @@ CREATE TABLE demo."prescricao" (
   "convenio" varchar(100) NULL,
   "tp_revisao" smallint default 0,
   "update_at" timestamp DEFAULT NOW(),
-  "update_by" integer
+  "update_by" integer,
+  "dtcriacao_origem" timestamp default null
 );
 
 create table demo."prescricao_audit" (
