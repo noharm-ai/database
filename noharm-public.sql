@@ -26,7 +26,8 @@ CREATE TABLE public."substancia" (
   "link" varchar(255) DEFAULT NULL,
   "idclasse" varchar(10) NULL,
   "ativo" boolean DEFAULT true,
-  "manejo" jsonb NULL
+  "manejo" jsonb NULL,
+  "curadoria" text null
 );
 
 CREATE TABLE public."notifica" (
