@@ -24,10 +24,10 @@ INSERT INTO public.schema_config (schema_name, created_at) VALUES
             ('demo', now());
 
 INSERT INTO public.usuario (nome,email,senha,schema,config) VALUES 
-						('Demonstração','demo',crypt('demo', gen_salt('bf',8)) ,'demo','{"roles":["suporte"]}'),
-						('User Admin','user@admin.com',crypt('useradmin', gen_salt('bf',8)) ,'demo','{"roles":["userAdmin", "staging"]}'),
-						('Não Admin','noadmin',crypt('noadmin', gen_salt('bf',8)),'demo','{"roles":["staging"]}'),
-            ('E2E Test','e2e@e2e.com',crypt('e2etest', gen_salt('bf',8)),'demo','{"roles":["staging"]}');
+						('Demonstração','demo',crypt('demo', gen_salt('bf',8)) ,'demo','{"roles":["PRESCRIPTION_ANALYST", "USER_MANAGER", "CONFIG_MANAGER", "suporte"], "features": [ "STAGING_ACCESS"]}'),
+						('User Admin','user@admin.com',crypt('useradmin', gen_salt('bf',8)) ,'demo','{"roles":["PRESCRIPTION_ANALYST", "USER_MANAGER", "CONFIG_MANAGER", "staging"], "features": [ "STAGING_ACCESS"]}'),
+						('Não Admin','noadmin',crypt('noadmin', gen_salt('bf',8)),'demo','{"roles":["PRESCRIPTION_ANALYST", "USER_MANAGER", "CONFIG_MANAGER","staging"], "features": [ "STAGING_ACCESS"]}'),
+            ('E2E Test','e2e@e2e.com',crypt('e2etest', gen_salt('bf',8)),'demo','{"roles":["PRESCRIPTION_ANALYST", "USER_MANAGER", "CONFIG_MANAGER", "staging"], "features": [ "STAGING_ACCESS"]}');
 
 INSERT INTO public.usuario_autorizacao (idusuario,idsegmento,created_at,created_by) VALUES 
 						((select idusuario from public.usuario where email = 'demo'), 1, now(), 0);
