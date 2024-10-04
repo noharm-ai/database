@@ -157,7 +157,7 @@ CREATE TABLE demo."prescricao" (
   "tp_revisao" smallint default 0,
   "update_at" timestamp DEFAULT NOW(),
   "update_by" integer,
-  "dtcriacaoorigem" timestamp default null
+  "dtcriacao_origem" timestamp default null
 );
 
 create table demo."prescricao_audit" (
