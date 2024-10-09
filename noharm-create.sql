@@ -127,6 +127,7 @@ CREATE TABLE demo."pessoa" (
   "dialise" char(1) DEFAULT NULL,
   "lactante" boolean DEFAULT NULL,
   "gestante" boolean DEFAULT NULL,
+  "st_concilia" smallint default 0,
   "update_at" timestamp DEFAULT NULL,
   "update_by" integer DEFAULT NULL,
   PRIMARY KEY ("nratendimento")
