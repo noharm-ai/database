@@ -249,6 +249,7 @@ CREATE TABLE demo."medicamento" (
   "nome" varchar(250) NOT NULL,
   "sctid" bigint DEFAULT NULL,
   "ia_acuracia" float4 null, 
+  "origem" varchar(13) DEFAULT NULL,
   "created_by" int4 null,
   "updated_by" int4 null,
   "created_at" timestamp NOT NULL DEFAULT now(),
