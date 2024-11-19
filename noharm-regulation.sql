@@ -3,23 +3,25 @@ CREATE TABLE demo."reg_solicitacao" (
   -- principais
   "fkreg_solicitacao" bigint PRIMARY KEY NOT NULL ,
   "nratendimento" bigint NOT NULL,
+  "fkpessoa" bigint not null,
   "dtsolicitacao" timestamp not null,
   "fkreg_tipo_solicitacao" bigint NOT NULL,
-  "etapa" smallint not null,
-  "risco" smallint not null,
 
-  -- extra
+  -- extra pep
+  "risco" smallint null,
   "cid" bigint,
   "atendente" varchar(250),
   "atendente_crm" integer,
   "justificativa" text,
+
+  -- extra interno
+  "etapa" smallint not null,
   "dtagendamento" timestamp,
   "dttransporte" timestamp,
-  -- mais campos da solicitacao ...
 
   --controle
   "created_at" timestamp DEFAULT NOW(),
-  "created_by" integer
+  "created_by" integer,
   "updated_at" timestamp DEFAULT NOW(),
   "updated_by" integer
 );
@@ -47,7 +49,7 @@ CREATE TABLE demo."reg_tipo_solicitacao" (
   "status" smallint not null,
 
   "created_at" timestamp DEFAULT NOW(),
-  "created_by" integer
+  "created_by" integer,
   "updated_at" timestamp DEFAULT NOW(),
   "updated_by" integer
 );
