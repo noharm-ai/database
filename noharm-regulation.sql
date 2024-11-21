@@ -9,9 +9,9 @@ CREATE TABLE demo."reg_solicitacao" (
 
   -- extra pep
   "risco" smallint null,
-  "cid" bigint,
-  "atendente" varchar(250),
-  "atendente_crm" integer,
+  "cid" varchar(400) null,
+  "atendente" varchar(250) null,
+  "atendente_registro" varchar(200) null,
   "justificativa" text,
 
   -- extra interno
