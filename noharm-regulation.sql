@@ -35,6 +35,7 @@ CREATE TABLE demo."reg_movimentacao" (
   "etapa_destino" smallint not null,
   "acao" smallint not null,
   "dados" json not null,
+  "template" json not null,
 
   --controle
   "created_at" timestamp DEFAULT NOW(),
