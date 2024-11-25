@@ -4,6 +4,7 @@ CREATE TABLE demo."reg_solicitacao" (
   "fkreg_solicitacao" bigint PRIMARY KEY NOT NULL ,
   "nratendimento" bigint NOT NULL,
   "fkpessoa" bigint not null,
+  "fksetor" bigint not null,
   "dtsolicitacao" timestamp not null,
   "fkreg_tipo_solicitacao" bigint NOT NULL,
 
@@ -48,6 +49,7 @@ CREATE TABLE demo."reg_tipo_solicitacao" (
   "fkreg_tipo_solicitacao" bigint PRIMARY KEY NOT NULL,
   "nome" varchar(250) not null,
   "status" smallint not null,
+  "tp_tipo" smallint not null,
 
   "created_at" timestamp DEFAULT NOW(),
   "created_by" integer,
