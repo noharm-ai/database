@@ -111,6 +111,13 @@ create table public."usuario_autorizacao" (
 	"created_by" integer not null
 );
 
+create table public."usuario_extra" (
+	"idusuario" integer PRIMARY KEY not null,
+	"config" json not null,
+	"created_at" timestamp not null,
+	"created_by" integer not null
+);
+
 CREATE INDEX ON public."usuario_autorizacao" ("idusuario");
 
 CREATE UNIQUE INDEX ON public."substancia" ("sctid");

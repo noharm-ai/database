@@ -1,4 +1,30 @@
 --
+-- PREPARE A SECOND SCHEMA FOR TESTS
+--
+CREATE SCHEMA teste;
+
+CREATE TABLE teste."hospital" (
+  "fkhospital" smallint UNIQUE PRIMARY KEY NOT NULL,
+  "nome" varchar(255) NOT NULL
+);
+
+CREATE TABLE teste."memoria" (
+  "idmemoria" SERIAL NOT NULL,
+  "tipo" varchar(100) NOT NULL,
+  "valor" json NOT NULL,
+  "update_at" timestamp NOT NULL DEFAULT NOW(),
+  "update_by" integer NOT NULL,
+  PRIMARY KEY ("idmemoria", "tipo")
+);
+
+CREATE TABLE teste."segmento" (
+  "idsegmento" SERIAL PRIMARY KEY NOT NULL,
+  "nome" varchar(250) NOT NULL,
+  "status" smallint DEFAULT NULL
+);
+
+
+--
 -- TRUNCATE All Tables
 --
 
@@ -21,16 +47,23 @@ TRUNCATE TABLE demo.motivointervencao, demo.intervencao, demo.presmed, demo.memo
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
 INSERT INTO public.schema_config (schema_name, created_at) VALUES
-            ('demo', now());
+            ('demo', now()), ('teste', now());
 
 INSERT INTO public.usuario (nome,email,senha,schema,config) VALUES 
 						('Demonstração','demo',crypt('demo', gen_salt('bf',8)) ,'demo','{"roles":["PRESCRIPTION_ANALYST", "USER_MANAGER", "CONFIG_MANAGER", "suporte"], "features": [ "STAGING_ACCESS"]}'),
-						('User Admin','user@admin.com',crypt('useradmin', gen_salt('bf',8)) ,'demo','{"roles":["PRESCRIPTION_ANALYST", "USER_MANAGER", "CONFIG_MANAGER", "staging"], "features": [ "STAGING_ACCESS"]}'),
+						('User Admin','user@admin.com',crypt('useradmin', gen_salt('bf',8)) ,'demo','{"roles":[], "features": [ "STAGING_ACCESS"]}'),
 						('Não Admin','noadmin',crypt('noadmin', gen_salt('bf',8)),'demo','{"roles":["PRESCRIPTION_ANALYST", "USER_MANAGER", "CONFIG_MANAGER","staging"], "features": [ "STAGING_ACCESS"]}'),
+            ('Organization manager','organizationmanager',crypt('organizationmanager', gen_salt('bf',8)),'demo','{"roles":["VIEWER"], "features": [ "STAGING_ACCESS"]}'),
+            ('Invalid User','invaliduser',crypt('invaliduser', gen_salt('bf',8)),'demo','{"roles":["ADMIN"], "features": [ "STAGING_ACCESS"]}'),
+            ('Invalid User 2','invaliduser2',crypt('invaliduser2', gen_salt('bf',8)),'demo','{"roles":["VIEWER"], "schemas": [{"name": "demo", "friendlyName": "Hospital Demo"}], "features": [ "STAGING_ACCESS"]}'),
             ('E2E Test','e2e@e2e.com',crypt('e2etest', gen_salt('bf',8)),'demo','{"roles":["PRESCRIPTION_ANALYST", "USER_MANAGER", "CONFIG_MANAGER", "staging"], "features": [ "STAGING_ACCESS"]}');
 
 INSERT INTO public.usuario_autorizacao (idusuario,idsegmento,created_at,created_by) VALUES 
 						((select idusuario from public.usuario where email = 'demo'), 1, now(), 0);
+
+INSERT INTO public.usuario_extra (idusuario, config, created_at, created_by) VALUES
+            ((select idusuario from public.usuario where email = 'organizationmanager'), '{"roles":["ORGANIZATION_MANAGER"], "schemas": [{"name": "demo", "friendlyName": "Hospital Demo"}, {"name": "teste", "friendlyName": "Hospital Teste"}]}' , now(), 0),
+            ((select idusuario from public.usuario where email = 'user@admin.com'), '{"roles":["ADMIN"]}' , now(), 0);
 
 INSERT INTO demo.hospital (fkhospital, nome) VALUES
 						(1, 'Hospital Demonstração');
