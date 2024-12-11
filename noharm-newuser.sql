@@ -50,6 +50,7 @@ GRANT SELECT ON TABLE hsc_test.medatributos, hsc_test.motivointervencao TO demo_
 insert into public.schema_config (schema_name, created_at) values ('demo', now());
 
 INSERT INTO demo.segmento (nome, status) values ('Adulto', 0) on conflict do nothing;
+INSERT INTO demo.hospital (nome, fkhospital) values ('Hospital', 1) on conflict do nothing;
 
 --Adicionar na tabela nomedocliente.memoria:
 INSERT INTO demo.memoria (tipo, valor, update_at, update_by) 
