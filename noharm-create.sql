@@ -32,7 +32,8 @@ CREATE TABLE demo."cultura_cabecalho" (
   "dscolonia" varchar(250) DEFAULT null,
   "nrcolonia" bigint DEFAULT NULL,
   "resultprevio" varchar(250) DEFAULT null,
-  "complemento" text DEFAULT null  
+  "complemento" text DEFAULT null,
+  "predict" boolean NULL
 );
 
 CREATE TABLE demo.cultura (
