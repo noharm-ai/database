@@ -286,6 +286,8 @@ CREATE TABLE demo."medatributos" (
   "lactante" varchar(1),
   "gestante" varchar(1), 
   "jejum" boolean,
+  "ref_dosemaxima" float4,
+  "ref_dosemaxima_peso" float4,
   "update_at" timestamp DEFAULT NULL,
   "update_by" integer DEFAULT NULL
 );
@@ -318,6 +320,7 @@ CREATE TABLE demo."unidademedida" (
   "fkhospital" smallint DEFAULT 1,
   "fkunidademedida" varchar(32) NOT NULL,
   "nome" varchar(250) NOT NULL,
+  "unidademedida_nh" varchar(32),
   PRIMARY KEY ("fkhospital", "fkunidademedida")
 );
 
@@ -331,7 +334,8 @@ CREATE TABLE demo."unidadeconverte" (
 CREATE TABLE demo."segmento" (
   "idsegmento" SERIAL PRIMARY KEY NOT NULL,
   "nome" varchar(250) NOT NULL,
-  "status" smallint DEFAULT NULL
+  "status" smallint DEFAULT NULL,
+  "tp_segmento" smallint
 );
 
 CREATE TABLE demo."segmentoexame" (

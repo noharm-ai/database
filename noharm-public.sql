@@ -27,7 +27,12 @@ CREATE TABLE public."substancia" (
   "idclasse" varchar(10) NULL,
   "ativo" boolean DEFAULT true,
   "manejo" jsonb NULL,
-  "curadoria" text null
+  "curadoria" text null,
+  "dosemax_adulto" float4 NULL,
+	"dosemax_pediatrico" float4 NULL,
+	"unidadepadrao" varchar(32) NULL,
+	"dosemax_peso_adulto" float4 NULL,
+	"dosemax_peso_pediatrico" float4 NULL
 );
 
 CREATE TABLE public."notifica" (
