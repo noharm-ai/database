@@ -20,7 +20,8 @@ CREATE TABLE teste."memoria" (
 CREATE TABLE teste."segmento" (
   "idsegmento" SERIAL PRIMARY KEY NOT NULL,
   "nome" varchar(250) NOT NULL,
-  "status" smallint DEFAULT NULL
+  "status" smallint DEFAULT NULL,
+  "tp_segmento" smallint
 );
 
 
