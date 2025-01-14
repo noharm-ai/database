@@ -32,7 +32,9 @@ CREATE TABLE public."substancia" (
 	"dosemax_pediatrico" float4 NULL,
 	"unidadepadrao" varchar(32) NULL,
 	"dosemax_peso_adulto" float4 NULL,
-	"dosemax_peso_pediatrico" float4 NULL
+	"dosemax_peso_pediatrico" float4 NULL,
+  "update_at" timestamp NULL,
+  "update_by" int4 NULL
 );
 
 CREATE TABLE public."notifica" (
