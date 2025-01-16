@@ -737,7 +737,14 @@ BEGIN
     V_RESULTADO.dtvigencia := P_ORIGEM.dtvigencia;
 	END IF;  
 
-	V_RESULTADO.aggsetor = P_ORIGEM.aggsetor || P_ORIGEM.fksetor;
+	V_RESULTADO.aggsetor := (
+	  SELECT array_agg(DISTINCT elem)
+	    FROM (
+	      SELECT unnest(P_ORIGEM.aggsetor) AS elem
+	      UNION ALL
+	      SELECT P_ORIGEM.fksetor
+	    ) t
+  );
 
   /**
   * REGISTRAR CHECAGEM (utilizado para a flag checado anteriormente)
