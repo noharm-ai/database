@@ -191,6 +191,29 @@ BEGIN
   EXECUTE FORMAT('SET search_path to %s;', P_PARAMS.nome_schema);
 
   /**
+  * VERIFICAR SE HOUVE ALTERACAO
+  */
+  if 'INSERT_IGNORE' = any(coalesce(P_PARAMS.features, array[]::text[])) then
+	  IF P_PRESMED_ORIGEM.idoutlier IS NULL OR P_PRESMED_ORIGEM.doseconv IS NULL THEN
+		SELECT * INTO V_PRESMED FROM presmed WHERE fkpresmed = P_PRESMED_ORIGEM.fkpresmed;
+		IF FOUND THEN
+			IF      
+				    V_PRESMED.dose            IS NOT DISTINCT FROM P_PRESMED_ORIGEM.dose
+				AND V_PRESMED.fkfrequencia    IS NOT DISTINCT FROM P_PRESMED_ORIGEM.fkfrequencia
+				AND V_PRESMED.fkmedicamento   IS NOT DISTINCT FROM P_PRESMED_ORIGEM.fkmedicamento
+				AND V_PRESMED.fkunidademedida IS NOT DISTINCT FROM P_PRESMED_ORIGEM.fkunidademedida
+				AND V_PRESMED.via             IS NOT DISTINCT FROM P_PRESMED_ORIGEM.via
+				AND V_PRESMED.horario         IS NOT DISTINCT FROM P_PRESMED_ORIGEM.horario
+				AND V_PRESMED.sletapas        IS NOT DISTINCT FROM P_PRESMED_ORIGEM.sletapas
+				AND V_PRESMED.dtsuspensao     IS NOT DISTINCT FROM P_PRESMED_ORIGEM.dtsuspensao
+			THEN
+				RETURN NULL;
+			END IF;
+		END IF;
+	  END IF;
+  end if;
+
+  /**
   * PARAMETROS
   */
   V_NUMHOSPITAL := (
