@@ -18,7 +18,7 @@ BEGIN
     -- DEFINIR PARAMETROS
 		PRESMED_PARAMETRO.nome_schema = 'demo';
 		PRESMED_PARAMETRO.features = ARRAY['INSERT_IGNORE']::text[];
-    		--PRESMED_PARAMETRO.features = ARRAY['CPOE']::text[];
+    		--PRESMED_PARAMETRO.features = ARRAY['INSERT_IGNORE','CPOE']::text[];
 		PRESMED_PARAMETRO.skip_list = ARRAY[]::text[];
   
 		-- FUNCAO CENTRAL
