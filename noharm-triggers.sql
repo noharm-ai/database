@@ -17,13 +17,17 @@ BEGIN
   
     -- DEFINIR PARAMETROS
 		PRESMED_PARAMETRO.nome_schema = 'demo';
-		PRESMED_PARAMETRO.features = ARRAY[]::text[];
-    --PRESMED_PARAMETRO.features = ARRAY['CPOE']::text[];
+		PRESMED_PARAMETRO.features = ARRAY['INSERT_IGNORE']::text[];
+    		--PRESMED_PARAMETRO.features = ARRAY['CPOE']::text[];
 		PRESMED_PARAMETRO.skip_list = ARRAY[]::text[];
   
 		-- FUNCAO CENTRAL
 		PRESMED_RESULTADO := public.complete_presmed(PRESMED_PARAMETRO.*, new.*);
-	  
+
+		IF PRESMED_RESULTADO IS NULL THEN
+			RETURN NULL;
+		END IF;
+
 		-- USAR VALORES CALCULADOS
 		new.origem := PRESMED_RESULTADO.origem;
 		new.idsegmento := PRESMED_RESULTADO.idsegmento;
