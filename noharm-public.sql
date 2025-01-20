@@ -183,6 +183,7 @@ DECLARE
   V_PESO float;
   V_NUMHOSPITAL int;
   V_FKPRESCRICAO_PERIODO bigint[];
+  V_PRESMED record;
 BEGIN
   if P_PARAMS.nome_schema is null or P_PARAMS.nome_schema = '' then
     RAISE EXCEPTION 'Parametro invalido: nome_schema'; 
