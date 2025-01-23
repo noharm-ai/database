@@ -33,6 +33,15 @@ CREATE TABLE public."substancia" (
 	"unidadepadrao" varchar(32) NULL,
 	"dosemax_peso_adulto" float4 NULL,
 	"dosemax_peso_pediatrico" float4 NULL,
+  "renal_adulto" int4 NULL,
+	"renal_pediatrico" int4 NULL,
+	"hepatico_adulto" int4 NULL,
+	"hepatico_pediatrico" int4 NULL,
+	"risco_queda" int2 NULL,
+	"lactante" varchar(1) NULL,
+	"gestante" varchar(1) NULL,
+	"plaquetas" int4 NULL,
+	"divisor_faixa" float4 NULL,
   "update_at" timestamp NULL,
   "update_by" int4 NULL
 );
