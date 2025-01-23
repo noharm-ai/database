@@ -42,6 +42,7 @@ CREATE TABLE public."substancia" (
 	"gestante" varchar(1) NULL,
 	"plaquetas" int4 NULL,
 	"divisor_faixa" float4 NULL,
+  "tags" _varchar NULL,
   "update_at" timestamp NULL,
   "update_by" int4 NULL
 );
