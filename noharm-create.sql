@@ -130,6 +130,7 @@ CREATE TABLE demo."pessoa" (
   "lactante" boolean DEFAULT NULL,
   "gestante" boolean DEFAULT NULL,
   "st_concilia" smallint default 0,
+  "marcadores" _varchar DEFAULT NULL,
   "update_at" timestamp DEFAULT NULL,
   "update_by" integer DEFAULT NULL,
   PRIMARY KEY ("nratendimento")
@@ -502,6 +503,17 @@ CREATE TABLE demo."pessoa_audit" (
 	extra json NULL,
 	created_at timestamp NOT NULL,
 	created_by int4 NOT NULL
+);
+
+create table demo."marcador" (
+	"nome" varchar(50) not null,
+	"tp_marcador" smallint not null,
+	"ativo" boolean not null,
+	"updated_at" timestamp null,
+	"updated_by" integer null,
+	"created_at" timestamp not null,
+	"created_by" integer not null,
+	CONSTRAINT tag_pkey PRIMARY KEY (nome, tp_marcador)
 );
 
 CREATE INDEX demo_checkedindex_idx ON demo.checkedindex ("nratendimento","fkmedicamento");
