@@ -234,7 +234,8 @@ CREATE TABLE demo."presmed" (
   "cpoe_grupo" bigint NULL,
   "cpoe_nrseq" bigint NULL,
   "cpoe_nrseq_anterior" bigint NULL,
-  "form" json NULL
+  "form" json NULL,
+  "aprazamento" timestamp[][] NULL
 );
 
 create table demo."presmed_audit" (
