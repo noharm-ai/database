@@ -110,6 +110,18 @@ CREATE TABLE public.schema_config (
 	CONSTRAINT schema_config_pkey PRIMARY KEY (schema_name)
 );
 
+create table public."fila_processamento" (
+	"idfila_processamento" bigserial PRIMARY KEY NOT NULL,
+	"schema_name" varchar(200) not null,
+	"tp_fila_processamento" smallint not null,
+	"tp_situacao" smallint not null,
+	"configuracao" json not null,
+	"updated_at" timestamp null,
+	"updated_by" integer null,
+	"created_at" timestamp not null,
+	"created_by" integer not null
+);
+
 CREATE TABLE public."memoria" (
   "idmemoria" SERIAL NOT NULL,
   "tipo" varchar(100) NOT NULL,
