@@ -517,18 +517,6 @@ create table demo."marcador" (
 	CONSTRAINT tag_pkey PRIMARY KEY (nome, tp_marcador)
 );
 
-create table demo."protocolo" (
-	"idprotocolo" serial PRIMARY KEY NOT NULL,
-	"nome" varchar(150) not null,
-	"tp_protocolo" smallint not null,
-	"ativo" boolean not null,
-	"configuracao" json not null,
-	"updated_at" timestamp null,
-	"updated_by" integer null,
-	"created_at" timestamp not null,
-	"created_by" integer not null
-);
-
 CREATE INDEX demo_checkedindex_idx ON demo.checkedindex ("nratendimento","fkmedicamento");
 
 CREATE UNIQUE INDEX demo_intervencao_unique ON demo."intervencao" ("idintervencao");

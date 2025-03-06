@@ -148,6 +148,19 @@ create table public."usuario_extra" (
 	"created_by" integer not null
 );
 
+create table public."protocolo" (
+	"idprotocolo" serial PRIMARY KEY NOT NULL,
+	"schema_name" varchar(200),
+	"nome" varchar(150) not null,
+	"tp_protocolo" smallint not null,
+	"ativo" boolean not null,
+	"configuracao" json not null,
+	"updated_at" timestamp null,
+	"updated_by" integer null,
+	"created_at" timestamp not null,
+	"created_by" integer not null
+);
+
 CREATE INDEX ON public."usuario_autorizacao" ("idusuario");
 
 CREATE UNIQUE INDEX ON public."substancia" ("sctid");
