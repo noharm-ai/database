@@ -153,7 +153,7 @@ create table public."protocolo" (
 	"schema_name" varchar(200),
 	"nome" varchar(150) not null,
 	"tp_protocolo" smallint not null,
-	"ativo" boolean not null,
+	"tp_situacao" smallint not null,
 	"configuracao" json not null,
 	"updated_at" timestamp null,
 	"updated_by" integer null,
