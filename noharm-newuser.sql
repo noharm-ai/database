@@ -57,6 +57,7 @@ INSERT INTO demo.memoria (tipo, valor, update_at, update_by)
 VALUES('getnameurl', '{"value":"https://demo.getname.noharm.ai/patient-name/{idPatient}", "multiple": "https://demo.getname.noharm.ai/patient-name/multiple"}'::json, now(), 0)
 on conflict do nothing;
 
+
 --Revisar as origens quando o cliente não for Tasy
 INSERT INTO demo.memoria (tipo, valor, update_at, update_by) VALUES
 ('features', '["MICROMEDEX", "CONCILIATION", "NOHARMCARE", "CLINICAL_NOTES_NEW_FORMAT"]'::json, now(), 0),
@@ -65,4 +66,15 @@ INSERT INTO demo.memoria (tipo, valor, update_at, update_by) VALUES
 ('map-origin-procedure', '["Proced/Exames"]'::json, now(), 0),
 ('map-origin-diet', '["Dietas"]'::json, now(), 0)
 on conflict do nothing;
+
+-----> apenas PEC
+INSERT INTO demo.memoria (tipo, valor, update_at, update_by) 
+VALUES('getnameurl', '{"multiple":"http://localhost:5000/names","proxy":true,"value":"http://localhost:5000/names/{idPatient}"}'::json, now(), 0)
+on conflict do nothing;
+
+UPDATE public.schema_config
+SET  configuracao='{"getname": {"url": "https://esus-priv.getname.noharm.ai:10443/demo/", "type": "proxy", "token": {"url": "noharm-internal", "params": {"client_id": "noharm-internal", "grant_type": "noharm-internal", "client_secret": "\'3mwi8x8nwntwgc675rba2bv\'"}}, "params": {"source": "demo"}, "urlDev": "https://esus.getname.noharm.ai:10443/demo/", "internal": true, "authPrefix": "Bearer "}}', 
+status=1
+WHERE schema_name='demo'
+
 */
