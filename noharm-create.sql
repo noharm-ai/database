@@ -131,6 +131,9 @@ CREATE TABLE demo."pessoa" (
   "gestante" boolean DEFAULT NULL,
   "st_concilia" smallint default 0,
   "marcadores" _varchar DEFAULT NULL,
+  "medico_responsavel" varchar(255) NULL,
+  "dt_alta_prevista" timestamp default null,
+  "idcid" varchar(50) default NULL,
   "update_at" timestamp DEFAULT NULL,
   "update_by" integer DEFAULT NULL,
   PRIMARY KEY ("nratendimento")
