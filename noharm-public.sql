@@ -103,6 +103,7 @@ CREATE TABLE public.schema_config (
 	fl3_atualiza_prescricaoagg bool NOT NULL DEFAULT false,
 	fl3_segmentos _int4 NULL,
 	fl4_cria_conciliacao bool NOT NULL DEFAULT false,
+  fl5_score_med_novos bool NOT NULL DEFAULT false,
 	configuracao jsonb NULL,
 	tp_noharm_care int2 NOT NULL DEFAULT 2,
 	status int4 NOT NULL DEFAULT 0,
