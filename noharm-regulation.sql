@@ -27,6 +27,21 @@ CREATE TABLE demo."reg_solicitacao" (
   "updated_by" integer
 );
 
+-- tabela para armazenar conteúdos extras da solicitacao
+CREATE TABLE demo."reg_solicitacao_atributo" (
+  "idreg_solicitacao_atributo" serial8 PRIMARY KEY NOT NULL ,
+  "fkreg_solicitacao" bigint NOT NULL,
+  "tp_solicitacao_atributo" smallint not null,
+  "tp_status" smallint not null,
+  "valor" jsonb not null,
+
+  --controle
+  "created_at" timestamp DEFAULT NOW(),
+  "created_by" integer,
+  "updated_at" timestamp DEFAULT NOW(),
+  "updated_by" integer
+);
+
 
 -- tabela que armaze as movimentacoes da solicitacao
 CREATE TABLE demo."reg_movimentacao" (
