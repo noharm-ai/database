@@ -37,6 +37,10 @@ GRANT SELECT ON ALL TABLES IN SCHEMA demo TO batch_reports_noharm;
 GRANT UPDATE ON demo.intervencao TO batch_reports_noharm;
 GRANT select, insert, update, delete on demo.outlier TO batch_reports_noharm;
 GRANT USAGE, SELECT ON SEQUENCE demo.outlier_idoutlier_seq TO batch_reports_noharm;
+GRANT update on demo.medicamento TO batch_reports_noharm;
+GRANT update on demo.medatributos TO batch_reports_noharm;
+GRANT insert on demo.medatributos_audit TO batch_reports_noharm;
+grant USAGE, SELECT ON SEQUENCE demo.medatributos_audit_idmedatributos_audit_seq to batch_reports_noharm;
 
 GRANT USAGE ON SCHEMA demo TO nifi_user;
 GRANT SELECT, UPDATE, INSERT, DELETE ON demo.prescricaoagg TO nifi_user;
