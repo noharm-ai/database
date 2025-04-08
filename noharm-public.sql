@@ -162,6 +162,18 @@ create table public."protocolo" (
 	"created_by" integer not null
 );
 
+CREATE TABLE public."tb_cid10" (
+	"co_cid10" int8 NOT NULL,
+	"nu_cid10" varchar(4) NOT NULL,
+	"tp_agravo" int8 NOT NULL,
+	"no_cid10" varchar(400) NOT NULL,
+	"no_cid10_filtro" varchar(400) NOT NULL,
+	"st_ativo" int4 NOT NULL,
+	"no_sexo" varchar(24) NULL,
+	"nu_cid10_filtro" varchar(255) NULL,
+	CONSTRAINT tb_cid10_pkey PRIMARY KEY ("co_cid10")
+);
+
 CREATE INDEX ON public."usuario_autorizacao" ("idusuario");
 
 CREATE UNIQUE INDEX ON public."substancia" ("sctid");
