@@ -307,6 +307,7 @@ CREATE TABLE demo."motivointervencao" (
   "suspensao" bool NOT NULL DEFAULT false,
   "substituicao" bool NOT NULL DEFAULT false,
   "economia_customizada" bool NOT NULL DEFAULT false,
+  "bloqueante" bool NOT NULL DEFAULT false,
   "tp_relacao" smallint NOT NULL DEFAULT 0
 );
 
