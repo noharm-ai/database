@@ -185,20 +185,22 @@ CREATE UNIQUE INDEX ON public."relacao" ("sctida", "sctidb", "tprelacao");
 */
 CREATE TYPE public.PARAMETRO_TYPE AS (nome_schema TEXT, skip_list TEXT [ ], features TEXT [ ]);
 
-CREATE TYPE public.PRESMED_RESULTADO_TYPE AS (
-  nratendimento BIGINT,
-  idsegmento int2,
-  idoutlier int4,
-  origem TEXT,
-  sonda BOOLEAN,
-  intravenosa BOOLEAN,
-  aprox BOOLEAN,
-  checado BOOLEAN,
-  frequenciadia float4,
-  doseconv float4,
-  escorefinal int2,
-  periodo int2,
-  cpoe_grupo int8
+CREATE TYPE public.presmed_resultado_type_v2 AS (
+	idsegmento int2,
+	idoutlier int4,
+	origem text,
+	sonda bool,
+	intravenosa bool,
+	aprox bool,
+	checado bool,
+	frequenciadia float4,
+	doseconv float4,
+	escorefinal int2,
+	periodo int2,
+	cpoe_grupo int8,
+	nratendimento int8,
+	alergia char(1),
+	extra jsonb
 );
 
 CREATE TYPE public.PRESCRICAOAGG_RESULTADO_TYPE AS (
@@ -221,12 +223,12 @@ CREATE TYPE public.PRESCRICAO_RESULTADO_TYPE AS (
 */
 
 CREATE
-OR REPLACE FUNCTION public.complete_presmed(
+OR REPLACE FUNCTION public.complete_presmed_v2(
   P_PARAMS public.PARAMETRO_TYPE,
   P_PRESMED_ORIGEM record
-) RETURNS public.PRESMED_RESULTADO_TYPE LANGUAGE plpgsql AS $function$
+) RETURNS public.PRESMED_RESULTADO_TYPE_V2 LANGUAGE plpgsql AS $function$
 DECLARE
-  PRESMED_RESULTADO public.PRESMED_RESULTADO_TYPE;
+  PRESMED_RESULTADO public.PRESMED_RESULTADO_TYPE_V2;
   V_DIVISOR float;
   V_USAPESO boolean;
   V_PESO float;
