@@ -68,6 +68,7 @@ INSERT INTO demo.memoria (tipo, valor, update_at, update_by) VALUES
 ('map-origin-drug', '["Medicamentos"]'::json, now(), 0),
 ('map-origin-solution', '["Solu\u00e7\u00f5es"]'::json, now(), 0),
 ('map-origin-procedure', '["Proced/Exames"]'::json, now(), 0),
+('map-origin-custom', '["Materiais"]'::json, now(), 0),
 ('map-origin-diet', '["Dietas"]'::json, now(), 0)
 on conflict do nothing;
 
