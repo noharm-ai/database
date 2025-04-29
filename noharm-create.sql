@@ -13,7 +13,8 @@ CREATE TABLE demo."exame" (
   "tpexame" varchar(100) NOT NULL,
   "resultado" float4 DEFAULT null,
   "unidade" varchar(250) DEFAULT NULL,
-  "created_at" timestamp NOT NULL DEFAULT NOW()
+  "created_at" timestamp NOT NULL DEFAULT NOW(),
+  "created_by" int4 DEFAULT NULL
 );
 
 CREATE TABLE demo."cultura_cabecalho" (
