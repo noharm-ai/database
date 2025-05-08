@@ -77,6 +77,7 @@ CREATE TABLE demo."intervencao" (
   "destino" jsonb null,
   "dt_base_economia" timestamp null,
   "dt_fim_economia" timestamp null,
+  "ram" jsonb null,
   "update_at" timestamp NOT NULL DEFAULT NOW(),
   "update_by" integer NOT NULL,
   "outcome_at" timestamp null,
@@ -309,7 +310,8 @@ CREATE TABLE demo."motivointervencao" (
   "substituicao" bool NOT NULL DEFAULT false,
   "economia_customizada" bool NOT NULL DEFAULT false,
   "bloqueante" bool NOT NULL DEFAULT false,
-  "tp_relacao" smallint NOT NULL DEFAULT 0
+  "tp_relacao" smallint NOT NULL DEFAULT 0,
+  "ram" bool NOT NULL DEFAULT false
 );
 
 COMMENT ON COLUMN demo.motivointervencao.tp_relacao IS '0: nao possui; 1: opcional; 2: obrigatorio';
