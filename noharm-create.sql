@@ -240,7 +240,8 @@ CREATE TABLE demo."presmed" (
   "cpoe_nrseq" bigint NULL,
   "cpoe_nrseq_anterior" bigint NULL,
   "form" json NULL,
-  "aprazamento" timestamp[][] NULL
+  "aprazamento" timestamp[][] NULL,
+  "nr_ordem" int4 NULL
 );
 
 create table demo."presmed_audit" (
