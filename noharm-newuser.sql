@@ -78,7 +78,7 @@ VALUES('getnameurl', '{"multiple":"http://localhost:5000/names","proxy":true,"va
 on conflict do nothing;
 
 UPDATE public.schema_config
-SET  configuracao='{"getname": {"url": "https://esus-priv.getname.noharm.ai:10443/demo/", "type": "proxy", "token": {"url": "noharm-internal", "params": {"client_id": "noharm-internal", "grant_type": "noharm-internal", "client_secret": "\'3mwi8x8nwntwgc675rba2bv\'"}}, "params": {"source": "demo"}, "urlDev": "https://esus.getname.noharm.ai:10443/demo/", "internal": true, "authPrefix": "Bearer "}}', 
+SET configuracao=$${"getname": {"url": "https://esus-priv.getname.noharm.ai:10443/demo/", "type": "proxy", "token": {"url": "noharm-internal", "params": {"client_id": "noharm-internal", "grant_type": "noharm-internal", "client_secret": "'3mwi8x8nwntwgc675rba2bv'"}}, "params": {"source": "demo"}, "urlDev": "https://esus.getname.noharm.ai:10443/demo/", "internal": true, "authPrefix": "Bearer "}}$$, 
 status=0
 WHERE schema_name='demo'
 
