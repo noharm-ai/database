@@ -46,6 +46,14 @@ GRANT SELECT, INSERT ON demo.prescricao_arquivo, demo.presmed_arquivo, demo.exam
 GRANT SELECT, DELETE ON demo.prescricao, demo.presmed, demo.exame TO nifi_user;
 GRANT INSERT, UPDATE ON demo.prescricao TO nifi_user;
 GRANT UPDATE ON demo.presmed TO nifi_user;
+GRANT SELECT, INSERT, UPDATE ON TABLE demo.nifi_queue TO nifi_user;
+GRANT SELECT, USAGE, UPDATE ON SEQUENCE demo.nifi_queue_idqueue_seq TO nifi_user;
+grant select, UPDATE ON TABLE demo.frequencia TO nifi_user;
+GRANT SELECT, UPDATE, INSERT ON demo.medicamento TO nifi_user;
+GRANT SELECT, UPDATE, INSERT ON demo.outlier TO nifi_user;
+GRANT SELECT, USAGE, UPDATE ON SEQUENCE demo.outlier_idoutlier_seq TO nifi_user;
+GRANT SELECT, UPDATE, INSERT ON demo.medatributos_audit TO nifi_user;
+GRANT SELECT, USAGE, UPDATE ON SEQUENCE demo.medatributos_audit_idmedatributos_audit_seq TO nifi_user;
 GRANT SELECT ON ALL TABLES IN SCHEMA demo TO nifi_user;
 
 GRANT USAGE ON SCHEMA hsc_test TO demo_user;
