@@ -78,6 +78,7 @@ CREATE TABLE demo."intervencao" (
   "dt_base_economia" timestamp null,
   "dt_fim_economia" timestamp null,
   "ram" jsonb null,
+  "periodo_uso" int4 null,
   "update_at" timestamp NOT NULL DEFAULT NOW(),
   "update_by" integer NOT NULL,
   "outcome_at" timestamp null,
