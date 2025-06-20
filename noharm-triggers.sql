@@ -53,20 +53,22 @@ BEGIN
       fkunidademedida, dose, frequenciadia, via, idsegmento, doseconv, idoutlier, escorefinal,
       origem, dtsuspensao, horario, complemento, aprox, checado, periodo,
       slagrupamento, slacm, sletapas, slhorafase, sltempoaplicacao, sldosagem, sltipodosagem, 
-      alergia, sonda, intravenosa, cpoe_grupo, cpoe_nrseq, cpoe_nrseq_anterior
+      alergia, sonda, intravenosa, cpoe_grupo, cpoe_nrseq, cpoe_nrseq_anterior, periodo_total
     )
     VALUES (
       NEW.fkprescricao, NEW.fkpresmed, NEW.fkfrequencia, NEW.fkmedicamento, 
       NEW.fkunidademedida, NEW.dose, NEW.frequenciadia, NEW.via, NEW.idsegmento, NEW.doseconv, NEW.idoutlier, NEW.escorefinal,
       NEW.origem, NEW.dtsuspensao, NEW.horario, NEW.complemento, NEW.aprox, NEW.checado, NEW.periodo,
       NEW.slagrupamento, NEW.slacm, NEW.sletapas, NEW.slhorafase, NEW.sltempoaplicacao, NEW.sldosagem, 
-      NEW.sltipodosagem, NEW.alergia, NEW.sonda, NEW.intravenosa, NEW.cpoe_grupo, NEW.cpoe_nrseq, NEW.cpoe_nrseq_anterior
+      NEW.sltipodosagem, NEW.alergia, NEW.sonda, NEW.intravenosa, NEW.cpoe_grupo, NEW.cpoe_nrseq, NEW.cpoe_nrseq_anterior,
+      NEW.periodo_total
     )
     ON CONFLICT (fkpresmed) 
     DO UPDATE SET 
       dtsuspensao = NEW.dtsuspensao,
       frequenciadia = NEW.frequenciadia,
       periodo = NEW.periodo,
+      periodo_total = NEW.periodo_total,
       checado = NEW.checado,
       idoutlier = NEW.idoutlier,
       doseconv = NEW.doseconv,
