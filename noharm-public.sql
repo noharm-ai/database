@@ -108,6 +108,7 @@ CREATE TABLE public.schema_config (
 	tp_noharm_care int2 NOT NULL DEFAULT 2,
 	status int4 NOT NULL DEFAULT 0,
   cpoe bool NOT NULL DEFAULT false,
+  integracao_retorno bool NOT NULL DEFAULT false,
 	updated_by int4 NULL,
 	CONSTRAINT schema_config_pkey PRIMARY KEY (schema_name)
 );
