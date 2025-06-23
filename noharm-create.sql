@@ -476,6 +476,7 @@ CREATE TABLE demo."nifi_queue" (
   "response" jsonb NULL,
   "extra" jsonb null,
   "create_at" timestamp DEFAULT now() NOT NULL,
+  "created_by" int4 NULL,
   "response_at" timestamp NULL
 );
 
