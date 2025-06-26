@@ -598,7 +598,7 @@ ALTER TABLE demo."alergia" ADD CONSTRAINT demo_alergia_uniq_const UNIQUE (fkpess
 
 CREATE OR REPLACE VIEW demo.usuario
   AS SELECT usuario.idusuario,
-    usuario.fkusuario, usuario.nome
+    usuario.fkusuario, usuario.nome, usuario.email, usuario.ativo
     FROM public.usuario
     WHERE usuario.schema = 'demo';
 
