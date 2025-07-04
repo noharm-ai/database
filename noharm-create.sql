@@ -558,7 +558,7 @@ CREATE INDEX demo_prescricao_nratendimento_idx ON demo."prescricao" ("nratendime
 CREATE INDEX demo_prescricao_dtprescricao_idx ON demo."prescricao" USING brin ("dtprescricao") WITH (pages_per_range='1');
 CREATE INDEX demo_prescricao_update_by_idx ON demo."prescricao" ("update_by");
 CREATE INDEX demo_prescricao_update_at_idx ON demo."prescricao" USING brin ("update_at") with (pages_per_range = 1);
-CREATE INDEX demo_prescricao_evolucao_at_idx ON demo."prescricao" USING brin ("evolucao_at") with (pages_per_range = 1);
+CREATE INDEX demo_prescricao_evolucao_at_idx ON demo."prescricao" ("evolucao_at");
 
 CREATE INDEX demo_prescricao_audit_fkprescricao_idx ON demo."prescricao_audit" ("fkprescricao");
 CREATE INDEX demo_prescricao_audit_created_at_idx ON demo."prescricao_audit" USING brin ("created_at") with (pages_per_range = 1);
