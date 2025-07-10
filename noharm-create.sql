@@ -454,14 +454,6 @@ CREATE TABLE demo."alergia" (
   "updated_by" integer DEFAULT 0
 );
 
-CREATE TABLE demo."nifi_status" (
-  "idnifi_status" smallint PRIMARY KEY DEFAULT 1,
-  "nifi_status" jsonb NULL,
-  "nifi_template" jsonb NULL,
-  "nifi_diagnostics" jsonb NULL,
-  "updated_at" timestamp NOT NULL DEFAULT now()
-);
-
 CREATE TABLE demo."nifi_queue" (
   "idqueue" serial4 PRIMARY KEY NOT NULL,
   "url" varchar(300) NOT NULL,
