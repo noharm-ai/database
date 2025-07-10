@@ -1,5 +1,3 @@
-DROP SCHEMA IF EXISTS demo CASCADE;
-
 CREATE SCHEMA demo;
 GRANT ALL ON SCHEMA demo TO postgres;
 
@@ -569,7 +567,6 @@ CREATE INDEX demo_pessoa_alertadata_idx ON demo."pessoa" USING brin ("alertadata
 CREATE INDEX demo_pessoa_dtnascimento_idx ON demo."pessoa" USING brin ("dtnascimento") with (pages_per_range = 1);
 
 CREATE INDEX demo_presmed_fkmedicamento_idx ON demo."presmed" ("fkmedicamento", "idsegmento");
--- CREATE INDEX demo_presmed_cpoe_nrseq_idx ON demo."presmed" ("cpoe_nrseq"); -- CPOE opcional
 CREATE INDEX demo_presmed_fkprescricao_idx ON demo."presmed" ("fkprescricao");
 CREATE INDEX demo_presmed_slagrupamento_idx ON demo."presmed" USING brin ("slagrupamento") with (pages_per_range = 1);
 
@@ -613,7 +610,3 @@ CREATE TABLE IF NOT EXISTS demo.exame_arquivo
 
 CREATE TABLE IF NOT EXISTS demo.evolucao_arquivo
     (LIKE demo.evolucao EXCLUDING INDEXES);
-
-INSERT INTO demo.nifi_queue
-(idqueue, url, "method", body, run_status)
-VALUES(nextval('demo.nifi_queue_idqueue_seq'::regclass), 'nifi-api/system-diagnostics', 'GET', '{"state": "RUN_ONCE"}'::jsonb, true);

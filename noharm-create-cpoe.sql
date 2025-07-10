@@ -1,0 +1,1 @@
+CREATE INDEX demo_presmed_cpoe_nrseq_idx ON demo."presmed" ("cpoe_nrseq");
