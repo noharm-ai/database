@@ -315,8 +315,6 @@ CREATE TABLE demo."motivointervencao" (
   "ram" bool NOT NULL DEFAULT false
 );
 
-COMMENT ON COLUMN demo.motivointervencao.tp_relacao IS '0: nao possui; 1: opcional; 2: obrigatorio';
-
 CREATE TABLE demo."frequencia" (
   "fkhospital" smallint DEFAULT 1,
   "fkfrequencia" varchar(32) NOT NULL,
