@@ -97,6 +97,7 @@ CREATE TABLE public.classe (
 CREATE TABLE public.schema_config (
 	schema_name varchar(200) NOT NULL,
 	updated_at timestamp NULL,
+  created_by int4 NULL,
 	created_at timestamp NOT NULL,
 	fl1_atualiza_indicadores_cpoe bool NOT NULL DEFAULT false,
 	fl2_atualiza_indicadores_prescricao bool NOT NULL DEFAULT false,
