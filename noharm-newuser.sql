@@ -1,3 +1,5 @@
+-- usar somente para testes automatizados
+
 --> Quando for PEC, não criar user individual, comentar as três primeiras linhas e alterar demo_user para pec_user, criar apenas schema (sem getname, logstream, fila sqs). Comentar linhas 14, 15, 68-70 (getname).
 CREATE USER demo_user WITH PASSWORD 'demo_user' CONNECTION LIMIT 10;
 ALTER ROLE demo_user SET statement_timeout = 10000;
