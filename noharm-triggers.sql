@@ -106,8 +106,7 @@ BEGIN
     IF pg_trigger_depth() = 1 then
       -- DEFINIR PARAMETROS
       V_PARAMETRO.nome_schema = 'demo';
-      V_PARAMETRO.features = ARRAY[]::text[];
-      --V_PARAMETRO.features = ARRAY['CPOE']::text[];
+      V_PARAMETRO.features = ARRAY['COMPLETE_PRESCRICAO_FEATURES_REPLACE']::text[];
       V_PARAMETRO.skip_list = ARRAY[]::text[];
       
       -- FUNCAO CENTRAL
@@ -169,8 +168,7 @@ begin
 
     -- DEFINIR PARAMETROS
     V_PARAMETRO.nome_schema = 'demo';
-    V_PARAMETRO.features = ARRAY[]::text[];
-    --V_PARAMETRO.features = ARRAY['CPOE']::text[];
+    V_PARAMETRO.features = ARRAY['COMPLETE_PRESCRICAOAGG_FEATURES_REPLACE']::text[];
     V_PARAMETRO.skip_list = ARRAY[]::text[];
     
     -- FUNCAO CENTRAL
@@ -242,8 +240,7 @@ declare
 BEGIN
   -- DEFINIR PARAMETROS
   V_PARAMETRO.nome_schema = 'demo';
-  V_PARAMETRO.features = ARRAY[]::text[];
-  --V_PARAMETRO.features = ARRAY['CPOE']::text[];
+  V_PARAMETRO.features = ARRAY['ATUALIZA_PRESCRICAO_FEATURES_REPLACE']::text[];
   V_PARAMETRO.skip_list = ARRAY[]::text[];
   
   -- FUNCAO CENTRAL
