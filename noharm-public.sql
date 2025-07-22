@@ -114,6 +114,15 @@ CREATE TABLE public.schema_config (
 	CONSTRAINT schema_config_pkey PRIMARY KEY (schema_name)
 );
 
+create table public."schema_config_audit" (
+	"idschema_config_audit" serial8 not null,
+  "schema_name" varchar(200) not null,
+	"tp_audit" smallint not null,
+	"extra" json,
+	"created_at" timestamp not null,
+	"created_by" integer not null
+);
+
 create table public."fila_processamento" (
 	"idfila_processamento" bigserial PRIMARY KEY NOT NULL,
 	"schema_name" varchar(200) not null,

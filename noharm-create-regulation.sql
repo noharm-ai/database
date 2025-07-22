@@ -16,7 +16,7 @@ CREATE TABLE demo."reg_solicitacao" (
   "justificativa" text,
 
   -- extra interno
-  "etapa" smallint not null,
+  "etapa" smallint not null default 0,
   "dtagendamento" timestamp,
   "dttransporte" timestamp,
 
