@@ -135,6 +135,9 @@ CREATE TABLE demo."pessoa" (
   "medico_responsavel" varchar(255) NULL,
   "dt_alta_prevista" timestamp default null,
   "idcid" varchar(50) default NULL,
+  "fksetor" int4 default NULL,
+  "leito" varchar(32) default null,
+  "dt_ultima_transferencia" timestamp default null,
   "update_at" timestamp DEFAULT NULL,
   "update_by" integer DEFAULT NULL,
   PRIMARY KEY ("nratendimento")
