@@ -70,7 +70,7 @@ INSERT INTO demo.hospital (fkhospital, nome) VALUES
 						(1, 'Hospital Demonstração');
 
 INSERT INTO demo.memoria (tipo, valor, update_by) VALUES
-            ('features','["INTERVENTION_V2"]', 0);
+            ('features','["AUTHORIZATION_SEGMENT"]', 0);
 
 INSERT INTO demo.setor (fksetor, nome) VALUES
 						(1, 'Setor Adulto 1'),
