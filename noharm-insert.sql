@@ -60,7 +60,8 @@ INSERT INTO public.usuario (nome,email,senha,schema,config) VALUES
             ('E2E Test','e2e@e2e.com',crypt('e2etest', gen_salt('bf',8)),'demo','{"roles":["PRESCRIPTION_ANALYST", "USER_MANAGER", "CONFIG_MANAGER", "staging"], "features": [ "STAGING_ACCESS"]}');
 
 INSERT INTO public.usuario_autorizacao (idusuario,idsegmento,created_at,created_by) VALUES 
-						((select idusuario from public.usuario where email = 'demo'), 1, now(), 0);
+						((select idusuario from public.usuario where email = 'demo'), 1, now(), 0),
+            ((select idusuario from public.usuario where email = 'e2e@e2e.com'), 1, now(), 0);
 
 INSERT INTO public.usuario_extra (idusuario, config, created_at, created_by) VALUES
             ((select idusuario from public.usuario where email = 'organizationmanager'), '{"roles":["ORGANIZATION_MANAGER"], "schemas": [{"name": "demo", "friendlyName": "Hospital Demo"}, {"name": "teste", "friendlyName": "Hospital Teste"}]}' , now(), 0),
