@@ -539,8 +539,9 @@ BEGIN
         select
           prescricao.dtprescricao::date dtinicial, 
           case 
-            when coalesce(max(presmed.dtsuspensao)::date,  max(prescricao.dtvigencia)::date) > now()::date then now()::date
-            else coalesce(max(presmed.dtsuspensao)::date,  max(prescricao.dtvigencia)::date)
+            when count(presmed.dtsuspensao) = count(prescricao.dtprescricao) then max(presmed.dtsuspensao)::date -- somente quando todos estao suspensos
+            when max(prescricao.dtvigencia)::date > now()::date then now()::date
+            else max(prescricao.dtvigencia)::date
           end as dtfinal
         FROM 
           presmed 
