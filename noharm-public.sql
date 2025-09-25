@@ -107,6 +107,7 @@ CREATE TABLE public.schema_config (
   fl5_score_med_novos bool NOT NULL DEFAULT false,
 	configuracao jsonb NULL,
 	tp_noharm_care int2 NOT NULL DEFAULT 2,
+  tp_prescalc int2 NOT NULL DEFAULT 0,
 	status int4 NOT NULL DEFAULT 0,
   cpoe bool NOT NULL DEFAULT false,
   integracao_retorno bool NOT NULL DEFAULT false,
