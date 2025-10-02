@@ -22,7 +22,8 @@ CREATE TABLE teste."segmento" (
   "nome" varchar(250) NOT NULL,
   "status" smallint DEFAULT NULL,
   "tp_segmento" smallint,
-  "cpoe" boolean not null default false
+  "cpoe" boolean not null default false,
+  "cpoe_ambulatorio" boolean not null default false
 );
 
 
