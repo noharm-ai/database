@@ -522,6 +522,11 @@ create table demo."marcador" (
 	CONSTRAINT tag_pkey PRIMARY KEY (nome, tp_marcador)
 );
 
+CREATE TABLE demo.cache_atendimento_ativo (
+    "nratendimento" int8,
+    "cached_at" TIMESTAMP DEFAULT now()
+);
+
 CREATE INDEX demo_checkedindex_idx ON demo.checkedindex ("nratendimento","fkmedicamento");
 
 CREATE UNIQUE INDEX demo_intervencao_unique ON demo."intervencao" ("idintervencao");
