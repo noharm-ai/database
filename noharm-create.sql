@@ -237,6 +237,7 @@ CREATE TABLE demo."presmed" (
   "checado" boolean  DEFAULT NULL,
   "periodo" int2  DEFAULT NULL,
   "periodo_total" int2  DEFAULT NULL,
+  "tp_periodo" int2 DEFAULT NULL,
   "update_at" timestamp DEFAULT NOW(),
   "update_by" integer,
   "cpoe_grupo" bigint NULL,

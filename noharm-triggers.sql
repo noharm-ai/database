@@ -41,6 +41,9 @@ BEGIN
 		new.checado := PRESMED_RESULTADO.checado;
 		if new.periodo is null then 	-- com esse if, usa o período do pep quando disponível
 			new.periodo := PRESMED_RESULTADO.periodo;
+      new.tp_periodo := 1;
+    ELSE
+      new.tp_periodo := 2;
 		end if;
 		new.frequenciadia := PRESMED_RESULTADO.frequenciadia;
 		new.doseconv := PRESMED_RESULTADO.doseconv;
@@ -52,7 +55,8 @@ BEGIN
       fkunidademedida, dose, frequenciadia, via, idsegmento, doseconv, idoutlier, escorefinal,
       origem, dtsuspensao, horario, complemento, aprox, checado, periodo,
       slagrupamento, slacm, sletapas, slhorafase, sltempoaplicacao, sldosagem, sltipodosagem, 
-      alergia, sonda, intravenosa, cpoe_grupo, cpoe_nrseq, cpoe_nrseq_anterior, periodo_total
+      alergia, sonda, intravenosa, cpoe_grupo, cpoe_nrseq, cpoe_nrseq_anterior, periodo_total,
+      tp_periodo
     )
     VALUES (
       NEW.fkprescricao, NEW.fkpresmed, NEW.fkfrequencia, NEW.fkmedicamento, 
@@ -60,7 +64,7 @@ BEGIN
       NEW.origem, NEW.dtsuspensao, NEW.horario, NEW.complemento, NEW.aprox, NEW.checado, NEW.periodo,
       NEW.slagrupamento, NEW.slacm, NEW.sletapas, NEW.slhorafase, NEW.sltempoaplicacao, NEW.sldosagem, 
       NEW.sltipodosagem, NEW.alergia, NEW.sonda, NEW.intravenosa, NEW.cpoe_grupo, NEW.cpoe_nrseq, NEW.cpoe_nrseq_anterior,
-      NEW.periodo_total
+      NEW.periodo_total, NEW.tp_periodo
     )
     ON CONFLICT (fkpresmed) 
     DO UPDATE SET 
