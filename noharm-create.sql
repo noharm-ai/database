@@ -194,7 +194,7 @@ CREATE TABLE demo."prescricaoagg" (
   "idsegmento" smallint DEFAULT null,
   "fkmedicamento" bigint NOT NULL,
   "fkunidademedida" varchar(32) DEFAULT NULL,
-  "fkfrequencia" varchar(32) DEFAULT NULL,
+  "fkfrequencia" varchar(64) DEFAULT NULL,
   "dose" float4 DEFAULT NULL,
   "doseconv" float4 DEFAULT NULL,
   "frequenciadia" float4 DEFAULT NULL,
@@ -209,7 +209,7 @@ CREATE TABLE demo."presmed" (
   "fkprescricao" bigint NOT NULL,
   "fkmedicamento" bigint NOT NULL,
   "fkunidademedida" varchar(32) DEFAULT NULL,
-  "fkfrequencia" varchar(32) DEFAULT NULL,
+  "fkfrequencia" varchar(64) DEFAULT NULL,
   "idsegmento" smallint DEFAULT NULL,
   "idoutlier" integer DEFAULT NULL,
   "dose" float4 DEFAULT NULL,
@@ -321,7 +321,7 @@ CREATE TABLE demo."motivointervencao" (
 
 CREATE TABLE demo."frequencia" (
   "fkhospital" smallint DEFAULT 1,
-  "fkfrequencia" varchar(32) NOT NULL,
+  "fkfrequencia" varchar(64) NOT NULL,
   "nome" varchar(250) NOT NULL,
   "frequenciadia" float4 DEFAULT NULL,
   "frequenciahora" float4 DEFAULT NULL,
