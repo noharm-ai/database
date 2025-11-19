@@ -168,7 +168,8 @@ CREATE TABLE demo."prescricao" (
   "tp_revisao" smallint default 0,
   "update_at" timestamp DEFAULT NOW(),
   "update_by" integer,
-  "dtcriacao_origem" timestamp default null
+  "dtcriacao_origem" timestamp default null,
+  "idtipoevolucao" varchar(50) NULL
 );
 
 create table demo."prescricao_audit" (
@@ -526,6 +527,17 @@ create table demo."marcador" (
 CREATE TABLE demo.cache_atendimento_ativo (
     "nratendimento" int8,
     "cached_at" TIMESTAMP DEFAULT now()
+);
+
+create table demo."tipoevolucao" (
+	"idtipoevolucao" varchar(50) not null,
+	"nome" varchar(150) not null,
+	"ativo" boolean not null,
+	"updated_at" timestamp null,
+	"updated_by" integer null,
+	"created_at" timestamp not null,
+	"created_by" integer not null,
+	CONSTRAINT tipoevolucao_pkey PRIMARY KEY (idtipoevolucao)
 );
 
 CREATE INDEX demo_checkedindex_idx ON demo.checkedindex ("nratendimento","fkmedicamento");
