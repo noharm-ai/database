@@ -616,8 +616,14 @@ CREATE OR REPLACE VIEW demo.usuario
 CREATE TABLE IF NOT EXISTS demo.presmed_arquivo
     (LIKE demo.presmed EXCLUDING INDEXES);
 
+CREATE TABLE IF NOT EXISTS demo.presmed_audit_arquivo
+    (LIKE demo.presmed_audit EXCLUDING INDEXES);
+
 CREATE TABLE IF NOT EXISTS demo.prescricao_arquivo
     (LIKE demo.prescricao EXCLUDING INDEXES);
+
+CREATE TABLE IF NOT EXISTS demo.prescricao_audit_arquivo
+    (LIKE demo.prescricao_audit EXCLUDING INDEXES);
 
 CREATE TABLE IF NOT EXISTS demo.exame_arquivo
     (LIKE demo.exame EXCLUDING INDEXES);
