@@ -599,6 +599,31 @@ BEGIN
     );
   end if;
 
+  /**
+  * VERIFICA ALERGIA
+  */
+  if 'ALERGIA' = any(coalesce(P_PARAMS.features, array[]::text[])) then
+    if exists (
+      SELECT 
+        1 
+      FROM 
+        alergia a
+        inner join medicamento m on a.fkmedicamento = m.fkmedicamento 
+      WHERE 
+        (
+          m.fkmedicamento = P_PRESMED_ORIGEM.fkmedicamento 
+          or m.sctid = (select sctid from medicamento where fkmedicamento = P_PRESMED_ORIGEM.fkmedicamento)
+        )
+        AND a.fkpessoa = V_PRESCRICAO.fkpessoa
+        and a.ativo = true
+      LIMIT 1
+    ) then
+      PRESMED_RESULTADO.alergia = 'S';
+    else
+      PRESMED_RESULTADO.alergia = 'N';
+    end if;
+  end if;
+
   if 'CPOE' = any(coalesce(P_PARAMS.features, array[]::text[])) then
     if P_PRESMED_ORIGEM.cpoe_nrseq_anterior is null then
       PRESMED_RESULTADO.cpoe_grupo := P_PRESMED_ORIGEM.cpoe_nrseq;
