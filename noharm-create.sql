@@ -16,7 +16,7 @@ CREATE TABLE demo."exame" (
 );
 
 CREATE TABLE demo."cultura_cabecalho" (
-  "idculturacab" serial4 NOT NULL,  
+  "idculturacab" serial4 NOT NULL,
   "fkpessoa" bigint NOT NULL,
   "fksetor" int4 null,
   "nratendimento" bigint DEFAULT null,
@@ -37,7 +37,7 @@ CREATE TABLE demo."cultura_cabecalho" (
 );
 
 CREATE TABLE demo.cultura (
-  "idcultura" serial4 NOT NULL,  
+  "idcultura" serial4 NOT NULL,
   "fkexame" bigint NOT NULL,
   "fkitemexame" bigint NOT NULL,
   "fkmedicamento" int8 NULL,
@@ -180,7 +180,7 @@ create table demo."prescricao_audit" (
 	"dtprescricao" timestamp not null,
 	"fksetor" integer not null,
 	"total_itens" integer not null,
-	"agregada" boolean, 
+	"agregada" boolean,
 	"concilia" char(1),
 	"idsegmento" smallint,
 	"leito" varchar(16),
@@ -263,13 +263,13 @@ CREATE TABLE demo."medicamento" (
   "fkmedicamento" bigint NOT NULL,
   "nome" varchar(250) NOT NULL,
   "sctid" bigint DEFAULT NULL,
-  "ia_acuracia" float4 null, 
+  "ia_acuracia" float4 null,
   "origem" varchar(13) DEFAULT NULL,
   "created_by" int4 null,
   "updated_by" int4 null,
   "created_at" timestamp NOT NULL DEFAULT now(),
   "updated_at" timestamp null,
-  PRIMARY KEY ("fkhospital", "fkmedicamento")
+  PRIMARY KEY ("fkmedicamento")
 );
 
 CREATE TABLE demo."medatributos" (
@@ -298,7 +298,7 @@ CREATE TABLE demo."medatributos" (
   "risco_queda" smallint,
   "dialisavel" boolean,
   "lactante" varchar(1),
-  "gestante" varchar(1), 
+  "gestante" varchar(1),
   "jejum" boolean,
   "ref_dosemaxima" float4,
   "ref_dosemaxima_peso" float4,
@@ -358,11 +358,11 @@ CREATE TABLE demo."segmentoexame" (
   "idsegmento" smallint NOT NULL,
   "tpexame" varchar(100) NOT NULL,
   "abrev" varchar(50),
-  "nome" varchar(250), 
+  "nome" varchar(250),
   "min" float4,
-  "max" float4, 
-  "referencia" varchar(250), 
-  "posicao" smallint, 
+  "max" float4,
+  "referencia" varchar(250),
+  "posicao" smallint,
   "ativo" boolean,
   "update_at" timestamp NOT NULL DEFAULT NOW(),
   "update_by" integer NOT NULL,
