@@ -540,6 +540,23 @@ create table demo."tipoevolucao" (
 	CONSTRAINT tipoevolucao_pkey PRIMARY KEY (idtipoevolucao)
 );
 
+create table demo."relatorio" (
+	"idrelatorio" bigserial PRIMARY KEY NOT NULL,
+	"nome" varchar(150) not null,
+	"descricao" varchar(250) not null,
+	"tp_relatorio" int4 not null,
+	"sql" text not null,
+	"ativo" boolean not null,
+	"tp_status" int4 not null,
+	"erro" text null,
+	"processed_at" timestamp null,
+	"processed_by" integer null,
+	"updated_at" timestamp null,
+	"updated_by" integer null,
+	"created_at" timestamp not null,
+	"created_by" integer not null
+);
+
 CREATE INDEX demo_checkedindex_idx ON demo.checkedindex ("nratendimento","fkmedicamento");
 
 CREATE UNIQUE INDEX demo_intervencao_unique ON demo."intervencao" ("idintervencao");
