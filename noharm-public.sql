@@ -679,7 +679,7 @@ BEGIN
 					prescricao p
 				set
 					status = '0',
-					update_at = now()
+					update_at = now() AT TIME ZONE 'America/Sao_Paulo'
 				where
 					fkprescricao = V_FK_PRESCRICAO_AGG;
 
@@ -694,7 +694,7 @@ BEGIN
 				)
 				values (
 					2, V_PRESCRICAO.nratendimento, V_FK_PRESCRICAO_AGG, V_PRESCRICAO.dtprescricao, V_PRESCRICAO.fksetor,
-					0, true, V_PRESCRICAO.concilia, V_PRESCRICAO.idsegmento, V_PRESCRICAO.leito, now(),
+					0, true, V_PRESCRICAO.concilia, V_PRESCRICAO.idsegmento, V_PRESCRICAO.leito, now() AT TIME ZONE 'America/Sao_Paulo',
 					0,'{"source": "trigger public.complete_presmed"}'
 				);
 			end if;
@@ -707,7 +707,7 @@ BEGIN
     insert into presmed_audit
       (tp_audit, fkpresmed, created_at, created_by, extra)
       values
-	  (2, P_PRESMED_ORIGEM.fkpresmed, now(), 0, jsonb_build_object('checado_anteriormente', PRESMED_RESULTADO.checado,'periodo_calculado', PRESMED_RESULTADO.periodo));
+	  (2, P_PRESMED_ORIGEM.fkpresmed, now() AT TIME ZONE 'America/Sao_Paulo', 0, jsonb_build_object('checado_anteriormente', PRESMED_RESULTADO.checado,'periodo_calculado', PRESMED_RESULTADO.periodo));
   end if;
 
   RESET search_path;
@@ -764,7 +764,7 @@ BEGIN
 		UPDATE
 	      prescricao p
 	    set
-	      update_at = now()
+	      update_at = now() AT TIME ZONE 'America/Sao_Paulo'
 	    where
 	      nratendimento = P_ORIGEM.nratendimento
 	      and (
@@ -781,7 +781,7 @@ BEGIN
 	      aggsetor = array_append(aggsetor, P_ORIGEM.fksetor),
 	      fksetor = P_ORIGEM.fksetor,
 	      leito = P_ORIGEM.leito,
-	      update_at = now()
+	      update_at = now() AT TIME ZONE 'America/Sao_Paulo'
 	    where
 	      nratendimento = P_ORIGEM.nratendimento
 	      and (
