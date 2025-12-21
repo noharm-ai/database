@@ -11,7 +11,7 @@ CREATE TABLE demo."exame" (
   "tpexame" varchar(100) NOT NULL,
   "resultado" float4 DEFAULT null,
   "unidade" varchar(250) DEFAULT NULL,
-  "created_at" timestamp NOT NULL DEFAULT NOW(),
+  "created_at" timestamp NOT NULL DEFAULT (now() AT TIME ZONE 'America/Sao_Paulo'::text),
   "created_by" int4 DEFAULT NULL
 );
 
@@ -59,7 +59,7 @@ CREATE TABLE demo."intervencao" (
   "fksetor" integer DEFAULT null,
   "idmotivointervencao" smallint [] NULL,
   "erro" boolean NULL,
-  "dtintervencao" timestamp NOT NULL DEFAULT NOW(),
+  "dtintervencao" timestamp NOT NULL DEFAULT (now() AT TIME ZONE 'America/Sao_Paulo'::text),
   "interacoes" bigint [] NULL,
   "custo" boolean NULL,
   "observacao" text NULL,
@@ -77,7 +77,7 @@ CREATE TABLE demo."intervencao" (
   "dt_fim_economia" timestamp null,
   "ram" jsonb null,
   "periodo_uso" int4 null,
-  "update_at" timestamp NOT NULL DEFAULT NOW(),
+  "update_at" timestamp NOT NULL DEFAULT (now() AT TIME ZONE 'America/Sao_Paulo'::text),
   "update_by" integer NOT NULL,
   "outcome_at" timestamp null,
   "outcome_by" integer null
@@ -92,7 +92,7 @@ CREATE TABLE demo."outlier" (
   "frequenciadia" float4 DEFAULT NULL,
   "escore" smallint DEFAULT NULL,
   "escoremanual" smallint DEFAULT NULL,
-  "update_at" timestamp DEFAULT NOW(),
+  "update_at" timestamp DEFAULT (now() AT TIME ZONE 'America/Sao_Paulo'::text),
   "update_by" integer
 );
 
@@ -105,7 +105,7 @@ CREATE TABLE demo."observacao" (
   "doseconv" float4 DEFAULT NULL,
   "frequenciadia" float4 DEFAULT NULL,
   "text" text DEFAULT NULL,
-  "update_at" timestamp DEFAULT NOW(),
+  "update_at" timestamp DEFAULT (now() AT TIME ZONE 'America/Sao_Paulo'::text),
   "update_by" integer
 );
 
@@ -166,7 +166,7 @@ CREATE TABLE demo."prescricao" (
   "concilia" char(1) DEFAULT NULL,
   "convenio" varchar(100) NULL,
   "tp_revisao" smallint default 0,
-  "update_at" timestamp DEFAULT NOW(),
+  "update_at" timestamp DEFAULT (now() AT TIME ZONE 'America/Sao_Paulo'::text),
   "update_by" integer,
   "dtcriacao_origem" timestamp default null,
   "idtipoevolucao" varchar(50) NULL
@@ -201,7 +201,7 @@ CREATE TABLE demo."prescricaoagg" (
   "frequenciadia" float4 DEFAULT NULL,
   "peso" float4 DEFAULT NULL,
   "contagem" integer DEFAULT NULL,
-  "created_at" timestamp not null default now(),
+  "created_at" timestamp not null default (now() AT TIME ZONE 'America/Sao_Paulo'::text),
   "updated_at" timestamp null
 );
 
@@ -239,7 +239,7 @@ CREATE TABLE demo."presmed" (
   "periodo" int2  DEFAULT NULL,
   "periodo_total" int2  DEFAULT NULL,
   "tp_periodo" int2 DEFAULT NULL,
-  "update_at" timestamp DEFAULT NOW(),
+  "update_at" timestamp DEFAULT (now() AT TIME ZONE 'America/Sao_Paulo'::text),
   "update_by" integer,
   "cpoe_grupo" bigint NULL,
   "cpoe_nrseq" bigint NULL,
@@ -267,7 +267,7 @@ CREATE TABLE demo."medicamento" (
   "origem" varchar(13) DEFAULT NULL,
   "created_by" int4 null,
   "updated_by" int4 null,
-  "created_at" timestamp NOT NULL DEFAULT now(),
+  "created_at" timestamp NOT NULL DEFAULT (now() AT TIME ZONE 'America/Sao_Paulo'::text),
   "updated_at" timestamp null,
   PRIMARY KEY ("fkmedicamento")
 );
@@ -364,7 +364,7 @@ CREATE TABLE demo."segmentoexame" (
   "referencia" varchar(250),
   "posicao" smallint,
   "ativo" boolean,
-  "update_at" timestamp NOT NULL DEFAULT NOW(),
+  "update_at" timestamp NOT NULL DEFAULT (now() AT TIME ZONE 'America/Sao_Paulo'::text),
   "update_by" integer NOT NULL,
   PRIMARY KEY ("idsegmento", "tpexame")
 );
@@ -391,7 +391,7 @@ CREATE TABLE demo."memoria" (
   "idmemoria" SERIAL NOT NULL,
   "tipo" varchar(100) NOT NULL,
   "valor" json NOT NULL,
-  "update_at" timestamp NOT NULL DEFAULT NOW(),
+  "update_at" timestamp NOT NULL DEFAULT (now() AT TIME ZONE 'America/Sao_Paulo'::text),
   "update_by" integer NOT NULL,
   PRIMARY KEY ("idmemoria", "tipo")
 );
@@ -429,7 +429,7 @@ CREATE TABLE demo."evolucao" (
   "review_at" timestamp NULL,
   "review_by" integer NULL,
   "anotacoes" jsonb NULL,
-  "created_at" timestamp NOT NULL DEFAULT NOW()
+  "created_at" timestamp NOT NULL DEFAULT (now() AT TIME ZONE 'America/Sao_Paulo'::text)
 );
 
 CREATE TABLE demo.checkedindex (
@@ -456,9 +456,9 @@ CREATE TABLE demo."alergia" (
   "fkmedicamento" bigint DEFAULT null,
   "nome_medicamento" varchar(250) DEFAULT NULL,
   "ativo" boolean DEFAULT true,
-  "created_at" timestamp NOT NULL DEFAULT now(),
+  "created_at" timestamp NOT NULL DEFAULT (now() AT TIME ZONE 'America/Sao_Paulo'::text),
   "created_by" integer NOT NULL,
-  "updated_at" timestamp DEFAULT now(),
+  "updated_at" timestamp DEFAULT (now() AT TIME ZONE 'America/Sao_Paulo'::text),
   "updated_by" integer DEFAULT 0
 );
 
@@ -471,7 +471,7 @@ CREATE TABLE demo."nifi_queue" (
   "response_code" int4 NULL,
   "response" jsonb NULL,
   "extra" jsonb null,
-  "create_at" timestamp DEFAULT now() NOT NULL,
+  "create_at" timestamp DEFAULT (now() AT TIME ZONE 'America/Sao_Paulo'::text) NOT NULL,
   "created_by" int4 NULL,
   "response_at" timestamp NULL
 );
@@ -526,7 +526,7 @@ create table demo."marcador" (
 
 CREATE TABLE demo.cache_atendimento_ativo (
     "nratendimento" int8,
-    "cached_at" TIMESTAMP DEFAULT now()
+    "cached_at" TIMESTAMP DEFAULT (now() AT TIME ZONE 'America/Sao_Paulo'::text)
 );
 
 create table demo."tipoevolucao" (
