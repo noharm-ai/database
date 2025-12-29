@@ -52,7 +52,7 @@ CREATE EXTENSION IF NOT EXISTS pgcrypto;
 INSERT INTO public.schema_config (schema_name, created_at) VALUES
             ('demo', now()), ('teste', now());
 
-INSERT INTO public.usuario (nome,email,senha,schema,config) VALUES 
+INSERT INTO public.usuario (nome,email,senha,schema,config) VALUES
 						('Demonstração','demo',crypt('demo', gen_salt('bf',8)) ,'demo','{"roles":["PRESCRIPTION_ANALYST", "USER_MANAGER", "CONFIG_MANAGER", "suporte"], "features": [ "STAGING_ACCESS"]}'),
 						('User Admin','user@admin.com',crypt('useradmin', gen_salt('bf',8)) ,'demo','{"roles":[], "features": [ "STAGING_ACCESS"]}'),
 						('Não Admin','noadmin',crypt('noadmin', gen_salt('bf',8)),'demo','{"roles":["PRESCRIPTION_ANALYST", "USER_MANAGER", "CONFIG_MANAGER","staging"], "features": [ "STAGING_ACCESS"]}'),
@@ -61,8 +61,9 @@ INSERT INTO public.usuario (nome,email,senha,schema,config) VALUES
             ('Invalid User 2','invaliduser2',crypt('invaliduser2', gen_salt('bf',8)),'demo','{"roles":["VIEWER"], "schemas": [{"name": "demo", "friendlyName": "Hospital Demo"}], "features": [ "STAGING_ACCESS"]}'),
             ('E2E Test','e2e@e2e.com',crypt('e2etest', gen_salt('bf',8)),'demo','{"roles":["PRESCRIPTION_ANALYST", "USER_MANAGER", "CONFIG_MANAGER", "staging"], "features": [ "STAGING_ACCESS"]}');
 
-INSERT INTO public.usuario_autorizacao (idusuario,idsegmento,created_at,created_by) VALUES 
+INSERT INTO public.usuario_autorizacao (idusuario,idsegmento,created_at,created_by) VALUES
 						((select idusuario from public.usuario where email = 'demo'), 1, now(), 0),
+						((select idusuario from public.usuario where email = 'demo'), 2, now(), 0),
             ((select idusuario from public.usuario where email = 'e2e@e2e.com'), 1, now(), 0);
 
 INSERT INTO public.usuario_extra (idusuario, config, created_at, created_by) VALUES
@@ -78,7 +79,7 @@ INSERT INTO demo.memoria (tipo, valor, update_by) VALUES
 INSERT INTO demo.setor (fksetor, nome) VALUES
 						(1, 'Setor Adulto 1'),
 						(2, 'Setor Adulto 2'),
-						(3, 'Setor Adulto 3'),
+						(3, 'Setor Adulto CPOE 3'),
 						(4, 'Setor Pediatrico 1'),
 						(5, 'Setor Pediatrico 2'),
 						(6, 'Setor Pediatrico 3'),
@@ -86,13 +87,14 @@ INSERT INTO demo.setor (fksetor, nome) VALUES
 						(8, 'Setor NeoNatal 2'),
 						(9, 'Setor NeoNatal 3');
 
-INSERT INTO demo.segmento (nome) VALUES
-						('Segmento Adulto');
+INSERT INTO demo.segmento (nome, tp_segmento, cpoe) VALUES
+						('Segmento Adulto', 1, false),
+						('Segmento Adulto CPOE', 1, true);
 
 INSERT INTO demo.segmentosetor (idsegmento, fkhospital, fksetor) VALUES
 								(1,1,1),
 								(1,1,2),
-								(1,1,3);
+								(2,1,3);
 
 INSERT INTO demo.unidademedida (fkunidademedida, nome) VALUES
 							(1, 'mg'),
@@ -109,7 +111,7 @@ INSERT INTO demo.frequencia (fkfrequencia, nome, frequenciadia) VALUES
 							(4, '6h/6h', 4),
 							(6, '4h/4h', 6);
 
-INSERT INTO demo.medicamento (fkhospital,fkmedicamento,nome) VALUES 
+INSERT INTO demo.medicamento (fkhospital,fkmedicamento,nome) VALUES
 (1,3,'ANLODIPINO 10 mg CP')
 ,(1,5,'CETOPROFENO 100 mg SOL INJ IV')
 ,(1,6,'CLORETO DE POTASSIO 6 % (0,8 mEq/ml) SOL AQ')
@@ -190,7 +192,7 @@ INSERT INTO demo.pessoa (fkpessoa, fkhospital, nratendimento, dtnascimento, sexo
 					(13, 1, 13, '1941-02-05', 'F', '2019-08-12', 100, 'B'),
           (99, 1, 9999, '1941-02-05', 'F', '2019-08-12', 100, 'B');
 
-INSERT INTO demo.exame (fkexame,fkpessoa,nratendimento,dtexame,tpexame,resultado,unidade) VALUES 
+INSERT INTO demo.exame (fkexame,fkpessoa,nratendimento,dtexame,tpexame,resultado,unidade) VALUES
 (1,1,1234,'2019-10-14 18:32:22.000','CR',0.4,'mg/dL')
 ,(4,3,4567,'2019-10-14 18:32:22.000','TGO',25,'un/L')
 ,(4,3,4567,'2019-10-14 18:32:22.000','TGP',42,'un/L')
@@ -205,7 +207,7 @@ INSERT INTO demo.exame (fkexame,fkpessoa,nratendimento,dtexame,tpexame,resultado
 ,(13,10,6345,'2019-10-13 18:32:22.000','CR',0.4,'mg/dL')
 ,(14,99,9999,now(),'CR',0.4,'mg/dL');
 
-INSERT INTO demo.prescricao (fkhospital,fksetor,fkprescricao,fkpessoa,idsegmento,dtprescricao,status,nratendimento,update_at,update_by, agregada, indicadores) VALUES 
+INSERT INTO demo.prescricao (fkhospital,fksetor,fkprescricao,fkpessoa,idsegmento,dtprescricao,status,nratendimento,update_at,update_by, agregada, indicadores) VALUES
 (1,1,5,4,1,'2020-12-31 00:00:00.000','0',4,'2020-03-25 14:10:50.154',NULL, NULL, NULL)
 ,(1,1,10,7,1,'2020-12-31 00:00:00.000','0',7,'2020-03-25 14:10:50.154',NULL, NULL, NULL)
 ,(1,1,11,8,1,'2020-12-31 00:00:00.000','0',8,'2020-03-25 14:10:50.154',NULL, NULL, NULL)
@@ -225,7 +227,7 @@ INSERT INTO demo.prescricao (fkhospital,fksetor,fkprescricao,fkpessoa,idsegmento
 ,(1,1,CAST(TO_CHAR(now() - interval '1 day','YYMMDD') || '1000009999' as bigint),99,1,now()::date - interval '1 day','0',9999,'2020-04-02 20:55:27.158',1, true, '{}')
 ,(1,1,CAST(TO_CHAR(now(),'YYMMDD') || '1000009999' as bigint),99,1,now()::date,'0',9999,'2020-04-02 20:55:27.158',1, true, '{}');
 
-INSERT INTO demo.outlier (fkmedicamento,idsegmento,contagem,doseconv,frequenciadia,escore,escoremanual,update_at,update_by) VALUES 
+INSERT INTO demo.outlier (fkmedicamento,idsegmento,contagem,doseconv,frequenciadia,escore,escoremanual,update_at,update_by) VALUES
 (4,1,11,5,1,3,NULL,NULL,NULL)
 ,(4,1,780,10,1,0,0,NULL,NULL)
 ,(4,1,286,15,1,0,NULL,NULL,NULL)
@@ -644,7 +646,7 @@ INSERT INTO demo.outlier (fkmedicamento,idsegmento,contagem,doseconv,frequenciad
 ,(1,1,253,3,6,2,NULL,NULL,NULL)
 ,(1,1,6437,3,4,0,NULL,NULL,NULL);
 
-INSERT INTO demo.prescricaoagg (fkhospital,fksetor,idsegmento,fkmedicamento,fkunidademedida,fkfrequencia,dose,frequenciadia,contagem,doseconv) VALUES 
+INSERT INTO demo.prescricaoagg (fkhospital,fksetor,idsegmento,fkmedicamento,fkunidademedida,fkfrequencia,dose,frequenciadia,contagem,doseconv) VALUES
 (1,1,1,1,NULL,NULL,3,1,22,3)
 ,(1,1,1,1,NULL,NULL,2,2,7,2)
 ,(1,1,1,1,NULL,NULL,3,2,145,3)
@@ -1063,7 +1065,7 @@ INSERT INTO demo.prescricaoagg (fkhospital,fksetor,idsegmento,fkmedicamento,fkun
 ,(1,1,1,2,'1',NULL,300,3,12,300)
 ,(1,1,1,2,'1',NULL,100,6,2,100);
 
-INSERT INTO demo.presmed (fkprescricao,fkmedicamento,fkunidademedida,fkfrequencia,idsegmento,idoutlier,dose,frequenciadia,via,complemento,escorefinal,doseconv) VALUES 
+INSERT INTO demo.presmed (fkprescricao,fkmedicamento,fkunidademedida,fkfrequencia,idsegmento,idoutlier,dose,frequenciadia,via,complemento,escorefinal,doseconv) VALUES
 (1,2,'1',1,1,459,100,1,'VO',NULL,NULL,100)
 ,(5,2,'1',1,1,459,100,1,'VO',NULL,NULL,100)
 ,(5,3,'1',1,1,467,5,1,'VO',NULL,NULL,5)
@@ -1120,14 +1122,14 @@ INSERT INTO demo.presmed (fkprescricao,fkmedicamento,fkunidademedida,fkfrequenci
 ,(198,4,'1',2,1,30,5,2,'VO',NULL,NULL,5);
 
 -- conciliacoes
-INSERT INTO demo.prescricao (fkhospital,fksetor,fkprescricao,fkpessoa,idsegmento,dtprescricao,status,nratendimento,update_at,update_by, agregada, indicadores, concilia) VALUES 
+INSERT INTO demo.prescricao (fkhospital,fksetor,fkprescricao,fkpessoa,idsegmento,dtprescricao,status,nratendimento,update_at,update_by, agregada, indicadores, concilia) VALUES
 (1,1,9199,99,1,now(),'0',9999,'2020-04-02 20:55:27.158',1, NULL, NULL, 's');
 
-INSERT INTO demo.presmed (fkprescricao,fkmedicamento,fkunidademedida,fkfrequencia,idsegmento,idoutlier,dose,frequenciadia,via,complemento,escorefinal,doseconv, horario) VALUES 
+INSERT INTO demo.presmed (fkprescricao,fkmedicamento,fkunidademedida,fkfrequencia,idsegmento,idoutlier,dose,frequenciadia,via,complemento,escorefinal,doseconv, horario) VALUES
 (9199,0,'1',1,1,459,100,1,'VO',NULL,NULL,100, 'Medicamento do paciente');
 -- fim conciliacoes
 
-INSERT INTO demo.unidadeconverte (idsegmento,fkunidademedida,fator,fkmedicamento) VALUES 
+INSERT INTO demo.unidadeconverte (idsegmento,fkunidademedida,fator,fkmedicamento) VALUES
 (1,'2',3.3,2)
 ,(1,'3',3,2)
 ,(1,'1',1,2);
