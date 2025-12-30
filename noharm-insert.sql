@@ -1,3 +1,5 @@
+SET timezone TO 'America/Sao_Paulo';
+
 --
 -- PREPARE A SECOND SCHEMA FOR TESTS
 --
