@@ -263,7 +263,7 @@ BEGIN
   * VERIFICAR SE HOUVE ALTERACAO
   */
   if 'INSERT_IGNORE' = any(coalesce(P_PARAMS.features, array[]::text[])) then
-	  IF P_PRESMED_ORIGEM.idoutlier IS NULL OR P_PRESMED_ORIGEM.doseconv IS NULL THEN
+	  IF P_PRESMED_ORIGEM.idoutlier IS NULL THEN
 		SELECT * INTO V_PRESMED FROM presmed WHERE fkpresmed = P_PRESMED_ORIGEM.fkpresmed;
 		IF FOUND THEN
 			IF
