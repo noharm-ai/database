@@ -96,21 +96,22 @@ CREATE TABLE public.classe (
 
 CREATE TABLE public.schema_config (
 	schema_name varchar(200) NOT NULL,
+	idschema_config serial4 NOT NULL,
 	updated_at timestamp NULL,
-  created_by int4 NULL,
+    created_by int4 NULL,
 	created_at timestamp NOT NULL,
 	fl1_atualiza_indicadores_cpoe bool NOT NULL DEFAULT false,
 	fl2_atualiza_indicadores_prescricao bool NOT NULL DEFAULT false,
 	fl3_atualiza_prescricaoagg bool NOT NULL DEFAULT false,
 	fl3_segmentos _int4 NULL,
 	fl4_cria_conciliacao bool NOT NULL DEFAULT false,
-  fl5_score_med_novos bool NOT NULL DEFAULT false,
+    fl5_score_med_novos bool NOT NULL DEFAULT false,
 	configuracao jsonb NULL,
 	tp_noharm_care int2 NOT NULL DEFAULT 2,
-  tp_prescalc int2 NOT NULL DEFAULT 0,
+    tp_prescalc int2 NOT NULL DEFAULT 0,
 	status int4 NOT NULL DEFAULT 0,
-  cpoe bool NOT NULL DEFAULT false,
-  integracao_retorno bool NOT NULL DEFAULT false,
+    cpoe bool NOT NULL DEFAULT false,
+    integracao_retorno bool NOT NULL DEFAULT false,
 	updated_by int4 NULL,
 	CONSTRAINT schema_config_pkey PRIMARY KEY (schema_name)
 );
