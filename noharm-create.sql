@@ -429,6 +429,8 @@ CREATE TABLE demo."evolucao" (
   "review_at" timestamp NULL,
   "review_by" integer NULL,
   "anotacoes" jsonb NULL,
+  "formulario" jsonb null,
+  "template" jsonb null,
   "created_at" timestamp NOT NULL DEFAULT (now() AT TIME ZONE 'America/Sao_Paulo'::text)
 );
 
@@ -556,6 +558,19 @@ create table demo."relatorio" (
 	"created_at" timestamp not null,
 	"created_by" integer not null
 );
+
+CREATE SEQUENCE demo.prescricao_fkprescricao_seq
+	MINVALUE 0
+	NO MAXVALUE
+	START 0
+	NO CYCLE;
+
+CREATE SEQUENCE demo.evolucao_fkevolucao_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	NO MAXVALUE
+	START 1
+	NO CYCLE;
 
 CREATE INDEX demo_checkedindex_idx ON demo.checkedindex ("nratendimento","fkmedicamento");
 
