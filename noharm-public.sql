@@ -622,7 +622,7 @@ BEGIN
   /**
   * VERIFICA ALERGIA
   */
-  if 'ALERGIA' = any(coalesce(P_PARAMS.features, array[]::text[])) then
+  if P_PRESMED_ORIGEM.alergia is null or P_PRESMED_ORIGEM.alergia = 'N' then
 	if exists (
 		SELECT
 			1
@@ -642,6 +642,8 @@ BEGIN
 	else
 		PRESMED_RESULTADO.alergia = 'N';
 	end if;
+  else
+    PRESMED_RESULTADO.alergia = P_PRESMED_ORIGEM.alergia;
   end if;
 
   if V_CPOE then
