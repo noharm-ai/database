@@ -48,7 +48,6 @@ BEGIN
 		new.frequenciadia := PRESMED_RESULTADO.frequenciadia;
 		new.doseconv := PRESMED_RESULTADO.doseconv;
 		new.alergia := PRESMED_RESULTADO.alergia;
-
 		new.cpoe_grupo := PRESMED_RESULTADO.cpoe_grupo;
 
 
