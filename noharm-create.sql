@@ -138,6 +138,7 @@ CREATE TABLE demo."pessoa" (
   "fksetor" int4 default NULL,
   "leito" varchar(32) default null,
   "dt_ultima_transferencia" timestamp default null,
+  "cidade" varchar(250) default null,
   "update_at" timestamp DEFAULT NULL,
   "update_by" integer DEFAULT NULL,
   PRIMARY KEY ("nratendimento")
