@@ -599,7 +599,7 @@ CREATE UNIQUE INDEX demo_outlier_idx ON demo."outlier" ("fkmedicamento", "idsegm
 CREATE INDEX demo_prescricao_fksetor_idx ON demo."prescricao" ("fksetor");
 CREATE INDEX demo_prescricao_idsegmento_idx ON demo."prescricao" ("idsegmento");
 CREATE INDEX demo_prescricao_nratendimento_idx ON demo."prescricao" ("nratendimento");
-CREATE INDEX demo_prescricao_dtprescricao_idx ON demo."prescricao" USING brin ("dtprescricao") WITH (pages_per_range='1');
+CREATE INDEX demo_prescricao_dtprescricao_idx ON demo."prescricao" USING btree ("dtprescricao");
 CREATE INDEX demo_prescricao_update_by_idx ON demo."prescricao" ("update_by");
 CREATE INDEX demo_prescricao_update_at_idx ON demo."prescricao" USING brin ("update_at") with (pages_per_range = 1);
 CREATE INDEX demo_prescricao_evolucao_at_idx ON demo."prescricao" ("evolucao_at");
