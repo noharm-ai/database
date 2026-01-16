@@ -14,7 +14,7 @@ CREATE TABLE teste."memoria" (
   "idmemoria" SERIAL NOT NULL,
   "tipo" varchar(100) NOT NULL,
   "valor" json NOT NULL,
-  "update_at" timestamp NOT NULL DEFAULT NOW(),
+  "update_at" timestamp NOT NULL DEFAULT (now() AT TIME ZONE 'America/Sao_Paulo'::text),
   "update_by" integer NOT NULL,
   PRIMARY KEY ("idmemoria", "tipo")
 );
@@ -52,7 +52,7 @@ TRUNCATE TABLE demo.motivointervencao, demo.intervencao, demo.presmed, demo.memo
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
 INSERT INTO public.schema_config (schema_name, created_at) VALUES
-            ('demo', now()), ('teste', now());
+            ('demo', (now() AT TIME ZONE 'America/Sao_Paulo'::text)), ('teste', (now() AT TIME ZONE 'America/Sao_Paulo'::text));
 
 INSERT INTO public.usuario (nome,email,senha,schema,config) VALUES
 						('Demonstração','demo',crypt('demo', gen_salt('bf',8)) ,'demo','{"roles":["PRESCRIPTION_ANALYST", "USER_MANAGER", "CONFIG_MANAGER", "suporte"], "features": [ "STAGING_ACCESS"]}'),
@@ -64,13 +64,13 @@ INSERT INTO public.usuario (nome,email,senha,schema,config) VALUES
             ('E2E Test','e2e@e2e.com',crypt('e2etest', gen_salt('bf',8)),'demo','{"roles":["PRESCRIPTION_ANALYST", "USER_MANAGER", "CONFIG_MANAGER", "staging"], "features": [ "STAGING_ACCESS"]}');
 
 INSERT INTO public.usuario_autorizacao (idusuario,idsegmento,created_at,created_by) VALUES
-						((select idusuario from public.usuario where email = 'demo'), 1, now(), 0),
-						((select idusuario from public.usuario where email = 'demo'), 2, now(), 0),
-            ((select idusuario from public.usuario where email = 'e2e@e2e.com'), 1, now(), 0);
+						((select idusuario from public.usuario where email = 'demo'), 1, (now() AT TIME ZONE 'America/Sao_Paulo'::text), 0),
+						((select idusuario from public.usuario where email = 'demo'), 2, (now() AT TIME ZONE 'America/Sao_Paulo'::text), 0),
+            ((select idusuario from public.usuario where email = 'e2e@e2e.com'), 1, (now() AT TIME ZONE 'America/Sao_Paulo'::text), 0);
 
 INSERT INTO public.usuario_extra (idusuario, config, created_at, created_by) VALUES
-            ((select idusuario from public.usuario where email = 'organizationmanager'), '{"roles":["ORGANIZATION_MANAGER"], "schemas": [{"name": "demo", "friendlyName": "Hospital Demo"}, {"name": "teste", "friendlyName": "Hospital Teste"}]}' , now(), 0),
-            ((select idusuario from public.usuario where email = 'user@admin.com'), '{"roles":["ADMIN"]}' , now(), 0);
+            ((select idusuario from public.usuario where email = 'organizationmanager'), '{"roles":["ORGANIZATION_MANAGER"], "schemas": [{"name": "demo", "friendlyName": "Hospital Demo"}, {"name": "teste", "friendlyName": "Hospital Teste"}]}' , (now() AT TIME ZONE 'America/Sao_Paulo'::text), 0),
+            ((select idusuario from public.usuario where email = 'user@admin.com'), '{"roles":["ADMIN"]}' , (now() AT TIME ZONE 'America/Sao_Paulo'::text), 0);
 
 INSERT INTO demo.hospital (fkhospital, nome) VALUES
 						(1, 'Hospital Demonstração');
@@ -207,7 +207,7 @@ INSERT INTO demo.exame (fkexame,fkpessoa,nratendimento,dtexame,tpexame,resultado
 ,(11,8,7654,'2019-10-14 18:32:22.000','CR',0.4,'mg/dL')
 ,(12,9,7643,'2019-10-14 18:32:22.000','CR',0.4,'mg/dL')
 ,(13,10,6345,'2019-10-13 18:32:22.000','CR',0.4,'mg/dL')
-,(14,99,9999,now(),'CR',0.4,'mg/dL');
+,(14,99,9999,(now() AT TIME ZONE 'America/Sao_Paulo'::text),'CR',0.4,'mg/dL');
 
 INSERT INTO demo.prescricao (fkhospital,fksetor,fkprescricao,fkpessoa,idsegmento,dtprescricao,status,nratendimento,update_at,update_by, agregada, indicadores) VALUES
 (1,1,5,4,1,'2020-12-31 00:00:00.000','0',4,'2020-03-25 14:10:50.154',NULL, NULL, NULL)
@@ -224,10 +224,10 @@ INSERT INTO demo.prescricao (fkhospital,fksetor,fkprescricao,fkpessoa,idsegmento
 ,(1,1,7,3,1,'2020-12-31 00:00:00.000','0',3,'2020-04-01 17:49:23.264',1, NULL, NULL)
 ,(1,1,14,11,1,'2020-12-31 00:00:00.000','s',11,'2020-04-02 13:20:57.102',1, NULL, NULL)
 ,(1,1,1,1,1,'2020-12-31 00:00:00.000','s',1,'2020-04-02 20:55:27.158',1, NULL, NULL)
-,(1,1,199,99,1,now(),'0',9999,'2020-04-02 20:55:27.158',1, NULL, NULL)
-,(1,1,198,99,1,now(),'0',9999,'2020-04-02 20:55:27.158',1, NULL, NULL)
-,(1,1,CAST(TO_CHAR(now() - interval '1 day','YYMMDD') || '1000009999' as bigint),99,1,now()::date - interval '1 day','0',9999,'2020-04-02 20:55:27.158',1, true, '{}')
-,(1,1,CAST(TO_CHAR(now(),'YYMMDD') || '1000009999' as bigint),99,1,now()::date,'0',9999,'2020-04-02 20:55:27.158',1, true, '{}');
+,(1,1,199,99,1,(now() AT TIME ZONE 'America/Sao_Paulo'::text),'0',9999,'2020-04-02 20:55:27.158',1, NULL, NULL)
+,(1,1,198,99,1,(now() AT TIME ZONE 'America/Sao_Paulo'::text),'0',9999,'2020-04-02 20:55:27.158',1, NULL, NULL)
+,(1,1,CAST(TO_CHAR((now() AT TIME ZONE 'America/Sao_Paulo'::text) - interval '1 day','YYMMDD') || '1000009999' as bigint),99,1,(now() AT TIME ZONE 'America/Sao_Paulo'::text)::date - interval '1 day','0',9999,'2020-04-02 20:55:27.158',1, true, '{}')
+,(1,1,CAST(TO_CHAR((now() AT TIME ZONE 'America/Sao_Paulo'::text),'YYMMDD') || '1000009999' as bigint),99,1,(now() AT TIME ZONE 'America/Sao_Paulo'::text)::date,'0',9999,'2020-04-02 20:55:27.158',1, true, '{}');
 
 INSERT INTO demo.outlier (fkmedicamento,idsegmento,contagem,doseconv,frequenciadia,escore,escoremanual,update_at,update_by) VALUES
 (4,1,11,5,1,3,NULL,NULL,NULL)
@@ -1125,7 +1125,7 @@ INSERT INTO demo.presmed (fkprescricao,fkmedicamento,fkunidademedida,fkfrequenci
 
 -- conciliacoes
 INSERT INTO demo.prescricao (fkhospital,fksetor,fkprescricao,fkpessoa,idsegmento,dtprescricao,status,nratendimento,update_at,update_by, agregada, indicadores, concilia) VALUES
-(1,1,9199,99,1,now(),'0',9999,'2020-04-02 20:55:27.158',1, NULL, NULL, 's');
+(1,1,9199,99,1,(now() AT TIME ZONE 'America/Sao_Paulo'::text),'0',9999,'2020-04-02 20:55:27.158',1, NULL, NULL, 's');
 
 INSERT INTO demo.presmed (fkprescricao,fkmedicamento,fkunidademedida,fkfrequencia,idsegmento,idoutlier,dose,frequenciadia,via,complemento,escorefinal,doseconv, horario) VALUES
 (9199,0,'1',1,1,459,100,1,'VO',NULL,NULL,100, 'Medicamento do paciente');
