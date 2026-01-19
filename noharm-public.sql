@@ -48,6 +48,17 @@ CREATE TABLE public."substancia" (
   "update_by" int4 NULL
 );
 
+CREATE TABLE public."exame" (
+  "idexame" SERIAL PRIMARY KEY NOT NULL,
+  "nome" varchar(255) NOT NULL,
+  "unidade" varchar(100) NOT NULL,
+  "ativo" boolean DEFAULT true,
+  "updated_at" timestamp null,
+  "updated_by" integer null,
+  "created_at" timestamp not null,
+  "created_by" integer not null
+);
+
 CREATE TABLE public."notifica" (
   "idnotifica" SERIAL PRIMARY KEY NOT NULL,
   "titulo" varchar(100) NOT NULL,
