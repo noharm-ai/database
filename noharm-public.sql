@@ -51,10 +51,9 @@ CREATE TABLE public."substancia" (
 CREATE TABLE public."exame" (
   "tpexame" varchar(100) PRIMARY KEY,
   "nome" varchar(255) NOT NULL,
+  "abrev" varchar(50),
   "unidade" varchar(100) NOT NULL,
   "ativo" boolean DEFAULT true,
-  "abrev" varchar(50),
-  "nome" varchar(250),
   "min_adulto" float4,
   "max_adulto" float4,
   "referencia_adulto" varchar(250),
