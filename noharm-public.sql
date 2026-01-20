@@ -49,10 +49,18 @@ CREATE TABLE public."substancia" (
 );
 
 CREATE TABLE public."exame" (
-  "idexame" SERIAL PRIMARY KEY NOT NULL,
+  "tpexame" varchar(100) PRIMARY KEY,
   "nome" varchar(255) NOT NULL,
   "unidade" varchar(100) NOT NULL,
   "ativo" boolean DEFAULT true,
+  "abrev" varchar(50),
+  "nome" varchar(250),
+  "min_adulto" float4,
+  "max_adulto" float4,
+  "referencia_adulto" varchar(250),
+  "min_pediatrico" float4,
+  "max_pediatrico" float4,
+  "referencia_pediatrico" varchar(250),
   "updated_at" timestamp null,
   "updated_by" integer null,
   "created_at" timestamp not null,

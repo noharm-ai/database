@@ -365,6 +365,7 @@ CREATE TABLE demo."segmentoexame" (
   "referencia" varchar(250),
   "posicao" smallint,
   "ativo" boolean,
+  "tpexame_ref" varchar(100),
   "update_at" timestamp NOT NULL DEFAULT (now() AT TIME ZONE 'America/Sao_Paulo'::text),
   "update_by" integer NOT NULL,
   PRIMARY KEY ("idsegmento", "tpexame")
