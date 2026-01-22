@@ -130,6 +130,7 @@ CREATE TABLE public.schema_config (
 	status int4 NOT NULL DEFAULT 0,
     cpoe bool NOT NULL DEFAULT false,
     integracao_retorno bool NOT NULL DEFAULT false,
+    tp_pep varchar(100),
 	updated_by int4 NULL,
 	CONSTRAINT schema_config_pkey PRIMARY KEY (schema_name)
 );
