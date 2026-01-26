@@ -131,6 +131,7 @@ CREATE TABLE public.schema_config (
     cpoe bool NOT NULL DEFAULT false,
     integracao_retorno bool NOT NULL DEFAULT false,
     tp_pep varchar(100),
+    crm jsonb null,
 	updated_by int4 NULL,
 	CONSTRAINT schema_config_pkey PRIMARY KEY (schema_name)
 );
