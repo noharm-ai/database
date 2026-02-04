@@ -71,3 +71,34 @@ CREATE TABLE demo."reg_tipo_solicitacao" (
   "updated_at" timestamp DEFAULT NOW(),
   "updated_by" integer
 );
+
+
+CREATE TABLE demo."rel_painel_juntos" (
+    "co_seq_cidadao" bigint,
+    "co_unico_ficha" VARCHAR(96) NOT NULL PRIMARY KEY,
+    "nratendimento" bigint,
+    "nome" VARCHAR(255),
+    "dtnascimento" DATE,
+    "idade" numeric,
+    "endereco" TEXT,
+    "sexo" VARCHAR(2),
+    "idadegestacional" VARCHAR(50),
+    "cpf" VARCHAR(11),
+    "cns" CHARACTER(15),
+    "unidadedesaude" VARCHAR(255),
+    "agentesaude" VARCHAR(255),
+    "equiperesponsavel" VARCHAR(255),
+    "desc_ciap" VARCHAR(50),
+    "desc_cid" VARCHAR(50),
+    "dtatendimento_mamo" date,
+    "dtatendimento_hpv" date,
+    "dtconsulta_gest" date,
+    "dtatendimento_sex" date,
+    "dt_ultima_vacina_hpv" date,
+    "fez_mamografia" boolean,
+    "fez_hpv" boolean,
+    "fez_vacina" boolean,
+    "fez_consulta_sex" boolean,
+    "fez_consulta_gest" boolean,
+    "v_atual_ficha" boolean
+);
