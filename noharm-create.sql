@@ -664,3 +664,8 @@ CREATE TABLE IF NOT EXISTS demo.exame_arquivo
 
 CREATE TABLE IF NOT EXISTS demo.evolucao_arquivo
     (LIKE demo.evolucao EXCLUDING INDEXES);
+
+
+ALTER TABLE demo.presmed 
+ADD CONSTRAINT check_origem_valida 
+CHECK (origem IN ('Medicamentos', 'Soluções', 'Proced/Exames', 'Dietas', 'Materiais'));
