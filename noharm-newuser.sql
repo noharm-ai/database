@@ -17,6 +17,7 @@ CREATE USER noharmcare WITH PASSWORD 'noharmcare'; -- necessário para os testes
 GRANT USAGE ON SCHEMA demo TO api_user;
 GRANT SELECT, INSERT, UPDATE ON ALL TABLES IN SCHEMA demo TO api_user;
 GRANT USAGE, SELECT, UPDATE ON ALL SEQUENCES IN SCHEMA demo TO api_user;
+GRANT SELECT ON demo.usuario TO api_user;
 GRANT DELETE ON demo.segmentosetor TO api_user;
 GRANT DELETE ON demo.outlier TO api_user;
 GRANT SELECT, INSERT, DELETE ON TABLE demo.checkedindex TO api_user;
