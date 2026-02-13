@@ -692,6 +692,17 @@ BEGIN
 				V_PRESCRICAO.idsegmento * 1000000000::bigint + V_PRESCRICAO.nratendimento
 			)::bigint;
 
+			-- marcar prescricao para ser atualizada pelo atendcalc
+			update
+				prescricao p
+			set
+				indicadores = (COALESCE(indicadores::jsonb, '{}'::jsonb) || '{"should_update": true}'::jsonb)::json
+			where
+				fkprescricao = V_FK_PRESCRICAO_AGG;
+
+			-- search path precisa ser setado novamente, pois houve um reset no comando acima
+			EXECUTE FORMAT('SET search_path to %s;', P_PARAMS.nome_schema);
+
 			-- deschecar se o status for igual a 's'
 			-- se possuir a feature NAO_DESCHECAR_FREQ_AGORA e a frequenciadia = 66, não deve executar a deschecagem (adicionado em 06/12/24 - Marcelo)
 			if
