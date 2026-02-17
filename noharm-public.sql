@@ -251,6 +251,10 @@ CREATE TYPE public.PRESCRICAO_RESULTADO_TYPE AS (
   aggsetor _int4
 );
 
+/* CONFIGS */
+-- remove default create permission
+REVOKE CREATE ON SCHEMA public FROM PUBLIC;
+
 /**
 * FUNCTIONS
 */
