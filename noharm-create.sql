@@ -158,6 +158,7 @@ CREATE TABLE demo."prescricao" (
   "leito" varchar(16) NULL,
   "prontuario" int8 NULL,
   "prescritor" varchar(255) NULL,
+  "especialidade" varchar(100) NULL,
   "indicadores" json DEFAULT NULL,
   "evolucao" text DEFAULT NULL,
   "evolucao_at" timestamp DEFAULT NULL,
@@ -666,6 +667,6 @@ CREATE TABLE IF NOT EXISTS demo.evolucao_arquivo
     (LIKE demo.evolucao EXCLUDING INDEXES);
 
 
-ALTER TABLE demo.presmed 
-ADD CONSTRAINT check_origem_valida 
+ALTER TABLE demo.presmed
+ADD CONSTRAINT check_origem_valida
 CHECK (origem IN ('Medicamentos', 'Soluções', 'Proced/Exames', 'Dietas', 'Materiais'));
