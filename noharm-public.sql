@@ -970,6 +970,200 @@ BEGIN
 END;
 $function$;
 
+
+-------
+
+CREATE OR REPLACE FUNCTION public.upsert_prescricao(p_schema_name text, p_record record, p_resultado record)
+ RETURNS void
+ LANGUAGE plpgsql
+AS $function$
+BEGIN
+    -- USAR VALORES CALCULADOS
+    p_record.idsegmento := p_resultado.idsegmento;
+    p_record.dtvigencia := p_resultado.dtvigencia;
+
+  EXECUTE FORMAT(
+    'INSERT INTO %I.prescricao (
+      fkhospital, fkprescricao, fkpessoa, nratendimento, fksetor, dtprescricao, idsegmento,
+      leito, prontuario, dtvigencia, prescritor, agregada, indicadores, aggsetor, aggmedicamento,
+      concilia, convenio, dtatualizacao, dtcriacao_origem, especialidade
+    ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18, $19, $20)
+    ON CONFLICT (fkprescricao) DO UPDATE SET
+      fkpessoa = $3,
+      fksetor = $5,
+      leito = $8,
+      dtprescricao = $6,
+      idsegmento = $7,
+      dtatualizacao = $18,
+      dtcriacao_origem = $19,
+      especialidade = $20
+    WHERE %I.prescricao.status <> ''s''',
+    p_schema_name, p_schema_name
+  )
+  USING
+    p_record.fkhospital, --1
+    p_record.fkprescricao, --2
+    p_record.fkpessoa, --3
+    p_record.nratendimento, --4
+    p_record.fksetor, --5
+    p_record.dtprescricao, --6
+    p_record.idsegmento, --7
+    p_record.leito, --8
+    p_record.prontuario, --9
+    p_record.dtvigencia, --10
+    p_record.prescritor, --11
+    p_record.agregada, --12
+    p_record.indicadores, --13
+    p_record.aggsetor, --14
+    p_record.aggmedicamento, --15
+    p_record.concilia, --16
+    p_record.convenio, --17
+    p_record.dtatualizacao, --18
+    p_record.dtcriacao_origem, --19
+    p_record.especialidade; --20
+END;
+$function$;
+
+-------
+
+CREATE OR REPLACE FUNCTION public.upsert_presmed(p_schema_name text, p_record record, p_resultado record)
+ RETURNS void
+ LANGUAGE plpgsql
+AS $function$
+BEGIN
+    -- USAR VALORES CALCULADOS
+	p_record.origem := p_resultado.origem;
+	p_record.idsegmento := p_resultado.idsegmento;
+
+	p_record.idoutlier := p_resultado.idoutlier;
+	p_record.aprox := p_resultado.aprox;
+	p_record.escorefinal := p_resultado.escorefinal;
+
+	p_record.sonda := p_resultado.sonda;
+	p_record.intravenosa := p_resultado.intravenosa;
+
+	p_record.checado := p_resultado.checado;
+	if p_record.periodo is null then 	-- com esse if, usa o período do pep quando disponível
+    	p_record.periodo := p_resultado.periodo;
+        if p_record.periodo is null then
+       	    p_record.tp_periodo := 1;
+        end if;
+    ELSE
+        if p_record.periodo is null then
+            p_record.tp_periodo := 2;
+        end if;
+	end if;
+	p_record.frequenciadia := p_resultado.frequenciadia;
+	p_record.doseconv := p_resultado.doseconv;
+	p_record.alergia := p_resultado.alergia;
+	p_record.cpoe_grupo := p_resultado.cpoe_grupo;
+
+
+  EXECUTE FORMAT(
+    'INSERT INTO %I.presmed (
+      fkprescricao, fkpresmed, fkfrequencia, fkmedicamento,
+      fkunidademedida, dose, frequenciadia, via, idsegmento, doseconv, idoutlier, escorefinal,
+      origem, dtsuspensao, horario, complemento, aprox, checado, periodo,
+      slagrupamento, slacm, sletapas, slhorafase, sltempoaplicacao, sldosagem, sltipodosagem,
+      alergia, sonda, intravenosa, cpoe_grupo, cpoe_nrseq, cpoe_nrseq_anterior, periodo_total,
+      tp_periodo
+    ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34)
+    ON CONFLICT (fkpresmed) DO UPDATE SET
+      dtsuspensao = $14,
+      frequenciadia = $7,
+      periodo = $19,
+      periodo_total = $33,
+      checado = $18,
+      idoutlier = $11,
+      doseconv = $10,
+      sonda = $28,
+      intravenosa = $29,
+      escorefinal = $12',
+    p_schema_name
+  )
+  USING
+    p_record.fkprescricao, --1
+    p_record.fkpresmed, --2
+    p_record.fkfrequencia, --3
+    p_record.fkmedicamento, --4
+    p_record.fkunidademedida, --5
+    p_record.dose, --6
+    p_record.frequenciadia, --7
+    p_record.via, --8
+    p_record.idsegmento, --9
+    p_record.doseconv, --10
+    p_record.idoutlier, --11
+    p_record.escorefinal, --12
+    p_record.origem, --13
+    p_record.dtsuspensao, --14
+    p_record.horario, --15
+    p_record.complemento, --16
+    p_record.aprox, --17
+    p_record.checado, --18
+    p_record.periodo, --19
+    p_record.slagrupamento, --20
+    p_record.slacm, --21
+    p_record.sletapas, --22
+    p_record.slhorafase, --23
+    p_record.sltempoaplicacao, --24
+    p_record.sldosagem, --25
+    p_record.sltipodosagem, --26
+    p_record.alergia, --27
+    p_record.sonda, --28
+    p_record.intravenosa, --29
+    p_record.cpoe_grupo, --30
+    p_record.cpoe_nrseq, --31
+    p_record.cpoe_nrseq_anterior, --32
+    p_record.periodo_total, --33
+    p_record.tp_periodo; --34
+END;
+$function$;
+
+-------
+
+CREATE OR REPLACE FUNCTION public.upsert_prescricaoagg(p_schema_name text, p_record record, p_resultado record)
+ RETURNS void
+ LANGUAGE plpgsql
+AS $function$
+BEGIN
+    -- USAR VALORES CALCULADOS
+    p_record.idsegmento := p_resultado.idsegmento;
+    p_record.fkfrequencia := p_resultado.fkfrequencia;
+    p_record.fkunidademedida := p_resultado.fkunidademedida;
+
+    p_record.frequenciadia := p_resultado.frequenciadia;
+    p_record.doseconv := p_resultado.doseconv;
+    p_record.peso := p_resultado.peso;
+
+  EXECUTE FORMAT(
+    'INSERT INTO %I.prescricaoagg (
+      fkhospital, fksetor, fkmedicamento, fkunidademedida,
+      fkfrequencia, dose, frequenciadia, peso, contagem, doseconv,
+      idsegmento
+    ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
+    ON CONFLICT (fksetor, fkmedicamento, fkunidademedida, fkfrequencia, dose, peso) DO UPDATE SET
+      contagem = $9,
+      doseconv = $10,
+      idsegmento = $11,
+      updated_at = now(),
+      frequenciadia = $7',
+    p_schema_name
+  )
+  USING
+    p_record.fkhospital, --1
+    p_record.fksetor, --2
+    p_record.fkmedicamento, --3
+    p_record.fkunidademedida, --4
+    p_record.fkfrequencia, --5
+    p_record.dose, --6
+    p_record.frequenciadia, --7
+    p_record.peso, --8
+    p_record.contagem, --9
+    p_record.doseconv, --10
+    p_record.idsegmento; --11
+END;
+$function$;
+
 -------
 
 CREATE
