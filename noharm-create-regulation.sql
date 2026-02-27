@@ -102,5 +102,7 @@ CREATE TABLE demo."rel_painel_juntos" (
     "fez_consulta_gest" boolean,
     "fez_sete_consultas_gestacao" boolean,
     "dt_atendimento_gestacao_sete_consultas" timestamp,
+    "tem_afericao" boolean,
+    "dt_ultima_afericao" timestamp,
     "v_atual_ficha" boolean
 );
