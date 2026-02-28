@@ -57,6 +57,7 @@ INSERT INTO public.schema_config (schema_name, created_at) VALUES
 INSERT INTO public.usuario (nome,email,senha,schema,config) VALUES
 						('Demonstração','demo',crypt('demo', gen_salt('bf',8)) ,'demo','{"roles":["PRESCRIPTION_ANALYST", "USER_MANAGER", "CONFIG_MANAGER", "suporte"], "features": [ "STAGING_ACCESS"]}'),
 						('User Admin','user@admin.com',crypt('useradmin', gen_salt('bf',8)) ,'demo','{"roles":[], "features": [ "STAGING_ACCESS"]}'),
+            ('User Curator','user@curator.com',crypt('usercurator', gen_salt('bf',8)) ,'demo','{"roles":[], "features": [ "STAGING_ACCESS"]}'),
 						('Não Admin','noadmin',crypt('noadmin', gen_salt('bf',8)),'demo','{"roles":["PRESCRIPTION_ANALYST", "USER_MANAGER", "CONFIG_MANAGER","staging"], "features": [ "STAGING_ACCESS"]}'),
             ('Organization manager','organizationmanager',crypt('organizationmanager', gen_salt('bf',8)),'demo','{"roles":["VIEWER"], "features": [ "STAGING_ACCESS"]}'),
             ('Invalid User','invaliduser',crypt('invaliduser', gen_salt('bf',8)),'demo','{"roles":["ADMIN"], "features": [ "STAGING_ACCESS"]}'),
@@ -70,7 +71,8 @@ INSERT INTO public.usuario_autorizacao (idusuario,idsegmento,created_at,created_
 
 INSERT INTO public.usuario_extra (idusuario, config, created_at, created_by) VALUES
             ((select idusuario from public.usuario where email = 'organizationmanager'), '{"roles":["ORGANIZATION_MANAGER"], "schemas": [{"name": "demo", "friendlyName": "Hospital Demo"}, {"name": "teste", "friendlyName": "Hospital Teste"}]}' , (now() AT TIME ZONE 'America/Sao_Paulo'::text), 0),
-            ((select idusuario from public.usuario where email = 'user@admin.com'), '{"roles":["ADMIN"]}' , (now() AT TIME ZONE 'America/Sao_Paulo'::text), 0);
+            ((select idusuario from public.usuario where email = 'user@admin.com'), '{"roles":["ADMIN"]}' , (now() AT TIME ZONE 'America/Sao_Paulo'::text), 0),
+            ((select idusuario from public.usuario where email = 'user@curator.com'), '{"roles":["CURATOR"]}' , (now() AT TIME ZONE 'America/Sao_Paulo'::text), 0);
 
 INSERT INTO demo.hospital (fkhospital, nome) VALUES
 						(1, 'Hospital Demonstração');
