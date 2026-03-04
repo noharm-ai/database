@@ -554,6 +554,7 @@ create table demo."relatorio" (
 	"ativo" boolean not null,
 	"tp_status" int4 not null,
 	"erro" text null,
+  "graficos" json null,
 	"processed_at" timestamp null,
 	"processed_by" integer null,
 	"updated_at" timestamp null,
