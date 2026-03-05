@@ -104,5 +104,7 @@ CREATE TABLE demo."rel_painel_juntos" (
     "dt_atendimento_gestacao_sete_consultas" timestamp,
     "tem_afericao" boolean,
     "dt_ultima_afericao" timestamp,
+    "tem_indicador_peso_altura" boolean,
+    "dt_ultimo_pesoaltura" timestamp,
     "v_atual_ficha" boolean
 );
