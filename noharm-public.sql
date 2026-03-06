@@ -330,6 +330,7 @@ BEGIN
         when tipo = 'map-origin-solution' then 'Soluções'
         when tipo = 'map-origin-procedure' then 'Proced/Exames'
         when tipo = 'map-origin-diet' then 'Dietas'
+        when tipo = 'map-origin-material' then 'Materiais'
         when tipo = 'map-origin-custom' then P_PRESMED_ORIGEM.origem
         else 'Medicamentos'
       end as origem
@@ -343,7 +344,7 @@ BEGIN
         tipo in (
           'map-origin-drug', 'map-origin-solution',
           'map-origin-procedure', 'map-origin-diet',
-          'map-origin-custom'
+          'map-origin-custom', 'map-origin-material'
         )
     ) o
     where
