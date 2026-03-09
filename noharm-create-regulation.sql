@@ -76,7 +76,7 @@ CREATE TABLE demo."reg_tipo_solicitacao" (
 CREATE TABLE demo."rel_painel_juntos" (
     "co_seq_cidadao" bigint,
     "co_unico_ficha" VARCHAR(96) NOT NULL PRIMARY KEY,
-    "nratendimento" bigint,
+    "nratendimento" NUMERIC(9, 0),
     "nome" VARCHAR(255),
     "dtnascimento" DATE,
     "idade" numeric,
