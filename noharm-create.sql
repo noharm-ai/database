@@ -5,7 +5,7 @@ GRANT ALL ON SCHEMA demo TO postgres;
 CREATE TABLE demo."exame" (
   "fkexame" bigint NOT NULL,
   "fkpessoa" bigint NOT NULL,
-  "nratendimento" NUMERIC(9, 0) DEFAULT null,
+  "nratendimento" bigint DEFAULT null,
   "fkprescricao" bigint DEFAULT null,
   "dtexame" timestamp NOT NULL,
   "tpexame" varchar(100) NOT NULL,
@@ -19,7 +19,7 @@ CREATE TABLE demo."cultura_cabecalho" (
   "idculturacab" serial4 NOT NULL,
   "fkpessoa" bigint NOT NULL,
   "fksetor" int4 null,
-  "nratendimento" NUMERIC(9, 0) DEFAULT null,
+  "nratendimento" bigint DEFAULT null,
   "fkexame" bigint NOT NULL,
   "fkitemexame" bigint NOT NULL,
   "nomeexame" varchar(250) NULL,
@@ -55,7 +55,7 @@ CREATE TABLE demo."intervencao" (
   "idintervencao" serial NOT NULL,
   "fkpresmed" bigint DEFAULT 0,
   "fkprescricao" bigint DEFAULT 0,
-  "nratendimento" NUMERIC(9, 0) NOT NULL,
+  "nratendimento" bigint NOT NULL,
   "fksetor" integer DEFAULT null,
   "idmotivointervencao" smallint [] NULL,
   "erro" boolean NULL,
@@ -99,7 +99,7 @@ CREATE TABLE demo."outlier" (
 CREATE TABLE demo."observacao" (
   "idoutlier" integer DEFAULT 0,
   "fkpresmed" bigint DEFAULT 0,
-  "nratendimento" NUMERIC(9, 0) DEFAULT NULL,
+  "nratendimento" bigint DEFAULT NULL,
   "idsegmento" smallint DEFAULT NULL,
   "fkmedicamento" bigint DEFAULT NULL,
   "doseconv" float4 DEFAULT NULL,
@@ -112,7 +112,7 @@ CREATE TABLE demo."observacao" (
 CREATE TABLE demo."pessoa" (
   "fkhospital" smallint DEFAULT 1,
   "fkpessoa" bigint NOT NULL,
-  "nratendimento" NUMERIC(9, 0) UNIQUE NOT NULL,
+  "nratendimento" bigint UNIQUE NOT NULL,
   "dtnascimento" date DEFAULT NULL,
   "dtinternacao" timestamp NOT NULL,
   "dtalta" timestamp DEFAULT NULL,
@@ -149,7 +149,7 @@ CREATE TABLE demo."prescricao" (
   "fksetor" integer NOT NULL,
   "fkprescricao" bigint PRIMARY KEY NOT NULL,
   "fkpessoa" bigint NOT NULL,
-  "nratendimento" NUMERIC(9, 0) NOT NULL,
+  "nratendimento" bigint NOT NULL,
   "idsegmento" smallint DEFAULT NULL,
   "dtprescricao" timestamp NOT NULL,
   "dtvigencia" timestamp NULL,
@@ -177,7 +177,7 @@ CREATE TABLE demo."prescricao" (
 create table demo."prescricao_audit" (
 	"idprescricao_audit" serial8 not null,
 	"tp_audit" smallint not null,
-	"nratendimento" NUMERIC(9, 0) not null,
+	"nratendimento" bigint not null,
 	"fkprescricao" bigint not null,
 	"dtprescricao" timestamp not null,
 	"fksetor" integer not null,
@@ -401,7 +401,7 @@ CREATE TABLE demo."memoria" (
 
 CREATE TABLE demo."evolucao" (
   "fkevolucao" bigint PRIMARY KEY NOT NULL,
-  "nratendimento" NUMERIC(9, 0) NOT NULL,
+  "nratendimento" bigint NOT NULL,
   "dtevolucao" timestamp NOT NULL,
   "texto" text DEFAULT NULL,
   "prescritor" varchar(255) NULL,
@@ -438,7 +438,7 @@ CREATE TABLE demo."evolucao" (
 );
 
 CREATE TABLE demo.checkedindex (
-  "nratendimento" NUMERIC(9, 0) NOT NULL,
+  "nratendimento" bigint NOT NULL,
   "fkmedicamento" bigint NOT NULL,
   "doseconv" float4 DEFAULT 0,
   "frequenciadia" float4 DEFAULT 0,
@@ -512,7 +512,7 @@ CREATE TABLE demo."medatributos_audit" (
 CREATE TABLE demo."pessoa_audit" (
 	idpessoa_audit bigserial NOT NULL,
 	tp_audit int2 NOT NULL,
-	nratendimento NUMERIC(9, 0) NOT NULL,
+	nratendimento bigint NOT NULL,
 	extra json NULL,
 	created_at timestamp NOT NULL,
 	created_by int4 NOT NULL
@@ -530,7 +530,7 @@ create table demo."marcador" (
 );
 
 CREATE TABLE demo.cache_atendimento_ativo (
-    "nratendimento" NUMERIC(9, 0),
+    "nratendimento" bigint,
     "cached_at" TIMESTAMP DEFAULT (now() AT TIME ZONE 'America/Sao_Paulo'::text)
 );
 
@@ -671,3 +671,12 @@ CREATE TABLE IF NOT EXISTS demo.evolucao_arquivo
 ALTER TABLE demo.presmed
 ADD CONSTRAINT check_origem_valida
 CHECK (origem IN ('Medicamentos', 'Soluções', 'Proced/Exames', 'Dietas', 'Materiais'));
+
+ALTER TABLE demo.prescricao
+ADD CONSTRAINT chk_prescricao_nratendimento
+CHECK (nratendimento BETWEEN 0 AND 999999999);
+
+
+ALTER TABLE demo.pessoa
+ADD CONSTRAINT chk_pessoa_nratendimento
+CHECK (nratendimento BETWEEN 0 AND 999999999);
