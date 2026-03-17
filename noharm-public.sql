@@ -207,6 +207,19 @@ CREATE TABLE public."tb_cid10" (
 	CONSTRAINT tb_cid10_pkey PRIMARY KEY ("co_cid10")
 );
 
+CREATE TABLE public."base_conhecimento" (
+	"idbase_conhecimento" serial PRIMARY KEY NOT NULL,
+	"pagina" varchar(255)[] NOT NULL,
+  "link" varchar(255) NOT NULL,
+	"titulo" varchar(255) NOT NULL,
+	"resumo" text NULL,
+	"ativo" boolean NOT NULL,
+	"updated_at" timestamp null,
+	"updated_by" integer null,
+	"created_at" timestamp not null,
+	"created_by" integer not null
+);
+
 CREATE INDEX ON public."usuario_autorizacao" ("idusuario");
 
 CREATE UNIQUE INDEX ON public."substancia" ("sctid");
