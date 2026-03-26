@@ -759,7 +759,7 @@ BEGIN
     insert into presmed_audit
       (tp_audit, fkpresmed, created_at, created_by, extra)
       values
-	  (2, P_PRESMED_ORIGEM.fkpresmed, now() AT TIME ZONE 'America/Sao_Paulo', 0, jsonb_build_object('checado_anteriormente', PRESMED_RESULTADO.checado,'periodo_calculado', PRESMED_RESULTADO.periodo));
+	  (2, P_PRESMED_ORIGEM.fkpresmed, now() AT TIME ZONE 'America/Sao_Paulo', 0, jsonb_build_object('checado_anteriormente', PRESMED_RESULTADO.checado,'periodo_calculado', PRESMED_RESULTADO.periodo, 'origem_pep', P_PRESMED_ORIGEM.origem));
   end if;
 
   RESET search_path;
