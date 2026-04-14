@@ -434,6 +434,7 @@ CREATE TABLE demo."evolucao" (
   "anotacoes" jsonb NULL,
   "formulario" jsonb null,
   "template" jsonb null,
+  "sumario" jsonb null,
   "created_at" timestamp NOT NULL DEFAULT (now() AT TIME ZONE 'America/Sao_Paulo'::text)
 );
 
