@@ -289,9 +289,12 @@ DECLARE
   V_PRESMED record;
   V_FK_PRESCRICAO_AGG bigint;
   V_CPOE boolean;
+  V_SCHEMA_CONFIG record;
+  V_TIPOFREQ varchar(75);
+  V_VALORFREQ float;
 BEGIN
   if P_PARAMS.nome_schema is null or P_PARAMS.nome_schema = '' then
-    RAISE EXCEPTION 'Parametro invalido: nome_schema';
+    RAISE EXCEPTION 'Parametro invalido: nome_schema'; 
   end if;
 
   EXECUTE FORMAT('SET search_path to %s;', P_PARAMS.nome_schema);
@@ -304,7 +307,7 @@ BEGIN
 	  IF P_PRESMED_ORIGEM.idoutlier IS NULL THEN
 		SELECT * INTO V_PRESMED FROM presmed WHERE fkpresmed = P_PRESMED_ORIGEM.fkpresmed;
 		IF FOUND THEN
-			IF
+			IF      
 				    V_PRESMED.dose            IS NOT DISTINCT FROM P_PRESMED_ORIGEM.dose
 				AND V_PRESMED.fkfrequencia    IS NOT DISTINCT FROM P_PRESMED_ORIGEM.fkfrequencia
 				AND V_PRESMED.fkmedicamento   IS NOT DISTINCT FROM P_PRESMED_ORIGEM.fkmedicamento
@@ -328,39 +331,48 @@ BEGIN
     WHERE p.fkprescricao = P_PRESMED_ORIGEM.fkprescricao
   );
   PRESMED_RESULTADO.nratendimento := (select nratendimento from prescricao pp where pp.fkprescricao = P_PRESMED_ORIGEM.fkprescricao limit 1);
-
+ 
   select *
   into V_PRESCRICAO
   from prescricao where fkprescricao = P_PRESMED_ORIGEM.fkprescricao;
+
+  begin
+    select *
+    into V_SCHEMA_CONFIG
+    from schemaconfig where schema_name = P_PARAMS.nome_schema;
+  exception
+    when insufficient_privilege then
+      select null into V_SCHEMA_CONFIG;
+  end;
 
   /**
   * ORIGENS
   */
   PRESMED_RESULTADO.origem := (
-    select
-      case
+    select 
+      case 
         when tipo = 'map-origin-drug' then 'Medicamentos'
         when tipo = 'map-origin-solution' then 'Soluções'
         when tipo = 'map-origin-procedure' then 'Proced/Exames'
         when tipo = 'map-origin-diet' then 'Dietas'
-        when tipo = 'map-origin-material' then 'Materiais'
+		when tipo = 'map-origin-material' then 'Materiais'
         when tipo = 'map-origin-custom' then P_PRESMED_ORIGEM.origem
-        else 'Medicamentos'
+        else 'Medicamentos' 			
       end as origem
     from (
-      select
+      select 
         jsonb_array_elements_text(valor::jsonb) valor,
-        tipo
-      from
-        memoria m
-      where
+        tipo 
+      from 
+        memoria m 
+      where 
         tipo in (
-          'map-origin-drug', 'map-origin-solution',
+          'map-origin-drug', 'map-origin-solution', 
           'map-origin-procedure', 'map-origin-diet',
           'map-origin-custom', 'map-origin-material'
         )
     ) o
-    where
+    where 
       valor = P_PRESMED_ORIGEM.origem
     limit 1
   );
@@ -369,17 +381,17 @@ BEGIN
     PRESMED_RESULTADO.origem := 'Medicamentos';
   end if;
 
-
+  
   /**
   * VIAS
   */
   IF P_PRESMED_ORIGEM.via in (select jsonb_array_elements_text(valor::jsonb) from memoria m where tipo = 'map-tube') THEN
     PRESMED_RESULTADO.sonda := TRUE;
-  END IF;
-
+  END IF; 
+  
   IF P_PRESMED_ORIGEM.via in (select jsonb_array_elements_text(valor::jsonb) from memoria m where tipo = 'map-iv') THEN
     PRESMED_RESULTADO.intravenosa := TRUE;
-  END IF;
+  END IF; 
 
   /**
   * FREQUENCIAS
@@ -450,17 +462,17 @@ BEGIN
         SELECT (P_PRESMED_ORIGEM.dose * u.fator) as doseconv
 		    FROM unidadeconverte u
 		    WHERE u.idsegmento = PRESMED_RESULTADO.idsegmento
-		    AND u.fkmedicamento = P_PRESMED_ORIGEM.fkmedicamento
-		    AND u.fkunidademedida = P_PRESMED_ORIGEM.fkunidademedida
+		    AND u.fkmedicamento = P_PRESMED_ORIGEM.fkmedicamento 
+		    AND u.fkunidademedida = P_PRESMED_ORIGEM.fkunidademedida 
       )
-      , P_PRESMED_ORIGEM.dose
-    )
+      , P_PRESMED_ORIGEM.dose 
+    ) 
   );
 
   -- Medicamento com Faixa de Valores para Outliers
   V_DIVISOR := (
     SELECT a.divisor FROM medatributos a
-    WHERE a.fkmedicamento = P_PRESMED_ORIGEM.fkmedicamento
+    WHERE a.fkmedicamento = P_PRESMED_ORIGEM.fkmedicamento 
     AND a.idsegmento = PRESMED_RESULTADO.idsegmento
     AND a.divisor IS NOT NULL
   );
@@ -469,7 +481,7 @@ BEGIN
     V_PESO := 1;
     V_USAPESO := (
       SELECT a.usapeso FROM medatributos a
-      WHERE a.fkmedicamento = P_PRESMED_ORIGEM.fkmedicamento
+      WHERE a.fkmedicamento = P_PRESMED_ORIGEM.fkmedicamento 
       AND a.idsegmento = PRESMED_RESULTADO.idsegmento
       AND a.divisor IS NOT NULL
     );
@@ -477,13 +489,13 @@ BEGIN
     IF V_USAPESO IS TRUE THEN
       V_PESO := (
         SELECT COALESCE (
-          (
+          ( 
             SELECT pe.peso FROM pessoa pe
             INNER JOIN prescricao pr ON pr.nratendimento = pe.nratendimento
-            WHERE pr.fkprescricao = P_PRESMED_ORIGEM.fkprescricao AND pe.peso > 0
+            WHERE pr.fkprescricao = P_PRESMED_ORIGEM.fkprescricao AND pe.peso > 0 
           )
-          , 1
-        )
+          , 1 
+        ) 
       );
 
     END IF;
@@ -493,31 +505,31 @@ BEGIN
     END IF;
   END IF;
 
-
+  
   /**
   * OUTLIERS
   */
   PRESMED_RESULTADO.idoutlier := (
-      SELECT MAX(o.idoutlier) FROM outlier o
+      SELECT MAX(o.idoutlier) FROM outlier o 
       WHERE o.fkmedicamento = P_PRESMED_ORIGEM.fkmedicamento
       AND round(o.doseconv::numeric, 2) = round(PRESMED_RESULTADO.doseconv::numeric, 2)
       AND o.frequenciadia = PRESMED_RESULTADO.frequenciadia
       AND o.idsegmento = PRESMED_RESULTADO.idsegmento
   );
-
+  
   IF PRESMED_RESULTADO.idoutlier IS NULL AND PRESMED_RESULTADO.doseconv > 0 THEN
     -- busca por similaridade
     PRESMED_RESULTADO.idoutlier := (
-      	SELECT
+      	SELECT 
         	idoutlier
-	    from (
-	        SELECT
+	    from (	
+	        SELECT 
 	          o.idoutlier,
 	          1 - ( (o.doseconv * PRESMED_RESULTADO.doseconv + o.frequenciadia * PRESMED_RESULTADO.frequenciadia) / (sqrt( power(o.doseconv,2) + power(o.frequenciadia,2) ) *
 				    sqrt( power(PRESMED_RESULTADO.doseconv,2) + power(PRESMED_RESULTADO.frequenciadia,2)) ) ) as cosine,
 				    sqrt(power(o.doseconv - PRESMED_RESULTADO.doseconv,2) + power(o.frequenciadia - PRESMED_RESULTADO.frequenciadia,2)) as euclidian
 			FROM outlier o
-			WHERE
+			WHERE 
 	          o.idsegmento = PRESMED_RESULTADO.idsegmento
 			  and o.fkmedicamento = P_PRESMED_ORIGEM.fkmedicamento
 	          and o.doseconv > 0 and o.frequenciadia > 0
@@ -583,11 +595,11 @@ BEGIN
   */
   if 'PERIODO' != all(coalesce(P_PARAMS.skip_list, array[]::text[])) then
   	V_FKPRESCRICAO_PERIODO := (
-		select
-			array_agg(fkprescricao)
-		from
-			prescricao
-		where
+		select 
+			array_agg(fkprescricao) 
+		from 
+			prescricao 
+		where 
 			nratendimento = PRESMED_RESULTADO.nratendimento
 			and idsegmento = PRESMED_RESULTADO.idsegmento
 			and fkprescricao < P_PRESMED_ORIGEM.fkprescricao
@@ -596,45 +608,45 @@ BEGIN
     PRESMED_RESULTADO.periodo := (
       with vigencias as (
         select
-          prescricao.dtprescricao::date dtinicial,
-		  case
+          prescricao.dtprescricao::date dtinicial, 
+		  case 
             when count(presmed.dtsuspensao) = count(prescricao.dtprescricao) then max(presmed.dtsuspensao)::date -- somente quando todos estao suspensos
             when max(prescricao.dtvigencia)::date > now()::date then now()::date
             else max(prescricao.dtvigencia)::date
           end as dtfinal
-        FROM
-          presmed
-          JOIN prescricao ON prescricao.fkprescricao = presmed.fkprescricao
+        FROM 
+          presmed 
+          JOIN prescricao ON prescricao.fkprescricao = presmed.fkprescricao 
           JOIN medicamento ON medicamento.fkmedicamento = presmed.fkmedicamento
-        WHERE
+        WHERE 
           prescricao.nratendimento = PRESMED_RESULTADO.nratendimento
           and presmed.fkmedicamento = P_PRESMED_ORIGEM.fkmedicamento
           and presmed.fkprescricao = any(V_FKPRESCRICAO_PERIODO)
-        group by
+        group by 
           prescricao.dtprescricao
       ),
       dias_prescritos as (
-        select
+        select 
           i::date as dia,
           coalesce((select 1 from vigencias where i::date between dtinicial and dtfinal limit 1), 0) as total
-        from
+        from 
           generate_series((select min(dtinicial) from vigencias), (select max(dtfinal) from vigencias), '1 day'::interval) i
       ),
       dias_prescritos_grupo as (
-        select
-          dias_prescritos.dia,
-          dias_prescritos.total,
+        select 
+          dias_prescritos.dia, 
+          dias_prescritos.total, 
           (
-            select
-              sum(dant.total)
-            from
-              dias_prescritos dant
-            where
+            select 
+              sum(dant.total) 
+            from 
+              dias_prescritos dant 
+            where 
               -- definir periodo válido (qtd de dias em que a parada interrompe a contagem)
               dant.dia between (dias_prescritos.dia - interval '1 days')::date and (dias_prescritos.dia - interval '1 days')::date
           ) as anteriores
-        from
-          dias_prescritos
+        from 
+          dias_prescritos 
       )
       select
         case
@@ -642,15 +654,15 @@ BEGIN
           when (extract(day from (select dtprescricao from prescricao pp where pp.fkprescricao = P_PRESMED_ORIGEM.fkprescricao limit 1) - max(dia))) > 1 then 0
           else count(*)
         end
-      from
-        dias_prescritos
-      where
+      from 
+        dias_prescritos 
+      where 
         dia >= (
-          select
-            max(dia)
-          from
-            dias_prescritos_grupo
-          where
+          select 
+            max(dia) 
+          from 
+            dias_prescritos_grupo 
+          where 
             (total = 1 and anteriores = 0) or (total = 1 and anteriores is null)
         )
         and total = 1
@@ -681,7 +693,7 @@ BEGIN
 		PRESMED_RESULTADO.alergia = 'N';
 	end if;
   else
-    PRESMED_RESULTADO.alergia = P_PRESMED_ORIGEM.alergia;
+	PRESMED_RESULTADO.alergia = P_PRESMED_ORIGEM.alergia;
   end if;
 
   if V_CPOE then
@@ -689,10 +701,10 @@ BEGIN
       PRESMED_RESULTADO.cpoe_grupo := P_PRESMED_ORIGEM.cpoe_nrseq;
     else
       PRESMED_RESULTADO.cpoe_grupo := (
-        select
+        select 
           coalesce(
             (
-              select cpoe_grupo
+              select cpoe_grupo  
               from presmed
               where cpoe_nrseq = P_PRESMED_ORIGEM.cpoe_nrseq_anterior
               limit 1
@@ -700,47 +712,47 @@ BEGIN
           )
       );
     END IF;
-
+   
     -- deschecagem
     if PRESMED_RESULTADO.origem in ('Medicamentos', 'Soluções', 'Proced/Exames') then
     	-- novo item
 		if not exists(select fkpresmed from presmed where fkpresmed = P_PRESMED_ORIGEM.fkpresmed) then
 			V_FK_PRESCRICAO_AGG := concat(
-				to_char(V_PRESCRICAO.dtprescricao, 'YYMMDD'),
+				to_char(V_PRESCRICAO.dtprescricao, 'YYMMDD'), 
 				V_PRESCRICAO.idsegmento * 1000000000::bigint + V_PRESCRICAO.nratendimento
 			)::bigint;
 
 			-- marcar prescricao para ser atualizada pelo atendcalc
 			update
 				prescricao p
-			set
+			set 
 				indicadores = (COALESCE(indicadores::jsonb, '{}'::jsonb) || '{"should_update": true}'::jsonb)::json
-			where
+			where 
 				fkprescricao = V_FK_PRESCRICAO_AGG;
-
+			
 			-- search path precisa ser setado novamente, pois houve um reset no comando acima
 			EXECUTE FORMAT('SET search_path to %s;', P_PARAMS.nome_schema);
-
+		
 			-- deschecar se o status for igual a 's'
 			-- se possuir a feature NAO_DESCHECAR_FREQ_AGORA e a frequenciadia = 66, não deve executar a deschecagem (adicionado em 06/12/24 - Marcelo)
-			if
-				(select status from prescricao where fkprescricao = V_FK_PRESCRICAO_AGG) = 's'
+			if 
+				(select status from prescricao where fkprescricao = V_FK_PRESCRICAO_AGG) = 's' 
 				and not ('CPOE_NAO_DESCHECAR_FREQ_AGORA' = any(coalesce(P_PARAMS.features, array[]::text[])) and PRESMED_RESULTADO.frequenciadia = 66)
 			then
 				update
 					prescricao p
-				set
+				set 
 					status = '0',
 					update_at = now() AT TIME ZONE 'America/Sao_Paulo'
-				where
+				where 
 					fkprescricao = V_FK_PRESCRICAO_AGG;
-
+				
 				-- search path precisa ser setado novamente, pois houve um reset no comando acima
 				EXECUTE FORMAT('SET search_path to %s;', P_PARAMS.nome_schema);
-
-
+				
+				
 				insert into prescricao_audit (
-					tp_audit, nratendimento, fkprescricao, dtprescricao, fksetor,
+					tp_audit, nratendimento, fkprescricao, dtprescricao, fksetor, 
 					total_itens, agregada, concilia, idsegmento, leito, created_at,
 					created_by, extra
 				)
@@ -750,23 +762,84 @@ BEGIN
 					0,'{"source": "trigger public.complete_presmed"}'
 				);
 			end if;
-
+			
 		end if;
 	end if;
   end if;
 
-  if 'AUDIT' != all(coalesce(P_PARAMS.skip_list, array[]::text[])) then
-    insert into presmed_audit
-      (tp_audit, fkpresmed, created_at, created_by, extra)
-      values
-	  (2, P_PRESMED_ORIGEM.fkpresmed, now() AT TIME ZONE 'America/Sao_Paulo', 0, jsonb_build_object('checado_anteriormente', PRESMED_RESULTADO.checado,'periodo_calculado', PRESMED_RESULTADO.periodo, 'origem_pep', P_PRESMED_ORIGEM.origem));
+  /**
+  * AGHUSE ESPECIFICOS
+  **/
+  if V_SCHEMA_CONFIG is not null and V_SCHEMA_CONFIG.schema_name = 'AGHUSE' then
+	-- FREQUENCIA
+	IF P_PRESMED_ORIGEM.fkfrequencia IS NOT NULL then  	
+		V_TIPOFREQ := substring(P_PRESMED_ORIGEM.fkfrequencia, '(?:[\d]*)([^\d]*)');
+
+		if V_TIPOFREQ in ('X','H','D','S','M') then
+			V_VALORFREQ := substring(P_PRESMED_ORIGEM.fkfrequencia, '(\d*)');
+			
+		    case V_TIPOFREQ
+		        when 'H' then 
+		          PRESMED_RESULTADO.frequenciadia = 24 / V_VALORFREQ;
+		        when 'S' then
+		          PRESMED_RESULTADO.frequenciadia = V_VALORFREQ * 0.142857143;
+		        when 'D' then
+		          PRESMED_RESULTADO.frequenciadia = 1 / V_VALORFREQ;
+		        when 'M' then
+		          PRESMED_RESULTADO.frequenciadia = 1440 / V_VALORFREQ;
+		        else 
+		          PRESMED_RESULTADO.frequenciadia = V_VALORFREQ;
+		    end case;
+		 end if;
+    END IF;
+
+
+	-- PERIODO
+	V_FKPRESCRICAO_PERIODO := (
+		select 
+		  array_agg(fkprescricao) 
+		from 
+		  prescricao 
+		where 
+		  nratendimento = PRESMED_RESULTADO.nratendimento
+		  and fkprescricao < P_PRESMED_ORIGEM.fkprescricao
+		  and dtprescricao::date >= (
+		  	select 
+				coalesce(pe.dtinternacao, now())::date
+			from
+				prescricao p 
+				left join pessoa pe on p.nratendimentoref = pe.nratendimentoref
+			where 
+				p.fkprescricao = P_PRESMED_ORIGEM.fkprescricao
+			limit 1
+		  )
+	);
+	
+	PRESMED_RESULTADO.periodo := (
+		SELECT 
+			count(distinct(pr2.dtprescricao::date))
+		FROM 
+			presmed p2
+			INNER JOIN prescricao pr2 ON pr2.fkprescricao = p2.fkprescricao 
+		WHERE 
+		  p2.fkmedicamento = P_PRESMED_ORIGEM.fkmedicamento
+		  and p2.fkprescricao = any(V_FKPRESCRICAO_PERIODO)     
+	);
   end if;
 
+  if 'AUDIT' != all(coalesce(P_PARAMS.skip_list, array[]::text[])) then
+    insert into presmed_audit 
+      (tp_audit, fkpresmed, created_at, created_by, extra) 
+      values 
+	  (2, P_PRESMED_ORIGEM.fkpresmed, now() AT TIME ZONE 'America/Sao_Paulo', 0, jsonb_build_object('checado_anteriormente', PRESMED_RESULTADO.checado,'periodo_calculado', PRESMED_RESULTADO.periodo, 'origem_pep', P_PRESMED_ORIGEM.origem));
+  end if;
+  
   RESET search_path;
   RETURN PRESMED_RESULTADO;
 END;
 $function$
 ;
+
 
 
 ----------
@@ -854,38 +927,52 @@ $function$
 
 ------
 
-CREATE
-OR REPLACE FUNCTION public.complete_prescricaoagg(
-  P_PARAMS public.PARAMETRO_TYPE,
-  P_ORIGEM record
-) RETURNS public.PRESCRICAOAGG_RESULTADO_TYPE LANGUAGE plpgsql AS $function$
+-- DROP FUNCTION public.complete_prescricaoagg(parametro_type, record);
+
+CREATE OR REPLACE FUNCTION public.complete_prescricaoagg(p_params parametro_type, p_origem record)
+ RETURNS prescricaoagg_resultado_type
+ LANGUAGE plpgsql
+AS $function$
 DECLARE
   V_RESULTADO public.PRESCRICAOAGG_RESULTADO_TYPE;
   V_DIVISOR float;
   V_USAPESO boolean;
+  V_SCHEMA_CONFIG record;
+  V_TIPOFREQ varchar(75);
+  V_VALORFREQ float;
 BEGIN
   if P_PARAMS.nome_schema is null or P_PARAMS.nome_schema = '' then
-    RAISE EXCEPTION 'Parametro invalido: nome_schema';
+    RAISE EXCEPTION 'Parametro invalido: nome_schema'; 
   end if;
 
   EXECUTE FORMAT('SET search_path to %s;', P_PARAMS.nome_schema);
+
+
+  begin
+    select *
+    into V_SCHEMA_CONFIG
+    from schemaconfig where schema_name = P_PARAMS.nome_schema;
+  exception
+    when insufficient_privilege then
+      select null into V_SCHEMA_CONFIG;
+  end;
 
   /**
   * FREQUENCIA
   */
   IF P_ORIGEM.fkfrequencia IS NOT NULL then
     V_RESULTADO.frequenciadia := COALESCE(
-      (
-        SELECT
-          f.frequenciadia
-        FROM
-          frequencia f
-        where
-          f.fkfrequencia = P_ORIGEM.fkfrequencia
-        limit 1
-			),
-			P_ORIGEM.frequenciadia
-		);
+       (
+	        SELECT 
+	          f.frequenciadia 
+	        FROM 
+	          frequencia f
+	        where
+	          f.fkfrequencia = P_ORIGEM.fkfrequencia
+	        limit 1
+		),
+		P_ORIGEM.frequenciadia
+	);
   else
     V_RESULTADO.frequenciadia = P_ORIGEM.frequenciadia;
 	END IF;
@@ -904,7 +991,7 @@ BEGIN
   else
     V_RESULTADO.fkunidademedida = P_ORIGEM.fkunidademedida;
 	END IF;
-
+   
   /**
   * PESO
   */
@@ -922,35 +1009,35 @@ BEGIN
     WHERE s.fksetor = P_ORIGEM.fksetor
     AND s.fkhospital = P_ORIGEM.fkhospital
   );
-
+   
 	/**
   * DOSE
   */
-  V_RESULTADO.doseconv = (
+  V_RESULTADO.doseconv = ( 
 		select
 			COALESCE (
 				(
 					select
 						(P_ORIGEM.dose * u.fator) as doseconv
-					FROM
+					FROM 
 						unidadeconverte u
-					WHERE
-						u.idsegmento = V_RESULTADO.idsegmento
-						AND u.fkmedicamento = P_ORIGEM.fkmedicamento
-						AND u.fkunidademedida = V_RESULTADO.fkunidademedida
+					WHERE 
+						u.idsegmento = V_RESULTADO.idsegmento  
+						AND u.fkmedicamento = P_ORIGEM.fkmedicamento 
+						AND u.fkunidademedida = V_RESULTADO.fkunidademedida 
 				),
-				P_ORIGEM.dose
-			)
+				P_ORIGEM.dose 
+			) 
 	);
 
   -- faixas
 	V_DIVISOR := (
     select
       a.divisor
-    FROM
+    FROM 
       medatributos a
-		WHERE
-			a.fkmedicamento = P_ORIGEM.fkmedicamento
+		WHERE 
+			a.fkmedicamento = P_ORIGEM.fkmedicamento 
 			AND a.idsegmento = V_RESULTADO.idsegmento
 			AND a.divisor IS NOT null
 	);
@@ -959,16 +1046,16 @@ BEGIN
     V_USAPESO := (
       select
         a.usapeso
-      FROM
+      FROM 
         medatributos a
-      WHERE
-        a.fkmedicamento = P_ORIGEM.fkmedicamento
+      WHERE 
+        a.fkmedicamento = P_ORIGEM.fkmedicamento 
         AND a.idsegmento = V_RESULTADO.idsegmento
         AND a.divisor IS NOT null
     );
 
     IF V_USAPESO IS TRUE THEN
-      if V_RESULTADO.PESO > 0 and V_DIVISOR > 0 and V_RESULTADO.peso <> 999 and V_RESULTADO.peso is not null  then
+      if V_RESULTADO.PESO > 0 and V_DIVISOR > 0 and V_RESULTADO.peso <> 999 and V_RESULTADO.peso is not null  then 
         V_RESULTADO.doseconv := (SELECT CEIL(((V_RESULTADO.doseconv/V_RESULTADO.PESO)/V_DIVISOR)::numeric) * V_DIVISOR);
       else
         V_RESULTADO.doseconv := null;
@@ -979,6 +1066,34 @@ BEGIN
 
   END IF;
 
+
+  /**
+  * AGHUSE ESPECIFICOS
+  **/
+  if V_SCHEMA_CONFIG is not null and V_SCHEMA_CONFIG.schema_name = 'AGHUSE' then
+	-- FREQUENCIA
+	IF P_ORIGEM.fkfrequencia IS NOT NULL then  	
+		V_TIPOFREQ := substring(P_ORIGEM.fkfrequencia, '(?:[\d]*)([^\d]*)');
+
+		if V_TIPOFREQ in ('X','H','D','S','M') then
+			V_VALORFREQ := substring(P_ORIGEM.fkfrequencia, '(\d*)');
+			
+		    case V_TIPOFREQ
+		        when 'H' then 
+		          V_RESULTADO.frequenciadia = 24 / V_VALORFREQ;
+		        when 'S' then
+		          V_RESULTADO.frequenciadia = V_VALORFREQ * 0.142857143;
+		        when 'D' then
+		          V_RESULTADO.frequenciadia = 1 / V_VALORFREQ;
+		        when 'M' then
+		          V_RESULTADO.frequenciadia = 1440 / V_VALORFREQ;
+		        else 
+		          V_RESULTADO.frequenciadia = V_VALORFREQ;
+		    end case;
+		 end if;
+    END IF;
+  end if;
+  
   RESET search_path;
   RETURN V_RESULTADO;
 END;
@@ -1000,8 +1115,8 @@ BEGIN
     'INSERT INTO %I.prescricao (
       fkhospital, fkprescricao, fkpessoa, nratendimento, fksetor, dtprescricao, idsegmento,
       leito, prontuario, dtvigencia, prescritor, agregada, indicadores, aggsetor, aggmedicamento,
-      concilia, convenio, dtatualizacao, dtcriacao_origem, especialidade
-    ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18, $19, $20)
+      concilia, convenio, dtatualizacao, dtcriacao_origem, especialidade, nratendimentoref, dtimpressao
+    ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18, $19, $20, $21, $22)
     ON CONFLICT (fkprescricao) DO UPDATE SET
       fkpessoa = $3,
       fksetor = $5,
@@ -1034,9 +1149,12 @@ BEGIN
     p_record.convenio, --17
     p_record.dtatualizacao, --18
     p_record.dtcriacao_origem, --19
-    p_record.especialidade; --20
+    p_record.especialidade, --20
+	p_record.nratendimentoref, --21
+	p_record.dtimpressao; --22
 END;
 $function$;
+
 
 -------
 
