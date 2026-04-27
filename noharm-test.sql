@@ -38,7 +38,7 @@ INSERT INTO demo_test.prescricao
 
 INSERT INTO demo_test.pessoa
   (fkhospital, fkpessoa, nratendimento, dtnascimento, dtinternacao, cor, sexo, peso)
-	SELECT fkhospital, fkpessoa, nratendimento, dtnascimento, dtinternacao + INTERVAL '1 month', NULL, NULL, cor, sexo, peso
+	SELECT fkhospital, fkpessoa, nratendimento, dtnascimento, dtinternacao + INTERVAL '1 month', cor, sexo, peso
 	FROM demo.pessoa p
 	WHERE EXISTS (
 		SELECT * 
