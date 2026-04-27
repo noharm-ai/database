@@ -152,7 +152,7 @@ BEGIN
       -- EX:
       -- V_RESULTADO.idsegmento := 2;
 
-      NEW.nratendimentohcpa = NEW.nratendimento;
+      NEW.nratendimentoref = NEW.nratendimento;
 
       if new.concilia is null then
         NEW.nratendimento = NEW.prontuario;	
