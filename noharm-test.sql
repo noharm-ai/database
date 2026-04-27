@@ -31,11 +31,13 @@ INSERT INTO demo_test.medicamento
 	FROM demo.medicamento;
 
 INSERT INTO demo_test.prescricao
+  (fkhospital, fksetor, fkprescricao, fkpessoa, nratendimento, idsegmento, dtprescricao)
 	SELECT fkhospital, fksetor, fkprescricao, fkpessoa, nratendimento, idsegmento, dtprescricao + INTERVAL '1 month'
 	FROM demo.prescricao
 	WHERE dtprescricao > current_date - 2 and idsegmento = 1;
 
 INSERT INTO demo_test.pessoa
+  (fkhospital, fkpessoa, nratendimento, dtnascimento, dtinternacao, cor, sexo, peso)
 	SELECT fkhospital, fkpessoa, nratendimento, dtnascimento, dtinternacao + INTERVAL '1 month', NULL, NULL, cor, sexo, peso
 	FROM demo.pessoa p
 	WHERE EXISTS (
