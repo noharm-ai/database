@@ -653,6 +653,8 @@ CREATE OR REPLACE VIEW demo.usuario
     FROM public.usuario
     WHERE usuario.schema = 'demo';
 
+CREATE OR REPLACE VIEW demo.schemaconfig AS select schema_name, status, idschema_config, tp_pep from schema_config sc where schema_name = 'demo';
+
 CREATE TABLE IF NOT EXISTS demo.presmed_arquivo
     (LIKE demo.presmed EXCLUDING INDEXES);
 
