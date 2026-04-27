@@ -113,6 +113,7 @@ CREATE TABLE demo."pessoa" (
   "fkhospital" smallint DEFAULT 1,
   "fkpessoa" bigint NOT NULL,
   "nratendimento" bigint UNIQUE NOT NULL,
+  "nratendimentoref" bigint DEFAULT NULL,
   "dtnascimento" date DEFAULT NULL,
   "dtinternacao" timestamp NOT NULL,
   "dtalta" timestamp DEFAULT NULL,
@@ -150,6 +151,7 @@ CREATE TABLE demo."prescricao" (
   "fkprescricao" bigint PRIMARY KEY NOT NULL,
   "fkpessoa" bigint NOT NULL,
   "nratendimento" bigint NOT NULL,
+  "nratendimentoref" bigint DEFAULT NULL,
   "idsegmento" smallint DEFAULT NULL,
   "dtprescricao" timestamp NOT NULL,
   "dtvigencia" timestamp NULL,
@@ -171,6 +173,7 @@ CREATE TABLE demo."prescricao" (
   "update_at" timestamp DEFAULT (now() AT TIME ZONE 'America/Sao_Paulo'::text),
   "update_by" integer,
   "dtcriacao_origem" timestamp default null,
+  "dtimpressao" timestamp default null,
   "idtipoevolucao" varchar(50) NULL
 );
 
