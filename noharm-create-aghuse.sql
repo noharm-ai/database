@@ -103,14 +103,8 @@ END;
 $function$
 ;
 
-create trigger pessoa_historico_trigger after
-insert
-    or
-delete
-    or
-update
-    on
-    demo.pessoa for each row execute function demo.log_pessoa_changes();
+create trigger pessoa_historico_trigger after insert or update on
+demo.pessoa for each row execute function demo.log_pessoa_changes();
 
 
 CREATE OR REPLACE FUNCTION demo.complete_evolucao()
