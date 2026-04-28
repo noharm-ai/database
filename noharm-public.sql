@@ -341,8 +341,7 @@ BEGIN
     into V_SCHEMA_CONFIG
     from schemaconfig where schema_name = P_PARAMS.nome_schema;
   exception
-    when insufficient_privilege then
-      select null into V_SCHEMA_CONFIG;
+    when insufficient_privilege then NULL;
   end;
 
   /**
@@ -953,8 +952,7 @@ BEGIN
     into V_SCHEMA_CONFIG
     from schemaconfig where schema_name = P_PARAMS.nome_schema;
   exception
-    when insufficient_privilege then
-      select null into V_SCHEMA_CONFIG;
+    when insufficient_privilege then NULL;
   end;
 
   /**
