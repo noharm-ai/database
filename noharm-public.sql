@@ -769,7 +769,7 @@ BEGIN
   /**
   * AGHUSE ESPECIFICOS
   **/
-  if V_SCHEMA_CONFIG is not null and V_SCHEMA_CONFIG.schema_name = 'AGHUSE' then
+  if V_SCHEMA_CONFIG is not null and V_SCHEMA_CONFIG.tp_pep = 'AGHUSE' then
 	-- FREQUENCIA
 	IF P_PRESMED_ORIGEM.fkfrequencia IS NOT NULL then  	
 		V_TIPOFREQ := substring(P_PRESMED_ORIGEM.fkfrequencia, '(?:[\d]*)([^\d]*)');
@@ -1068,7 +1068,7 @@ BEGIN
   /**
   * AGHUSE ESPECIFICOS
   **/
-  if V_SCHEMA_CONFIG is not null and V_SCHEMA_CONFIG.schema_name = 'AGHUSE' then
+  if V_SCHEMA_CONFIG is not null and V_SCHEMA_CONFIG.tp_pep = 'AGHUSE' then
 	-- FREQUENCIA
 	IF P_ORIGEM.fkfrequencia IS NOT NULL then  	
 		V_TIPOFREQ := substring(P_ORIGEM.fkfrequencia, '(?:[\d]*)([^\d]*)');
