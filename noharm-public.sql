@@ -220,6 +220,18 @@ CREATE TABLE public."base_conhecimento" (
 	"created_by" integer not null
 );
 
+CREATE TABLE public.status_page (
+	hosp text NOT NULL,
+	"time" timestamp NOT NULL,
+	prescricoes int4 NULL,
+	evolucoes int4 NULL,
+	exames int4 NULL,
+	reg_solicitacoes int4 NULL,
+	CONSTRAINT status_page_pk PRIMARY KEY (hosp, "time")
+);
+
+CREATE INDEX public_status_page_time_idx ON public.status_page USING brin ("time") WITH (pages_per_range='1');
+
 CREATE INDEX ON public."usuario_autorizacao" ("idusuario");
 
 CREATE UNIQUE INDEX ON public."substancia" ("sctid");
