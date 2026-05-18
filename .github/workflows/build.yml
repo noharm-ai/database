@@ -1,7 +1,7 @@
 name: Build
 on:
   push:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build:
@@ -16,9 +16,9 @@ jobs:
         ports:
           - 5432:5432
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: Run PostgreSQL Create
-        run: | 
+        run: |
           sleep 10
           psql -h localhost -U postgres -d noharm -a -f noharm-public.sql -v ON_ERROR_STOP=1
       - name: Run PostgreSQL Demo Schema
