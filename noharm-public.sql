@@ -567,10 +567,14 @@ BEGIN
   if 'CHECADO' != all(coalesce(P_PARAMS.skip_list, array[]::text[])) then
     if 'CHECADO-COMPLEMENTO' = any(coalesce(P_PARAMS.features, array[]::text[])) then
       PRESMED_RESULTADO.checado := (
-          SELECT true FROM checkedindex
-          WHERE nratendimento = PRESMED_RESULTADO.nratendimento
-          and fkmedicamento = P_PRESMED_ORIGEM.fkmedicamento
-          AND doseconv = PRESMED_RESULTADO.doseconv
+          SELECT true FROM (
+              SELECT * FROM checkedindex
+              WHERE nratendimento = PRESMED_RESULTADO.nratendimento
+              AND fkmedicamento = P_PRESMED_ORIGEM.fkmedicamento
+              ORDER BY created_at DESC NULLS LAST
+              LIMIT 1
+          ) latest
+          WHERE doseconv = PRESMED_RESULTADO.doseconv
           AND frequenciadia = PRESMED_RESULTADO.frequenciadia
           AND sletapas = COALESCE(P_PRESMED_ORIGEM.sletapas, 0)
           AND slhorafase = COALESCE(P_PRESMED_ORIGEM.slhorafase, 0)
@@ -578,16 +582,19 @@ BEGIN
           AND sldosagem = COALESCE(P_PRESMED_ORIGEM.sldosagem, 0)
           AND via = COALESCE(P_PRESMED_ORIGEM.via, '')
           AND horario = COALESCE(left(P_PRESMED_ORIGEM.horario ,50), '')
-          and dose = P_PRESMED_ORIGEM.dose
+          AND dose = P_PRESMED_ORIGEM.dose
           AND coalesce(complemento, '') = coalesce(MD5(P_PRESMED_ORIGEM.complemento), '')
-          LIMIT 1
       );
     else
       PRESMED_RESULTADO.checado := (
-          SELECT true FROM checkedindex
-          WHERE nratendimento = PRESMED_RESULTADO.nratendimento
-          and fkmedicamento = P_PRESMED_ORIGEM.fkmedicamento
-          AND doseconv = PRESMED_RESULTADO.doseconv
+          SELECT true FROM (
+              SELECT * FROM checkedindex
+              WHERE nratendimento = PRESMED_RESULTADO.nratendimento
+              AND fkmedicamento = P_PRESMED_ORIGEM.fkmedicamento
+              ORDER BY created_at DESC NULLS LAST
+              LIMIT 1
+          ) latest
+          WHERE doseconv = PRESMED_RESULTADO.doseconv
           AND frequenciadia = PRESMED_RESULTADO.frequenciadia
           AND sletapas = COALESCE(P_PRESMED_ORIGEM.sletapas, 0)
           AND slhorafase = COALESCE(P_PRESMED_ORIGEM.slhorafase, 0)
@@ -595,8 +602,7 @@ BEGIN
           AND sldosagem = COALESCE(P_PRESMED_ORIGEM.sldosagem, 0)
           AND via = COALESCE(P_PRESMED_ORIGEM.via, '')
           AND horario = COALESCE(left(P_PRESMED_ORIGEM.horario ,50), '')
-          and dose = P_PRESMED_ORIGEM.dose
-          LIMIT 1
+          AND dose = P_PRESMED_ORIGEM.dose
       );
     end if;
   end if;
@@ -1349,14 +1355,15 @@ BEGIN
     INSERT INTO checkedindex
     (
       nratendimento, fkmedicamento, doseconv, frequenciadia, sletapas, slhorafase,
-      sltempoaplicacao, sldosagem, dtprescricao, via, horario, dose, complemento
+      sltempoaplicacao, sldosagem, dtprescricao, via, horario, dose, complemento,
+      created_at
     )
     SELECT
       p.nratendimento, pm.fkmedicamento, pm.doseconv, pm.frequenciadia,
       COALESCE(pm.sletapas, 0), COALESCE(pm.slhorafase, 0),
       COALESCE(pm.sltempoaplicacao, 0), COALESCE(pm.sldosagem, 0),
       p.dtprescricao, COALESCE(pm.via, ''), COALESCE(left(pm.horario ,50), ''),
-      pm.dose, MD5(pm.complemento)
+      pm.dose, MD5(pm.complemento), now()
     FROM prescricao p
     INNER JOIN presmed pm ON pm.fkprescricao = p.fkprescricao
     WHERE
