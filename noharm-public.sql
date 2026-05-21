@@ -230,6 +230,16 @@ CREATE TABLE public.status_page (
 	CONSTRAINT status_page_pk PRIMARY KEY (hosp, "time")
 );
 
+CREATE TABLE public.texto_ajuda (
+  idtexto_ajuda SERIAL PRIMARY KEY,
+  chave       VARCHAR(255) UNIQUE NOT NULL,
+  conteudo    TEXT,
+  created_at  TIMESTAMP DEFAULT NOW(),
+  created_by  int4,
+  updated_at  TIMESTAMP DEFAULT NOW(),
+  updated_by  int4
+);
+
 CREATE INDEX public_status_page_time_idx ON public.status_page USING brin ("time") WITH (pages_per_range='1');
 
 CREATE INDEX ON public."usuario_autorizacao" ("idusuario");
