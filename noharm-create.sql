@@ -177,6 +177,19 @@ CREATE TABLE demo."prescricao" (
   "idtipoevolucao" varchar(50) NULL
 );
 
+create table demo."prescricao_evolucao" (
+	"idprescricao_evolucao" serial8 not null,
+	"fkprescricao" bigint not null,
+	"idtipoevolucao" varchar(50) NULL,
+	"concilia" char(1) DEFAULT NULL,
+	"tp_status" smallint not null,
+	"desc_erro_integracao" varchar(255) null,
+	"updated_at" timestamp null,
+	"updated_by" integer null,
+	"created_at" timestamp not null,
+	"created_by" integer not null
+);
+
 create table demo."prescricao_audit" (
 	"idprescricao_audit" serial8 not null,
 	"tp_audit" smallint not null,
@@ -614,6 +627,9 @@ CREATE INDEX demo_prescricao_evolucao_at_idx ON demo."prescricao" ("evolucao_at"
 
 CREATE INDEX demo_prescricao_audit_fkprescricao_idx ON demo."prescricao_audit" ("fkprescricao");
 CREATE INDEX demo_prescricao_audit_created_at_idx ON demo."prescricao_audit" USING brin ("created_at") with (pages_per_range = 1);
+
+CREATE INDEX demo_prescricao_evolucao_fkprescricao_idx ON demo."prescricao_evolucao" ("fkprescricao");
+CREATE INDEX demo_prescricao_evolucao_created_at_idx ON demo."prescricao_evolucao" USING brin ("created_at") with (pages_per_range = 1);
 
 CREATE INDEX demo_presmed_audit_fkpresmed_idx ON demo."presmed_audit" ("fkpresmed");
 
