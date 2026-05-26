@@ -177,9 +177,10 @@ CREATE TABLE demo."prescricao" (
   "idtipoevolucao" varchar(50) NULL
 );
 
-create table demo."prescricao_evolucao" (
+create table hsc_test."prescricao_evolucao" (
 	"idprescricao_evolucao" serial8 not null,
 	"fkprescricao" bigint not null,
+	"texto" text not null,
 	"idtipoevolucao" varchar(50) NULL,
 	"concilia" char(1) DEFAULT NULL,
 	"tp_status" smallint not null,
