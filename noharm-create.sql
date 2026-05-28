@@ -188,7 +188,8 @@ CREATE TABLE demo."prescricao_evolucao" (
   "updated_at" TIMESTAMP NULL,
   "updated_by" INTEGER NULL,
   "created_at" TIMESTAMP NOT NULL,
-  "created_by" INTEGER NOT NULL
+  "created_by" INTEGER NOT NULL,
+  "sent_at" TIMESTAMP NULL
 );
 
 CREATE TABLE demo."prescricao_audit" (
