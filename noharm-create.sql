@@ -642,7 +642,7 @@ CREATE INDEX demo_prescricao_audit_created_at_idx ON demo."prescricao_audit" USI
 
 CREATE INDEX demo_prescricao_evolucao_fkprescricao_idx ON demo."prescricao_evolucao" ("fkprescricao");
 
-CREATE INDEX demo_prescricao_evolucao_created_at_idx ON demo."prescricao_evolucao" USING brin ("created_at") WITH (pages_per_range = 1);
+CREATE INDEX demo_prescricao_evolucao_updated_at_idx ON demo."prescricao_evolucao" USING brin ("updated_at") WITH (pages_per_range = 1);
 
 CREATE INDEX demo_presmed_audit_fkpresmed_idx ON demo."presmed_audit" ("fkpresmed");
 
