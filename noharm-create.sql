@@ -178,7 +178,7 @@ CREATE TABLE demo."prescricao" (
 );
 
 CREATE TABLE demo."prescricao_evolucao" (
-  "idprescricao_evolucao" serial8 NOT NULL,
+  "idprescricao_evolucao" serial8 PRIMARY KEY NOT NULL,
   "fkprescricao" BIGINT NOT NULL,
   "texto" TEXT NOT NULL,
   "idtipoevolucao" VARCHAR(50) NULL,
