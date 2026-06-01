@@ -741,7 +741,7 @@ BEGIN
     END IF;
    
     -- deschecagem
-    if PRESMED_RESULTADO.origem in ('Medicamentos', 'Soluções', 'Proced/Exames') then
+    if PRESMED_RESULTADO.origem in ('Medicamentos', 'Soluções', 'Proced/Exames') and V_PRESCRICAO.concilia is null then
     	-- novo item
 		if not exists(select fkpresmed from presmed where fkpresmed = P_PRESMED_ORIGEM.fkpresmed) then
 			V_FK_PRESCRICAO_AGG := concat(
