@@ -69,13 +69,15 @@ CREATE TABLE public."exame" (
 CREATE TABLE public."notifica" (
   "idnotifica" SERIAL PRIMARY KEY NOT NULL,
   "titulo" varchar(100) NOT NULL,
-  "tooltip" varchar(255) NOT NULL,
-  "link" varchar(100) NOT NULL,
-  "icon" varchar(25) NOT NULL,
-  "classname" varchar(50) NOT NULL,
+  "tooltip" varchar(255) NULL,
+  "link" varchar(100) NULL,
+  "icon" varchar(25) NULL,
+  "classname" varchar(50) NULL,
   "inicio" date NOT NULL,
   "validade" date NOT NULL,
-  "schema" varchar(25) NULL
+  "schema" varchar(25) NULL,
+  "texto" text NULL,
+  "grupo_alvo" varchar(50) NULL
 );
 
 CREATE TABLE public."relacao" (
