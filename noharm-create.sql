@@ -180,6 +180,7 @@ CREATE TABLE demo."prescricao" (
 CREATE TABLE demo."prescricao_evolucao" (
   "idprescricao_evolucao" serial8 PRIMARY KEY NOT NULL,
   "fkprescricao" BIGINT NOT NULL,
+  "nratendimento" BIGINT NOT NULL,
   "texto" TEXT NOT NULL,
   "idtipoevolucao" VARCHAR(50) NULL,
   "concilia" CHAR(1) DEFAULT NULL,
@@ -644,6 +645,8 @@ CREATE INDEX demo_prescricao_audit_created_at_idx ON demo."prescricao_audit" USI
 CREATE INDEX demo_prescricao_evolucao_fkprescricao_idx ON demo."prescricao_evolucao" ("fkprescricao");
 
 CREATE INDEX demo_prescricao_evolucao_updated_at_idx ON demo."prescricao_evolucao" USING brin ("updated_at") WITH (pages_per_range = 1);
+
+CREATE INDEX demo_prescricao_evolucao_nratendimento_idx ON demo."prescricao_evolucao" ("nratendimento");
 
 CREATE INDEX demo_presmed_audit_fkpresmed_idx ON demo."presmed_audit" ("fkpresmed");
 
