@@ -366,6 +366,19 @@ CREATE TABLE demo."unidadeconverte" (
   "fator" float4 NOT NULL
 );
 
+CREATE TABLE demo."unidadeconverte_inferencia" (
+	fkmedicamento int8 NOT NULL,
+	fkunidademedida varchar(32) NOT NULL,
+	fator_llm float4 null,
+	precisao_llm float4 null,
+	fator_ettin float4 null,
+	precisao_ettin float4 null,
+	updated_by int4, 
+	updated_at timestamp not null default (now() AT TIME ZONE 'America/Sao_Paulo' :: TEXT),
+	created_by int4, 
+	created_at timestamp not null default (now() AT TIME ZONE 'America/Sao_Paulo' :: TEXT)
+);
+
 CREATE TABLE demo."segmento" (
   "idsegmento" SERIAL PRIMARY KEY NOT NULL,
   "nome" VARCHAR(250) NOT NULL,
@@ -683,6 +696,8 @@ CREATE UNIQUE INDEX demo_frequencia_idx ON demo."frequencia" ("fkhospital", "fkf
 CREATE UNIQUE INDEX demo_unidademedida_idx ON demo."unidademedida" ("fkhospital", "fkunidademedida");
 
 CREATE UNIQUE INDEX demo_unidadeconverte_idx ON demo."unidadeconverte" ("idsegmento", "fkmedicamento", "fkunidademedida");
+
+CREATE UNIQUE INDEX demo_unidadeconverte_inferencia_idx ON demo."unidadeconverte_inferencia" USING btree (fkmedicamento, fkunidademedida);
 
 CREATE UNIQUE INDEX demo_segmentosetor_idx ON demo."segmentosetor" ("fkhospital", "fksetor");
 
