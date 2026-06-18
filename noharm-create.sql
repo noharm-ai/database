@@ -373,6 +373,8 @@ CREATE TABLE demo."unidadeconverte_inferencia" (
 	precisao_llm float4 null,
 	fator_ettin float4 null,
 	precisao_ettin float4 null,
+  fator_ultra float4 null,
+	precisao_ultra float4 null,
 	updated_by int4, 
 	updated_at timestamp not null default (now() AT TIME ZONE 'America/Sao_Paulo' :: TEXT),
 	created_by int4, 
