@@ -46,6 +46,8 @@ CREATE TABLE public."substancia" (
   "tags" _varchar NULL,
   "conversoes" jsonb NULL,
   "regras_conversao" text null,
+  "conversoes_at" timestamp NULL,
+  "regras_conversao_at" timestamp null,
   "update_at" timestamp NULL,
   "update_by" int4 NULL
 );
