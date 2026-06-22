@@ -363,7 +363,11 @@ CREATE TABLE demo."unidadeconverte" (
   "idsegmento" SMALLINT DEFAULT 1,
   "fkmedicamento" BIGINT NOT NULL,
   "fkunidademedida" VARCHAR(32) NOT NULL,
-  "fator" float4 NOT NULL
+  "fator" float4 NOT NULL,
+  "updated_by" int4 NULL, 
+	"updated_at" timestamp null,
+	"created_by" int4 null, 
+	"created_at" timestamp null
 );
 
 CREATE TABLE demo."unidadeconverte_inferencia" (
