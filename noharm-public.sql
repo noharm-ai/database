@@ -246,6 +246,15 @@ CREATE TABLE public.texto_ajuda (
   updated_by  int4
 );
 
+CREATE TABLE "substancia_nome_variacao" (
+  "sctid" bigint NOT NULL,
+  "nome" varchar(300) NOT null,
+  "updated_at" timestamp null,
+  "updated_by" integer null,
+  "created_at" timestamp not null,
+  "created_by" integer not null
+);
+
 CREATE INDEX public_status_page_time_idx ON public.status_page USING brin ("time") WITH (pages_per_range='1');
 
 CREATE INDEX ON public."usuario_autorizacao" ("idusuario");
@@ -253,6 +262,8 @@ CREATE INDEX ON public."usuario_autorizacao" ("idusuario");
 CREATE UNIQUE INDEX ON public."substancia" ("sctid");
 
 CREATE UNIQUE INDEX ON public."relacao" ("sctida", "sctidb", "tprelacao");
+
+CREATE INDEX idx_substancia_nome_variacao_nome_trgm ON public.substancia_nome_variacao USING GIN (nome gin_trgm_ops);
 
 /**
 * CUSTOM TYPES
