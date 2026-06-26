@@ -263,6 +263,8 @@ CREATE UNIQUE INDEX ON public."substancia" ("sctid");
 
 CREATE UNIQUE INDEX ON public."relacao" ("sctida", "sctidb", "tprelacao");
 
+CREATE EXTENSION IF NOT EXISTS pg_trgm;
+
 CREATE INDEX idx_substancia_nome_variacao_nome_trgm ON public.substancia_nome_variacao USING GIN (nome gin_trgm_ops);
 
 /**
