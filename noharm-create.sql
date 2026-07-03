@@ -308,6 +308,7 @@ CREATE TABLE demo."medatributos" (
   "sonda" BOOLEAN,
   "quimio" BOOLEAN,
   "divisor" float4,
+  "divisor_ignorado" BOOLEAN,
   "usapeso" BOOLEAN,
   "concentracao" float4,
   "concentracaounidade" VARCHAR(3),
