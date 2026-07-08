@@ -233,6 +233,7 @@ CREATE TABLE public.status_page (
 	evolucoes int4 NULL,
 	exames int4 NULL,
 	reg_solicitacoes int4 NULL,
+  retorno_checagem int4 NULL,
 	CONSTRAINT status_page_pk PRIMARY KEY (hosp, "time")
 );
 
