@@ -258,7 +258,7 @@ CREATE TABLE public."substancia_nome_variacao" (
 
 CREATE TABLE public.treinamento (
 	idtreinamento serial4 primary KEY,
-	pagina varchar(255) NOT NULL,
+	pagina _varchar NOT NULL,
 	titulo varchar(255) NOT NULL,
 	resumo text NULL,
 	posicao int not null,
