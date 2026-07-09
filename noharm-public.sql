@@ -247,13 +247,59 @@ CREATE TABLE public.texto_ajuda (
   updated_by  int4
 );
 
-CREATE TABLE "substancia_nome_variacao" (
+CREATE TABLE public."substancia_nome_variacao" (
   "sctid" bigint NOT NULL,
   "nome" varchar(300) NOT null,
   "updated_at" timestamp null,
   "updated_by" integer null,
   "created_at" timestamp not null,
   "created_by" integer not null
+);
+
+CREATE TABLE public.treinamento (
+	idtreinamento serial4 primary KEY,
+	pagina varchar(255) NOT NULL,
+	titulo varchar(255) NOT NULL,
+	resumo text NULL,
+	posicao int not null,
+	obrigatorio bool not null default false,
+	ativo bool NOT NULL,
+	updated_at timestamp NULL,
+	updated_by int4 NULL,
+	created_at timestamp NOT NULL,
+	created_by int4 NOT NULL
+);
+
+CREATE TABLE public.treinamento_item (
+	idtreinamento_item serial4 primary KEY,
+	idtreinamento int4 not null,
+	titulo varchar(255) NOT NULL,
+	texto text NULL,
+	video varchar(255) null,
+	ativo bool NOT NULL,
+	posicao int not null,
+	questoes jsonb null,
+	updated_at timestamp NULL,
+	updated_by int4 NULL,
+	created_at timestamp NOT NULL,
+	created_by int4 NOT NULL
+);
+
+CREATE TABLE public.treinamento_item_usuario (
+	idtreinamento_item int4 NOT NULL REFERENCES treinamento_item(idtreinamento_item),
+	idusuario int4 NOT NULL REFERENCES usuario(idusuario),
+	duracao_segundos int4,
+	created_at timestamp NOT NULL DEFAULT now(),
+	updated_at timestamp NULL,
+	CONSTRAINT treinamento_item_usuario_pkey PRIMARY KEY (idtreinamento_item, idusuario)
+);
+
+CREATE TABLE public.treinamento_usuario (
+	idtreinamento int4 NOT NULL REFERENCES treinamento(idtreinamento),
+	idusuario int4 NOT NULL REFERENCES usuario(idusuario),
+	created_at timestamp NOT NULL DEFAULT now(),
+	updated_at timestamp NULL,
+	CONSTRAINT treinamento_usuario_pkey PRIMARY KEY (idtreinamento, idusuario)
 );
 
 CREATE INDEX public_status_page_time_idx ON public.status_page USING brin ("time") WITH (pages_per_range='1');
@@ -267,6 +313,12 @@ CREATE UNIQUE INDEX ON public."relacao" ("sctida", "sctidb", "tprelacao");
 CREATE EXTENSION IF NOT EXISTS pg_trgm;
 
 CREATE INDEX idx_substancia_nome_variacao_nome_trgm ON public.substancia_nome_variacao USING GIN (nome gin_trgm_ops);
+
+CREATE INDEX ON public."treinamento_item" ("idtreinamento");
+
+CREATE INDEX idx_treinamento_usuario_usuario ON treinamento_usuario(idusuario);
+
+CREATE INDEX idx_titem_usuario_usuario ON treinamento_item_usuario(idusuario);
 
 /**
 * CUSTOM TYPES
