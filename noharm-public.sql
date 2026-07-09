@@ -287,7 +287,7 @@ CREATE TABLE public.treinamento_item (
 
 CREATE TABLE public.treinamento_item_usuario (
 	idtreinamento_item int4 NOT NULL REFERENCES treinamento_item(idtreinamento_item),
-	idusuario int4 NOT NULL REFERENCES usuario(idusuario),
+	idusuario int4 NOT NULL REFERENCES usuario(idusuario) ON DELETE CASCADE,
 	duracao_segundos int4,
 	created_at timestamp NOT NULL DEFAULT now(),
 	updated_at timestamp NULL,
@@ -296,7 +296,7 @@ CREATE TABLE public.treinamento_item_usuario (
 
 CREATE TABLE public.treinamento_usuario (
 	idtreinamento int4 NOT NULL REFERENCES treinamento(idtreinamento),
-	idusuario int4 NOT NULL REFERENCES usuario(idusuario),
+	idusuario int4 NOT NULL REFERENCES usuario(idusuario) ON DELETE CASCADE,
 	created_at timestamp NOT NULL DEFAULT now(),
 	updated_at timestamp NULL,
 	CONSTRAINT treinamento_usuario_pkey PRIMARY KEY (idtreinamento, idusuario)
