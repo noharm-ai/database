@@ -21,6 +21,16 @@ create table public."usuario_audit" (
 	"created_by" integer not null
 );
 
+CREATE TABLE public.usuario_numeros (
+	idusuario int4 primary KEY,
+	logins int4 null,
+	checagens int4 null,
+	intervencoes int4 null,
+	evolucoes int4 null,
+	updated_at timestamp NULL,
+	created_at timestamp NOT NULL
+);
+
 CREATE TABLE public."substancia" (
   "sctid" bigint NOT NULL,
   "nome" varchar(255) NOT NULL,
