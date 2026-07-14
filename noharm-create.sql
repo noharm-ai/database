@@ -339,7 +339,8 @@ CREATE TABLE demo."motivointervencao" (
   "economia_customizada" bool NOT NULL DEFAULT FALSE,
   "bloqueante" bool NOT NULL DEFAULT FALSE,
   "tp_relacao" SMALLINT NOT NULL DEFAULT 0,
-  "ram" bool NOT NULL DEFAULT FALSE
+  "ram" bool NOT NULL DEFAULT FALSE,
+  "fkmotivo" varchar(50) NULL
 );
 
 CREATE TABLE demo."frequencia" (
