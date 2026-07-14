@@ -140,6 +140,7 @@ CREATE TABLE demo."pessoa" (
   "leito" VARCHAR(32) DEFAULT NULL,
   "dt_ultima_transferencia" TIMESTAMP DEFAULT NULL,
   "cidade" VARCHAR(250) DEFAULT NULL,
+  "tp_internacao" VARCHAR(100) DEFAULT NULL,
   "update_at" TIMESTAMP DEFAULT NULL,
   "update_by" INTEGER DEFAULT NULL,
   PRIMARY KEY ("nratendimento")
