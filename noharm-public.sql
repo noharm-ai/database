@@ -21,14 +21,16 @@ create table public."usuario_audit" (
 	"created_by" integer not null
 );
 
-CREATE TABLE public.usuario_numeros (
-	idusuario int4 primary KEY,
+CREATE TABLE public.usuario_atividade (
+	idusuario int4 not null,
+	dt_atividade timestamp not null,
 	logins int4 null,
 	checagens int4 null,
 	intervencoes int4 null,
 	evolucoes int4 null,
 	updated_at timestamp NULL,
-	created_at timestamp NOT NULL
+	created_at timestamp NOT null,
+	CONSTRAINT usuario_atividade_pkey PRIMARY KEY (idusuario, dt_atividade)
 );
 
 CREATE TABLE public."substancia" (
