@@ -728,6 +728,8 @@ CREATE INDEX demo_medatributos_audit_fkmedicamento_idsegmento_idx ON demo.medatr
 
 CREATE INDEX demo_pessoa_audit_nratendimento_idx ON demo.pessoa_audit USING btree (nratendimento);
 
+CREATE INDEX demo_idx_presc_pendente ON demo.prescricao (idsegmento, dtprescricao) WHERE indicadores IS NULL AND agregada IS NULL AND concilia IS NULL;
+
 ALTER TABLE
   demo."alergia"
 ADD
