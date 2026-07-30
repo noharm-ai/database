@@ -627,6 +627,8 @@ CREATE UNIQUE INDEX demo_exame_idx ON demo."exame" ("fkexame", "fkpessoa", "tpex
 
 CREATE INDEX demo_exame_dtexame_idx ON demo."exame" USING brin ("dtexame") WITH (pages_per_range = 1);
 
+CREATE INDEX demo_exame_created_at_idx ON demo."exame" USING brin ("created_at") WITH (pages_per_range = 1);
+
 CREATE INDEX demo_exame_fkpessoa_idx ON demo."exame" USING btree ("fkpessoa");
 
 CREATE INDEX demo_pessoa_fkpessoa_idx ON demo."pessoa" USING btree ("fkpessoa");
