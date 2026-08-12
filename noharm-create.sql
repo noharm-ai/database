@@ -724,6 +724,8 @@ CREATE INDEX demo_evolucao_dtevolucao_idx ON demo."evolucao" USING brin ("dtevol
 
 CREATE INDEX demo_evolucao_audit_fkevolucao_idx ON demo.evolucao_audit USING btree (fkevolucao);
 
+CREATE INDEX demo_evolucao_created ON demo.evolucao (created_at DESC) WHERE processed IS NULL AND exame IS NULL;
+
 CREATE INDEX demo_intervencao_audit_idintervencao_idx ON demo.intervencao_audit USING btree (idintervencao);
 
 CREATE INDEX demo_medatributos_audit_fkmedicamento_idsegmento_idx ON demo.medatributos_audit USING btree (fkmedicamento, idsegmento);
