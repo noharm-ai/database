@@ -200,6 +200,17 @@ create table public."usuario_extra" (
 	"created_by" integer not null
 );
 
+CREATE TABLE public.usuario_atributo (
+    idusuario  bigint NOT NULL,
+    tipo       character varying(64) NOT NULL,
+    valor      character varying(255),
+    created_at timestamp NOT NULL DEFAULT now(),
+    created_by bigint,
+    updated_at timestamp,
+    updated_by bigint,
+    CONSTRAINT usuario_atributo_pk PRIMARY KEY (idusuario, tipo)
+);
+
 create table public."protocolo" (
 	"idprotocolo" serial PRIMARY KEY NOT NULL,
 	"schema_name" varchar(200),
