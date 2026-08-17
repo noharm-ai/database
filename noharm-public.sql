@@ -286,11 +286,24 @@ CREATE TABLE public.treinamento (
 	resumo text NULL,
 	posicao int not null,
 	obrigatorio bool not null default false,
+	escopo varchar(20) not null default 'global',
+	audiencia varchar(20) not null default 'all',
 	ativo bool NOT NULL,
 	updated_at timestamp NULL,
 	updated_by int4 NULL,
 	created_at timestamp NOT NULL,
 	created_by int4 NOT NULL
+);
+
+CREATE TABLE public.treinamento_esquema (
+	idtreinamento int4 NOT NULL REFERENCES treinamento(idtreinamento) ON DELETE CASCADE,
+	schema_name varchar(25) NOT NULL,
+	obrigatorio bool not null default false,
+	updated_at timestamp NULL,
+	updated_by int4 NULL,
+	created_at timestamp NOT NULL,
+	created_by int4 NOT NULL,
+	CONSTRAINT treinamento_esquema_pkey PRIMARY KEY (idtreinamento, schema_name)
 );
 
 CREATE TABLE public.treinamento_item (
@@ -342,6 +355,8 @@ CREATE INDEX ON public."treinamento_item" ("idtreinamento");
 CREATE INDEX idx_treinamento_usuario_usuario ON treinamento_usuario(idusuario);
 
 CREATE INDEX idx_titem_usuario_usuario ON treinamento_item_usuario(idusuario);
+
+CREATE INDEX idx_treinamento_esquema_schema ON treinamento_esquema(schema_name);
 
 /**
 * CUSTOM TYPES
