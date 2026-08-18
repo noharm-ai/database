@@ -428,6 +428,11 @@ CREATE TABLE demo."setor" (
   "fkhospital" SMALLINT DEFAULT 1,
   "fksetor" INTEGER NOT NULL,
   "nome" VARCHAR(255) NOT NULL,
+  "tags" _varchar NULL,
+  "updated_at" timestamp NULL,
+  "updated_by" int4 NULL,
+  "created_at" TIMESTAMP NOT NULL DEFAULT (now() AT TIME ZONE 'America/Sao_Paulo' :: TEXT),
+  "created_by" int4 NULL,
   PRIMARY KEY ("fkhospital", "fksetor")
 );
 
