@@ -420,6 +420,7 @@ DECLARE
   V_PRESCRICAO record;
   V_PRESMED record;
   V_FK_PRESCRICAO_AGG bigint;
+  V_PRESCRICAO_AGG record;
   V_CPOE boolean;
   V_SCHEMA_CONFIG record;
   V_TIPOFREQ varchar(75);
@@ -854,52 +855,69 @@ BEGIN
     if PRESMED_RESULTADO.origem in ('Medicamentos', 'Soluções', 'Proced/Exames') and V_PRESCRICAO.concilia is null then
     	-- novo item
 		if not exists(select fkpresmed from presmed where fkpresmed = P_PRESMED_ORIGEM.fkpresmed) then
-			V_FK_PRESCRICAO_AGG := concat(
-				to_char(V_PRESCRICAO.dtprescricao, 'YYMMDD'), 
-				V_PRESCRICAO.idsegmento * 1000000000::bigint + V_PRESCRICAO.nratendimento
-			)::bigint;
+			-- busca a prescricao agregada do dia
+			-- o fkprescricao da agregada nao e mais calculado, pois o idsegmento do item pode divergir do idsegmento da agregada
+			select
+				pa.fkprescricao, pa.dtprescricao, pa.fksetor, pa.idsegmento, pa.leito
+			into
+				V_PRESCRICAO_AGG
+			from
+				prescricao pa
+			where
+				pa.nratendimento = V_PRESCRICAO.nratendimento
+				and pa.dtprescricao::date = V_PRESCRICAO.dtprescricao::date
+				and pa.agregada = true
+				and pa.concilia is null
+			limit 1;
 
-			-- marcar prescricao para ser atualizada pelo atendcalc
-			update
-				prescricao p
-			set 
-				indicadores = (COALESCE(indicadores::jsonb, '{}'::jsonb) || '{"should_update": true}'::jsonb)::json
-			where 
-				fkprescricao = V_FK_PRESCRICAO_AGG;
-			
-			-- search path precisa ser setado novamente, pois houve um reset no comando acima
-			EXECUTE FORMAT('SET search_path to %s;', P_PARAMS.nome_schema);
-		
-			-- deschecar se o status for igual a 's'
-			-- se possuir a feature NAO_DESCHECAR_FREQ_AGORA e a frequenciadia = 66, não deve executar a deschecagem (adicionado em 06/12/24 - Marcelo)
-			if 
-				(select status from prescricao where fkprescricao = V_FK_PRESCRICAO_AGG) = 's' 
-				and not ('CPOE_NAO_DESCHECAR_FREQ_AGORA' = any(coalesce(P_PARAMS.features, array[]::text[])) and PRESMED_RESULTADO.frequenciadia = 66)
-			then
+			if found then
+				V_FK_PRESCRICAO_AGG := V_PRESCRICAO_AGG.fkprescricao;
+
+				-- marcar prescricao para ser atualizada pelo atendcalc
 				update
 					prescricao p
 				set 
-					status = '0',
-					update_at = now() AT TIME ZONE 'America/Sao_Paulo'
+					indicadores = (COALESCE(indicadores::jsonb, '{}'::jsonb) || '{"should_update": true}'::jsonb)::json
 				where 
 					fkprescricao = V_FK_PRESCRICAO_AGG;
-				
+			
 				-- search path precisa ser setado novamente, pois houve um reset no comando acima
 				EXECUTE FORMAT('SET search_path to %s;', P_PARAMS.nome_schema);
+		
+				-- deschecar se o status for igual a 's'
+				-- se possuir a feature NAO_DESCHECAR_FREQ_AGORA e a frequenciadia = 66, não deve executar a deschecagem (adicionado em 06/12/24 - Marcelo)
+				if 
+					(select status from prescricao where fkprescricao = V_FK_PRESCRICAO_AGG) = 's' 
+					and not ('CPOE_NAO_DESCHECAR_FREQ_AGORA' = any(coalesce(P_PARAMS.features, array[]::text[])) and PRESMED_RESULTADO.frequenciadia = 66)
+				then
+					update
+						prescricao p
+					set 
+						status = '0',
+						update_at = now() AT TIME ZONE 'America/Sao_Paulo'
+					where 
+						fkprescricao = V_FK_PRESCRICAO_AGG;
+				
+					-- search path precisa ser setado novamente, pois houve um reset no comando acima
+					EXECUTE FORMAT('SET search_path to %s;', P_PARAMS.nome_schema);
 				
 				
-				insert into prescricao_audit (
-					tp_audit, nratendimento, fkprescricao, dtprescricao, fksetor, 
-					total_itens, agregada, concilia, idsegmento, leito, created_at,
-					created_by, extra
-				)
-				values (
-					2, V_PRESCRICAO.nratendimento, V_FK_PRESCRICAO_AGG, V_PRESCRICAO.dtprescricao, V_PRESCRICAO.fksetor,
-					0, true, V_PRESCRICAO.concilia, V_PRESCRICAO.idsegmento, V_PRESCRICAO.leito, now() AT TIME ZONE 'America/Sao_Paulo',
-					0,'{"source": "trigger public.complete_presmed"}'
-				);
-			end if;
+					insert into prescricao_audit (
+						tp_audit, nratendimento, fkprescricao, dtprescricao, fksetor, 
+						total_itens, agregada, concilia, idsegmento, leito, created_at,
+						created_by, extra
+					)
+					values (
+						2, V_PRESCRICAO.nratendimento, V_FK_PRESCRICAO_AGG, V_PRESCRICAO.dtprescricao, V_PRESCRICAO.fksetor,
+					  0, true, V_PRESCRICAO.concilia, V_PRESCRICAO.idsegmento, V_PRESCRICAO.leito, now() AT TIME ZONE 'America/Sao_Paulo',
+						0, json_build_object(
+							'source', 'trigger public.complete_presmed_v2',
+							'fkpresmed', P_PRESMED_ORIGEM.fkpresmed
+						)
+					);
+				end if;
 			
+			end if;
 		end if;
 	end if;
   end if;
