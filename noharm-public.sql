@@ -334,6 +334,7 @@ CREATE TABLE public.treinamento_item_usuario (
 CREATE TABLE public.treinamento_usuario (
 	idtreinamento int4 NOT NULL REFERENCES treinamento(idtreinamento),
 	idusuario int4 NOT NULL REFERENCES usuario(idusuario) ON DELETE CASCADE,
+  codigo_validacao varchar(12) NOT NULL,
 	created_at timestamp NOT NULL DEFAULT now(),
 	updated_at timestamp NULL,
 	CONSTRAINT treinamento_usuario_pkey PRIMARY KEY (idtreinamento, idusuario)
@@ -354,6 +355,8 @@ CREATE INDEX idx_substancia_nome_variacao_nome_trgm ON public.substancia_nome_va
 CREATE INDEX ON public."treinamento_item" ("idtreinamento");
 
 CREATE INDEX idx_treinamento_usuario_usuario ON treinamento_usuario(idusuario);
+
+CREATE UNIQUE INDEX idx_treinamento_usuario_codigo ON public.treinamento_usuario(codigo_validacao);
 
 CREATE INDEX idx_titem_usuario_usuario ON treinamento_item_usuario(idusuario);
 
