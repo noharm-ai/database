@@ -288,6 +288,7 @@ CREATE TABLE public.treinamento (
 	obrigatorio bool not null default false,
 	escopo varchar(20) not null default 'global',
 	audiencia varchar(20) not null default 'all',
+  tempo_horas int4 not null,
 	ativo bool NOT NULL,
 	updated_at timestamp NULL,
 	updated_by int4 NULL,
