@@ -481,6 +481,7 @@ CREATE TABLE demo."evolucao" (
   "formulario" jsonb NULL,
   "template" jsonb NULL,
   "sumario" jsonb NULL,
+  "fkassinatura" bigint null,
   "created_at" TIMESTAMP NOT NULL DEFAULT (now() AT TIME ZONE 'America/Sao_Paulo' :: TEXT)
 );
 
