@@ -1475,6 +1475,20 @@ BEGIN
 
   EXECUTE FORMAT('SET search_path to %s;', P_PARAMS.nome_schema);
 
+  /**
+  * IDSEGMENTO: depende do fksetor, portanto precisa ser recalculado a cada update,
+  * caso contrario uma troca de setor deixaria o idsegmento inconsistente.
+  * Se o setor nao estiver mapeado em segmentosetor, mantem o valor atual (evita zerar o segmento).
+  */
+  V_RESULTADO.idsegmento := COALESCE(
+    (
+      SELECT s.idsegmento FROM segmentosetor s
+      WHERE s.fksetor = P_ORIGEM.fksetor
+      AND s.fkhospital = P_ORIGEM.fkhospital
+    ),
+    P_ORIGEM.idsegmento
+  );
+
   IF P_ORIGEM.dtprescricao > P_ORIGEM.dtvigencia THEN
 		V_RESULTADO.dtvigencia := P_ORIGEM.dtprescricao + interval '10 min';
   else

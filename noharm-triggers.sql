@@ -159,7 +159,12 @@ BEGIN
   -- FUNCAO CENTRAL
   V_RESULTADO := public.atualiza_prescricao(V_PARAMETRO.*, new.*);
 
+  -- QUANDO NECESSARIO, UTILIZE ESTE ESPACO PARA ALTERAR OS VALORES CALCULADOS
+  -- EX:
+  -- V_RESULTADO.idsegmento := 2;
+
   -- USAR VALORES CALCULADOS
+  new.idsegmento := V_RESULTADO.idsegmento;
   new.dtvigencia := V_RESULTADO.dtvigencia;
   new.aggsetor := V_RESULTADO.aggsetor;
 
