@@ -60,6 +60,7 @@ CREATE TABLE public."substancia" (
   "regras_conversao" text null,
   "conversoes_at" timestamp NULL,
   "regras_conversao_at" timestamp null,
+  "tp_nivel_atb" int4 null,
   "update_at" timestamp NULL,
   "update_by" int4 NULL
 );
