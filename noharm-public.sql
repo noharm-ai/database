@@ -341,6 +341,21 @@ CREATE TABLE public.treinamento_usuario (
 	CONSTRAINT treinamento_usuario_pkey PRIMARY KEY (idtreinamento, idusuario)
 );
 
+CREATE TABLE public.certificado_externo (
+  codigo_validacao   varchar(12)  NOT NULL PRIMARY KEY,
+  origem             varchar(32)  NOT NULL,
+  referencia_externa varchar(64)  NOT NULL,
+  nome               varchar(255) NOT NULL,
+  titulo             varchar(255) NOT NULL,
+  tempo_horas        integer      NULL,
+  licoes             jsonb        NULL,
+  concluido_em       timestamp  NOT NULL,
+  revogado_em        timestamp  NULL,
+  created_at         timestamp  NOT NULL,
+  updated_at         timestamp  NULL,
+  CONSTRAINT uniq_certificado_externo_ref UNIQUE (origem, referencia_externa)
+);
+
 CREATE INDEX public_status_page_time_idx ON public.status_page USING brin ("time") WITH (pages_per_range='1');
 
 CREATE INDEX ON public."usuario_autorizacao" ("idusuario");
