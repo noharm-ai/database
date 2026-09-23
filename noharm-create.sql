@@ -268,7 +268,8 @@ CREATE TABLE demo."presmed" (
   "cpoe_nrseq_anterior" BIGINT NULL,
   "form" json NULL,
   "aprazamento" TIMESTAMP [ ] [ ] NULL,
-  "nr_ordem" int4 NULL
+  "nr_ordem" int4 NULL,
+  "dose_diferenciada" varchar(100) NULL
 );
 
 CREATE TABLE demo."presmed_audit" (
