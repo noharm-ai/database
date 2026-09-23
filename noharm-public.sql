@@ -430,6 +430,8 @@ DECLARE
   V_SCHEMA_CONFIG record;
   V_TIPOFREQ varchar(75);
   V_VALORFREQ float;
+  V_DOSE float;
+  V_DOSE_DIFERENCIADA boolean := false;
 BEGIN
   if P_PARAMS.nome_schema is null or P_PARAMS.nome_schema = '' then
     RAISE EXCEPTION 'Parametro invalido: nome_schema'; 
@@ -437,6 +439,25 @@ BEGIN
 
   EXECUTE FORMAT('SET search_path to %s;', P_PARAMS.nome_schema);
 
+  /**
+  * DOSE DIFERENCIADA
+  * quando a dose nao for informada, soma as doses diferenciadas (ex: 2,00-100,00)
+  */
+  V_DOSE := P_PRESMED_ORIGEM.dose;
+
+  IF coalesce(trim(P_PRESMED_ORIGEM.dose_diferenciada), '') != '' AND coalesce(P_PRESMED_ORIGEM.dose, 0) = 0 THEN
+    V_DOSE := (
+      SELECT sum(replace(trim(d), ',', '.')::float)
+      FROM unnest(string_to_array(P_PRESMED_ORIGEM.dose_diferenciada, '-')) d
+      WHERE trim(d) ~ '^\d+(,\d+)?$'
+    );
+
+    IF V_DOSE IS NOT NULL THEN
+      V_DOSE_DIFERENCIADA := true;
+    ELSE
+      V_DOSE := P_PRESMED_ORIGEM.dose;
+    END IF;
+  END IF;
 
   /**
   * VERIFICAR SE HOUVE ALTERACAO
@@ -571,6 +592,11 @@ BEGIN
     PRESMED_RESULTADO.frequenciadia := 99;
   END IF;
 
+  -- Dose Diferenciada (doseconv ja representa o total do dia)
+  IF V_DOSE_DIFERENCIADA THEN
+    PRESMED_RESULTADO.frequenciadia := 1;
+  END IF;
+
   /**
   * SEGMENTO
   */
@@ -596,13 +622,13 @@ BEGIN
   PRESMED_RESULTADO.doseconv := (
     SELECT COALESCE (
 		  (
-        SELECT (P_PRESMED_ORIGEM.dose * u.fator) as doseconv
+        SELECT (V_DOSE * u.fator) as doseconv
 		    FROM unidadeconverte u
 		    WHERE u.idsegmento = PRESMED_RESULTADO.idsegmento
 		    AND u.fkmedicamento = P_PRESMED_ORIGEM.fkmedicamento 
 		    AND u.fkunidademedida = P_PRESMED_ORIGEM.fkunidademedida 
       )
-      , P_PRESMED_ORIGEM.dose 
+      , V_DOSE 
     ) 
   );
 
@@ -997,7 +1023,8 @@ BEGIN
         'periodo_calculado', PRESMED_RESULTADO.periodo, 
         'origem_pep', P_PRESMED_ORIGEM.origem,
         'idsegmento', PRESMED_RESULTADO.idsegmento,
-        'prescricao', P_PRESMED_ORIGEM.fkprescricao
+        'prescricao', P_PRESMED_ORIGEM.fkprescricao,
+        'dose_diferenciada', V_DOSE_DIFERENCIADA
       )
 	  );
   end if;
@@ -1344,13 +1371,9 @@ BEGIN
 	p_record.checado := p_resultado.checado;
 	if p_record.periodo is null then 	-- com esse if, usa o período do pep quando disponível
     	p_record.periodo := p_resultado.periodo;
-        if p_record.periodo is null then
-       	    p_record.tp_periodo := 1;
-        end if;
+    	p_record.tp_periodo := 1;
     ELSE
-        if p_record.periodo is null then
-            p_record.tp_periodo := 2;
-        end if;
+        p_record.tp_periodo := 2;
 	end if;
 	p_record.frequenciadia := p_resultado.frequenciadia;
 	p_record.doseconv := p_resultado.doseconv;
@@ -1365,8 +1388,8 @@ BEGIN
       origem, dtsuspensao, horario, complemento, aprox, checado, periodo,
       slagrupamento, slacm, sletapas, slhorafase, sltempoaplicacao, sldosagem, sltipodosagem,
       alergia, sonda, intravenosa, cpoe_grupo, cpoe_nrseq, cpoe_nrseq_anterior, periodo_total,
-      tp_periodo
-    ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34)
+      tp_periodo, nr_ordem, dose_diferenciada
+    ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,$35,$36)
     ON CONFLICT (fkpresmed) DO UPDATE SET
       dtsuspensao = $14,
       frequenciadia = $7,
@@ -1377,7 +1400,11 @@ BEGIN
       doseconv = $10,
       sonda = $28,
       intravenosa = $29,
-      escorefinal = $12',
+      escorefinal = $12,
+	  horario = $15,
+	  nr_ordem = $35,
+	  dose_diferenciada = $36,
+	  idsegmento = $9',
     p_schema_name
   )
   USING
@@ -1414,7 +1441,9 @@ BEGIN
     p_record.cpoe_nrseq, --31
     p_record.cpoe_nrseq_anterior, --32
     p_record.periodo_total, --33
-    p_record.tp_periodo; --34
+    p_record.tp_periodo, --34
+	p_record.nr_ordem, --35
+	p_record.dose_diferenciada; --36
 END;
 $function$;
 
