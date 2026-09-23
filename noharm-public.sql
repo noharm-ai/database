@@ -462,9 +462,9 @@ BEGIN
 
   IF coalesce(trim(P_PRESMED_ORIGEM.dose_diferenciada), '') != '' AND coalesce(P_PRESMED_ORIGEM.dose, 0) = 0 THEN
     V_DOSE := (
-      SELECT sum(replace(trim(d), ',', '.')::float)
+      SELECT sum(replace(replace(trim(d), '.', ''), ',', '.')::float)
       FROM unnest(string_to_array(P_PRESMED_ORIGEM.dose_diferenciada, '-')) d
-      WHERE trim(d) ~ '^\d+(,\d+)?$'
+      WHERE trim(d) ~ '^(\d{1,3}(\.\d{3})+|\d+)(,\d+)?$'
     );
 
     IF V_DOSE IS NOT NULL THEN
