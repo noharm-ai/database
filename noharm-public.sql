@@ -240,15 +240,31 @@ CREATE TABLE public."tb_cid10" (
 CREATE TABLE public."base_conhecimento" (
 	"idbase_conhecimento" serial PRIMARY KEY NOT NULL,
 	"pagina" varchar(255)[] NOT NULL,
-  "link" varchar(255) NOT NULL,
+  "link" varchar(255) NULL,
 	"titulo" varchar(255) NOT NULL,
 	"resumo" text NULL,
+	"conteudo" text NULL,
 	"ativo" boolean NOT NULL,
+  "relacionados" integer[] NULL,
+  "aulas_relacionadas" integer[] NULL,
 	"updated_at" timestamp null,
 	"updated_by" integer null,
 	"created_at" timestamp not null,
 	"created_by" integer not null
 );
+
+CREATE TABLE public."base_conhecimento_elemento" (
+	"idbase_conhecimento_elemento" serial PRIMARY KEY NOT NULL,
+	"idbase_conhecimento" integer NOT NULL REFERENCES public.base_conhecimento(idbase_conhecimento) ON DELETE CASCADE,
+	"pagina" varchar(255) NOT NULL,
+	"seletor" text NOT NULL,
+	"rotulo" varchar(255) NULL,
+	"created_at" timestamp not null,
+	"created_by" integer not null
+);
+
+CREATE INDEX ON public."base_conhecimento_elemento" ("pagina");
+CREATE UNIQUE INDEX ON public."base_conhecimento_elemento" ("pagina", "seletor", "idbase_conhecimento");
 
 CREATE TABLE public.status_page (
 	hosp text NOT NULL,
