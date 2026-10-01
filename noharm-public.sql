@@ -266,6 +266,21 @@ CREATE TABLE public."base_conhecimento_elemento" (
 CREATE INDEX ON public."base_conhecimento_elemento" ("pagina");
 CREATE UNIQUE INDEX ON public."base_conhecimento_elemento" ("pagina", "seletor", "idbase_conhecimento");
 
+CREATE TABLE public."novidade" (
+	"idnovidade" serial PRIMARY KEY NOT NULL,
+	"data" date NOT NULL,
+	"titulo" varchar(255) NOT NULL,
+	"resumo" varchar(500) NULL,
+	"conteudo" text NULL,
+	"ativo" boolean NOT NULL,
+	"updated_at" timestamp null,
+	"updated_by" integer null,
+	"created_at" timestamp not null,
+	"created_by" integer not null
+);
+
+CREATE INDEX ON public."novidade" ("data");
+
 CREATE TABLE public.status_page (
 	hosp text NOT NULL,
 	"time" timestamp NOT NULL,
