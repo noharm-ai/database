@@ -510,7 +510,6 @@ CREATE TABLE demo."alergia" (
   "fkmedicamento" BIGINT DEFAULT NULL,
   "nome_medicamento" VARCHAR(250) DEFAULT NULL,
   "sctid" BIGINT DEFAULT NULL,
-  "sctid_atualizado_em" TIMESTAMP DEFAULT NULL,
   "ativo" BOOLEAN DEFAULT TRUE,
   "created_at" TIMESTAMP NOT NULL DEFAULT (now() AT TIME ZONE 'America/Sao_Paulo' :: TEXT),
   "created_by" INTEGER NOT NULL,
@@ -748,7 +747,7 @@ ALTER TABLE
 ADD
   CONSTRAINT demo_alergia_uniq_const UNIQUE (fkpessoa, fkmedicamento);
 
-CREATE INDEX demo_alergia_sctid_pendente_idx ON demo.alergia USING btree (nome_medicamento) WHERE sctid_atualizado_em IS NULL;
+CREATE INDEX demo_alergia_created_at_idx ON demo.alergia USING brin (created_at) WITH (pages_per_range='1');
 
 CREATE
 OR REPLACE VIEW demo.usuario AS
