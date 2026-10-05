@@ -748,8 +748,6 @@ ALTER TABLE
 ADD
   CONSTRAINT demo_alergia_uniq_const UNIQUE (fkpessoa, fkmedicamento);
 
-CREATE INDEX demo_alergia_sctid_idx ON demo.alergia USING btree (sctid);
-
 CREATE INDEX demo_alergia_sctid_pendente_idx ON demo.alergia USING btree (nome_medicamento) WHERE sctid_atualizado_em IS NULL;
 
 CREATE
