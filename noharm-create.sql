@@ -646,6 +646,7 @@ CREATE TABLE demo."ci_avaliacao_atm" (
   "conforme" BOOLEAN NOT NULL,
   "observacao" TEXT NULL,
   "posologia" jsonb NOT NULL,
+  "dt_inicio_validade" TIMESTAMP NOT NULL,
   "dt_validade" TIMESTAMP NOT NULL,
   "gatilhos" jsonb NOT NULL DEFAULT '[]',
   "tp_status" int2 NOT NULL,
