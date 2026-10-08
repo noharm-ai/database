@@ -478,6 +478,7 @@ DECLARE
   V_VALORFREQ float;
   V_DOSE float;
   V_DOSE_DIFERENCIADA boolean := false;
+  V_CHECADO_IGNORAR_HORARIO boolean := false;
 BEGIN
   if P_PARAMS.nome_schema is null or P_PARAMS.nome_schema = '' then
     RAISE EXCEPTION 'Parametro invalido: nome_schema'; 
@@ -763,6 +764,9 @@ BEGIN
   * verifica se o item foi checado anteriormente
   */
   if 'CHECADO' != all(coalesce(P_PARAMS.skip_list, array[]::text[])) then
+    -- CHECADO-IGNORAR-HORARIO: desconsidera o horario na verificacao de checado
+    V_CHECADO_IGNORAR_HORARIO := 'CHECADO-IGNORAR-HORARIO' = any(coalesce(P_PARAMS.features, array[]::text[]));
+
     if 'CHECADO-COMPLEMENTO' = any(coalesce(P_PARAMS.features, array[]::text[])) then
       PRESMED_RESULTADO.checado := (
           SELECT true FROM (
@@ -779,7 +783,7 @@ BEGIN
           AND sltempoaplicacao = COALESCE(P_PRESMED_ORIGEM.sltempoaplicacao, 0)
           AND sldosagem = COALESCE(P_PRESMED_ORIGEM.sldosagem, 0)
           AND via = COALESCE(P_PRESMED_ORIGEM.via, '')
-          AND horario = COALESCE(left(P_PRESMED_ORIGEM.horario ,50), '')
+          AND (V_CHECADO_IGNORAR_HORARIO OR horario = COALESCE(left(P_PRESMED_ORIGEM.horario ,50), ''))
           AND dose = P_PRESMED_ORIGEM.dose
           AND coalesce(complemento, '') = coalesce(MD5(P_PRESMED_ORIGEM.complemento), '')
       );
@@ -799,7 +803,7 @@ BEGIN
           AND sltempoaplicacao = COALESCE(P_PRESMED_ORIGEM.sltempoaplicacao, 0)
           AND sldosagem = COALESCE(P_PRESMED_ORIGEM.sldosagem, 0)
           AND via = COALESCE(P_PRESMED_ORIGEM.via, '')
-          AND horario = COALESCE(left(P_PRESMED_ORIGEM.horario ,50), '')
+          AND (V_CHECADO_IGNORAR_HORARIO OR horario = COALESCE(left(P_PRESMED_ORIGEM.horario ,50), ''))
           AND dose = P_PRESMED_ORIGEM.dose
       );
     end if;
