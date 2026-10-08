@@ -612,6 +612,70 @@ CREATE TABLE demo."relatorio" (
   "created_by" INTEGER NOT NULL
 );
 
+CREATE TABLE demo."ci_atendimento" (
+  "nratendimento" int8 PRIMARY KEY NOT NULL,
+  "tp_status" int2 NOT NULL,
+  "dt_status" TIMESTAMP NOT NULL,
+  "dt_proxima_revisao" TIMESTAMP NULL,
+  "fkci_revisao_ultima" int8 NULL,
+  "tp_origem" int2 NOT NULL,
+  "dt_recalculo" TIMESTAMP NOT NULL,
+  "updated_at" TIMESTAMP NULL,
+  "updated_by" INTEGER NULL,
+  "created_at" TIMESTAMP NOT NULL,
+  "created_by" INTEGER NOT NULL
+);
+
+CREATE TABLE demo."ci_revisao" (
+  "idci_revisao" bigserial PRIMARY KEY NOT NULL,
+  "nratendimento" int8 NOT NULL,
+  "observacao" TEXT NULL,
+  "dt_proxima_revisao" TIMESTAMP NULL,
+  "created_at" TIMESTAMP NOT NULL,
+  "created_by" INTEGER NOT NULL
+);
+
+CREATE TABLE demo."ci_avaliacao_atm" (
+  "idci_avaliacao_atm" bigserial PRIMARY KEY NOT NULL,
+  "fkci_revisao" int8 NOT NULL,
+  "nratendimento" int8 NOT NULL,
+  "fkmedicamento" int8 NOT NULL,
+  "fkprescricao" int8 NOT NULL,
+  "fkpresmed" int8 NOT NULL,
+  "dt_inicio_curso" TIMESTAMP NOT NULL,
+  "conforme" BOOLEAN NOT NULL,
+  "observacao" TEXT NULL,
+  "posologia" jsonb NOT NULL,
+  "dt_validade" TIMESTAMP NOT NULL,
+  "gatilhos" jsonb NOT NULL DEFAULT '[]',
+  "tp_status" int2 NOT NULL,
+  "dt_encerramento" TIMESTAMP NULL,
+  "tp_encerramento" int2 NULL,
+  "fkci_avaliacao_atm_substituta" int8 NULL,
+  "updated_at" TIMESTAMP NULL,
+  "updated_by" INTEGER NULL,
+  "created_at" TIMESTAMP NOT NULL,
+  "created_by" INTEGER NOT NULL
+);
+
+CREATE TABLE demo."ci_pendencia" (
+  "idci_pendencia" bigserial PRIMARY KEY NOT NULL,
+  "nratendimento" int8 NOT NULL,
+  "tp_pendencia" int2 NOT NULL,
+  "tp_origem" int2 NOT NULL,
+  "fkprescricao" int8 NULL,
+  "fkmedicamento" int8 NULL,
+  "fkci_avaliacao_atm" int8 NULL,
+  "fkci_alerta" int8 NULL,
+  "detalhes" jsonb NULL,
+  "dt_resolucao" TIMESTAMP NULL,
+  "tp_resolucao" int2 NULL,
+  "fkci_revisao" int8 NULL,
+  "resolvido_por" INTEGER NULL,
+  "created_at" TIMESTAMP NOT NULL,
+  "created_by" INTEGER NOT NULL
+);
+
 CREATE SEQUENCE demo.prescricao_fkprescricao_seq MINVALUE 0 NO MAXVALUE START 0 NO CYCLE;
 
 CREATE SEQUENCE demo.evolucao_fkevolucao_seq INCREMENT BY 1 MINVALUE 1 NO MAXVALUE START 1 NO CYCLE;
@@ -740,6 +804,22 @@ CREATE INDEX demo_medatributos_audit_fkmedicamento_idsegmento_idx ON demo.medatr
 CREATE INDEX demo_pessoa_audit_nratendimento_idx ON demo.pessoa_audit USING btree (nratendimento);
 
 CREATE INDEX demo_idx_presc_pendente ON demo.prescricao (idsegmento, dtprescricao) WHERE indicadores IS NULL AND agregada IS NULL AND concilia IS NULL;
+
+CREATE INDEX demo_ci_atendimento_status_idx ON demo.ci_atendimento USING btree (tp_status, dt_status);
+
+CREATE INDEX demo_ci_revisao_nratendimento_idx ON demo.ci_revisao USING btree (nratendimento);
+
+CREATE INDEX demo_ci_avaliacao_atm_nratendimento_idx ON demo.ci_avaliacao_atm USING btree (nratendimento, fkmedicamento);
+
+CREATE INDEX demo_ci_pendencia_nratendimento_idx ON demo.ci_pendencia USING btree (nratendimento);
+
+CREATE UNIQUE INDEX demo_ci_pendencia_aberta_uniq ON demo.ci_pendencia (
+  nratendimento,
+  tp_pendencia,
+  COALESCE(fkmedicamento, 0),
+  COALESCE(fkci_avaliacao_atm, 0),
+  COALESCE(fkci_alerta, 0)
+) WHERE dt_resolucao IS NULL;
 
 ALTER TABLE
   demo."alergia"
