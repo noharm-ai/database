@@ -644,6 +644,7 @@ CREATE TABLE demo."ci_avaliacao_atm" (
   "fkpresmed" int8 NOT NULL,
   "dt_inicio_curso" TIMESTAMP NOT NULL,
   "conforme" BOOLEAN NOT NULL,
+  "fkci_motivo_nao_conformidade" int4 NULL,
   "observacao" TEXT NULL,
   "posologia" jsonb NOT NULL,
   "dt_inicio_validade" TIMESTAMP NOT NULL,
@@ -653,6 +654,16 @@ CREATE TABLE demo."ci_avaliacao_atm" (
   "dt_encerramento" TIMESTAMP NULL,
   "tp_encerramento" int2 NULL,
   "fkci_avaliacao_atm_substituta" int8 NULL,
+  "updated_at" TIMESTAMP NULL,
+  "updated_by" INTEGER NULL,
+  "created_at" TIMESTAMP NOT NULL,
+  "created_by" INTEGER NOT NULL
+);
+
+CREATE TABLE demo."ci_motivo_nao_conformidade" (
+  "idci_motivo_nao_conformidade" SERIAL PRIMARY KEY NOT NULL,
+  "nome" VARCHAR(250) NOT NULL,
+  "ativo" BOOLEAN NOT NULL DEFAULT TRUE,
   "updated_at" TIMESTAMP NULL,
   "updated_by" INTEGER NULL,
   "created_at" TIMESTAMP NOT NULL,

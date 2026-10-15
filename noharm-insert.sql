@@ -1133,6 +1133,17 @@ INSERT INTO demo.presmed (fkprescricao,fkmedicamento,fkunidademedida,fkfrequenci
 (9199,0,'1',1,1,459,100,1,'VO',NULL,NULL,100, 'Medicamento do paciente');
 -- fim conciliacoes
 
+INSERT INTO demo.ci_motivo_nao_conformidade (nome, ativo, created_at, created_by) VALUES
+('Indicação inadequada', true, now(), 1)
+,('Espectro inadequado', true, now(), 1)
+,('Dose inadequada', true, now(), 1)
+,('Intervalo inadequado', true, now(), 1)
+,('Via de administração inadequada', true, now(), 1)
+,('Tempo de tratamento prolongado', true, now(), 1)
+,('Ausência de descalonamento', true, now(), 1)
+,('Desacordo com cultura/antibiograma', true, now(), 1)
+,('Outro', true, now(), 1);
+
 INSERT INTO demo.unidadeconverte (idsegmento,fkunidademedida,fator,fkmedicamento) VALUES
 (1,'2',3.3,2)
 ,(1,'3',3,2)
