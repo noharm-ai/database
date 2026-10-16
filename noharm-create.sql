@@ -342,6 +342,7 @@ CREATE TABLE demo."motivointervencao" (
   "bloqueante" bool NOT NULL DEFAULT FALSE,
   "tp_relacao" SMALLINT NOT NULL DEFAULT 0,
   "ram" bool NOT NULL DEFAULT FALSE,
+  "controle_infeccao" bool NOT NULL DEFAULT FALSE,
   "fkmotivo" varchar(50) NULL
 );
 
