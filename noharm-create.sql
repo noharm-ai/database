@@ -77,6 +77,7 @@ CREATE TABLE demo."intervencao" (
   "dt_fim_economia" TIMESTAMP NULL,
   "ram" jsonb NULL,
   "periodo_uso" int4 NULL,
+  "fkci_avaliacao_atm" int8 NULL,
   "update_at" TIMESTAMP NOT NULL DEFAULT (now() AT TIME ZONE 'America/Sao_Paulo' :: TEXT),
   "update_by" INTEGER NOT NULL,
   "outcome_at" TIMESTAMP NULL,
@@ -645,6 +646,7 @@ CREATE TABLE demo."ci_avaliacao_atm" (
   "fkpresmed" int8 NOT NULL,
   "dt_inicio_curso" TIMESTAMP NOT NULL,
   "conforme" BOOLEAN NOT NULL,
+  "idmotivointervencao" SMALLINT [ ] NULL,
   "observacao" TEXT NULL,
   "posologia" jsonb NOT NULL,
   "dt_inicio_validade" TIMESTAMP NOT NULL,
@@ -695,6 +697,8 @@ CREATE INDEX demo_intervencao_nratendimento_idx ON demo."intervencao" ("nratendi
 CREATE INDEX demo_intervencao_idx_status_dtintervencao ON demo."intervencao" USING btree ("status", "dtintervencao");
 
 CREATE INDEX demo_intervencao_fkpresmed_destino_idx ON demo.intervencao USING btree ("fkpresmed_destino");
+
+CREATE INDEX demo_intervencao_fkci_avaliacao_atm_idx ON demo.intervencao USING btree ("fkci_avaliacao_atm") WHERE fkci_avaliacao_atm IS NOT NULL;
 
 CREATE UNIQUE INDEX demo_exame_idx ON demo."exame" ("fkexame", "fkpessoa", "tpexame");
 
