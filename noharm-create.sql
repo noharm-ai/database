@@ -647,6 +647,7 @@ CREATE TABLE demo."ci_avaliacao_atm" (
   "dt_inicio_curso" TIMESTAMP NOT NULL,
   "conforme" BOOLEAN NOT NULL,
   "idmotivointervencao" SMALLINT [ ] NULL,
+  "fkmedicamento_substituto" int8 NULL,
   "observacao" TEXT NULL,
   "posologia" jsonb NOT NULL,
   "dt_inicio_validade" TIMESTAMP NOT NULL,
