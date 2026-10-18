@@ -622,6 +622,7 @@ CREATE TABLE demo."ci_atendimento" (
   "fkci_revisao_ultima" int8 NULL,
   "tp_origem" int2 NOT NULL,
   "dt_recalculo" TIMESTAMP NOT NULL,
+  "indicadores" jsonb NULL,
   "updated_at" TIMESTAMP NULL,
   "updated_by" INTEGER NULL,
   "created_at" TIMESTAMP NOT NULL,
