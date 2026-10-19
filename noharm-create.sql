@@ -720,6 +720,8 @@ CREATE INDEX demo_cultura_fkitemexame_idx ON demo.cultura USING brin (fkitemexam
 
 CREATE UNIQUE INDEX demo_cultura_unq ON demo."cultura" ("fkexame", "fkitemexame", "fkmedicamento");
 
+CREATE INDEX demo_cult_cabecalho_dtliberacao_idx ON demo.cultura_cabecalho USING brin (dtliberacao) WITH (pages_per_range='1');
+
 CREATE UNIQUE INDEX demo_outlier_idx ON demo."outlier" (
   "fkmedicamento",
   "idsegmento",
