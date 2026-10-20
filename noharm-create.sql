@@ -633,6 +633,7 @@ CREATE TABLE demo."ci_atendimento" (
 CREATE TABLE demo."ci_revisao" (
   "idci_revisao" bigserial PRIMARY KEY NOT NULL,
   "nratendimento" int8 NOT NULL,
+  "fkprescricao" int8 NULL,
   "observacao" TEXT NULL,
   "dt_proxima_revisao" TIMESTAMP NULL,
   "created_at" TIMESTAMP NOT NULL,
