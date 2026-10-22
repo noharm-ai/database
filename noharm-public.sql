@@ -897,11 +897,22 @@ BEGIN
 			1
 		FROM
 			alergia a
-			inner join medicamento m on a.fkmedicamento = m.fkmedicamento
+			left join medicamento m on a.fkmedicamento = m.fkmedicamento
 		WHERE
 			(
-				m.fkmedicamento = P_PRESMED_ORIGEM.fkmedicamento
-				or m.sctid = (select sctid from medicamento where fkmedicamento = P_PRESMED_ORIGEM.fkmedicamento LIMIT 1)
+				-- sctid is resolved by a separate job and trusted when present
+				-- (fkmedicamento does not always reference a medicamento record)
+				(
+					a.sctid is not null
+					and a.sctid = (select sctid from medicamento where fkmedicamento = P_PRESMED_ORIGEM.fkmedicamento LIMIT 1)
+				)
+				or (
+					a.sctid is null
+					and (
+						m.fkmedicamento = P_PRESMED_ORIGEM.fkmedicamento
+						or m.sctid = (select sctid from medicamento where fkmedicamento = P_PRESMED_ORIGEM.fkmedicamento LIMIT 1)
+					)
+				)
 			)
 			AND a.fkpessoa = V_PRESCRICAO.fkpessoa
 			and a.ativo = true
