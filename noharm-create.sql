@@ -656,7 +656,7 @@ CREATE TABLE demo."ci_avaliacao_atm" (
   "fkmedicamento_substituto" int8 NULL,
   "observacao" TEXT NULL,
   "tp_tratamento" int2 NULL,
-  "tp_foco_infeccao" int2 NULL,
+  "tp_focos_infeccao" int2 [ ] NULL,
   "posologia" jsonb NOT NULL,
   "dt_inicio_validade" TIMESTAMP NOT NULL,
   "dt_validade" TIMESTAMP NOT NULL,
