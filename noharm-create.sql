@@ -315,7 +315,7 @@ CREATE TABLE demo."medatributos" (
   "divisor_ignorado" BOOLEAN,
   "usapeso" BOOLEAN,
   "concentracao" float4,
-  "concentracaounidade" VARCHAR(3),
+  "concentracaounidade" VARCHAR(4),
   "linhabranca" BOOLEAN,
   "fkunidademedida" VARCHAR(32),
   "fkunidademedidacusto" VARCHAR(32),
