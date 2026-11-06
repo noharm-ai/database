@@ -687,6 +687,15 @@ CREATE TABLE demo."ci_pendencia" (
   "created_by" INTEGER NOT NULL
 );
 
+CREATE TABLE demo."fila_atendimento" (
+  "tp_fila" int2 NOT NULL,
+  "nratendimento" int8 NOT NULL,
+  "dt_fila" TIMESTAMP NOT NULL,
+  "motivos" VARCHAR(50) [ ] NOT NULL,
+  "created_at" TIMESTAMP NOT NULL,
+  PRIMARY KEY ("tp_fila", "nratendimento")
+);
+
 CREATE SEQUENCE demo.prescricao_fkprescricao_seq MINVALUE 0 NO MAXVALUE START 0 NO CYCLE;
 
 CREATE SEQUENCE demo.evolucao_fkevolucao_seq INCREMENT BY 1 MINVALUE 1 NO MAXVALUE START 1 NO CYCLE;
