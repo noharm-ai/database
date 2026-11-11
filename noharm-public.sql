@@ -77,6 +77,7 @@ CREATE TABLE public."exame" (
   "min_pediatrico" float4,
   "max_pediatrico" float4,
   "referencia_pediatrico" varchar(250),
+  "gatilho_controle_infeccao" boolean DEFAULT false,
   "updated_at" timestamp null,
   "updated_by" integer null,
   "created_at" timestamp not null,
