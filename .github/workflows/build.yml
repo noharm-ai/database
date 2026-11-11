@@ -9,18 +9,22 @@ jobs:
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: postgres:11.6
+        image: postgres:17.9
         env:
           POSTGRES_USER: postgres
           POSTGRES_DB: noharm
+          POSTGRES_HOST_AUTH_METHOD: trust
         ports:
           - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: Run PostgreSQL Create
-        run: |
-          sleep 10
-          psql -h localhost -U postgres -d noharm -a -f noharm-public.sql -v ON_ERROR_STOP=1
+        run: psql -h localhost -U postgres -d noharm -a -f noharm-public.sql -v ON_ERROR_STOP=1
       - name: Run PostgreSQL Demo Schema
         run: psql -h localhost -U postgres -d noharm -a -f noharm-create.sql -v ON_ERROR_STOP=1
       - name: Run PostgreSQL Triggers
@@ -28,7 +32,9 @@ jobs:
       - name: Run PostgreSQL Insert
         run: psql -h localhost -U postgres -d noharm -a -f noharm-insert.sql -v ON_ERROR_STOP=1
       - name: Run PostgreSQL Create Test
-        run: pg_dump -h localhost -U postgres --schema='demo' noharm -s | sed 's/demo/demo_test/g' | psql -h localhost -U postgres -d noharm -v ON_ERROR_STOP=1
+        # pg_dump runs inside the service container so its version matches the server
+        # (the runner's newer pg_dump emits settings like transaction_timeout that PG 11 rejects)
+        run: docker exec ${{ job.services.postgres.id }} pg_dump -U postgres --schema='demo' noharm -s | sed 's/demo/demo_test/g' | psql -h localhost -U postgres -d noharm -v ON_ERROR_STOP=1
       - name: Run PostgreSQL Copy Test
         run: psql -h localhost -U postgres -d noharm -a -f noharm-test.sql -v ON_ERROR_STOP=1
       - name: Run PostgreSQL Create Users
