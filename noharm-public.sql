@@ -460,7 +460,7 @@ REVOKE CREATE ON SCHEMA public FROM PUBLIC;
 
 -- ATENCAO: o reprocessamento de prescricoes (backend-private, lambda_reprocess,
 -- repository/prescription_reprocess_repository.py) copia as regras desta funcao que dependem
--- da configuracao do schema (segmento, sonda/intravenosa, origem, frequenciadia, doseconv, outlier e escore). Mudou a regra aqui? Mude la tambem e
+-- da configuracao do schema (segmento, sonda/intravenosa, frequenciadia, doseconv, outlier e escore; a origem nao). Mudou a regra aqui? Mude la tambem e
 -- atualize a copia em backend-private/tests/sql/ (o teste de paridade compara os dois).
 CREATE OR REPLACE FUNCTION public.complete_presmed_v2(p_params parametro_type, p_presmed_origem record)
  RETURNS presmed_resultado_type_v2
