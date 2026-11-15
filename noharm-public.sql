@@ -458,10 +458,10 @@ REVOKE CREATE ON SCHEMA public FROM PUBLIC;
 
 -- DROP FUNCTION public.complete_presmed_v2(parametro_type, record);
 
--- ATENCAO: o reprocessamento de prescricoes (backend-private, lambda_reprocess,
--- repository/prescription_reprocess_repository.py) copia as regras desta funcao que dependem
--- da configuracao do schema (segmento, sonda/intravenosa, frequenciadia, doseconv, outlier e escore; a origem nao). Mudou a regra aqui? Mude la tambem e
--- atualize a copia em backend-private/tests/sql/ (o teste de paridade compara os dois).
+-- ATENCAO: o vinculo dos novos scores (Gerar Scores; backend-private, lambda_scores.link_segment_scores,
+-- repository/score_link_repository.py) copia as regras desta funcao para frequenciadia, doseconv,
+-- outlier e escore. Mudou a regra aqui? Mude la tambem e atualize a copia em
+-- backend-private/tests/sql/ (o teste de paridade compara os dois).
 CREATE OR REPLACE FUNCTION public.complete_presmed_v2(p_params parametro_type, p_presmed_origem record)
  RETURNS presmed_resultado_type_v2
  LANGUAGE plpgsql
@@ -1094,10 +1094,6 @@ $function$
 
 ----------
 
--- ATENCAO: o reprocessamento de prescricoes (backend-private, lambda_reprocess,
--- repository/prescription_reprocess_repository.py) copia as regras desta funcao que dependem
--- da configuracao do schema (idsegmento pelo segmentosetor). Mudou a regra aqui? Mude la tambem e
--- atualize a copia em backend-private/tests/sql/ (o teste de paridade compara os dois).
 CREATE OR REPLACE FUNCTION public.complete_prescricao(p_params parametro_type, p_origem record)
  RETURNS prescricao_resultado_type
  LANGUAGE plpgsql
