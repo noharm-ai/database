@@ -459,9 +459,9 @@ REVOKE CREATE ON SCHEMA public FROM PUBLIC;
 -- DROP FUNCTION public.complete_presmed_v2(parametro_type, record);
 
 -- ATENCAO: o vinculo dos novos scores (Gerar Scores; backend-private, lambda_scores.link_segment_scores,
--- repository/score_link_repository.py) copia as regras desta funcao para frequenciadia, doseconv,
--- outlier e escore. Mudou a regra aqui? Mude la tambem e atualize a copia em
--- backend-private/tests/sql/ (o teste de paridade compara os dois).
+-- repository/score_link_repository.py) copia as regras desta funcao para frequenciadia (inclusive a
+-- frequencia AGHUSE pelo codigo), doseconv, outlier e escore. Mudou a regra aqui? Mude la tambem,
+-- com backend-private/tests/test_score_link_db.py.
 CREATE OR REPLACE FUNCTION public.complete_presmed_v2(p_params parametro_type, p_presmed_origem record)
  RETURNS presmed_resultado_type_v2
  LANGUAGE plpgsql
