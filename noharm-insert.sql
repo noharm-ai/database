@@ -54,6 +54,13 @@ CREATE EXTENSION IF NOT EXISTS pgcrypto;
 INSERT INTO public.schema_config (schema_name, created_at) VALUES
             ('demo', (now() AT TIME ZONE 'America/Sao_Paulo'::text)), ('teste', (now() AT TIME ZONE 'America/Sao_Paulo'::text));
 
+INSERT INTO public.organizacao (nome, created_at, created_by) VALUES
+            ('Organização Demo', (now() AT TIME ZONE 'America/Sao_Paulo'::text), 0);
+
+INSERT INTO public.organizacao_schema (schema_name, idorganizacao, nome, created_at, created_by) VALUES
+            ('demo', (select idorganizacao from public.organizacao where nome = 'Organização Demo'), 'Hospital Demo', (now() AT TIME ZONE 'America/Sao_Paulo'::text), 0),
+            ('teste', (select idorganizacao from public.organizacao where nome = 'Organização Demo'), 'Hospital Teste', (now() AT TIME ZONE 'America/Sao_Paulo'::text), 0);
+
 INSERT INTO public.usuario (nome,email,senha,schema,config) VALUES
 						('Demonstração','demo',crypt('demo', gen_salt('bf',8)) ,'demo','{"roles":["PRESCRIPTION_ANALYST", "USER_MANAGER", "CONFIG_MANAGER", "suporte"], "features": [ "STAGING_ACCESS"]}'),
 						('User Admin','user@admin.com',crypt('useradmin', gen_salt('bf',8)) ,'demo','{"roles":[], "features": [ "STAGING_ACCESS"]}'),

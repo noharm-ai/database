@@ -19,3 +19,9 @@ The `backend-private` repository's score link (`lambda_scores.link_segment_score
 - outlier: the exact `outlier` of the drug, segment, rounded `doseconv` and `frequenciadia`, else the closest one (cosine, then euclidean distance; `aprox`), and its score (`escoremanual`, else `escore`)
 
 Changing any of these? Change `repository/score_link_repository.py` and `tests/test_score_link_db.py` in `backend-private` too (see the "Linking a segment's items to its scores" section of its `CLAUDE.md`).
+
+### `public.organizacao` and `public.organizacao_schema`: the schemas of an organization
+
+`organizacao_schema` has one row per schema (`schema_name` is the key, so a schema belongs to at most one organization) with the friendly name (`nome`) the app's schema picker shows. The `admin` repository writes them (page Organizações, `services/organization_service.py`) together with the `ORGANIZATION_MANAGER` grant in `usuario_extra.config['organization']` (`{"id": idorganizacao, "allSchemas": bool}`); the `backend` repository reads them at login to give an `allSchemas` manager every schema of the organization (`repository/organization_repository.py`). The seed's `Organização Demo` (`demo`, `teste`) is used by both repositories' tests.
+
+Changing these tables? Change the models in `admin` (`backend/models/organization.py`) and `backend` (`models/appendix.py`) too. In production the users of both APIs need `SELECT` on both tables, and the admin's also `INSERT, UPDATE, DELETE` (plus `USAGE` on `organizacao_idorganizacao_seq`).
