@@ -178,6 +178,17 @@ create table public."organizacao_schema" (
 
 CREATE INDEX organizacao_schema_idorganizacao_idx ON public.organizacao_schema ("idorganizacao");
 
+create table public."organizacao_audit" (
+	"idorganizacao_audit" serial8 PRIMARY KEY NOT NULL,
+	"idorganizacao" integer NOT NULL,
+	"tp_audit" smallint NOT NULL,
+	"extra" json NOT NULL,
+	"created_at" timestamp NOT NULL,
+	"created_by" integer NOT NULL
+);
+
+CREATE INDEX organizacao_audit_idorganizacao_idx ON public.organizacao_audit ("idorganizacao");
+
 create table public."schema_config_audit" (
 	"idschema_config_audit" serial8 not null,
   "schema_name" varchar(200) not null,
