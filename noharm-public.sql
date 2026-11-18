@@ -156,6 +156,39 @@ CREATE TABLE public.schema_config (
 	CONSTRAINT schema_config_pkey PRIMARY KEY (schema_name)
 );
 
+create table public."organizacao" (
+	"idorganizacao" serial4 PRIMARY KEY NOT NULL,
+	"nome" varchar(250) NOT NULL,
+	"created_at" timestamp NOT NULL,
+	"created_by" integer NOT NULL,
+	"updated_at" timestamp NULL,
+	"updated_by" integer NULL,
+	CONSTRAINT organizacao_nome_uk UNIQUE ("nome")
+);
+
+create table public."organizacao_schema" (
+	"schema_name" varchar(200) PRIMARY KEY NOT NULL,
+	"idorganizacao" integer NOT NULL,
+	"nome" varchar(250) NOT NULL,
+	"created_at" timestamp NOT NULL,
+	"created_by" integer NOT NULL,
+	CONSTRAINT organizacao_schema_schema_fk FOREIGN KEY ("schema_name") REFERENCES public.schema_config ("schema_name") ON DELETE CASCADE,
+	CONSTRAINT organizacao_schema_organizacao_fk FOREIGN KEY ("idorganizacao") REFERENCES public.organizacao ("idorganizacao")
+);
+
+CREATE INDEX organizacao_schema_idorganizacao_idx ON public.organizacao_schema ("idorganizacao");
+
+create table public."organizacao_audit" (
+	"idorganizacao_audit" serial8 PRIMARY KEY NOT NULL,
+	"idorganizacao" integer NOT NULL,
+	"tp_audit" smallint NOT NULL,
+	"extra" json NOT NULL,
+	"created_at" timestamp NOT NULL,
+	"created_by" integer NOT NULL
+);
+
+CREATE INDEX organizacao_audit_idorganizacao_idx ON public.organizacao_audit ("idorganizacao");
+
 create table public."schema_config_audit" (
 	"idschema_config_audit" serial8 not null,
   "schema_name" varchar(200) not null,

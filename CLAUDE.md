@@ -19,3 +19,11 @@ The `backend-private` repository's score link (`lambda_scores.link_segment_score
 - outlier: the exact `outlier` of the drug, segment, rounded `doseconv` and `frequenciadia`, else the closest one (cosine, then euclidean distance; `aprox`), and its score (`escoremanual`, else `escore`)
 
 Changing any of these? Change `repository/score_link_repository.py` and `tests/test_score_link_db.py` in `backend-private` too (see the "Linking a segment's items to its scores" section of its `CLAUDE.md`).
+
+### `public.organizacao`, `public.organizacao_schema` and `public.organizacao_audit`: the schemas of an organization
+
+`organizacao_schema` has one row per schema (`schema_name` is the key, so a schema belongs to at most one organization) with the friendly name (`nome`) the app's schema picker shows. The `admin` repository writes them (page Organizações, `services/organization_service.py`); its page Usuários writes the `ORGANIZATION_MANAGER` grant in `usuario_extra.config['organization']` (`services/organization_manager_service.py`) (`{"id": idorganizacao, "allSchemas": bool}`); the `backend` repository reads them at login to give an `allSchemas` manager every schema of the organization (`repository/organization_repository.py`). The seed's `Organização Demo` (`demo`, `teste`) is used by both repositories' tests.
+
+`organizacao_audit` is written only by the `admin` (one row per create, update or delete of an organization, `tp_audit` 1/2/3, `extra` holding the organization before and after); it has no foreign key so it outlives a deleted organization.
+
+Changing these tables? Change the models in `admin` (`backend/models/organization.py`) and `backend` (`models/appendix.py`) too. In production the users of both APIs need `SELECT` on `organizacao` and `organizacao_schema`, and the admin's also `INSERT, UPDATE, DELETE` on them plus `SELECT, INSERT` on `organizacao_audit` (and `USAGE` on `organizacao_idorganizacao_seq` and `organizacao_audit_idorganizacao_audit_seq`).
